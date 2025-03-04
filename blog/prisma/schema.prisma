@@ -75,6 +75,7 @@ model Post {
   media       Media[]
   viewCount   Int        @default(0)
   analytics   Analytics?
+  seo         SEO?
 
   @@index([slug])
   @@index([status, publishedAt])
@@ -178,4 +179,40 @@ enum CommentStatus {
   APPROVED
   SPAM
   REJECTED
+}
+
+model SiteSettings {
+  id              String   @id @default("default")
+  siteName        String   @default("My Blog")
+  siteDescription String?  @db.Text
+  siteUrl         String?
+  logoUrl         String?
+  faviconUrl      String?
+  themeColor      String?  @default("#3B82F6")
+  postsPerPage    Int      @default(10)
+  defaultLocale   String   @default("ja")
+  copyrightText   String?
+  socialLinks     Json?    // Twitter, Facebook, GitHub等のリンク
+  analytics       Json?    // Google Analytics等の設定
+  contactEmail    String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model SEO {
+  id            String  @id @default(cuid())
+  postId        String  @unique
+  post          Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  metaTitle     String?
+  metaDescription String? @db.Text
+  ogTitle       String?
+  ogDescription String? @db.Text
+  ogImage       String?
+  canonical     String?
+  structuredData Json?  // JSON-LD構造化データ
+  robots        String? @default("index, follow")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([postId])
 }
