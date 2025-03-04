@@ -21,6 +21,8 @@ model User {
   comments      Comment[]
   accounts      Account[]
   sessions      Session[]
+
+  @@index([email])
 }
 
 model Account {
@@ -40,6 +42,7 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Session {
@@ -48,6 +51,9 @@ model Session {
   userId       String
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expires])
 }
 
 model Post {
@@ -61,14 +67,20 @@ model Post {
   publishedAt DateTime?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
-  authorId    String
-  author      User       @relation(fields: [authorId], references: [id])
+  authorId    String?
+  author      User?      @relation(fields: [authorId], references: [id], onDelete: SetNull)
   categories  Category[]
   tags        Tag[]
   comments    Comment[]
   media       Media[]
   viewCount   Int        @default(0)
   analytics   Analytics?
+
+  @@index([slug])
+  @@index([status, publishedAt])
+  @@index([authorId])
+  @@index([featured])
+  @@index([createdAt])
 }
 
 model Category {
@@ -79,6 +91,8 @@ model Category {
   posts       Post[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([slug])
 }
 
 model Tag {
@@ -88,52 +102,64 @@ model Tag {
   posts     Post[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([slug])
 }
 
 model Comment {
-  id        String    @id @default(cuid())
-  content   String    @db.Text
-  status    CommentStatus @default(PENDING)
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  postId    String
-  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  authorId  String?
-  author    User?     @relation(fields: [authorId], references: [id], onDelete: SetNull)
-  parentId  String?
-  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id], onDelete: SetNull)
-  replies   Comment[] @relation("CommentToComment")
-  authorName String?  // 匿名コメント用
-  authorEmail String? // 匿名コメント用
+  id          String        @id @default(cuid())
+  content     String        @db.Text
+  status      CommentStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  postId      String
+  post        Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId    String?
+  author      User?         @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  parentId    String?
+  parent      Comment?      @relation("CommentToComment", fields: [parentId], references: [id], onDelete: SetNull)
+  replies     Comment[]     @relation("CommentToComment")
+  authorName  String?       // 匿名コメント用
+  authorEmail String?       // 匿名コメント用
+
+  @@index([postId, status])
+  @@index([parentId])
+  @@index([authorId])
+  @@index([createdAt])
 }
 
 model Media {
-  id          String   @id @default(cuid())
-  filename    String
+  id           String   @id @default(cuid())
+  filename     String
   originalName String
-  path        String
-  mimetype    String
-  size        Int
-  alt         String?
-  caption     String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  postId      String?
-  post        Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
+  path         String
+  mimetype     String
+  size         Int
+  alt          String?
+  caption      String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  postId       String?
+  post         Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
+
+  @@index([postId])
+  @@index([mimetype])
 }
 
 model Analytics {
-  id            String   @id @default(cuid())
-  postId        String   @unique
-  post          Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  totalViews    Int      @default(0)
-  uniqueViews   Int      @default(0)
-  avgReadTime   Float?
-  lastUpdated   DateTime @default(now())
-  dailyViews    Json?    // 日別閲覧数を保存するJSON形式
-  referrers     Json?    // リファラー情報をJSON形式で保存
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id           String   @id @default(cuid())
+  postId       String   @unique
+  post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  totalViews   Int      @default(0)
+  uniqueViews  Int      @default(0)
+  avgReadTime  Float?
+  lastUpdated  DateTime @default(now())
+  dailyViews   Json?    // 日別閲覧数を保存するJSON形式
+  referrers    Json?    // リファラー情報をJSON形式で保存
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([lastUpdated])
 }
 
 enum Role {
