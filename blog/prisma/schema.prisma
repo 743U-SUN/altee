@@ -18,6 +18,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   role          Role      @default(USER)
   posts         Post[]
+  comments      Comment[]
   accounts      Account[]
   sessions      Session[]
 }
@@ -64,6 +65,10 @@ model Post {
   author      User       @relation(fields: [authorId], references: [id])
   categories  Category[]
   tags        Tag[]
+  comments    Comment[]
+  media       Media[]
+  viewCount   Int        @default(0)
+  analytics   Analytics?
 }
 
 model Category {
@@ -85,6 +90,52 @@ model Tag {
   updatedAt DateTime @updatedAt
 }
 
+model Comment {
+  id        String    @id @default(cuid())
+  content   String    @db.Text
+  status    CommentStatus @default(PENDING)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  postId    String
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  authorId  String?
+  author    User?     @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  parentId  String?
+  parent    Comment?  @relation("CommentToComment", fields: [parentId], references: [id], onDelete: SetNull)
+  replies   Comment[] @relation("CommentToComment")
+  authorName String?  // 匿名コメント用
+  authorEmail String? // 匿名コメント用
+}
+
+model Media {
+  id          String   @id @default(cuid())
+  filename    String
+  originalName String
+  path        String
+  mimetype    String
+  size        Int
+  alt         String?
+  caption     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  postId      String?
+  post        Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
+}
+
+model Analytics {
+  id            String   @id @default(cuid())
+  postId        String   @unique
+  post          Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  totalViews    Int      @default(0)
+  uniqueViews   Int      @default(0)
+  avgReadTime   Float?
+  lastUpdated   DateTime @default(now())
+  dailyViews    Json?    // 日別閲覧数を保存するJSON形式
+  referrers     Json?    // リファラー情報をJSON形式で保存
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
 enum Role {
   USER
   ADMIN
@@ -94,4 +145,11 @@ enum PostStatus {
   DRAFT
   PUBLISHED
   ARCHIVED
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  SPAM
+  REJECTED
 }
