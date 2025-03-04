@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  blog-nextjs-app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:postgres@postgres-db:5432/blogdb?schema=public
+    depends_on:
+      - postgres-db
+
+  postgres-db:
+    image: postgres:17-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=blogdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  blog_content:
+  blog_uploads:
+  logs_volume:
+  backup_volume:
+  nginx_conf:
