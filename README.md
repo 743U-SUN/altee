@@ -96,7 +96,7 @@ volumes:
   - PostgreSQL用コンテナ設定
   - docker-compose.yml作成
   - 開発/本番環境分離設定
-- **GitHubリポジトリ作成**
+- **GitHubリポジトリ作成（済）**
   - GitHub Actions基本CI/CD設定
     - テスト実行
     - ビルド検証
