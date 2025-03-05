@@ -1,7 +1,6 @@
 import React from "react";
 import { Metadata } from "next";
 import { prisma } from "@/lib/prisma";
-import { PostStatus } from "@prisma/client";
 import { PaginatedResult, PostFrontmatter } from "@/types";
 import { Container, Section } from "@/components/layout/Container";
 import { Header } from "@/components/layout/Header";
@@ -40,7 +39,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
 
   // 検索条件の構築
   const where: any = {
-    where: { status: "PUBLISHED" },
+    status: "PUBLISHED",
   };
 
   // カテゴリによるフィルタリング
@@ -145,7 +144,7 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
     where: {
       posts: {
         some: {
-          status: PostStatus.PUBLISHED,
+          status: "PUBLISHED",
         },
       },
     },
@@ -159,13 +158,13 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
 
   // 検索条件に応じたベースURLを生成
   let baseUrl = "/posts";
-  const searchParams = new URLSearchParams();
+  const urlParams = new URLSearchParams();
   
-  if (categorySlug) searchParams.append("category", categorySlug);
-  if (tagSlug) searchParams.append("tag", tagSlug);
-  if (searchQuery) searchParams.append("q", searchQuery);
+  if (categorySlug) urlParams.append("category", categorySlug);
+  if (tagSlug) urlParams.append("tag", tagSlug);
+  if (searchQuery) urlParams.append("q", searchQuery);
   
-  const queryString = searchParams.toString();
+  const queryString = urlParams.toString();
   if (queryString) baseUrl += `?${queryString}`;
 
   // ページタイトルの生成

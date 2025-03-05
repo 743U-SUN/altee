@@ -2,7 +2,7 @@ import React from "react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { PostStatus } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { PaginatedResult, PostFrontmatter } from "@/types";
 import { Container, Section } from "@/components/layout/Container";
 import { Header } from "@/components/layout/Header";
@@ -73,7 +73,7 @@ export default async function CategoryDetailPage({
     where: {
       posts: {
         some: {
-          status: PostStatus.PUBLISHED,
+          status: "PUBLISHED",
           categories: {
             some: {
               id: category.id,
@@ -100,7 +100,7 @@ export default async function CategoryDetailPage({
   // 投稿の総数を取得
   const totalPosts = await prisma.post.count({
     where: {
-      status: PostStatus.PUBLISHED,
+      status: "PUBLISHED",
       categories: {
         some: {
           id: category.id,
@@ -112,7 +112,7 @@ export default async function CategoryDetailPage({
   // カテゴリに関連する投稿の取得（ページネーション付き）
   const posts = await prisma.post.findMany({
     where: {
-      status: PostStatus.PUBLISHED,
+      status: "PUBLISHED",
       categories: {
         some: {
           id: category.id,

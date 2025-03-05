@@ -3,7 +3,6 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { PostStatus } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { formatDate } from "@/lib/date";
 import { calculateReadingTime } from "@/lib/utils";
@@ -15,6 +14,54 @@ import { UserAvatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
 import { PostList } from "@/components/blog/PostList";
 import { siteConfig } from "@/config/site";
+import type { Prisma } from "@prisma/client";
+
+// 型定義
+interface PostWithRelations {
+  id: string;
+  title: string;
+  slug: string;
+  content: string | null;
+  status: string;
+  publishedAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  viewCount: number;
+  author: {
+    id: string;
+    name: string | null;
+    image: string | null;
+    email: string;
+  } | null;
+  categories: {
+    id: string;
+    name: string;
+    slug: string;
+    description: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+  }[];
+  tags: {
+    id: string;
+    name: string;
+    slug: string;
+    createdAt: Date;
+    updatedAt: Date;
+  }[];
+  media: {
+    id: string;
+    filename: string;
+    originalName: string;
+    path: string;
+    mimetype: string;
+    size: number;
+    alt: string | null;
+    caption: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+    postId: string | null;
+  }[];
+}
 
 // 動的メタデータの生成
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -93,7 +140,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
       tags: true,
       media: true,
     },
-  });
+  }) as PostWithRelations | null;
 
   // 記事が見つからない場合は404ページを表示
   if (!post) {
@@ -172,7 +219,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
                 <div className="flex flex-wrap gap-2 mb-4">
                   {post.categories.map((category) => (
                     <Link key={category.id} href={`/categories/${category.slug}`}>
-                      <Badge variant="secondary">{category.name}</Badge>
+                      <Badge>{category.name}</Badge>
                     </Link>
                   ))}
                 </div>
@@ -252,7 +299,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
                     <div className="flex flex-wrap gap-2">
                       {post.tags.map((tag) => (
                         <Link key={tag.id} href={`/tags/${tag.slug}`}>
-                          <Badge variant="outline">#{tag.name}</Badge>
+                          <Badge>#{tag.name}</Badge>
                         </Link>
                       ))}
                     </div>
@@ -263,7 +310,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
                 <div className="mt-8 pt-4 border-t">
                   <h3 className="text-lg font-medium mb-2">この記事をシェア</h3>
                   <div className="flex gap-2">
-                    <Button variant="outline" size="sm" asChild>
+                    <Button size="sm" asChild>
                       <a
                         href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(
                           `${siteConfig.url}/posts/${post.slug}`
@@ -274,7 +321,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
                         X/Twitter
                       </a>
                     </Button>
-                    <Button variant="outline" size="sm" asChild>
+                    <Button size="sm" asChild>
                       <a
                         href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
                           `${siteConfig.url}/posts/${post.slug}`
@@ -285,7 +332,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
                         Facebook
                       </a>
                     </Button>
-                    <Button variant="outline" size="sm" asChild>
+                    <Button size="sm" asChild>
                       <a
                         href={`https://b.hatena.ne.jp/entry/${encodeURIComponent(
                           `${siteConfig.url}/posts/${post.slug}`
