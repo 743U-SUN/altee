@@ -1,8 +1,24 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #3B82F6;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #1e293b;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #1e293b;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  --ring: #3B82F6;
+  --radius: 0.5rem;
 }
 
 @theme inline {
@@ -16,11 +32,118 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --primary: #3B82F6;
+    --primary-foreground: #ffffff;
+    --secondary: #1e293b;
+    --secondary-foreground: #f8fafc;
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+    --accent: #1e293b;
+    --accent-foreground: #f8fafc;
+    --card: #171717;
+    --card-foreground: #ededed;
+    --border: #334155;
+    --input: #334155;
+    --ring: #3B82F6;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-feature-settings: "rlig" 1, "calt" 1;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold leading-tight tracking-tight;
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl;
+  }
+
+  h4 {
+    @apply text-lg md:text-xl;
+  }
+
+  /* リンクスタイル */
+  .prose a {
+    @apply text-primary underline underline-offset-4 hover:text-primary/80;
+  }
+  
+  /* コードブロックスタイル */
+  pre {
+    @apply p-4 rounded-md bg-secondary text-secondary-foreground overflow-x-auto;
+  }
+  
+  /* インラインコード */
+  code:not(pre code) {
+    @apply px-1.5 py-0.5 rounded-md bg-secondary text-secondary-foreground text-sm font-mono;
+  }
+  
+  /* 引用 */
+  blockquote {
+    @apply pl-4 border-l-4 border-muted italic text-muted-foreground;
+  }
+  
+  /* 水平線 */
+  hr {
+    @apply my-8 border-t border-border;
+  }
+}
+
+/* ブログ記事のリッチテキストコンテンツスタイル */
+.blog-content {
+  @apply prose prose-lg prose-blue dark:prose-invert max-w-none;
+}
+
+/* ブログ記事内のリンク */
+.blog-content a {
+  @apply text-primary underline underline-offset-4 hover:text-primary/80;
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slideInUp 0.5s ease-out;
 }
