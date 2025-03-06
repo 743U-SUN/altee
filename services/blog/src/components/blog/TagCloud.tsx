@@ -8,7 +8,7 @@ interface TagWithCount {
   id: string;
   name: string;
   slug: string;
-  posts?: Array<any> | { length: number } | undefined;
+  posts?: any[]; // posts関連の型を柔軟に対応
   _count?: {
     posts: number;
   };
@@ -20,7 +20,7 @@ function getTagPostCount(tag: TagWithCount): number {
     return tag._count.posts;
   }
   
-  if (tag.posts && 'length' in tag.posts) {
+  if (tag.posts && Array.isArray(tag.posts)) {
     return tag.posts.length;
   }
   
