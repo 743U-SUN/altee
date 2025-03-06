@@ -66,9 +66,7 @@ export default function RootLayout({
   return (
     <html lang="ja" className="scroll-smooth" suppressHydrationWarning>
       <head />
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased min-h-screen flex flex-col`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased min-h-screen flex flex-col`} suppressHydrationWarning>
         {children}
       </body>
     </html>
