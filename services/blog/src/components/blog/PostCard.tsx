@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { formatDate } from "@/lib/date";
+import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { UserAvatar } from "@/components/ui/Avatar";
@@ -22,8 +23,8 @@ interface PostCardProps {
   showAuthor?: boolean;
   showDate?: boolean;
   showReadingTime?: boolean;
-  showCategories?: boolean; // この行を追加
-  showTags?: boolean; // この行がすでにあるはず
+  showCategories?: boolean;
+  showTags?: boolean;
   className?: string;
 }
 
@@ -38,7 +39,7 @@ export function PostCard({
   showAuthor = true,
   showDate = true,
   showReadingTime = false,
-  showCategories = true, // この行を追加
+  showCategories = true,
   showTags = false,
   className = "",
 }: PostCardProps) {
@@ -53,10 +54,78 @@ export function PostCard({
   // 投稿URLの生成
   const postUrl = `/posts/${post.slug}`;
 
+  // カテゴリバッジのレンダリング関数
+  const renderCategories = () => {
+    if (!showCategories || !post.categories || post.categories.length === 0) return null;
+    
+    return (
+      <div className="mb-2">
+        <Link href={`/categories/${post.categories[0].slug}`}>
+          <Badge className="bg-primary/10 text-primary hover:bg-primary/20">
+            {post.categories[0].name}
+          </Badge>
+        </Link>
+      </div>
+    );
+  };
+
+  // タグバッジのレンダリング関数
+  const renderTags = () => {
+    if (!showTags || !post.tags || post.tags.length === 0) return null;
+    
+    return (
+      <div className="mb-4 flex flex-wrap gap-1">
+        <Badge className="bg-accent/50 text-foreground">
+          #{post.tags[0].name}
+        </Badge>
+        {post.tags.length > 1 && (
+          <Badge className="bg-accent/50 text-foreground">
+            +{post.tags.length - 1}
+          </Badge>
+        )}
+      </div>
+    );
+  };
+
+  // 著者情報のレンダリング関数
+  const renderAuthor = () => {
+    if (!showAuthor || !post.author) return null;
+    
+    return (
+      <div className="flex items-center gap-2 mb-2">
+        <UserAvatar
+          src={post.author.image}
+          name={post.author.name || "匿名"}
+          size="sm"
+        />
+        <span className="text-sm font-medium">
+          {post.author.name || "匿名"}
+        </span>
+      </div>
+    );
+  };
+
+  // 日付情報のレンダリング関数
+  const renderDateInfo = () => {
+    if (!showDate && !showReadingTime) return null;
+    
+    return (
+      <div className="flex items-center text-xs text-muted-foreground">
+        {showDate && (
+          <time dateTime={publishDate.toISOString()}>
+            {formatDate(publishDate)}
+          </time>
+        )}
+        {showDate && showReadingTime && <span className="mx-1">•</span>}
+        {showReadingTime && <span>7分で読めます</span>}
+      </div>
+    );
+  };
+
   // 特集記事表示
   if (variant === "featured") {
     return (
-      <Card className={`overflow-hidden h-full ${className}`}>
+      <Card className={cn("overflow-hidden h-full", className)}>
         <div className="grid grid-cols-1 md:grid-cols-2 h-full">
           {/* 画像部分 */}
           {showImage && (
@@ -80,15 +149,7 @@ export function PostCard({
 
           {/* テキスト部分 */}
           <div className="p-6 flex flex-col h-full">
-            {showCategories && post.categories && post.categories.length > 0 && (
-              <div className="mb-2">
-                <Link href={`/categories/${post.categories[0].slug}`}>
-                  <Badge className="bg-primary/10 text-primary hover:bg-primary/20">
-                    {post.categories[0].name}
-                  </Badge>
-                </Link>
-              </div>
-            )}
+            {renderCategories()}
 
             <h3 className="text-2xl font-bold tracking-tight mb-2">
               <Link
@@ -105,42 +166,11 @@ export function PostCard({
               </p>
             )}
 
-            {showTags && post.tags && post.tags.length > 0 && (
-              <div className="mb-4 flex flex-wrap gap-1">
-                <Badge className="bg-accent/50 text-foreground">
-                  #{post.tags[0].name}
-                </Badge>
-                {post.tags.length > 1 && (
-                  <Badge className="bg-accent/50 text-foreground">
-                    +{post.tags.length - 1}
-                  </Badge>
-                )}
-              </div>
-            )}
+            {renderTags()}
 
             <div className="mt-auto">
-              {showAuthor && post.author && (
-                <div className="flex items-center gap-2 mb-2">
-                  <UserAvatar
-                    src={post.author.image}
-                    name={post.author.name || "匿名"}
-                    size="sm"
-                  />
-                  <span className="text-sm font-medium">
-                    {post.author.name || "匿名"}
-                  </span>
-                </div>
-              )}
-
-              <div className="flex items-center text-xs text-muted-foreground">
-                {showDate && (
-                  <time dateTime={publishDate.toISOString()}>
-                    {formatDate(publishDate)}
-                  </time>
-                )}
-                {showDate && showReadingTime && <span className="mx-1">•</span>}
-                {showReadingTime && <span>7分で読めます</span>}
-              </div>
+              {renderAuthor()}
+              {renderDateInfo()}
             </div>
           </div>
         </div>
@@ -151,7 +181,7 @@ export function PostCard({
   // コンパクト表示
   if (variant === "compact") {
     return (
-      <div className={`flex gap-4 ${className}`}>
+      <div className={cn("flex gap-4", className)}>
         {showImage && (
           <Link href={postUrl} className="flex-shrink-0">
             <div className="relative w-20 h-20 overflow-hidden rounded-md">
@@ -170,13 +200,7 @@ export function PostCard({
         )}
 
         <div className="flex-1 min-w-0">
-          {showCategories && post.categories && post.categories.length > 0 && (
-            <Link href={`/categories/${post.categories[0].slug}`}>
-              <Badge className="mb-1 bg-primary/10 text-primary text-xs">
-                {post.categories[0].name}
-              </Badge>
-            </Link>
-          )}
+          {renderCategories()}
 
           <h3 className="font-medium line-clamp-2 mb-1">
             <Link href={postUrl} className="hover:underline">
@@ -184,13 +208,7 @@ export function PostCard({
             </Link>
           </h3>
 
-          <div className="flex items-center text-xs text-muted-foreground">
-            {showDate && (
-              <time dateTime={publishDate.toISOString()}>
-                {formatDate(publishDate)}
-              </time>
-            )}
-          </div>
+          {renderDateInfo()}
         </div>
       </div>
     );
@@ -198,7 +216,7 @@ export function PostCard({
 
   // デフォルト表示
   return (
-    <Card className={`overflow-hidden h-full ${className}`}>
+    <Card className={cn("overflow-hidden h-full", className)}>
       {showImage && (
         <Link href={postUrl}>
           <div className="relative aspect-video overflow-hidden">
@@ -217,15 +235,7 @@ export function PostCard({
       )}
 
       <CardContent className="p-4 flex flex-col h-full">
-        {showCategories && post.categories && post.categories.length > 0 && (
-          <div className="mb-2">
-            <Link href={`/categories/${post.categories[0].slug}`}>
-              <Badge className="bg-primary/10 text-primary">
-                {post.categories[0].name}
-              </Badge>
-            </Link>
-          </div>
-        )}
+        {renderCategories()}
 
         <h3 className="text-xl font-bold tracking-tight mb-2">
           <Link
@@ -243,26 +253,8 @@ export function PostCard({
         )}
 
         <div className="mt-auto">
-          {showAuthor && post.author && (
-            <div className="flex items-center gap-2 mb-2">
-              <UserAvatar
-                src={post.author.image}
-                name={post.author.name || "匿名"}
-                size="sm"
-              />
-              <span className="text-sm font-medium">
-                {post.author.name || "匿名"}
-              </span>
-            </div>
-          )}
-
-          <div className="flex items-center text-xs text-muted-foreground">
-            {showDate && (
-              <time dateTime={publishDate.toISOString()}>
-                {formatDate(publishDate)}
-              </time>
-            )}
-          </div>
+          {renderAuthor()}
+          {renderDateInfo()}
         </div>
       </CardContent>
     </Card>

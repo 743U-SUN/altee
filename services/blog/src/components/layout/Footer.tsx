@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 
 /**
  * サイトフッターコンポーネント
+ * サーバーコンポーネントとして実装 (状態やイベントハンドラを持たないため)
  */
 export function Footer({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
   const currentYear = new Date().getFullYear();
@@ -96,27 +97,8 @@ export function Footer({ className, ...props }: React.HTMLAttributes<HTMLElement
             </div>
           </div>
 
-          {/* ニュースレター登録 */}
-          <div className="md:col-span-1">
-            <h3 className="text-sm font-semibold mb-3">ニュースレター</h3>
-            <p className="text-sm text-muted-foreground mb-2">
-              最新の記事やお知らせを受け取りましょう
-            </p>
-            <form className="mt-2 flex flex-col gap-2">
-              <input
-                type="email"
-                placeholder="メールアドレス"
-                className="w-full px-3 py-2 text-sm bg-background border border-input rounded-md"
-                required
-              />
-              <button
-                type="submit"
-                className="text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-colors px-4 py-2 rounded-md"
-              >
-                登録
-              </button>
-            </form>
-          </div>
+          {/* ニュースレター登録 - コンポーネントをClient側に分離する */}
+          <NewsletterSignup />
         </div>
 
         {/* コピーライト */}
@@ -140,5 +122,49 @@ export function Footer({ className, ...props }: React.HTMLAttributes<HTMLElement
         </div>
       </Container>
     </footer>
+  );
+}
+
+/**
+ * ニュースレター登録コンポーネント
+ * Reactのstate操作を含むためuseClientを使用するコンポーネントとして実装
+ */
+import { useState } from "react";
+
+"use client"
+function NewsletterSignup() {
+  const [email, setEmail] = useState("");
+  
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // ここでニュースレター登録APIを呼び出す
+    console.log("ニュースレター登録:", email);
+    // 登録成功メッセージ表示などの処理
+    setEmail("");
+  };
+  
+  return (
+    <div className="md:col-span-1">
+      <h3 className="text-sm font-semibold mb-3">ニュースレター</h3>
+      <p className="text-sm text-muted-foreground mb-2">
+        最新の記事やお知らせを受け取りましょう
+      </p>
+      <form className="mt-2 flex flex-col gap-2" onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="メールアドレス"
+          className="w-full px-3 py-2 text-sm bg-background border border-input rounded-md"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <button
+          type="submit"
+          className="text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-colors px-4 py-2 rounded-md"
+        >
+          登録
+        </button>
+      </form>
+    </div>
   );
 }
