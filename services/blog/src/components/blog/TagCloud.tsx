@@ -11,10 +11,15 @@ interface TagWithCount {
   id: string;
   name: string;
   slug: string;
-  posts?: any[]; // 任意のプロパティに変更
+  posts?: Array<any> | { length: number } | undefined;
   _count?: {
     posts: number;
   };
+}
+
+// 安全にタグの投稿数を取得するヘルパー関数
+function getTagPostCount(tag: TagWithCount): number {
+  return tag._count?.posts ?? (tag.posts && 'length' in tag.posts ? tag.posts.length : 0);
 }
 
 interface TagCloudProps {
@@ -43,10 +48,7 @@ export function TagCloud({
 
   // タグを投稿数順にソート
   const sortedTags = [...tags].sort((a, b) => {
-    // 投稿数の取得方法を修正
-    const countA = a._count?.posts ?? a.posts?.length ?? 0;
-    const countB = b._count?.posts ?? b.posts?.length ?? 0;
-    return countB - countA;
+    return getTagPostCount(b) - getTagPostCount(a);
   });
 
   // 表示するタグ数を制限
@@ -54,8 +56,8 @@ export function TagCloud({
 
   // 人気度に基づいてタグのサイズを計算
   const getTagSize = (count: number) => {
-    const max = Math.max(...sortedTags.map(t => t._count?.posts ?? t.posts?.length ?? 0));
-    const min = Math.min(...sortedTags.map(t => t._count?.posts ?? t.posts?.length ?? 0));
+    const max = Math.max(...sortedTags.map(t => getTagPostCount(t)));
+    const min = Math.min(...sortedTags.map(t => getTagPostCount(t)));
     
     // サイズを3段階で返す (min=xs, middle=sm, max=base)
     if (max === min) return "sm"; // 全て同じ数の場合
@@ -74,7 +76,7 @@ export function TagCloud({
       <ul className={cn("space-y-1", className)}>
         {displayTags.map((tag) => {
           // 投稿数の取得方法を修正
-          const count = tag._count?.posts ?? tag.posts?.length ?? 0;
+          const count = getTagPostCount(tag);
           return (
             <li key={tag.id} className="flex items-center justify-between">
               <Link
@@ -101,7 +103,7 @@ export function TagCloud({
       <div className={cn("flex flex-wrap gap-3", className)}>
         {displayTags.map((tag) => {
           // 投稿数の取得方法を修正
-          const count = tag._count?.posts ?? tag.posts?.length ?? 0;
+          const count = getTagPostCount(tag);
           const size = getTagSize(count);
           
           return (
@@ -131,7 +133,7 @@ export function TagCloud({
     <div className={cn("flex flex-wrap gap-2", className)}>
       {displayTags.map((tag) => {
         // 投稿数の取得方法を修正
-        const count = tag._count?.posts ?? tag.posts?.length ?? 0;
+        const count = getTagPostCount(tag);
         
         return (
           <Link key={tag.id} href={`/tags/${tag.slug}`}>

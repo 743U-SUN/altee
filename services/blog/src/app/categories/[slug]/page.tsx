@@ -67,21 +67,60 @@ export default async function CategoryDetailPage({
   const currentPage = Number(searchParams.page) || 1;
   const pageSize = 9;
 
-  // カテゴリの取得
-  const category: CategoryType | null = await prisma.category.findUnique({
-    where: { slug: params.slug },
-  });
+  // Promise.all を使用して並列にデータを取得
+  const [category, relatedTagsData, totalPostsData, postsData] = await Promise.all([
+    // カテゴリの取得
+    prisma.category.findUnique({
+      where: { slug: params.slug },
+    }) as Promise<CategoryType | null>,
 
-  // カテゴリが見つからない場合は404ページを表示
-  if (!category) {
-    notFound();
-  }
+    // カテゴリが存在する場合のみ実行されるクエリ（条件付き）
+    prisma.category.findUnique({
+      where: { slug: params.slug },
+      select: { id: true },
+    }).then(category => {
+      if (!category) return [];
+      
+      // カテゴリに関連するタグの取得
+      return prisma.tag.findMany({
+        where: {
+          posts: {
+            some: {
+              status: "PUBLISHED",
+              categories: {
+                some: {
+                  id: category.id,
+                },
+              },
+            },
+          },
+        },
+        include: {
+          _count: {
+            select: {
+              posts: true,
+            },
+          },
+        },
+        orderBy: {
+          posts: {
+            _count: "desc",
+          },
+        },
+        take: 20,
+      });
+    }),
 
-  // カテゴリに関連するタグの取得
-  const relatedTags = await prisma.tag.findMany({
-    where: {
-      posts: {
-        some: {
+    // カテゴリが存在する場合のみ実行されるクエリ（条件付き）
+    prisma.category.findUnique({
+      where: { slug: params.slug },
+      select: { id: true },
+    }).then(category => {
+      if (!category) return 0;
+      
+      // 投稿の総数を取得
+      return prisma.post.count({
+        where: {
           status: "PUBLISHED",
           categories: {
             some: {
@@ -89,74 +128,66 @@ export default async function CategoryDetailPage({
             },
           },
         },
-      },
-    },
-    include: {
-      _count: {
-        select: {
-          posts: true,
-        },
-      },
-    },
-    orderBy: {
-      posts: {
-        _count: "desc",
-      },
-    },
-    take: 20,
-  });
+      });
+    }),
 
-  // 投稿の総数を取得
-  const totalPosts = await prisma.post.count({
-    where: {
-      status: "PUBLISHED",
-      categories: {
-        some: {
-          id: category.id,
+    // カテゴリが存在する場合のみ実行されるクエリ（条件付き）
+    prisma.category.findUnique({
+      where: { slug: params.slug },
+      select: { id: true },
+    }).then(category => {
+      if (!category) return [];
+      
+      // カテゴリに関連する投稿の取得（ページネーション付き）
+      return prisma.post.findMany({
+        where: {
+          status: "PUBLISHED",
+          categories: {
+            some: {
+              id: category.id,
+            },
+          },
         },
-      },
-    },
-  });
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              image: true,
+            },
+          },
+          categories: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+            },
+          },
+          tags: {
+            select: {
+              id: true,
+              name: true,
+              slug: true,
+            },
+          },
+        },
+        orderBy: {
+          publishedAt: "desc",
+        },
+        skip: (currentPage - 1) * pageSize,
+        take: pageSize,
+      });
+    }),
+  ]);
 
-  // カテゴリに関連する投稿の取得（ページネーション付き）
-  const posts = await prisma.post.findMany({
-    where: {
-      status: "PUBLISHED",
-      categories: {
-        some: {
-          id: category.id,
-        },
-      },
-    },
-    include: {
-      author: {
-        select: {
-          id: true,
-          name: true,
-          image: true,
-        },
-      },
-      categories: {
-        select: {
-          id: true,
-          name: true,
-          slug: true,
-        },
-      },
-      tags: {
-        select: {
-          id: true,
-          name: true,
-          slug: true,
-        },
-      },
-    },
-    orderBy: {
-      publishedAt: "desc",
-    },
-    skip: (currentPage - 1) * pageSize,
-    take: pageSize,
-  });
+  // カテゴリが見つからない場合は404ページを表示
+  if (!category) {
+    notFound();
+  }
+
+  const relatedTags = relatedTagsData;
+  const totalPosts = totalPostsData;
+  const posts = postsData;
 
   // PaginatedResult形式にデータを整形
   const paginatedPosts: PaginatedResult<PostFrontmatter> = {
