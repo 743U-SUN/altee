@@ -69,7 +69,7 @@ export function TagCloud({
                 #{tag.name}
               </Link>
               {showCount && (
-                <Badge variant="secondary" size="sm">
+                <Badge className="text-xs">
                   {count}
                 </Badge>
               )}
@@ -91,7 +91,6 @@ export function TagCloud({
           return (
             <Link key={tag.id} href={`/tags/${tag.slug}`}>
               <Badge
-                variant="secondary"
                 className={cn(
                   "transition-all hover:scale-110",
                   {
@@ -119,7 +118,7 @@ export function TagCloud({
         
         return (
           <Link key={tag.id} href={`/tags/${tag.slug}`}>
-            <Badge variant="outline" interactive={true}>
+            <Badge className="border border-input bg-background cursor-pointer">
               #{tag.name}
               {showCount && <span className="ml-1 text-xs">({count})</span>}
             </Badge>

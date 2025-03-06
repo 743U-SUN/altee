@@ -22,6 +22,8 @@ interface PostCardProps {
   showAuthor?: boolean;
   showDate?: boolean;
   showReadingTime?: boolean;
+  showCategories?: boolean; // この行を追加
+  showTags?: boolean; // この行がすでにあるはず
   className?: string;
 }
 
@@ -36,6 +38,8 @@ export function PostCard({
   showAuthor = true,
   showDate = true,
   showReadingTime = false,
+  showCategories = true, // この行を追加
+  showTags = false,
   className = "",
 }: PostCardProps) {
   if (!post) {
@@ -76,7 +80,7 @@ export function PostCard({
 
           {/* テキスト部分 */}
           <div className="p-6 flex flex-col h-full">
-            {post.categories && post.categories.length > 0 && (
+            {showCategories && post.categories && post.categories.length > 0 && (
               <div className="mb-2">
                 <Link href={`/categories/${post.categories[0].slug}`}>
                   <Badge className="bg-primary/10 text-primary hover:bg-primary/20">
@@ -101,7 +105,7 @@ export function PostCard({
               </p>
             )}
 
-            {post.tags && post.tags.length > 0 && (
+            {showTags && post.tags && post.tags.length > 0 && (
               <div className="mb-4 flex flex-wrap gap-1">
                 <Badge className="bg-accent/50 text-foreground">
                   #{post.tags[0].name}
@@ -166,7 +170,7 @@ export function PostCard({
         )}
 
         <div className="flex-1 min-w-0">
-          {post.categories && post.categories.length > 0 && (
+          {showCategories && post.categories && post.categories.length > 0 && (
             <Link href={`/categories/${post.categories[0].slug}`}>
               <Badge className="mb-1 bg-primary/10 text-primary text-xs">
                 {post.categories[0].name}
@@ -213,7 +217,7 @@ export function PostCard({
       )}
 
       <CardContent className="p-4 flex flex-col h-full">
-        {post.categories && post.categories.length > 0 && (
+        {showCategories && post.categories && post.categories.length > 0 && (
           <div className="mb-2">
             <Link href={`/categories/${post.categories[0].slug}`}>
               <Badge className="bg-primary/10 text-primary">
