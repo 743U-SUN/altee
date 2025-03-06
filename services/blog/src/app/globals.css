@@ -85,7 +85,7 @@ body {
 
   /* リンクスタイル */
   .prose a {
-    @apply text-primary underline underline-offset-4 hover:text-primary/80;
+    @apply text-primary underline underline-offset-4 hover:text-primary;
   }
   
   /* コードブロックスタイル */
@@ -116,7 +116,7 @@ body {
 
 /* ブログ記事内のリンク */
 .blog-content a {
-  @apply text-primary underline underline-offset-4 hover:text-primary/80;
+  @apply text-primary underline underline-offset-4 hover:text-primary;
 }
 
 /* アニメーション */
