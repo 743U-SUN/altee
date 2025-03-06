@@ -117,7 +117,7 @@ export async function generateStaticParams() {
     select: { slug: true },
   });
 
-  return posts.map((post) => ({
+  return posts.map((post: { slug: string }) => ({
     slug: post.slug,
   }));
 }
@@ -310,7 +310,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
                 <div className="mt-8 pt-4 border-t">
                   <h3 className="text-lg font-medium mb-2">この記事をシェア</h3>
                   <div className="flex gap-2">
-                    <Button size="sm" asChild>
+                    <Button asChild>
                       <a
                         href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(
                           `${siteConfig.url}/posts/${post.slug}`
@@ -321,7 +321,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
                         X/Twitter
                       </a>
                     </Button>
-                    <Button size="sm" asChild>
+                    <Button asChild>
                       <a
                         href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
                           `${siteConfig.url}/posts/${post.slug}`
@@ -332,7 +332,7 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
                         Facebook
                       </a>
                     </Button>
-                    <Button size="sm" asChild>
+                    <Button asChild>
                       <a
                         href={`https://b.hatena.ne.jp/entry/${encodeURIComponent(
                           `${siteConfig.url}/posts/${post.slug}`

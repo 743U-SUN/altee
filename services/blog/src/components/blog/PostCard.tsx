@@ -1,222 +1,266 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { PostFrontmatter } from "@/types";
-import { formatDate, formatRelativeTime } from "@/lib/date";
-import { truncate } from "@/lib/utils";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card";
+import { formatDate } from "@/lib/date";
+import { Card, CardContent } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { UserAvatar } from "@/components/ui/Avatar";
+import { PostFrontmatter } from "@/types";
+
+// PostFrontmatterのメディア対応拡張
+interface PostWithMedia extends PostFrontmatter {
+  media?: {
+    path: string;
+  }[];
+}
 
 interface PostCardProps {
-  post: PostFrontmatter;
+  post: PostWithMedia;
   variant?: "default" | "compact" | "featured";
   showImage?: boolean;
-  showAuthor?: boolean;
   showExcerpt?: boolean;
-  showCategories?: boolean;
-  showTags?: boolean;
-  imageAspectRatio?: "square" | "video" | "wide";
+  showAuthor?: boolean;
+  showDate?: boolean;
+  showReadingTime?: boolean;
   className?: string;
 }
 
 /**
- * ブログ記事カードコンポーネント
- * 様々な表示バリエーションに対応
+ * 記事カードコンポーネント
  */
 export function PostCard({
   post,
   variant = "default",
   showImage = true,
-  showAuthor = true,
   showExcerpt = true,
-  showCategories = true,
-  showTags = false,
-  imageAspectRatio = "video",
+  showAuthor = true,
+  showDate = true,
+  showReadingTime = false,
   className = "",
 }: PostCardProps) {
-  // 投稿が新しいかどうかを判断（7日以内の投稿を「新着」とする）
-  const isNew = post.publishedAt
-    ? new Date().getTime() - new Date(post.publishedAt).getTime() <
-      7 * 24 * 60 * 60 * 1000
-    : false;
+  if (!post) {
+    return null;
+  }
 
-  // アスペクト比に応じたクラス
-  const imageAspectClasses = {
-    square: "aspect-square",
-    video: "aspect-video",
-    wide: "aspect-[21/9]",
-  };
-
-  // バリアントに応じたスタイル設定
-  const variantStyles = {
-    default: "",
-    compact: "h-full",
-    featured: "md:grid md:grid-cols-2 gap-6 h-full",
-  };
-
-  // サンプル画像URL（実際の実装では適切な画像URLを使用）
-  const imageUrl = `/images/posts/${post.slug}.jpg`;
-  // フォールバック用のデフォルト画像
+  const publishDate = post.publishedAt || post.createdAt;
+  const imageUrl = post.media?.[0]?.path || `/images/posts/${post.slug}.jpg`;
   const defaultImageUrl = "/images/post-placeholder.jpg";
 
-  return (
-    <Card className={`overflow-hidden ${variantStyles[variant]} ${className}`}>
-      {/* 記事の画像（表示する場合） */}
-      {showImage && variant !== "featured" && (
-        <Link href={`/posts/${post.slug}`} className="block overflow-hidden">
-          <div
-            className={`relative w-full ${imageAspectClasses[imageAspectRatio]} bg-muted overflow-hidden group`}
-          >
-            <Image
-              src={imageUrl}
-              alt={post.title}
-              fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority={post.featured}
-              onError={(e) => {
-                // 画像読み込みエラー時にデフォルト画像を表示
-                const target = e.target as HTMLImageElement;
-                target.src = defaultImageUrl;
-              }}
-            />
-            {isNew && (
-              <div className="absolute top-2 right-2 z-10">
-                <Badge variant="success" size="sm">
-                  New
-                </Badge>
-              </div>
-            )}
-            {post.featured && (
-              <div className="absolute top-2 left-2 z-10">
-                <Badge variant="warning" size="sm">
-                  注目
-                </Badge>
-              </div>
-            )}
-          </div>
-        </Link>
-      )}
+  // 投稿URLの生成
+  const postUrl = `/posts/${post.slug}`;
 
-      <div className="flex flex-col h-full">
-        {/* カテゴリ表示 */}
-        {showCategories && post.categories && post.categories.length > 0 && (
-          <div className="px-6 pt-6 pb-0 flex flex-wrap gap-2">
-            {post.categories.slice(0, 2).map((category) => (
-              <Link key={category.id} href={`/categories/${category.slug}`}>
-                <Badge variant="secondary" interactive={true}>
-                  {category.name}
-                </Badge>
+  // 特集記事表示
+  if (variant === "featured") {
+    return (
+      <Card className={`overflow-hidden h-full ${className}`}>
+        <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+          {/* 画像部分 */}
+          {showImage && (
+            <div className="relative h-full min-h-[200px]">
+              <Link href={postUrl}>
+                <div className="relative h-full">
+                  <Image
+                    src={imageUrl}
+                    alt={post.title}
+                    fill
+                    className="object-cover transition-transform hover:scale-105"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = defaultImageUrl;
+                    }}
+                  />
+                </div>
               </Link>
-            ))}
-            {post.categories.length > 2 && (
-              <Badge variant="outline" size="sm">
-                +{post.categories.length - 2}
-              </Badge>
+            </div>
+          )}
+
+          {/* テキスト部分 */}
+          <div className="p-6 flex flex-col h-full">
+            {post.categories && post.categories.length > 0 && (
+              <div className="mb-2">
+                <Link href={`/categories/${post.categories[0].slug}`}>
+                  <Badge className="bg-primary/10 text-primary hover:bg-primary/20">
+                    {post.categories[0].name}
+                  </Badge>
+                </Link>
+              </div>
             )}
+
+            <h3 className="text-2xl font-bold tracking-tight mb-2">
+              <Link
+                href={postUrl}
+                className="hover:underline decoration-primary decoration-2 underline-offset-4"
+              >
+                {post.title}
+              </Link>
+            </h3>
+
+            {showExcerpt && post.excerpt && (
+              <p className="text-muted-foreground line-clamp-3 mb-4">
+                {post.excerpt}
+              </p>
+            )}
+
+            {post.tags && post.tags.length > 0 && (
+              <div className="mb-4 flex flex-wrap gap-1">
+                <Badge className="bg-accent/50 text-foreground">
+                  #{post.tags[0].name}
+                </Badge>
+                {post.tags.length > 1 && (
+                  <Badge className="bg-accent/50 text-foreground">
+                    +{post.tags.length - 1}
+                  </Badge>
+                )}
+              </div>
+            )}
+
+            <div className="mt-auto">
+              {showAuthor && post.author && (
+                <div className="flex items-center gap-2 mb-2">
+                  <UserAvatar
+                    src={post.author.image}
+                    name={post.author.name || "匿名"}
+                    size="sm"
+                  />
+                  <span className="text-sm font-medium">
+                    {post.author.name || "匿名"}
+                  </span>
+                </div>
+              )}
+
+              <div className="flex items-center text-xs text-muted-foreground">
+                {showDate && (
+                  <time dateTime={publishDate.toISOString()}>
+                    {formatDate(publishDate)}
+                  </time>
+                )}
+                {showDate && showReadingTime && <span className="mx-1">•</span>}
+                {showReadingTime && <span>7分で読めます</span>}
+              </div>
+            </div>
           </div>
+        </div>
+      </Card>
+    );
+  }
+
+  // コンパクト表示
+  if (variant === "compact") {
+    return (
+      <div className={`flex gap-4 ${className}`}>
+        {showImage && (
+          <Link href={postUrl} className="flex-shrink-0">
+            <div className="relative w-20 h-20 overflow-hidden rounded-md">
+              <Image
+                src={imageUrl}
+                alt={post.title}
+                fill
+                className="object-cover"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = defaultImageUrl;
+                }}
+              />
+            </div>
+          </Link>
         )}
 
-        <CardHeader>
-          <CardTitle>
-            <Link
-              href={`/posts/${post.slug}`}
-              className="hover:text-primary transition-colors"
-            >
+        <div className="flex-1 min-w-0">
+          {post.categories && post.categories.length > 0 && (
+            <Link href={`/categories/${post.categories[0].slug}`}>
+              <Badge className="mb-1 bg-primary/10 text-primary text-xs">
+                {post.categories[0].name}
+              </Badge>
+            </Link>
+          )}
+
+          <h3 className="font-medium line-clamp-2 mb-1">
+            <Link href={postUrl} className="hover:underline">
               {post.title}
             </Link>
-          </CardTitle>
-        </CardHeader>
+          </h3>
 
-        {/* 抜粋表示 */}
-        {showExcerpt && post.excerpt && (
-          <CardContent>
-            <p className="text-muted-foreground">
-              {truncate(post.excerpt, variant === "compact" ? 80 : 120)}
-            </p>
-          </CardContent>
-        )}
-
-        <CardFooter className="mt-auto">
-          {/* 著者情報表示 */}
-          {showAuthor && post.author && (
-            <div className="flex items-center justify-between w-full text-sm text-muted-foreground">
-              <div className="flex items-center space-x-2">
-                <UserAvatar
-                  src={post.author.image}
-                  name={post.author.name || "匿名"}
-                  size="sm"
-                />
-                <span>{post.author.name || "匿名"}</span>
-              </div>
-              <time dateTime={post.publishedAt?.toString() || post.createdAt.toString()}>
-                {formatDate(post.publishedAt || post.createdAt)}
+          <div className="flex items-center text-xs text-muted-foreground">
+            {showDate && (
+              <time dateTime={publishDate.toISOString()}>
+                {formatDate(publishDate)}
               </time>
-            </div>
-          )}
-
-          {/* 著者情報を表示しない場合は日付のみ表示 */}
-          {(!showAuthor || !post.author) && (
-            <div className="flex items-center justify-between w-full text-sm text-muted-foreground">
-              <span>{post.viewCount} views</span>
-              <time dateTime={post.publishedAt?.toString() || post.createdAt.toString()}>
-                {formatDate(post.publishedAt || post.createdAt)}
-              </time>
-            </div>
-          )}
-        </CardFooter>
-
-        {/* タグ表示 */}
-        {showTags && post.tags && post.tags.length > 0 && (
-          <div className="px-6 pt-0 pb-6 flex flex-wrap gap-2">
-            {post.tags.map((tag) => (
-              <Link key={tag.id} href={`/tags/${tag.slug}`}>
-                <Badge variant="outline" interactive={true} size="sm">
-                  #{tag.name}
-                </Badge>
-              </Link>
-            ))}
+            )}
           </div>
-        )}
+        </div>
       </div>
+    );
+  }
 
-      {/* featured バリアント用の画像（右側に配置） */}
-      {showImage && variant === "featured" && (
-        <Link href={`/posts/${post.slug}`} className="block overflow-hidden">
-          <div
-            className={`relative w-full h-full min-h-[250px] bg-muted overflow-hidden group`}
-          >
+  // デフォルト表示
+  return (
+    <Card className={`overflow-hidden h-full ${className}`}>
+      {showImage && (
+        <Link href={postUrl}>
+          <div className="relative aspect-video overflow-hidden">
             <Image
               src={imageUrl}
               alt={post.title}
               fill
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              priority={true}
+              className="object-cover transition-transform hover:scale-105"
               onError={(e) => {
-                // 画像読み込みエラー時にデフォルト画像を表示
                 const target = e.target as HTMLImageElement;
                 target.src = defaultImageUrl;
               }}
             />
-            {isNew && (
-              <div className="absolute top-2 right-2 z-10">
-                <Badge variant="success" size="sm">
-                  New
-                </Badge>
-              </div>
-            )}
-            {post.featured && (
-              <div className="absolute top-2 left-2 z-10">
-                <Badge variant="warning" size="sm">
-                  注目
-                </Badge>
-              </div>
-            )}
           </div>
         </Link>
       )}
+
+      <CardContent className="p-4 flex flex-col h-full">
+        {post.categories && post.categories.length > 0 && (
+          <div className="mb-2">
+            <Link href={`/categories/${post.categories[0].slug}`}>
+              <Badge className="bg-primary/10 text-primary">
+                {post.categories[0].name}
+              </Badge>
+            </Link>
+          </div>
+        )}
+
+        <h3 className="text-xl font-bold tracking-tight mb-2">
+          <Link
+            href={postUrl}
+            className="hover:underline decoration-primary decoration-2 underline-offset-4"
+          >
+            {post.title}
+          </Link>
+        </h3>
+
+        {showExcerpt && post.excerpt && (
+          <p className="text-muted-foreground line-clamp-2 mb-4">
+            {post.excerpt}
+          </p>
+        )}
+
+        <div className="mt-auto">
+          {showAuthor && post.author && (
+            <div className="flex items-center gap-2 mb-2">
+              <UserAvatar
+                src={post.author.image}
+                name={post.author.name || "匿名"}
+                size="sm"
+              />
+              <span className="text-sm font-medium">
+                {post.author.name || "匿名"}
+              </span>
+            </div>
+          )}
+
+          <div className="flex items-center text-xs text-muted-foreground">
+            {showDate && (
+              <time dateTime={publishDate.toISOString()}>
+                {formatDate(publishDate)}
+              </time>
+            )}
+          </div>
+        </div>
+      </CardContent>
     </Card>
   );
 }

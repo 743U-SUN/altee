@@ -36,7 +36,7 @@ export async function generateStaticParams() {
     select: { slug: true },
   });
 
-  return categories.map((category) => ({
+  return categories.map((category: { slug: string }) => ({
     slug: category.slug,
   }));
 }
@@ -55,11 +55,20 @@ export default async function CategoryDetailPage({
   params,
   searchParams,
 }: CategoryDetailPageProps) {
+  // カテゴリのパラメータの型を明示的に定義
+  type CategoryType = {
+    id: string;
+    name: string;
+    slug: string;
+    description: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+  };
   const currentPage = Number(searchParams.page) || 1;
   const pageSize = 9;
 
   // カテゴリの取得
-  const category = await prisma.category.findUnique({
+  const category: CategoryType | null = await prisma.category.findUnique({
     where: { slug: params.slug },
   });
 

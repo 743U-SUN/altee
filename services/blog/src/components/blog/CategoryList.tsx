@@ -1,64 +1,52 @@
 import React from "react";
 import Link from "next/link";
-import { CategoryWithPosts } from "@/types";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { cn } from "@/lib/utils";
+
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  _count?: {
+    posts: number;
+  };
+}
 
 interface CategoryListProps {
-  categories: CategoryWithPosts[];
-  variant?: "default" | "compact" | "grid" | "inline";
+  categories: Category[];
+  variant?: "default" | "compact" | "grid";
+  showCount?: boolean;
   className?: string;
 }
 
 /**
- * カテゴリリストコンポーネント
- * 様々な表示バリエーションに対応
+ * カテゴリ一覧コンポーネント
  */
 export function CategoryList({
   categories,
   variant = "default",
+  showCount = true,
   className = "",
 }: CategoryListProps) {
-  // カテゴリがない場合
-  if (!categories.length) {
-    return <p className="text-center text-muted-foreground py-4">カテゴリがありません。</p>;
+  if (!categories || categories.length === 0) {
+    return <div className="text-muted-foreground">カテゴリがありません</div>;
   }
 
-  // インラインバリアント（バッジのリスト）
-  if (variant === "inline") {
-    return (
-      <div className={cn("flex flex-wrap gap-2", className)}>
-        {categories.map((category) => (
-          <Link key={category.id} href={`/categories/${category.slug}`}>
-            <Badge variant="secondary" interactive={true}>
-              {category.name}
-              {category._count?.posts !== undefined && (
-                <span className="ml-1 text-xs">({category._count.posts})</span>
-              )}
-            </Badge>
-          </Link>
-        ))}
-      </div>
-    );
-  }
-
-  // コンパクトバリアント（シンプルなリスト）
+  // コンパクト表示（リスト形式）
   if (variant === "compact") {
     return (
-      <ul className={cn("space-y-1", className)}>
+      <ul className={`space-y-2 ${className}`}>
         {categories.map((category) => (
-          <li key={category.id}>
-            <Link
-              href={`/categories/${category.slug}`}
-              className="text-sm hover:text-primary transition-colors flex items-center justify-between"
-            >
-              <span>{category.name}</span>
-              {category._count?.posts !== undefined && (
-                <Badge variant="secondary" size="sm">
-                  {category._count.posts}
-                </Badge>
-              )}
+          <li key={category.id} className="flex items-center justify-between">
+            <Link href={`/categories/${category.slug}`} className="hover:underline">
+              <Badge className="bg-accent/50 hover:bg-accent text-primary hover:text-primary">
+                {category.name}
+                {showCount && category._count && (
+                  <span className="ml-1 text-xs text-muted-foreground">
+                    ({category._count.posts})
+                  </span>
+                )}
+              </Badge>
             </Link>
           </li>
         ))}
@@ -66,66 +54,50 @@ export function CategoryList({
     );
   }
 
-  // グリッドバリアント
+  // グリッド表示
   if (variant === "grid") {
     return (
-      <div className={cn("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4", className)}>
+      <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ${className}`}>
         {categories.map((category) => (
-          <CategoryCard key={category.id} category={category} />
+          <Link
+            key={category.id}
+            href={`/categories/${category.slug}`}
+            className="bg-card hover:bg-accent/50 border rounded-md p-4 text-center transition-colors"
+          >
+            <Badge className="mb-2 bg-primary/10 text-primary px-2 py-1">
+              {showCount && category._count && (
+                <span className="text-xs font-normal">
+                  {category._count.posts}件
+                </span>
+              )}
+            </Badge>
+            <h3 className="font-medium text-lg">{category.name}</h3>
+            {category.description && (
+              <p className="text-sm text-muted-foreground mt-2">
+                {category.description}
+              </p>
+            )}
+          </Link>
         ))}
       </div>
     );
   }
 
-  // デフォルトバリアント（カードのリスト）
+  // デフォルト表示（横並びバッジ）
   return (
-    <div className={cn("space-y-4", className)}>
+    <div className={`flex flex-wrap gap-2 ${className}`}>
       {categories.map((category) => (
-        <CategoryCard key={category.id} category={category} />
+        <Link key={category.id} href={`/categories/${category.slug}`}>
+          <Badge className="bg-accent/50 hover:bg-accent text-primary hover:text-primary">
+            {category.name}
+            {showCount && category._count && (
+              <span className="ml-1 text-xs text-muted-foreground">
+                ({category._count.posts})
+              </span>
+            )}
+          </Badge>
+        </Link>
       ))}
     </div>
-  );
-}
-
-interface CategoryCardProps {
-  category: CategoryWithPosts;
-  className?: string;
-}
-
-/**
- * カテゴリカードコンポーネント
- */
-function CategoryCard({ category, className = "" }: CategoryCardProps) {
-  return (
-    <Card className={cn("overflow-hidden", className)}>
-      <CardHeader>
-        <CardTitle>
-          <Link
-            href={`/categories/${category.slug}`}
-            className="hover:text-primary transition-colors"
-          >
-            {category.name}
-          </Link>
-        </CardTitle>
-      </CardHeader>
-      {category.description && (
-        <CardContent>
-          <p className="text-sm text-muted-foreground">{category.description}</p>
-        </CardContent>
-      )}
-      <CardFooter>
-        <div className="flex items-center justify-between w-full text-sm">
-          <Badge variant="secondary">
-            {category._count?.posts || category.posts.length} 記事
-          </Badge>
-          <Link
-            href={`/categories/${category.slug}`}
-            className="text-primary hover:underline"
-          >
-            すべて見る →
-          </Link>
-        </div>
-      </CardFooter>
-    </Card>
   );
 }
