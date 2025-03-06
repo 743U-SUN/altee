@@ -33,7 +33,7 @@ export function FeaturedPosts({
   if (!posts || posts.length === 0) {
     return null;
   }
-  
+
   // 画像ソース取得用ヘルパー関数
   const getImageSrc = (post: PostWithMedia) => {
     return post.media?.[0]?.path || `/images/posts/${post.slug}.jpg`;
@@ -90,11 +90,9 @@ export function FeaturedPosts({
                       mainPost.publishedAt || mainPost.createdAt
                     )}
                   </span>
-                  <Button asChild className="mt-2">
-                    <Link href={`/posts/${mainPost.slug}`}>
-                      続きを読む
-                    </Link>
-                  </Button>
+                  <Link href={`/posts/${mainPost.slug}`} className="mt-2 inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                    続きを読む
+                  </Link>
                 </div>
               </div>
             </div>

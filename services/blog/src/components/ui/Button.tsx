@@ -1,7 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-// ボタンのスタイルバリエーション定義
 const buttonVariants = {
   variant: {
     default: "bg-primary text-primary-foreground hover:bg-primary/90",
@@ -25,6 +24,7 @@ export interface ButtonProps
   size?: keyof typeof buttonVariants.size;
   loading?: boolean;
   icon?: React.ReactNode;
+  asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

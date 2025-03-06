@@ -9,7 +9,7 @@
 
 ## 技術スタック
 
-- **フレームワーク**: Next.js(v22.14.0) + React + TypeScript
+- **フレームワーク**: Next.js(v22.14.0) + React(19) + TypeScript
 - **データベース**: PostgreSQL
 - **ORM**: Prisma
 - **スタイリング**: Tailwind CSS
