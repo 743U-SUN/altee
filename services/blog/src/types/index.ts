@@ -1,36 +1,67 @@
-import { Post, User, Category, Tag, Comment, Media, PostStatus, CommentStatus, Analytics, SEO } from "@prisma/client";
-
-// 基本的な型定義
-export type { Post, User, Category, Tag, Comment, Media, PostStatus, CommentStatus, Analytics, SEO };
+// 型をPrismaClienからインポートせず、独自に定義する
+import { Prisma } from "@prisma/client";
 
 // 拡張型定義
-export type PostWithRelations = Post & {
-  author?: User | null;
-  categories?: Category[];
-  tags?: Tag[];
-  comments?: Comment[];
-  media?: Media[];
-  analytics?: Analytics | null;
-  seo?: SEO | null;
+export type PostWithRelations = {
+  id: string;
+  title: string;
+  slug: string;
+  content: string | null;
+  status: string;
+  featured: boolean;
+  publishedAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  viewCount: number;
+  author?: {
+    id: string;
+    name: string | null;
+    image: string | null;
+  } | null;
+  categories?: {
+    id: string;
+    name: string;
+    slug: string;
+  }[];
+  tags?: {
+    id: string;
+    name: string;
+    slug: string;
+  }[];
+  media?: any[];
+  analytics?: any | null;
+  seo?: any | null;
 };
 
-export type CategoryWithPosts = Category & {
-  posts: Post[];
+export type CategoryWithPosts = {
+  id: string;
+  name: string;
+  slug: string;
+  description?: string | null;
+  posts: any[];
   _count?: {
     posts: number;
   };
 };
 
-export type TagWithPosts = Tag & {
-  posts: Post[];
+export type TagWithPosts = {
+  id: string;
+  name: string;
+  slug: string;
+  posts: any[];
   _count?: {
     posts: number;
   };
 };
 
-export type CommentWithAuthor = Comment & {
-  author?: User | null;
-  replies?: CommentWithAuthor[];
+export type CommentWithAuthor = {
+  id: string;
+  content: string;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+  author?: any | null;
+  replies?: any[];
 };
 
 // フロントエンド用の簡略化された型
@@ -39,7 +70,7 @@ export type PostFrontmatter = {
   title: string;
   slug: string;
   excerpt?: string | null;
-  status: PostStatus;
+  status: string;
   featured: boolean;
   publishedAt?: Date | null;
   createdAt: Date;
@@ -88,7 +119,7 @@ export type SearchParams = {
   page?: number;
   limit?: number;
   sort?: 'latest' | 'oldest' | 'popular';
-  status?: PostStatus;
+  status?: string;
 };
 
 // メディアアップロード用の型
