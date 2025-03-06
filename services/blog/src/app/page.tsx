@@ -10,6 +10,7 @@ import { PostList } from "@/components/blog/PostList";
 import { CategoryList } from "@/components/blog/CategoryList";
 import { TagCloud } from "@/components/blog/TagCloud";
 import { Button } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 
 export const revalidate = 60; // 1分ごとに再検証
@@ -131,12 +132,13 @@ export default async function Home() {
                   プログラミング、Web開発、AI、デザインなど、さまざまな技術トピックを扱うブログです。
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <Button asChild size="lg">
-                    <Link href="/posts">記事一覧を見る</Link>
-                  </Button>
-                  <Button variant="outline" size="lg" asChild>
-                    <Link href="/categories">カテゴリから探す</Link>
-                  </Button>
+                  {/* ButtonLink コンポーネントを使用 */}
+                  <ButtonLink href="/posts" size="lg">
+                    記事一覧を見る
+                  </ButtonLink>
+                  <ButtonLink href="/categories" variant="outline" size="lg">
+                    カテゴリから探す
+                  </ButtonLink>
                 </div>
               </div>
               <div className="order-1 md:order-2 flex justify-center">
@@ -181,9 +183,10 @@ export default async function Home() {
               className="mb-8"
             />
             <div className="flex justify-center">
-              <Button asChild>
-                <Link href="/posts">すべての記事を見る</Link>
-              </Button>
+              {/* ButtonLink コンポーネントを使用 */}
+              <ButtonLink href="/posts">
+                すべての記事を見る
+              </ButtonLink>
             </div>
           </Container>
         </Section>

@@ -1,11 +1,24 @@
+// src/components/blog/TagCloud.tsx の一部を修正
+// interfaceを更新して_countを持つタグ型にも対応するようにする
+
 import React from "react";
 import Link from "next/link";
-import { TagWithPosts } from "@/types";
-import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/Badge";
+
+// 修正された型定義
+interface TagWithCount {
+  id: string;
+  name: string;
+  slug: string;
+  posts?: any[]; // 任意のプロパティに変更
+  _count?: {
+    posts: number;
+  };
+}
 
 interface TagCloudProps {
-  tags: TagWithPosts[];
+  tags: TagWithCount[];
   variant?: "default" | "bubble" | "list";
   maxTags?: number;
   showCount?: boolean;
@@ -30,8 +43,9 @@ export function TagCloud({
 
   // タグを投稿数順にソート
   const sortedTags = [...tags].sort((a, b) => {
-    const countA = a._count?.posts ?? a.posts.length;
-    const countB = b._count?.posts ?? b.posts.length;
+    // 投稿数の取得方法を修正
+    const countA = a._count?.posts ?? a.posts?.length ?? 0;
+    const countB = b._count?.posts ?? b.posts?.length ?? 0;
     return countB - countA;
   });
 
@@ -40,8 +54,8 @@ export function TagCloud({
 
   // 人気度に基づいてタグのサイズを計算
   const getTagSize = (count: number) => {
-    const max = Math.max(...sortedTags.map(t => t._count?.posts ?? t.posts.length));
-    const min = Math.min(...sortedTags.map(t => t._count?.posts ?? t.posts.length));
+    const max = Math.max(...sortedTags.map(t => t._count?.posts ?? t.posts?.length ?? 0));
+    const min = Math.min(...sortedTags.map(t => t._count?.posts ?? t.posts?.length ?? 0));
     
     // サイズを3段階で返す (min=xs, middle=sm, max=base)
     if (max === min) return "sm"; // 全て同じ数の場合
@@ -59,7 +73,8 @@ export function TagCloud({
     return (
       <ul className={cn("space-y-1", className)}>
         {displayTags.map((tag) => {
-          const count = tag._count?.posts ?? tag.posts.length;
+          // 投稿数の取得方法を修正
+          const count = tag._count?.posts ?? tag.posts?.length ?? 0;
           return (
             <li key={tag.id} className="flex items-center justify-between">
               <Link
@@ -85,7 +100,8 @@ export function TagCloud({
     return (
       <div className={cn("flex flex-wrap gap-3", className)}>
         {displayTags.map((tag) => {
-          const count = tag._count?.posts ?? tag.posts.length;
+          // 投稿数の取得方法を修正
+          const count = tag._count?.posts ?? tag.posts?.length ?? 0;
           const size = getTagSize(count);
           
           return (
@@ -114,7 +130,8 @@ export function TagCloud({
   return (
     <div className={cn("flex flex-wrap gap-2", className)}>
       {displayTags.map((tag) => {
-        const count = tag._count?.posts ?? tag.posts.length;
+        // 投稿数の取得方法を修正
+        const count = tag._count?.posts ?? tag.posts?.length ?? 0;
         
         return (
           <Link key={tag.id} href={`/tags/${tag.slug}`}>

@@ -140,13 +140,16 @@ export default async function PostsPage({ searchParams }: PostsPageProps) {
           posts: true,
         },
       },
-    },
-    where: {
+      // posts関連を空配列として追加
       posts: {
-        some: {
-          status: "PUBLISHED",
+        where: {
+          status: "PUBLISHED"
         },
-      },
+        select: {
+          id: true
+        },
+        take: 0 // 実際のデータは取得せず型のみ満たす
+      }
     },
     orderBy: {
       posts: {

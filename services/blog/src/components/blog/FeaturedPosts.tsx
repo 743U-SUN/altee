@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { formatDate } from "@/lib/date";
 import { Button } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { PostFrontmatter } from "@/types";
 
 // PostFrontmatterのメディア対応拡張
@@ -90,9 +91,9 @@ export function FeaturedPosts({
                       mainPost.publishedAt || mainPost.createdAt
                     )}
                   </span>
-                  <Link href={`/posts/${mainPost.slug}`} className="mt-2 inline-flex items-center justify-center rounded-md text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2">
+                  <ButtonLink href={`/posts/${mainPost.slug}`}>
                     続きを読む
-                  </Link>
+                  </ButtonLink>
                 </div>
               </div>
             </div>
@@ -138,11 +139,9 @@ export function FeaturedPosts({
                 </div>
               ))}
               {otherPosts.length > 3 && (
-                <Button asChild className="w-full">
-                  <Link href="/posts">
-                    もっと見る
-                  </Link>
-                </Button>
+                <ButtonLink href="/posts" className="w-full">
+                  もっと見る
+                </ButtonLink>
               )}
             </div>
           </div>

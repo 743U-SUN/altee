@@ -28,8 +28,11 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = "default", size = "default", loading = false, icon, children, disabled, ...props }, ref) => {
+  ({ className, variant = "default", size = "default", loading = false, icon, asChild, children, disabled, ...props }, ref) => {
     const isDisabled = disabled || loading;
+    
+    // asChildプロパティはここで削除（スプレッド演算子で渡す時に含まれないようにする）
+    const filteredProps = { ...props };
     
     return (
       <button
@@ -41,7 +44,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         ref={ref}
         disabled={isDisabled}
-        {...props}
+        {...filteredProps}
       >
         {loading && (
           <span className="mr-2">

@@ -54,6 +54,17 @@ export type TagWithPosts = {
   };
 };
 
+// または新しい型を追加
+export type TagWithPostCount = {
+  id: string;
+  name: string;
+  slug: string;
+  posts?: any[];
+  _count?: {
+    posts: number;
+  };
+};
+
 export type CommentWithAuthor = {
   id: string;
   content: string;

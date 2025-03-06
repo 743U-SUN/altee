@@ -12,6 +12,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Badge } from "@/components/ui/Badge";
 import { UserAvatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 import { PostList } from "@/components/blog/PostList";
 import { siteConfig } from "@/config/site";
 import type { Prisma } from "@prisma/client";
@@ -306,43 +307,37 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
                   </div>
                 )}
                 
-                {/* シェアボタン */}
+                {/* シェアボタン - ButtonLink を使用 */}
                 <div className="mt-8 pt-4 border-t">
                   <h3 className="text-lg font-medium mb-2">この記事をシェア</h3>
                   <div className="flex gap-2">
-                    <Button asChild>
-                      <a
-                        href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(
-                          `${siteConfig.url}/posts/${post.slug}`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        X/Twitter
-                      </a>
-                    </Button>
-                    <Button asChild>
-                      <a
-                        href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                          `${siteConfig.url}/posts/${post.slug}`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Facebook
-                      </a>
-                    </Button>
-                    <Button asChild>
-                      <a
-                        href={`https://b.hatena.ne.jp/entry/${encodeURIComponent(
-                          `${siteConfig.url}/posts/${post.slug}`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        はてなブックマーク
-                      </a>
-                    </Button>
+                    <ButtonLink
+                      href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(
+                        `${siteConfig.url}/posts/${post.slug}`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      X/Twitter
+                    </ButtonLink>
+                    <ButtonLink
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                        `${siteConfig.url}/posts/${post.slug}`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Facebook
+                    </ButtonLink>
+                    <ButtonLink
+                      href={`https://b.hatena.ne.jp/entry/${encodeURIComponent(
+                        `${siteConfig.url}/posts/${post.slug}`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      はてなブックマーク
+                    </ButtonLink>
                   </div>
                 </div>
               </div>
@@ -369,5 +364,4 @@ export default async function PostDetailPage({ params }: { params: { slug: strin
       
       <Footer />
     </>
-  );
-}
+  );}
