@@ -1,0 +1,57 @@
+services:
+  app:
+    build:
+      context: .
+      target: development  # 開発モードを使用
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules  # node_modulesは保存しない
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mydb
+      - NODE_ENV=development
+    # ホットリロードを有効にする
+    stdin_open: true
+    tty: true
+  prisma-studio:
+    build:
+      context: .
+      target: development
+    ports:
+      - "5555:5555"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mydb
+    command: npx prisma studio
+  db:
+    image: postgres:17.4-alpine
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=mydb
+    ports:
+      - "5432:5432"
+    # DBの健全性チェック
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+    # ボリュームの明示的な名前をつける
+    name: altee_postgres_data
+
+networks:
+  default:
+    name: altee_network
