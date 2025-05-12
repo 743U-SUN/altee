@@ -15,11 +15,9 @@ app/
 ├── blog/                  # ブログページ関連
 │   ├── components/        # ブログページ専用コンポーネント
 │   │   ├── BlogCard.tsx   # ブログカードコンポーネント
-│   │   ├── BlogList.tsx   # ブログリストコンポーネント
-│   │   └── index.ts       # エクスポート定義
+│   │   └── BlogList.tsx   # ブログリストコンポーネント
 │   ├── hooks/             # ブログページ専用フック
-│   │   ├── useBlog.ts     # ブログデータ取得フック
-│   │   └── index.ts       # フックエクスポート定義
+│   │   └── useBlog.ts     # ブログデータ取得フック
 │   ├── types/             # ブログページ専用型定義
 │   │   └── index.ts       # 型定義エクスポート
 │   ├── [blogId]/          # 個別ブログページ
@@ -29,14 +27,11 @@ app/
 │   ├── ui/                # 基本UI要素
 │   │   ├── button.tsx     # ボタンコンポーネント
 │   │   ├── input.tsx      # 入力コンポーネント
-│   │   ├── sidebar.tsx    # サイドバーコンポーネント
-│   │   └── index.ts       # UI要素エクスポート定義
+│   │   └── sidebar.tsx    # サイドバーコンポーネント
 │   ├── layouts/           # レイアウト関連
 │   │   ├── header.tsx     # ヘッダーコンポーネント
-│   │   ├── footer.tsx     # フッターコンポーネント
-│   │   └── index.ts       # レイアウト要素エクスポート定義
-│   ├── app-sidebar.tsx    # アプリケーション用サイドバーコンポーネント
-│   └── index.ts           # 共有コンポーネント全体のエクスポート
+│   │   └── footer.tsx     # フッターコンポーネント
+│   └── app-sidebar.tsx    # アプリケーション用サイドバーコンポーネント
 └── api/                   # APIルート
     └── blog/              # ブログ関連API
         └── route.ts       # ブログデータAPI
@@ -103,56 +98,6 @@ blog/
 - **フック**: `use`プレフィックス（例：`useBlog.ts`、`useAuth.ts`）
 - **ストア**: 機能名+`Store`サフィックス（例：`todoStore.ts`、`authStore.ts`）
 
-### 4. インポート・エクスポートパターン
-
-#### エクスポート方法
-
-各ディレクトリのコンポーネントは `index.ts` ファイルで一元的にエクスポートします：
-
-```tsx
-// blog/components/index.ts
-export { default as BlogCard } from './BlogCard';
-export { default as BlogList } from './BlogList';
-export { default as BlogImage } from './BlogImage';
-```
-
-#### インポートと使用方法
-
-コンポーネントをインポートする際は、名前空間（ネームスペース）パターンを使用します：
-
-**ページ固有コンポーネント**：相対パスを使用
-  ```tsx
-  // 名前空間インポート（推奨）
-  import * as BlogCon from '../components';
-  
-  // 使用例
-  <BlogCon.BlogCard />
-  <BlogCon.BlogList />
-  ```
-
-**共有コンポーネント**：エイリアスパスを使用
-  ```tsx
-  // 名前空間インポート（推奨）
-  import * as UICon from '@/components/ui';
-  
-  // 使用例
-  <UICon.Button />
-  <UICon.Input />
-  ```
-
-#### 名前空間の命名規則
-
-モジュール名前空間には、以下の命名規則を使用します：
-
-1. モジュール/機能名を先頭につける
-2. `Con`（Components）、`H`（Hooks）、`S`（Store）などの識別子を付加する
-3. キャメルケースを使用する
-
-例：
-- コンポーネント: `BlogCon`、`AuthCon`、`ShopCon`
-- フック: `BlogH`、`AuthH`
-- ストア: `TodoS`、`AuthS`
-- ユーティリティ: `BlogUtil`、`CommonUtil`
 
 ## 新規ページ作成テンプレート
 
