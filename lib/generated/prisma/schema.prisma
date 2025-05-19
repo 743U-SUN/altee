@@ -43,6 +43,8 @@ model User {
   popupSettings        UserPopupSettings?
   displaySettings      UserDisplaySettings?
   notificationSettings NotificationSettings?
+  author               Author?
+  comments             Comment[]
 }
 
 model Account {
@@ -246,4 +248,126 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Author {
+  id           String   @id @default(uuid())
+  bio          String?
+  profileImage String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // リレーション
+  userId   String    @unique
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  articles Article[]
+
+  @@index([userId])
+}
+
+model Category {
+  id          String     @id @default(uuid())
+  name        String
+  slug        String     @unique
+  description String?
+  parentId    String?
+  parent      Category?  @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryToCategory")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // リレーション
+  articles ArticleCategory[]
+
+  @@index([parentId])
+}
+
+model Tag {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // リレーション
+  articles ArticleTag[]
+}
+
+model Article {
+  id            String        @id @default(uuid())
+  title         String
+  slug          String        @unique
+  content       String        @db.Text
+  excerpt       String?
+  featuredImage String?
+  status        ArticleStatus @default(DRAFT)
+  viewCount     Int           @default(0)
+  publishedAt   DateTime?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  // リレーション
+  authorId   String
+  author     Author            @relation(fields: [authorId], references: [id])
+  categories ArticleCategory[]
+  tags       ArticleTag[]
+  comments   Comment[]
+
+  @@index([authorId])
+  @@index([slug])
+  @@index([publishedAt])
+}
+
+model ArticleCategory {
+  articleId  String
+  categoryId String
+
+  // リレーション
+  article  Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, categoryId])
+  @@index([articleId])
+  @@index([categoryId])
+}
+
+model ArticleTag {
+  articleId String
+  tagId     String
+
+  // リレーション
+  article Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag     Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, tagId])
+  @@index([articleId])
+  @@index([tagId])
+}
+
+model Comment {
+  id         String    @id @default(uuid())
+  content    String
+  parentId   String?
+  parent     Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  children   Comment[] @relation("CommentToComment")
+  isApproved Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  // リレーション
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([articleId])
+  @@index([userId])
+  @@index([parentId])
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
 }
