@@ -13,3 +13,237 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id                  String               @id @default(uuid())
+  email               String               @unique
+  name                String?
+  characterName       String?
+  subname             String?
+  birthday            DateTime?
+  gender              String?
+  iconUrl             String?
+  handle              String               @unique
+  role                String               @default("user")
+  subscriptionStatus  String?              @map("subscription_status")
+  emailVerified       DateTime?
+  isActive            Boolean              @default(true)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  
+  // リレーション
+  accounts            Account[]
+  sessions            Session[]
+  ogp                 UserOGP?
+  links               UserLink[]
+  imageBanners        UserImageBanner[]
+  imageCarousels      UserImageCarousel[]
+  customQuestions     UserCustomQuestion[]
+  youtubeSettings     UserYoutubeSettings?
+  popupSettings       UserPopupSettings?
+  displaySettings     UserDisplaySettings?
+  notificationSettings NotificationSettings?
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model NotificationSettings {
+  id                String   @id @default(uuid())
+  pushNotifications Boolean  @default(false)
+  
+  // リレーション
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserLink {
+  id          String     @id @default(uuid())
+  category    String?
+  iconId      String?
+  url         String
+  description String?
+  sortOrder   Int        @default(0)
+  
+  // リレーション
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  linkType    LinkType?  @relation(fields: [linkTypeId], references: [id])
+  linkTypeId  String?
+  
+  @@index([userId])
+}
+
+model UserYoutubeSettings {
+  id            String              @id @default(uuid())
+  channelId     String?
+  displayCount  Int                 @default(3)
+  pickupVideo   String?
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  
+  // リレーション
+  userId        String              @unique
+  user          User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  videos        UserYoutubeVideo[]
+  
+  @@index([userId])
+}
+
+model UserImageBanner {
+  id        String  @id @default(uuid())
+  url       String?
+  imgUrl    String
+  alt       String?
+  sortOrder Int     @default(0)
+  
+  // リレーション
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserYoutubeVideo {
+  id            String             @id @default(uuid())
+  url           String
+  thumbnailUrl  String?
+  title         String?
+  description   String?
+  publishedAt   DateTime?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  
+  // リレーション
+  settingsId    String
+  settings      UserYoutubeSettings @relation(fields: [settingsId], references: [id], onDelete: Cascade)
+  
+  @@index([settingsId])
+}
+
+model UserPopupSettings {
+  id                String    @id @default(uuid())
+  bellTitle         String?
+  bellText          String?
+  bellImageUrl      String?
+  bellUrl           String?
+  bellLastUpdated   DateTime?
+  emailTitle        String?
+  emailText         String?
+  popup1ImageUrl    String?
+  popup1Url         String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // リレーション
+  userId            String    @unique
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserOGP {
+  id          String  @id @default(uuid())
+  imgUrl      String?
+  title       String?
+  description String?
+  
+  // リレーション
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserCustomQuestion {
+  id        String  @id @default(uuid())
+  question  String
+  answer    String
+  sortOrder Int     @default(0)
+  
+  // リレーション
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserImageCarousel {
+  id        String  @id @default(uuid())
+  url       String?
+  imgUrl    String
+  alt       String?
+  sortOrder Int     @default(0)
+  
+  // リレーション
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserDisplaySettings {
+  id                String  @id @default(uuid())
+  displayYoutube    Boolean @default(true)
+  displayDevice     Boolean @default(true)
+  displayFaq        Boolean @default(true)
+  displayPopup1     Boolean @default(true)
+  displayPopupBell  Boolean @default(true)
+  displayPopupEmail Boolean @default(true)
+  displayUserList   Boolean @default(true)
+  displayOwnPage    Boolean @default(true)
+  
+  // リレーション
+  userId            String  @unique
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model LinkType {
+  id          String      @id @default(uuid())
+  name        String
+  slug        String      @unique
+  description String?
+  icons       String?
+  
+  // リレーション
+  links       UserLink[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
