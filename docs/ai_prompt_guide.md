@@ -1,22 +1,19 @@
-今回は、app/article/という様々な記事を書いていくところを作っていこうと思う。
+components/layouts/ClientLayout.tsx コレを見て欲しい。
+次に、app/(main)/layout.tsxの中身を見て欲しい。そこではClientLayoutを使用していると思う。
 
-app/article/の中では、様々なジャンルを取り扱っていこうと思っているのだけれど、カテゴリー分けをしていこうと思っているのね
+今回は相談なのだけれど、(main)内にarticleディレクトリとsampleディレクトリがあると思う。templateディレクトリは今回無視してください。
 
-/article                         # メインブログページ
-/article/[slug]                  # 個別記事
-/article/category/[categorySlug] # カテゴリ別記事一覧
-/article/tag/[tagSlug]           # タグ別記事一覧
-/article/author/[authorSlug]     # 著者別記事一覧
-/article/archive                 # アーカイブインデックス
-/article/archive/[year]          # 年別アーカイブ
-/article/archive/[year]/[month]  # 月別アーカイブ
+articleディレクトリ内のコンテンツを表示するときは、article用のサイドバーのアイコンを表示させたいし、セカンドサイドバーの幅を変更したい。セカンドサイドバーの幅を決めているのはcomponents/layouts/ClientLayout.tsxの
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "360px",
+          "--bg-color": "var(--sidebar)"
+このあたりだと思う。
 
-こんな感じで分けようと思っているのだけれど、どうだろうか？
+sampleディレクトリ内のコンテンツを表示するときは、sample用のサイドバーアイコンを表示したりをしたい場合、どのようなアプローチが最も良いだろうか。
 
-まずはprismaスキーマを追加していきたいので、現在のPrismaスキーマを確認して欲しい。また、AuthorはUserと関連付けたいのでそのあたりも考慮して欲しい。
+1. 構造を理解する。
+2. 実装方法を計画、解説する。
 
-1. 現在どのような構造になっているのかを調べる。
-2. Prismaスキーマに加えるものを考える。
-3. いったん私に説明する。実際のファイルを作ったり編集するのはまだ禁止。
-
-この手順でお願いします。
+実際の実装はちょっと待ってください。
