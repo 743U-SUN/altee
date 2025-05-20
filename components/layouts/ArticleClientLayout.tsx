@@ -2,8 +2,6 @@
 
 import { usePathname } from "next/navigation"
 import { SidebarLayout } from "./SidebarLayout"
-import { MobileFooterWrapper } from "./MobileFooterWrapper"
-import { SecondSidebar } from "./SecondSidebar"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,52 +17,47 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 
-export default function ClientLayout({
+// 共通のClient Layoutをプロパティで拡張できるように
+export default function ArticleClientLayout({
   children,
+  sidebarWidth = "360px",
+  sidebar,
+  mobileFooter,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
+  sidebarWidth?: string;
+  sidebar?: React.ReactNode;
+  mobileFooter?: React.ReactNode;
 }) {
   const pathname = usePathname()
   
   // パスに基づいてページ名を取得
   const getPageName = () => {
-    if (pathname.includes("/dashboard")) {
-      return "Dashboard"
-    } else if (pathname.includes("/documents")) {
-      return "Documents"
-    } else if (pathname.includes("/profile")) {
-      return "Profile"
+    if (pathname.includes("/blog")) {
+      return "ブログ"
+    } else if (pathname.includes("/law")) {
+      return "法律"
+    } else if (pathname.includes("/cooking")) {
+      return "料理"
     } else if (pathname.includes("/settings")) {
-      return "Settings"
-    } else if (pathname.includes("/article")) {
-      return "Article"
-    } else if (pathname.includes("/sample")) {
-      return "Sample"
+      return "設定"
     } else {
-      return "Home"
+      return "記事"
     }
-  }
-  
-  // パスに基づいてサイドバーの幅を決定
-  const getSidebarWidth = () => {
-    if (pathname.includes("/article")) {
-      return "480px"
-    }
-    return "360px"
   }
   
   return (
     <SidebarProvider
       style={
         {
-          "--sidebar-width": getSidebarWidth(),
+          "--sidebar-width": sidebarWidth,
           "--bg-color": "var(--sidebar)",
         } as React.CSSProperties
       }
       className="bg-[var(--bg-color)] p-2"
     >
-      <SidebarLayout>
-        <SecondSidebar />
+      <SidebarLayout variant="article">
+        {sidebar}
       </SidebarLayout>
       <SidebarInset className="rounded-xl shadow-sm flex flex-col h-[calc(100vh-1rem)]">
         <header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-4 rounded-t-xl z-10">
@@ -76,7 +69,7 @@ export default function ClientLayout({
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/template">Template</BreadcrumbLink>
+                <BreadcrumbLink href="/article">記事</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
@@ -93,7 +86,7 @@ export default function ClientLayout({
       </SidebarInset>
       
       {/* モバイルフッターナビゲーション */}
-      <MobileFooterWrapper />
+      {mobileFooter}
     </SidebarProvider>
   )
 }

@@ -3,6 +3,9 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { usePathname } from "next/navigation";
+import { ArticleSidebar } from "@/app/(article)/components/ArticleSidebar";
+import { SampleSidebar } from "@/app/(sample)/components/SampleSidebar";
 
 import {
   SidebarContent,
@@ -16,6 +19,18 @@ interface SecondSidebarProps {
 export const SecondSidebar: React.FC<SecondSidebarProps> = ({
   className
 }) => {
+  const pathname = usePathname();
+  
+  // パスに基づいて適切なサイドバーを表示
+  if (pathname.includes("/article")) {
+    return <ArticleSidebar className={className} />;
+  }
+  
+  if (pathname.includes("/sample")) {
+    return <SampleSidebar className={className} />;
+  }
+  
+  // デフォルトのサイドバー
   return (
     <div className={cn("flex flex-col h-full overflow-x-hidden bg-blue-100", className)}>
       {/* ヘッダー部分：ユーザーアイコンと名前を表示 */}
