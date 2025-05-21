@@ -3,7 +3,31 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import Google from "next-auth/providers/google";
 import Discord from "next-auth/providers/discord";
-import { generateUniqueHandle } from "./utils";
+
+// PrismaAdapterをカスタマイズ
+const customPrismaAdapter = {
+  ...PrismaAdapter(prisma),
+  createUser: async (data) => {
+    // ユーザー作成時に暫定的なハンドルを設定
+    // ランダムな文字列を生成（Edge Runtimeでも動作する方法）
+    const randomString = Math.random().toString(36).substring(2, 10);
+    const temporaryHandle = `temp_${randomString}`;
+    
+    // データをマップして、imageをiconUrlに変換
+    const userData = {
+      name: data.name,
+      email: data.email,
+      emailVerified: data.emailVerified,
+      handle: temporaryHandle, // 暫定的なハンドル
+      iconUrl: data.image // imageフィールドをiconUrlにマップ
+    };
+    
+    // ユーザー作成
+    return prisma.user.create({
+      data: userData,
+    });
+  },
+};
 
 /**
  * Auth.js v5のコンフィグレーション
@@ -14,7 +38,7 @@ export const {
   signIn,
   signOut
 } = NextAuth({
-  adapter: PrismaAdapter(prisma),
+  adapter: customPrismaAdapter,
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -26,45 +50,44 @@ export const {
     }),
   ],
   callbacks: {
-    async session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
-        session.user.handle = user.handle;
-        session.user.role = user.role;
+    async jwt({ token, user, account, profile }) {
+      // 初回サインイン時にユーザー情報をトークンに追加
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        
+        // データベースから最新のユーザー情報を取得
+        const dbUser = await prisma.user.findUnique({
+          where: { id: user.id },
+        });
+        
+        if (dbUser) {
+          token.handle = dbUser.handle;
+          token.role = dbUser.role;
+        }
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // トークンからセッションにユーザー情報を設定
+      if (token && session.user) {
+        session.user.id = token.id as string;
+        session.user.email = token.email as string;
+        
+        // handleとroleがある場合のみ設定
+        if (token.handle) session.user.handle = token.handle as string;
+        if (token.role) session.user.role = token.role as string;
       }
       return session;
     },
-    async signIn({ user, account, profile }) {
-      if (!user.email) return false;
-      
-      // 初回ログイン時にhandleを自動生成
-      if (account?.provider && user.email) {
-        try {
-          const existingUser = await prisma.user.findUnique({
-            where: { email: user.email },
-          });
-          
-          if (!existingUser) {
-            // handleを自動生成して保存
-            const handle = await generateUniqueHandle(user.name || user.email.split('@')[0]);
-            await prisma.user.update({
-              where: { id: user.id },
-              data: { handle },
-            });
-          }
-        } catch (error) {
-          console.error("Error during sign in:", error);
-          // エラーがあっても認証は続行
-        }
-      }
-      
-      return true;
-    }
   },
   pages: {
     signIn: '/login',
+    error: '/login',
   },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30日
   },
+  debug: process.env.NODE_ENV === "development",
 });
