@@ -23,7 +23,7 @@ model User {
   birthday           DateTime?
   gender             String?
   iconUrl            String?
-  handle             String    @unique
+  handle             String?   @unique
   role               String    @default("user")
   subscriptionStatus String?   @map("subscription_status")
   emailVerified      DateTime?

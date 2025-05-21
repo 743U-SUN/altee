@@ -14,3 +14,5 @@ shadcn/uiとTailwindCSSv4を使っています。
 2. app/(user)/user/profile/components/NameSettings.tsxに名前を入力して保存するための計画を立てる。
 
 3. 私に聞きたいことがあれば質問をし、実装の実行の許可を得る。
+
+4. 実装後には作成したディレクトリやファイルのパスを書くこと。

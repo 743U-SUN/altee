@@ -544,8 +544,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.7.0
-   * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
+   * Prisma Client JS version: 6.8.2
+   * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
    */
   export type PrismaVersion = {
     client: string
@@ -3328,7 +3328,7 @@ export namespace Prisma {
     birthday: Date | null
     gender: string | null
     iconUrl: string | null
-    handle: string
+    handle: string | null
     role: string
     subscriptionStatus: string | null
     emailVerified: Date | null
@@ -3486,7 +3486,7 @@ export namespace Prisma {
       birthday: Date | null
       gender: string | null
       iconUrl: string | null
-      handle: string
+      handle: string | null
       role: string
       subscriptionStatus: string | null
       emailVerified: Date | null
@@ -28262,7 +28262,7 @@ export namespace Prisma {
     birthday?: DateTimeNullableFilter<"User"> | Date | string | null
     gender?: StringNullableFilter<"User"> | string | null
     iconUrl?: StringNullableFilter<"User"> | string | null
-    handle?: StringFilter<"User"> | string
+    handle?: StringNullableFilter<"User"> | string | null
     role?: StringFilter<"User"> | string
     subscriptionStatus?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -28293,7 +28293,7 @@ export namespace Prisma {
     birthday?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     iconUrl?: SortOrderInput | SortOrder
-    handle?: SortOrder
+    handle?: SortOrderInput | SortOrder
     role?: SortOrder
     subscriptionStatus?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
@@ -28358,7 +28358,7 @@ export namespace Prisma {
     birthday?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     iconUrl?: SortOrderInput | SortOrder
-    handle?: SortOrder
+    handle?: SortOrderInput | SortOrder
     role?: SortOrder
     subscriptionStatus?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
@@ -28382,7 +28382,7 @@ export namespace Prisma {
     birthday?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     gender?: StringNullableWithAggregatesFilter<"User"> | string | null
     iconUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
-    handle?: StringWithAggregatesFilter<"User"> | string
+    handle?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: StringWithAggregatesFilter<"User"> | string
     subscriptionStatus?: StringNullableWithAggregatesFilter<"User"> | string | null
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -29779,7 +29779,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -29810,7 +29810,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -29841,7 +29841,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29872,7 +29872,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29903,7 +29903,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -29921,7 +29921,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -29939,7 +29939,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -34754,7 +34754,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -34784,7 +34784,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -34830,7 +34830,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -34860,7 +34860,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -34890,7 +34890,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -34920,7 +34920,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -34966,7 +34966,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -34996,7 +34996,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35026,7 +35026,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -35056,7 +35056,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -35102,7 +35102,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35132,7 +35132,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35162,7 +35162,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -35192,7 +35192,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -35259,7 +35259,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35289,7 +35289,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35346,7 +35346,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -35376,7 +35376,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -35454,7 +35454,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35484,7 +35484,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35545,7 +35545,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -35575,7 +35575,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -35621,7 +35621,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35651,7 +35651,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35737,7 +35737,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -35767,7 +35767,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -35813,7 +35813,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35843,7 +35843,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35873,7 +35873,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -35903,7 +35903,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -35949,7 +35949,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -35979,7 +35979,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36009,7 +36009,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -36039,7 +36039,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -36085,7 +36085,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36115,7 +36115,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36145,7 +36145,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -36175,7 +36175,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -36221,7 +36221,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36251,7 +36251,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36281,7 +36281,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -36311,7 +36311,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -36357,7 +36357,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36387,7 +36387,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36463,7 +36463,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -36493,7 +36493,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -36583,7 +36583,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36613,7 +36613,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37428,7 +37428,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -37458,7 +37458,7 @@ export namespace Prisma {
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
-    handle: string
+    handle?: string | null
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -37598,7 +37598,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37628,7 +37628,7 @@ export namespace Prisma {
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    handle?: StringFieldUpdateOperationsInput | string
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
