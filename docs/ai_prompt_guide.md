@@ -1,32 +1,16 @@
 shadcn/uiとTailwindCSSv4を使っています。
 
-app/(user)/components/UserSidebar.tsxの
-      <SidebarContent className="flex-1 overflow-y-auto p-4">  
-	  </SidebarContent>
-の部分に、Collapsible SidebarMenuを作りたい。
+今回は、ユーザーのcharacterNameとsubNameを入力するフォームを作っていきたい。作っていく場所はapp/(user)/user/profile/components/NameSettings.tsxとなります。
 
-shadcn/uiのマニュアルには以下のように書かれているが、よくわからない。
+フォームにはshadcn/uiのformやinputなどを使用してください。また、shadcn/uiに書かれていたように、zodを使っていますのでそのあたりもよろしくお願いします。
 
-Collapsible SidebarMenu
-To make a SidebarMenu component collapsible, wrap it and the SidebarMenuSub components in a Collapsible.
+欲しい機能
+・現在のキャラクターネームとサブネームをフォームに反映させること。ない場合は、PlaceholderでCharacterName, SubNameと表示させる。
+・[保存する]ボタンを押したときに、shadcn/uiのsonnerで通知をすること。
 
+やって欲しいこと
+1. 現状の理解: (prisma/schema.prisma)や、shadcn/uiコンポーネント、表示されるpage(app/(user)/user/profile/page.tsx)などを見て、フォーム作成のために現状を把握する。
 
-A collapsible sidebar menu.
+2. app/(user)/user/profile/components/NameSettings.tsxに名前を入力して保存するための計画を立てる。
 
-<SidebarMenu>
-  <Collapsible defaultOpen className="group/collapsible">
-    <SidebarMenuItem>
-      <CollapsibleTrigger asChild>
-        <SidebarMenuButton />
-      </CollapsibleTrigger>
-      <CollapsibleContent>
-        <SidebarMenuSub>
-          <SidebarMenuSubItem />
-        </SidebarMenuSub>
-      </CollapsibleContent>
-    </SidebarMenuItem>
-  </Collapsible>
-</SidebarMenu>
-
-shadcn/uiのCollapsible SidebarMenuの作り方を調べて作ってください。
-ダミーのデータオブジェクトは同じファイルに作って構いません。
+3. 私に聞きたいことがあれば質問をし、実装の実行の許可を得る。
