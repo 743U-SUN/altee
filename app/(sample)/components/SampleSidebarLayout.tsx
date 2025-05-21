@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Command, FileText, Settings, PieChart, User, BookOpen, LayoutTemplate, Book, GraduationCap, Utensils, FlaskRound, Target, BarChart4 } from "lucide-react"
+import { LayoutTemplate, FlaskRound, Target, BarChart4, Settings } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { NavUser } from "@/components/nav-user"
@@ -11,7 +11,6 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -25,69 +24,21 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 
-// テンプレート用ナビゲーションアイテム
-const templateNavItems = [
-  {
-    title: "Dashboard",
-    url: "/template/dashboard",
-    icon: PieChart,
-  },
-  {
-    title: "Documents",
-    url: "/template/documents",
-    icon: FileText,
-  },
-  {
-    title: "Profile",
-    url: "/template/profile",
-    icon: User,
-  },
-  {
-    title: "Settings",
-    url: "/template/settings",
-    icon: Settings,
-  },
-];
-
-// 記事用ナビゲーションアイテム
-const articleNavItems = [
-  {
-    title: "ブログ",
-    url: "/article/blog",
-    icon: Book,
-  },
-  {
-    title: "法律",
-    url: "/article/law",
-    icon: GraduationCap,
-  },
-  {
-    title: "料理",
-    url: "/article/cooking",
-    icon: Utensils,
-  },
-  {
-    title: "記事設定",
-    url: "/article/settings",
-    icon: Settings,
-  },
-];
-
 // サンプル用ナビゲーションアイテム
 const sampleNavItems = [
   {
     title: "実験",
-    url: "/sample/experiments",
+    url: "/experiments",
     icon: FlaskRound,
   },
   {
     title: "目標",
-    url: "/sample/goals",
+    url: "/goals",
     icon: Target,
   },
   {
     title: "統計",
-    url: "/sample/stats",
+    url: "/stats",
     icon: BarChart4,
   },
   {
@@ -112,48 +63,9 @@ function MobileSheetContent({ children }: { children: React.ReactNode }) {
   )
 }
 
-export function SidebarLayout({ children, variant = 'default' }: { children: React.ReactNode, variant?: 'default' | 'article' | 'sample' | 'admin'}) {
+export function SampleSidebarLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const { isMobile, openMobile, setOpenMobile } = useSidebar()
-
-  // バリアントに基づいてロゴアイコンを取得する関数
-  const getLogoIcon = () => {
-    switch (variant) {
-      case 'article':
-        return <BookOpen className="size-4" />
-      case 'sample':
-        return <LayoutTemplate className="size-4" />
-      default:
-        return <Command className="size-4" />
-    }
-  }
-
-  // バリアントに基づいてロゴテキストを取得する関数
-  const getLogoText = () => {
-    switch (variant) {
-      case 'article':
-        return "Article"
-      case 'sample':
-        return "Sample"
-      default:
-        return "Template"
-    }
-  }
-
-  // バリアントに基づいてナビゲーションアイテムを取得する関数
-  const getNavItems = () => {
-    switch (variant) {
-      case 'article':
-        return articleNavItems
-      case 'sample':
-        return sampleNavItems
-      default:
-        return templateNavItems
-    }
-  }
-
-  // 現在のナビゲーションアイテム
-  const currentNavItems = getNavItems()
 
   // モバイル向けのシート（ドロワー）
   const mobileSheet = (
@@ -163,7 +75,7 @@ export function SidebarLayout({ children, variant = 'default' }: { children: Rea
         className="p-0 w-[85%] max-w-[350px] sm:max-w-sm overflow-x-hidden"
       >
         <SheetHeader className="px-4 py-3 border-b">
-          <SheetTitle>{getLogoText()}</SheetTitle>
+          <SheetTitle>サンプルセクション</SheetTitle>
         </SheetHeader>
         <MobileSheetContent>
           {children}
@@ -187,7 +99,7 @@ export function SidebarLayout({ children, variant = 'default' }: { children: Rea
       collapsible="icon"
       className="overflow-hidden *:data-[sidebar=sidebar]:flex-row"
     >
-      {/* ファーストサイドバー - アイコンのみ表示 */}
+      {/* ファーストサイドバー - サンプル専用のアイコンとナビゲーション */}
       <Sidebar
         collapsible="none"
         className="w-[calc(var(--sidebar-width-icon)+1px)]! border-r"
@@ -196,16 +108,13 @@ export function SidebarLayout({ children, variant = 'default' }: { children: Rea
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
-                <Link href="/">
+                <Link href="/sample">
                   <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                    {getLogoIcon()}
+                    <LayoutTemplate className="size-4" />
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">{getLogoText()}</span>
-                    <span className="truncate text-xs">
-                      {variant === 'article' ? "コンテンツ" : 
-                       variant === 'sample' ? "サンプル" : "Dashboard"}
-                    </span>
+                    <span className="truncate font-medium">サンプルセクション</span>
+                    <span className="truncate text-xs">サンプル</span>
                   </div>
                 </Link>
               </SidebarMenuButton>
@@ -216,7 +125,7 @@ export function SidebarLayout({ children, variant = 'default' }: { children: Rea
           <SidebarGroup>
             <SidebarGroupContent className="px-1.5 md:px-0">
               <SidebarMenu>
-                {currentNavItems.map((item) => (
+                {sampleNavItems.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                       tooltip={{
@@ -243,7 +152,7 @@ export function SidebarLayout({ children, variant = 'default' }: { children: Rea
         </SidebarFooter>
       </Sidebar>
 
-      {/* セカンドサイドバー - ページによって内容が変わる */}
+      {/* セカンドサイドバー - サンプル用のサイドバー */}
       <Sidebar collapsible="none" className="hidden flex-1 md:flex overflow-x-hidden">
         {children}
       </Sidebar>

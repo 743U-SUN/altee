@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { SampleSidebarLayout } from "./SampleSidebarLayout"
+import { AdminSidebarLayout } from "./AdminSidebarLayout"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,8 +17,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 
-// 共通のClient Layoutをプロパティで拡張できるように
-export default function SampleClientLayout({
+export default function AdminClientLayout({
   children,
   sidebarWidth = "360px",
   sidebar,
@@ -33,16 +32,16 @@ export default function SampleClientLayout({
   
   // パスに基づいてページ名を取得
   const getPageName = () => {
-    if (pathname.includes("/experiments")) {
-      return "実験"
-    } else if (pathname.includes("/goals")) {
-      return "目標"
-    } else if (pathname.includes("/stats")) {
-      return "統計"
+    if (pathname.includes("/blog")) {
+      return "ブログ"
+    } else if (pathname.includes("/law")) {
+      return "法律"
+    } else if (pathname.includes("/cooking")) {
+      return "料理"
     } else if (pathname.includes("/settings")) {
       return "設定"
     } else {
-      return "サンプル"
+      return "Dashboard"
     }
   }
   
@@ -56,9 +55,9 @@ export default function SampleClientLayout({
       }
       className="bg-[var(--bg-color)] p-2"
     >
-      <SampleSidebarLayout>
+      <AdminSidebarLayout>
         {sidebar}
-      </SampleSidebarLayout>
+      </AdminSidebarLayout>
       <SidebarInset className="rounded-xl shadow-sm flex flex-col h-[calc(100vh-1rem)]">
         <header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-4 rounded-t-xl z-10">
           <SidebarTrigger className="-ml-1" />
@@ -69,7 +68,7 @@ export default function SampleClientLayout({
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/sample">サンプル</BreadcrumbLink>
+                <BreadcrumbLink href="/admin">Admin</BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>

@@ -24,8 +24,8 @@ RUN npm config set update-notifier false && \
 # 依存関係ファイルをコピー
 COPY package.json package-lock.json* ./
 
-# パッケージをインストール
-RUN npm ci
+# パッケージをインストール - legacy-peer-depsフラグを追加
+RUN npm ci --legacy-peer-deps
 
 # TypeScript、Prisma CLIをグローバルにインストール
 RUN npm install -g typescript prisma
@@ -48,8 +48,8 @@ FROM base AS builder
 # 依存関係ファイルをコピー
 COPY package.json package-lock.json* ./
 
-# プロダクション用の依存関係のみをインストール
-RUN npm ci --production
+# プロダクション用の依存関係のみをインストール - legacy-peer-depsフラグを追加
+RUN npm ci --production --legacy-peer-deps
 
 # アプリケーションのソースをコピー
 COPY . .

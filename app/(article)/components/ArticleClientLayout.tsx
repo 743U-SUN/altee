@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { SidebarLayout } from "@/components/layouts/SidebarLayout"
+import { ArticleSidebarLayout } from "./ArticleSidebarLayout"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -56,9 +56,9 @@ export default function ArticleClientLayout({
       }
       className="bg-[var(--bg-color)] p-2"
     >
-      <SidebarLayout variant="article">
+      <ArticleSidebarLayout>
         {sidebar}
-      </SidebarLayout>
+      </ArticleSidebarLayout>
       <SidebarInset className="rounded-xl shadow-sm flex flex-col h-[calc(100vh-1rem)]">
         <header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-4 rounded-t-xl z-10">
           <SidebarTrigger className="-ml-1" />

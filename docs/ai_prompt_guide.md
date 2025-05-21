@@ -1,19 +1,12 @@
-components/layouts/ClientLayout.tsx コレを見て欲しい。
-次に、app/(main)/layout.tsxの中身を見て欲しい。そこではClientLayoutを使用していると思う。
+今回はログイン機能の作成をしていきたい。
+GoogleログインとDiscordログインの2つを実装したい。
+独自のログインシステムは設けない。（メールアドレスとパスワードのやつは使わない。）
+GoogleとDiscordのアドレスが同じ場合、同一人物とみなしたい。
+ログインページでは、タブ切り替えでログインとサインインを切り替えられるようにしたい。ログインページは（app/(article)/login）に作りたい。
+Shadcn/UIとTailwindCSSv4を使って作りたい。
+Shadcn/UIのコンポーネントは（components/ui）にあります。
 
-今回は相談なのだけれど、(main)内にarticleディレクトリとsampleディレクトリがあると思う。templateディレクトリは今回無視してください。
-
-articleディレクトリ内のコンテンツを表示するときは、article用のサイドバーのアイコンを表示させたいし、セカンドサイドバーの幅を変更したい。セカンドサイドバーの幅を決めているのはcomponents/layouts/ClientLayout.tsxの
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "360px",
-          "--bg-color": "var(--sidebar)"
-このあたりだと思う。
-
-sampleディレクトリ内のコンテンツを表示するときは、sample用のサイドバーアイコンを表示したりをしたい場合、どのようなアプローチが最も良いだろうか。
-
-1. 構造を理解する。
-2. 実装方法を計画、解説する。
-
-実際の実装はちょっと待ってください。
+1. 現状の把握をする。
+2. GoogleログインとDiscordログインの実装計画を立てる。
+3. 実装の手順を私に説明 & 確認すべきことがあれば私に尋ねる。
+4. 実際の実装は私の許可が出てから行うこと。
