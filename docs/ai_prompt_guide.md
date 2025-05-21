@@ -1,12 +1,32 @@
-今回はログイン機能の作成をしていきたい。
-GoogleログインとDiscordログインの2つを実装したい。
-独自のログインシステムは設けない。（メールアドレスとパスワードのやつは使わない。）
-GoogleとDiscordのアドレスが同じ場合、同一人物とみなしたい。
-ログインページでは、タブ切り替えでログインとサインインを切り替えられるようにしたい。ログインページは（app/(article)/login）に作りたい。
-Shadcn/UIとTailwindCSSv4を使って作りたい。
-Shadcn/UIのコンポーネントは（components/ui）にあります。
+shadcn/uiとTailwindCSSv4を使っています。
 
-1. 現状の把握をする。
-2. GoogleログインとDiscordログインの実装計画を立てる。
-3. 実装の手順を私に説明 & 確認すべきことがあれば私に尋ねる。
-4. 実際の実装は私の許可が出てから行うこと。
+app/(user)/components/UserSidebar.tsxの
+      <SidebarContent className="flex-1 overflow-y-auto p-4">  
+	  </SidebarContent>
+の部分に、Collapsible SidebarMenuを作りたい。
+
+shadcn/uiのマニュアルには以下のように書かれているが、よくわからない。
+
+Collapsible SidebarMenu
+To make a SidebarMenu component collapsible, wrap it and the SidebarMenuSub components in a Collapsible.
+
+
+A collapsible sidebar menu.
+
+<SidebarMenu>
+  <Collapsible defaultOpen className="group/collapsible">
+    <SidebarMenuItem>
+      <CollapsibleTrigger asChild>
+        <SidebarMenuButton />
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <SidebarMenuSub>
+          <SidebarMenuSubItem />
+        </SidebarMenuSub>
+      </CollapsibleContent>
+    </SidebarMenuItem>
+  </Collapsible>
+</SidebarMenu>
+
+shadcn/uiのCollapsible SidebarMenuの作り方を調べて作ってください。
+ダミーのデータオブジェクトは同じファイルに作って構いません。
