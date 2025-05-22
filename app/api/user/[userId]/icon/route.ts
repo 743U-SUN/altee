@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { userId: string } }
+  { params }: { params: Promise<{ userId: string }> }
 ) {
   try {
     // 認証チェック
@@ -16,7 +16,7 @@ export async function GET(
       );
     }
 
-    const { userId } = params;
+    const { userId } = await params;
 
     // 本人確認（自分のiconUrlのみ取得可能）
     if (userId !== session.user.id) {

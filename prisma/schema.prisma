@@ -24,6 +24,7 @@ model User {
   birthday            DateTime?
   gender              String?
   iconUrl             String?
+  bannerUrl           String?
   handle              String?              @unique
   role                String               @default("user")
   subscriptionStatus  String?              @map("subscription_status")

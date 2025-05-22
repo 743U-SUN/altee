@@ -1,8 +1,3 @@
 shadcn/uiとTailwindCSSv4を使っています。
 
-今回はapp/(user)/user/profile/components/IconSettings.tsxにアイコン画像をアップロードしていく前準備をしたい。
-
-前準備というのは、今回はさくらインターネットのVPSをレンタルして、AmazonS3互換のあるオブジェクトストレージを借りる予定です。
-S3をローカルで使用するため、MinIOを導入したいと思っています。
-
-ということで、まずはDocker環境でMinIOを導入する方法を教えて下さい。
+今回はapp/(user)/user/profile/components/

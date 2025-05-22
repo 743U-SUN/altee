@@ -59,13 +59,14 @@ export const {
         // データベースから最新のユーザー情報を取得
         const dbUser = await prisma.user.findUnique({
           where: { id: user.id },
-          select: { handle: true, role: true, iconUrl: true }
+          select: { handle: true, role: true, iconUrl: true, bannerUrl: true }
         });
         
         if (dbUser) {
           token.handle = dbUser.handle;
           token.role = dbUser.role;
           token.iconUrl = dbUser.iconUrl;
+          token.bannerUrl = dbUser.bannerUrl;
         }
       }
       return token;
@@ -76,10 +77,11 @@ export const {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
         
-        // handle、role、iconUrlがある場合のみ設定
+        // handle、role、iconUrl、bannerUrlがある場合のみ設定
         if (token.handle) session.user.handle = token.handle as string;
         if (token.role) session.user.role = token.role as string;
         if (token.iconUrl) session.user.iconUrl = token.iconUrl as string;
+        if (token.bannerUrl) session.user.bannerUrl = token.bannerUrl as string;
       }
       return session;
     },

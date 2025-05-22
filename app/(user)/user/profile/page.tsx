@@ -13,10 +13,11 @@ import { useState, useEffect } from "react"
 export default function ProfilePage() {
   const { data: session } = useSession();
   const [userIcon, setUserIcon] = useState<string>('');
+  const [userBanner, setUserBanner] = useState<string>('');
 
-  // セッションとDBから最新のiconUrlを取得
+  // セッションとDBから最新のiconUrlとbannerUrlを取得
   useEffect(() => {
-    const fetchUserIcon = async () => {
+    const fetchUserData = async () => {
       if (session?.user?.id) {
         try {
           const response = await fetch(`/api/user/${session.user.id}/icon`);
@@ -31,14 +32,21 @@ export default function ProfilePage() {
           // エラーの場合はセッションから取得
           setUserIcon(session.user.iconUrl || '');
         }
+        
+        // バナー画像の初期値をセッションから設定（安全にアクセス）
+        setUserBanner(session.user?.bannerUrl || '');
       }
     };
 
-    fetchUserIcon();
+    fetchUserData();
   }, [session]);
 
   const handleIconUpdate = (newIconUrl: string) => {
     setUserIcon(newIconUrl);
+  };
+
+  const handleBannerUpdate = (newBannerUrl: string) => {
+    setUserBanner(newBannerUrl);
   };
 
   return (
@@ -92,7 +100,13 @@ export default function ProfilePage() {
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <BannerSettings />
+            {session?.user?.id && (
+              <BannerSettings 
+                currentBannerUrl={userBanner}
+                userId={session.user.id}
+                onBannerUpdate={handleBannerUpdate}
+              />
+            )}
           </AccordionContent>
         </AccordionItem>
 

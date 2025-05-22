@@ -8,6 +8,7 @@ declare module "next-auth" {
       handle?: string;  // オプショナルに変更
       role?: string;    // オプショナルに変更
       iconUrl?: string; // アイコンURLを追加
+      bannerUrl?: string; // バナーURLを追加
     } & DefaultSession["user"];
   }
   
@@ -15,6 +16,7 @@ declare module "next-auth" {
     handle?: string;
     role?: string;
     iconUrl?: string; // アイコンURLを追加
+    bannerUrl?: string; // バナーURLを追加
   }
 }
 
@@ -24,5 +26,6 @@ declare module "next-auth/jwt" {
     handle?: string;
     role?: string;
     iconUrl?: string; // アイコンURLを追加
+    bannerUrl?: string; // バナーURLを追加
   }
 }
