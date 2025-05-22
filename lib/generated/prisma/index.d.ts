@@ -3142,6 +3142,7 @@ export namespace Prisma {
     name: string | null
     characterName: string | null
     subname: string | null
+    bio: string | null
     birthday: Date | null
     gender: string | null
     iconUrl: string | null
@@ -3160,6 +3161,7 @@ export namespace Prisma {
     name: string | null
     characterName: string | null
     subname: string | null
+    bio: string | null
     birthday: Date | null
     gender: string | null
     iconUrl: string | null
@@ -3178,6 +3180,7 @@ export namespace Prisma {
     name: number
     characterName: number
     subname: number
+    bio: number
     birthday: number
     gender: number
     iconUrl: number
@@ -3198,6 +3201,7 @@ export namespace Prisma {
     name?: true
     characterName?: true
     subname?: true
+    bio?: true
     birthday?: true
     gender?: true
     iconUrl?: true
@@ -3216,6 +3220,7 @@ export namespace Prisma {
     name?: true
     characterName?: true
     subname?: true
+    bio?: true
     birthday?: true
     gender?: true
     iconUrl?: true
@@ -3234,6 +3239,7 @@ export namespace Prisma {
     name?: true
     characterName?: true
     subname?: true
+    bio?: true
     birthday?: true
     gender?: true
     iconUrl?: true
@@ -3325,6 +3331,7 @@ export namespace Prisma {
     name: string | null
     characterName: string | null
     subname: string | null
+    bio: string | null
     birthday: Date | null
     gender: string | null
     iconUrl: string | null
@@ -3360,6 +3367,7 @@ export namespace Prisma {
     name?: boolean
     characterName?: boolean
     subname?: boolean
+    bio?: boolean
     birthday?: boolean
     gender?: boolean
     iconUrl?: boolean
@@ -3392,6 +3400,7 @@ export namespace Prisma {
     name?: boolean
     characterName?: boolean
     subname?: boolean
+    bio?: boolean
     birthday?: boolean
     gender?: boolean
     iconUrl?: boolean
@@ -3410,6 +3419,7 @@ export namespace Prisma {
     name?: boolean
     characterName?: boolean
     subname?: boolean
+    bio?: boolean
     birthday?: boolean
     gender?: boolean
     iconUrl?: boolean
@@ -3428,6 +3438,7 @@ export namespace Prisma {
     name?: boolean
     characterName?: boolean
     subname?: boolean
+    bio?: boolean
     birthday?: boolean
     gender?: boolean
     iconUrl?: boolean
@@ -3440,7 +3451,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "characterName" | "subname" | "birthday" | "gender" | "iconUrl" | "handle" | "role" | "subscriptionStatus" | "emailVerified" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "characterName" | "subname" | "bio" | "birthday" | "gender" | "iconUrl" | "handle" | "role" | "subscriptionStatus" | "emailVerified" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -3483,6 +3494,7 @@ export namespace Prisma {
       name: string | null
       characterName: string | null
       subname: string | null
+      bio: string | null
       birthday: Date | null
       gender: string | null
       iconUrl: string | null
@@ -3934,6 +3946,7 @@ export namespace Prisma {
     readonly name: FieldRef<"User", 'String'>
     readonly characterName: FieldRef<"User", 'String'>
     readonly subname: FieldRef<"User", 'String'>
+    readonly bio: FieldRef<"User", 'String'>
     readonly birthday: FieldRef<"User", 'DateTime'>
     readonly gender: FieldRef<"User", 'String'>
     readonly iconUrl: FieldRef<"User", 'String'>
@@ -27861,6 +27874,7 @@ export namespace Prisma {
     name: 'name',
     characterName: 'characterName',
     subname: 'subname',
+    bio: 'bio',
     birthday: 'birthday',
     gender: 'gender',
     iconUrl: 'iconUrl',
@@ -28259,6 +28273,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     characterName?: StringNullableFilter<"User"> | string | null
     subname?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
     birthday?: DateTimeNullableFilter<"User"> | Date | string | null
     gender?: StringNullableFilter<"User"> | string | null
     iconUrl?: StringNullableFilter<"User"> | string | null
@@ -28290,6 +28305,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     characterName?: SortOrderInput | SortOrder
     subname?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
     birthday?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     iconUrl?: SortOrderInput | SortOrder
@@ -28325,6 +28341,7 @@ export namespace Prisma {
     name?: StringNullableFilter<"User"> | string | null
     characterName?: StringNullableFilter<"User"> | string | null
     subname?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
     birthday?: DateTimeNullableFilter<"User"> | Date | string | null
     gender?: StringNullableFilter<"User"> | string | null
     iconUrl?: StringNullableFilter<"User"> | string | null
@@ -28355,6 +28372,7 @@ export namespace Prisma {
     name?: SortOrderInput | SortOrder
     characterName?: SortOrderInput | SortOrder
     subname?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
     birthday?: SortOrderInput | SortOrder
     gender?: SortOrderInput | SortOrder
     iconUrl?: SortOrderInput | SortOrder
@@ -28379,6 +28397,7 @@ export namespace Prisma {
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     characterName?: StringNullableWithAggregatesFilter<"User"> | string | null
     subname?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     birthday?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     gender?: StringNullableWithAggregatesFilter<"User"> | string | null
     iconUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -29776,6 +29795,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -29807,6 +29827,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -29838,6 +29859,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29869,6 +29891,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29900,6 +29923,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -29918,6 +29942,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29936,6 +29961,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31549,6 +31575,7 @@ export namespace Prisma {
     name?: SortOrder
     characterName?: SortOrder
     subname?: SortOrder
+    bio?: SortOrder
     birthday?: SortOrder
     gender?: SortOrder
     iconUrl?: SortOrder
@@ -31567,6 +31594,7 @@ export namespace Prisma {
     name?: SortOrder
     characterName?: SortOrder
     subname?: SortOrder
+    bio?: SortOrder
     birthday?: SortOrder
     gender?: SortOrder
     iconUrl?: SortOrder
@@ -31585,6 +31613,7 @@ export namespace Prisma {
     name?: SortOrder
     characterName?: SortOrder
     subname?: SortOrder
+    bio?: SortOrder
     birthday?: SortOrder
     gender?: SortOrder
     iconUrl?: SortOrder
@@ -34751,6 +34780,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -34781,6 +34811,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -34827,6 +34858,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34857,6 +34889,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34887,6 +34920,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -34917,6 +34951,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -34963,6 +34998,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34993,6 +35029,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35023,6 +35060,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -35053,6 +35091,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -35099,6 +35138,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35129,6 +35169,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35159,6 +35200,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -35189,6 +35231,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -35256,6 +35299,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35286,6 +35330,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35343,6 +35388,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -35373,6 +35419,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -35451,6 +35498,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35481,6 +35529,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35542,6 +35591,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -35572,6 +35622,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -35618,6 +35669,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35648,6 +35700,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35734,6 +35787,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -35764,6 +35818,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -35810,6 +35865,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35840,6 +35896,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35870,6 +35927,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -35900,6 +35958,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -35946,6 +36005,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35976,6 +36036,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36006,6 +36067,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -36036,6 +36098,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -36082,6 +36145,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36112,6 +36176,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36142,6 +36207,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -36172,6 +36238,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -36218,6 +36285,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36248,6 +36316,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36278,6 +36347,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -36308,6 +36378,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -36354,6 +36425,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36384,6 +36456,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36460,6 +36533,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -36490,6 +36564,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -36580,6 +36655,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36610,6 +36686,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37425,6 +37502,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -37455,6 +37533,7 @@ export namespace Prisma {
     name?: string | null
     characterName?: string | null
     subname?: string | null
+    bio?: string | null
     birthday?: Date | string | null
     gender?: string | null
     iconUrl?: string | null
@@ -37595,6 +37674,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37625,6 +37705,7 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     characterName?: NullableStringFieldUpdateOperationsInput | string | null
     subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null

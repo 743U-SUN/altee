@@ -20,6 +20,7 @@ model User {
   name                String?
   characterName       String?
   subname             String?
+  bio                 String?              @db.Text
   birthday            DateTime?
   gender              String?
   iconUrl             String?

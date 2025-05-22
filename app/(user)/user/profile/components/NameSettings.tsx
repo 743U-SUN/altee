@@ -1,77 +1,39 @@
 "use client"
 
 import { useEffect } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { toast } from "sonner"
-
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Form } from "@/components/ui/form"
 import { Button } from "@/components/ui/button"
-import { useUserProfile } from "../hooks/useUserProfile"
+import { useSecureForm } from "@/hooks/useSecureForm"
+import { SecureTextField } from "@/components/forms/SecureFields"
+import { z } from "zod"
+import { requiredNameSchema, optionalNameSchema } from "@/lib/validation/schemas"
 
-// バリデーションスキーマ
+// NameSettings専用のスキーマ
 const nameFormSchema = z.object({
-  characterName: z
-    .string()
-    .min(1, "キャラクター名は必須です")
-    .max(50, "キャラクター名は50文字以内で入力してください"),
-  subname: z
-    .string()
-    .max(50, "サブネームは50文字以内で入力してください")
-    .optional(),
+  characterName: requiredNameSchema,
+  subname: optionalNameSchema,
 })
 
-type NameFormValues = z.infer<typeof nameFormSchema>
-
 export function NameSettings() {
-  // ユーザープロファイルフックを使用
-  const { user, isLoading, fetchUserProfile, updateUserProfile } = useUserProfile()
-
-  // フォームの初期化
-  const form = useForm<NameFormValues>({
-    resolver: zodResolver(nameFormSchema),
-    defaultValues: {
-      characterName: "",
-      subname: "",
-    },
+  // 共通のセキュアフォームフックを使用
+  const {
+    form,
+    data: user,
+    isLoading,
+    fetchData,
+    onSubmit,
+  } = useSecureForm({
+    schema: nameFormSchema,
+    apiEndpoint: '/api/user/profile',
+    method: 'PUT',
+    successMessage: "名前を保存しました",
+    enableAutoFetch: true,
   })
 
   // コンポーネントがマウントされたときにユーザープロファイルを取得
   useEffect(() => {
-    fetchUserProfile()
-  }, [fetchUserProfile])
-
-  // ユーザーデータが取得されたらフォームの値を更新
-  useEffect(() => {
-    if (user) {
-      form.reset({
-        characterName: user.characterName || "",
-        subname: user.subname || "",
-      })
-    }
-  }, [user, form])
-
-  // フォーム送信時の処理
-  async function onSubmit(data: NameFormValues) {
-    const success = await updateUserProfile({
-      characterName: data.characterName,
-      subname: data.subname || "",
-    })
-
-    if (success) {
-      toast.success("名前を保存しました")
-    }
-  }
+    fetchData()
+  }, [fetchData])
 
   return (
     <div className="py-4">
@@ -91,45 +53,24 @@ export function NameSettings() {
         
         {/* 名前設定フォーム */}
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
+          <form onSubmit={onSubmit} className="space-y-4">
+            <SecureTextField
               control={form.control}
               name="characterName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>キャラクター名</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="CharacterName"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    メインの表示名として使用されます。
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="キャラクター名"
+              placeholder="CharacterName"
+              description="メインの表示名として使用されます。英数字、ひらがな、カタカナ、漢字のみ使用可能です。"
+              maxLength={20}
+              required
             />
             
-            <FormField
+            <SecureTextField
               control={form.control}
               name="subname"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>サブネーム</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="SubName"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    補足的な名前として、括弧内に表示されます。
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="サブネーム"
+              placeholder="SubName"
+              description="補足的な名前として、括弧内に表示されます。英数字、ひらがな、カタカナ、漢字のみ使用可能です。"
+              maxLength={20}
             />
             
             <Button type="submit" disabled={isLoading}>

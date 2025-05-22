@@ -1,18 +1,9 @@
 shadcn/uiとTailwindCSSv4を使っています。
 
-今回は、ユーザーのcharacterNameとsubNameを入力するフォームを作っていきたい。作っていく場所はapp/(user)/user/profile/components/NameSettings.tsxとなります。
+今回は、前回作成したユーザーのcharacterNameとsubNameを入力するフォームの確認をしていきたい。（app/(user)/user/profile/components/NameSettings.tsx）
 
-フォームにはshadcn/uiのformやinputなどを使用してください。また、shadcn/uiに書かれていたように、zodを使っていますのでそのあたりもよろしくお願いします。
+また、前回作成してもらった（docs/secure-forms-guide.md）なども確認してもらって、評価をしてもらいたい。
 
-欲しい機能
-・現在のキャラクターネームとサブネームをフォームに反映させること。ない場合は、PlaceholderでCharacterName, SubNameと表示させる。
-・[保存する]ボタンを押したときに、shadcn/uiのsonnerで通知をすること。
+よりシンプルにできるところがあればそうしたいし、特になければこのままで構わないと思っている。
 
-やって欲しいこと
-1. 現状の理解: (prisma/schema.prisma)や、shadcn/uiコンポーネント、表示されるpage(app/(user)/user/profile/page.tsx)などを見て、フォーム作成のために現状を把握する。
-
-2. app/(user)/user/profile/components/NameSettings.tsxに名前を入力して保存するための計画を立てる。
-
-3. 私に聞きたいことがあれば質問をし、実装の実行の許可を得る。
-
-4. 実装後には作成したディレクトリやファイルのパスを書くこと。
+関連するファイルを読んで、評価してください。
