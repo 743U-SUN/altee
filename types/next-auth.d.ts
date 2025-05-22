@@ -7,12 +7,14 @@ declare module "next-auth" {
       id: string;
       handle?: string;  // オプショナルに変更
       role?: string;    // オプショナルに変更
+      iconUrl?: string; // アイコンURLを追加
     } & DefaultSession["user"];
   }
   
   interface User extends DefaultUser {
     handle?: string;
     role?: string;
+    iconUrl?: string; // アイコンURLを追加
   }
 }
 
@@ -21,5 +23,6 @@ declare module "next-auth/jwt" {
     id?: string;
     handle?: string;
     role?: string;
+    iconUrl?: string; // アイコンURLを追加
   }
 }

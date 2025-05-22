@@ -6,24 +6,41 @@ import { sanitizeDisplayName, containsDangerousPatterns } from "@/lib/security/s
  * 全てのフォームで一貫したセキュリティ対策を適用
  */
 
-// 基本的なセキュリティチェック関数
+// 改善版：セキュアで日本語対応の文字列スキーマ
+// 既存機能に加えて、日本語名前用の詳細バリデーションを追加
 const createSecureStringSchema = (minLength: number = 0, maxLength: number = 100) => {
   return z
     .string()
     .min(minLength, `${minLength}文字以上で入力してください`)
     .max(maxLength, `${maxLength}文字以内で入力してください`)
+    // 基本的なセキュリティチェック（既存）
     .regex(/^[^\<\>]*$/, "不正な文字が含まれています")
     .regex(/^(?!.*<script).*$/i, "スクリプトタグは使用できません")
     .regex(/^(?!.*javascript:).*$/i, "JavaScriptコードは使用できません")
     .regex(/^(?!.*data:).*$/i, "データURLは使用できません")
     .regex(/^(?!.*vbscript:).*$/i, "VBScriptは使用できません")
-    .refine((val) => !containsDangerousPatterns(val), "危険なパターンが検出されました")
+    // 🆕 NEW: 日本語+英数字+基本記号のみ許可（完全Unicode対応）
+    .regex(
+      /^[\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FAF\uF900-\uFAFF\u{20000}-\u{2EBEF}a-zA-Z0-9\s\-_・。、！？]+$/u,
+      "すべての日本語文字、英数字、および基本的な記号のみ使用可能です"
+    )
+    .refine((val: string) => !containsDangerousPatterns(val), "危険なパターンが検出されました")
+    // 🆕 NEW: 空白だけの入力を拒否（minLength > 0の場合のみ）
+    .refine((val: string) => {
+      if (minLength > 0) {
+        return val.trim().length > 0
+      }
+      return true
+    }, "有効な文字を入力してください")
+    // 🆕 NEW: 連続する記号を制限
+    .refine((val: string) => !/[\-_・。、！？]{3,}/.test(val), "記号を3つ以上連続して使用することはできません")
+    // 🆕 NEW: 連続する空白を制限
+    .refine((val: string) => !/\s{3,}/.test(val), "空白を3つ以上連続して使用することはできません")
     .transform(sanitizeDisplayName)
 }
 
 // 必須の名前フィールド（キャラクター名など）
 export const requiredNameSchema = createSecureStringSchema(1, 50)
-  .refine((val) => val.length > 0, "有効な文字を入力してください")
 
 // オプションの名前フィールド（サブネームなど）
 export const optionalNameSchema = createSecureStringSchema(0, 50).optional()
@@ -62,8 +79,14 @@ export const textAreaSchema = z
   .max(1000, "1000文字以内で入力してください")
   .regex(/^[^\<\>]*$/, "不正な文字が含まれています")
   .regex(/^(?!.*<script).*$/i, "スクリプトタグは使用できません")
-  .refine((val) => !containsDangerousPatterns(val), "危険なパターンが検出されました")
-  .transform((text) => text.trim())
+  // テキストエリアでは改行も含めてより柔軟に（完全Unicode対応）
+  .regex(
+    /^[\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FAF\uF900-\uFAFF\u{20000}-\u{2EBEF}a-zA-Z0-9\s\-_・。、！？\n\r]*$/u,
+    "すべての日本語文字、英数字、基本的な記号、改行のみ使用可能です"
+  )
+  .refine((val: string) => !containsDangerousPatterns(val), "危険なパターンが検出されました")
+  .refine((val: string) => !/[\-_・。、！？]{5,}/.test(val), "記号を5つ以上連続して使用することはできません")
+  .transform((text: string) => text.trim())
   .optional()
 
 // ハンドル名/ユーザー名

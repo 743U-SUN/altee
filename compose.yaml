@@ -12,9 +12,16 @@ services:
       - /app/node_modules  # node_modulesは保存しない
     depends_on:
       - db
+      - minio
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/mydb
       - NODE_ENV=development
+      # MinIO関連の環境変数
+      - MINIO_ENDPOINT=minio:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+      - MINIO_BUCKET_NAME=altee-uploads
+      - MINIO_USE_SSL=false
     # ホットリロードを有効にする
     stdin_open: true
     tty: true
@@ -67,10 +74,50 @@ services:
       timeout: 5s
       retries: 5
 
+  # MinIOオブジェクトストレージ
+  minio:
+    image: minio/minio:latest
+    restart: always
+    ports:
+      - "9000:9000"  # MinIO APIポート
+      - "9001:9001"  # MinIO コンソールポート
+    volumes:
+      - minio_data:/data
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+      - MINIO_CONSOLE_ADDRESS=:9001
+      - MINIO_ADDRESS=:9000
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # MinIOの初期設定とバケット作成
+  minio-setup:
+    image: minio/mc:latest
+    depends_on:
+      minio:
+        condition: service_healthy
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add myminio http://minio:9000 minioadmin minioadmin;
+      /usr/bin/mc mb myminio/altee-uploads;
+      /usr/bin/mc anonymous set public myminio/altee-uploads;
+      exit 0;
+      "
+
 volumes:
   postgres_data:
     # ボリュームの明示的な名前をつける
     name: altee_postgres_data
+  minio_data:
+    name: altee_minio_data
 
 networks:
   default:

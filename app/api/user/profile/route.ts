@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
-import { auth } from "@/lib/auth"
+import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import { sanitizeDisplayName, containsDangerousPatterns } from "@/lib/security/sanitize"
 

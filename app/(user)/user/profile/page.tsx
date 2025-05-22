@@ -7,8 +7,40 @@ import { IconSettings } from "./components/IconSettings"
 import { BannerSettings } from "./components/BannerSettings"
 import { CarouselSettings } from "./components/CarouselSettings"
 import { BackgroundSettings } from "./components/BackgroundSettings"
+import { useSession } from "next-auth/react"
+import { useState, useEffect } from "react"
 
 export default function ProfilePage() {
+  const { data: session } = useSession();
+  const [userIcon, setUserIcon] = useState<string>('');
+
+  // セッションとDBから最新のiconUrlを取得
+  useEffect(() => {
+    const fetchUserIcon = async () => {
+      if (session?.user?.id) {
+        try {
+          const response = await fetch(`/api/user/${session.user.id}/icon`);
+          if (response.ok) {
+            const data = await response.json();
+            setUserIcon(data.iconUrl || '');
+          } else {
+            // APIがない場合はセッションから取得
+            setUserIcon(session.user.iconUrl || '');
+          }
+        } catch (error) {
+          // エラーの場合はセッションから取得
+          setUserIcon(session.user.iconUrl || '');
+        }
+      }
+    };
+
+    fetchUserIcon();
+  }, [session]);
+
+  const handleIconUpdate = (newIconUrl: string) => {
+    setUserIcon(newIconUrl);
+  };
+
   return (
     <div className="container mx-auto py-8 px-4 max-w-5xl">
       <h1 className="text-3xl font-bold mb-8">プロフィール設定</h1>
@@ -43,7 +75,13 @@ export default function ProfilePage() {
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <IconSettings />
+            {session?.user?.id && (
+              <IconSettings 
+                currentIconUrl={userIcon}
+                userId={session.user.id}
+                onIconUpdate={handleIconUpdate}
+              />
+            )}
           </AccordionContent>
         </AccordionItem>
 

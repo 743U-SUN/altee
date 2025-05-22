@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { NextRequest } from "next/server";
+import { auth } from "@/auth";
 
-// ミドルウェア関数を修正：トークンの取得方法を修正
+// NextAuth.js v5では、auth()をmiddleware関数として使用します
 export default auth((req) => {
   // デバッグ用にコンソールに情報を出力
   console.log("Auth middleware running");
@@ -12,7 +13,7 @@ export default auth((req) => {
   const isAuthenticated = !!req.auth;
   
   // 認証必須のルート
-  const protectedRoutes = ["/profile", "/settings", "/dashboard"];
+  const protectedRoutes = ["/profile", "/settings", "/dashboard", "/user"];
   const isProtectedRoute = protectedRoutes.some(route => nextUrl.pathname.startsWith(route));
   
   // 認証ページ（既にログイン済みならリダイレクト）
@@ -38,6 +39,7 @@ export const config = {
     "/profile/:path*", 
     "/settings/:path*", 
     "/dashboard/:path*",
+    "/user/:path*",
     "/article"
   ],
 };

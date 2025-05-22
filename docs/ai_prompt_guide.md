@@ -1,9 +1,8 @@
 shadcn/uiとTailwindCSSv4を使っています。
 
-今回は、前回作成したユーザーのcharacterNameとsubNameを入力するフォームの確認をしていきたい。（app/(user)/user/profile/components/NameSettings.tsx）
+今回はapp/(user)/user/profile/components/IconSettings.tsxにアイコン画像をアップロードしていく前準備をしたい。
 
-また、前回作成してもらった（docs/secure-forms-guide.md）なども確認してもらって、評価をしてもらいたい。
+前準備というのは、今回はさくらインターネットのVPSをレンタルして、AmazonS3互換のあるオブジェクトストレージを借りる予定です。
+S3をローカルで使用するため、MinIOを導入したいと思っています。
 
-よりシンプルにできるところがあればそうしたいし、特になければこのままで構わないと思っている。
-
-関連するファイルを読んで、評価してください。
+ということで、まずはDocker環境でMinIOを導入する方法を教えて下さい。
