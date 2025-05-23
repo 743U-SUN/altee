@@ -74,6 +74,18 @@ export const IMAGE_PRESETS = {
     fit: 'inside' as const,
     withoutEnlargement: true,
     lossless: false
+  },
+  
+  // カルーセル用（432x768、高品質）縦長
+  carousel: {
+    format: 'webp' as const,
+    quality: 85,
+    effort: 4,
+    maxWidth: 432,
+    maxHeight: 768,
+    fit: 'inside' as const,
+    withoutEnlargement: true,
+    lossless: false
   }
 } as const;
 

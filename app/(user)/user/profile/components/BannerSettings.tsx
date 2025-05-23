@@ -1,86 +1,114 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Upload, X, Image, Info } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Upload, X, Images, Loader2, GripVertical, Info, Trash2, Save, Link, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 
-interface BannerSettingsProps {
-  currentBannerUrl?: string;
-  userId: string;
-  onBannerUpdate?: (newBannerUrl: string) => void;
+interface BannerImage {
+  id: string;
+  imgUrl: string;
+  url?: string | null;
+  alt?: string | null;
+  sortOrder: number;
 }
 
-export function BannerSettings({ currentBannerUrl, userId, onBannerUpdate }: BannerSettingsProps) {
+interface BannerSettingsProps {
+  userId: string;
+}
+
+export function BannerSettings({ userId }: BannerSettingsProps) {
+  const [bannerImages, setBannerImages] = useState<BannerImage[]>([]);
   const [isUploading, setIsUploading] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isDeletingId, setIsDeletingId] = useState<string | null>(null);
+  const [isSavingId, setIsSavingId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [tempUrls, setTempUrls] = useState<{ [key: string]: string }>({});
+  const [tempAlts, setTempAlts] = useState<{ [key: string]: string }>({});
+
+  // バナー画像を取得
+  const fetchBannerImages = async () => {
+    try {
+      const response = await fetch(`/api/upload/image-banner?userId=${userId}`);
+      if (!response.ok) throw new Error('画像の取得に失敗しました');
+      
+      const data = await response.json();
+      setBannerImages(data.images);
+      
+      // URL・Alt入力欄の初期値を設定
+      const urls: { [key: string]: string } = {};
+      const alts: { [key: string]: string } = {};
+      data.images.forEach((img: BannerImage) => {
+        urls[img.id] = img.url || '';
+        alts[img.id] = img.alt || '';
+      });
+      setTempUrls(urls);
+      setTempAlts(alts);
+    } catch (error) {
+      console.error('Banner fetch error:', error);
+      toast.error('画像の取得に失敗しました');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBannerImages();
+  }, [userId]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
       'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
     },
-    maxSize: 8 * 1024 * 1024, // 8MB
+    maxSize: 10 * 1024 * 1024, // 10MB
     multiple: false,
+    disabled: bannerImages.length >= 3 || isUploading,
     onDrop: async (acceptedFiles) => {
       const file = acceptedFiles[0];
       if (!file) return;
 
-      console.log('ファイル情報:', {
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        lastModified: file.lastModified
-      });
-
-      // プレビューURLを設定
-      const preview = URL.createObjectURL(file);
-      setPreviewUrl(preview);
-
       try {
         setIsUploading(true);
         
-        // FormDataを作成してAPIに送信
         const formData = new FormData();
         formData.append('file', file);
         formData.append('userId', userId);
-        
-        console.log('FormData作成完了:', {
-          hasFile: formData.has('file'),
-          hasUserId: formData.has('userId'),
-          userId: formData.get('userId')
-        });
+        formData.append('sortOrder', bannerImages.length.toString());
 
-        console.log('アップロード開始...');
-        const response = await fetch('/api/upload/banner', {
+        const response = await fetch('/api/upload/image-banner', {
           method: 'POST',
           body: formData,
         });
-        
-        console.log('レスポンス状態:', response.status, response.statusText);
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => ({ error: 'レスポンスの解析に失敗' }));
-          console.error('アップロードエラー:', errorData);
           throw new Error(errorData.error || 'アップロードに失敗しました');
         }
 
         const result = await response.json();
-        console.log('アップロード成功:', result);
         
-        // 成功時の処理
-        onBannerUpdate?.(result.url);
-        toast.success('バナー画像を更新しました');
+        // 新しい画像を追加
+        const newImage: BannerImage = {
+          id: result.id,
+          imgUrl: result.url,
+          url: null,
+          alt: file.name.split('.')[0],
+          sortOrder: result.sortOrder
+        };
         
-        // アップロード詳細をログに表示（開発時のみ）
-        if (result.details) {
-          console.log('バナーアップロード詳細:', result.details);
-        }
+        setBannerImages(prev => [...prev, newImage]);
+        setTempUrls(prev => ({ ...prev, [result.id]: '' }));
+        setTempAlts(prev => ({ ...prev, [result.id]: file.name.split('.')[0] }));
+        
+        toast.success('バナー画像を追加しました');
+        
       } catch (error) {
         console.error('Banner upload error:', error);
-        toast.error('アップロードに失敗しました');
-        setPreviewUrl(null);
+        toast.error(error instanceof Error ? error.message : 'アップロードに失敗しました');
       } finally {
         setIsUploading(false);
       }
@@ -88,7 +116,7 @@ export function BannerSettings({ currentBannerUrl, userId, onBannerUpdate }: Ban
     onDropRejected: (fileRejections) => {
       const rejection = fileRejections[0];
       if (rejection.errors[0]?.code === 'file-too-large') {
-        toast.error('ファイルサイズは8MB以下にしてください');
+        toast.error('ファイルサイズは10MB以下にしてください');
       } else if (rejection.errors[0]?.code === 'file-invalid-type') {
         toast.error('画像ファイルのみアップロード可能です');
       } else {
@@ -97,129 +125,325 @@ export function BannerSettings({ currentBannerUrl, userId, onBannerUpdate }: Ban
     }
   });
 
-  const handleRemoveBanner = async () => {
+  const handleDeleteImage = async (imageId: string) => {
     try {
-      setIsUploading(true);
+      setIsDeletingId(imageId);
       
-      const response = await fetch('/api/upload/banner', {
+      const response = await fetch('/api/upload/image-banner', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId }),
+        body: JSON.stringify({ userId, imageId }),
       });
 
       if (!response.ok) {
         throw new Error('削除に失敗しました');
       }
 
-      onBannerUpdate?.('');
-      setPreviewUrl(null);
+      // 画像を削除して並び順を更新
+      setBannerImages(prev => {
+        const filtered = prev.filter(img => img.id !== imageId);
+        return filtered.map((img, index) => ({
+          ...img,
+          sortOrder: index
+        }));
+      });
+      
+      // URL・Alt入力の一時データも削除
+      setTempUrls(prev => {
+        const newUrls = { ...prev };
+        delete newUrls[imageId];
+        return newUrls;
+      });
+      setTempAlts(prev => {
+        const newAlts = { ...prev };
+        delete newAlts[imageId];
+        return newAlts;
+      });
+      
       toast.success('バナー画像を削除しました');
     } catch (error) {
-      console.error('Banner delete error:', error);
+      console.error('Delete error:', error);
       toast.error('削除に失敗しました');
     } finally {
-      setIsUploading(false);
+      setIsDeletingId(null);
     }
   };
 
-  const displayBannerUrl = previewUrl || currentBannerUrl;
+  const handleSaveData = async (imageId: string) => {
+    try {
+      setIsSavingId(imageId);
+      
+      const response = await fetch('/api/upload/image-banner', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          imageId,
+          url: tempUrls[imageId] || null,
+          alt: tempAlts[imageId] || null
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('保存に失敗しました');
+      }
+
+      // ローカルのデータを更新
+      setBannerImages(prev =>
+        prev.map(img =>
+          img.id === imageId ? { 
+            ...img, 
+            url: tempUrls[imageId] || null,
+            alt: tempAlts[imageId] || null
+          } : img
+        )
+      );
+
+      toast.success('保存しました');
+    } catch (error) {
+      console.error('Save error:', error);
+      toast.error('保存に失敗しました');
+    } finally {
+      setIsSavingId(null);
+    }
+  };
+
+  // ドラッグ&ドロップで並び替え
+  const handleDragStart = (index: number) => {
+    setDraggedIndex(index);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = async (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    
+    if (draggedIndex === null || draggedIndex === dropIndex) {
+      setDraggedIndex(null);
+      return;
+    }
+
+    const newImages = [...bannerImages];
+    const [draggedItem] = newImages.splice(draggedIndex, 1);
+    newImages.splice(dropIndex, 0, draggedItem);
+
+    // 並び順を更新
+    const updatedImages = newImages.map((img, index) => ({
+      ...img,
+      sortOrder: index
+    }));
+
+    setBannerImages(updatedImages);
+    setDraggedIndex(null);
+
+    // APIで並び順を更新
+    try {
+      const response = await fetch('/api/upload/image-banner', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          images: updatedImages.map(img => ({
+            id: img.id,
+            sortOrder: img.sortOrder
+          }))
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('並び順の更新に失敗しました');
+      }
+
+      toast.success('並び順を更新しました');
+    } catch (error) {
+      console.error('Sort update error:', error);
+      toast.error('並び順の更新に失敗しました');
+      // エラー時は元に戻す
+      fetchBannerImages();
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="py-4 flex items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+      </div>
+    );
+  }
 
   return (
     <div className="py-4">
       <div className="mb-4">
         <p className="text-gray-600">
-          プロフィールバナーを設定します。JPG、PNG、GIF、WebP形式の画像をアップロードできます（最大8MB）。
+          プロフィールバナーを設定します。最大3枚まで登録できます。
         </p>
-        <div className="flex items-center gap-2 mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-          <Info className="h-4 w-4 text-blue-600 flex-shrink-0" />
-          <p className="text-sm text-blue-700">
-            アップロードされた画像は自動的にWebP形式に変換され、600×200px以内にリサイズされます。
-          </p>
+        <div className="flex items-start gap-2 mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+          <Info className="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5" />
+          <div className="text-sm text-blue-700 space-y-1">
+            <p>• アップロードされた画像は自動的にWebP形式に変換され、600×200px以内にリサイズされます</p>
+            <p>• 各画像にリンクURLと説明文を設定できます</p>
+            <p>• ドラッグ&ドロップで並び順を変更できます</p>
+          </div>
         </div>
       </div>
-      
+
       <div className="space-y-4">
-        {/* バナープレビュー */}
-        <div className="w-full">
-          <p className="text-sm text-gray-500 mb-2">現在のバナー</p>
-          <div className="relative w-full h-40 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 overflow-hidden">
-            {displayBannerUrl ? (
-              <img
-                src={displayBannerUrl}
-                alt="バナー画像"
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="flex items-center justify-center h-full">
-                <div className="text-center">
-                  <Image className="h-12 w-12 mx-auto mb-2 text-gray-400" />
-                  <p className="text-sm text-gray-500">バナー画像なし</p>
-                  <p className="text-xs text-gray-400 mt-1">推奨サイズ: 600×200px</p>
+        {/* 画像一覧 - 統一された縦並びレイアウト */}
+        <div className="space-y-4">
+          {bannerImages.map((image, index) => (
+            <div
+              key={image.id}
+              draggable
+              onDragStart={() => handleDragStart(index)}
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e, index)}
+              className={`bg-white rounded-lg border ${
+                draggedIndex === index ? 'opacity-50 border-primary' : 'border-gray-200'
+              } p-4 cursor-move`}
+            >
+              <div className="flex gap-4">
+                {/* 画像とドラッグハンドル */}
+                <div className="flex items-start gap-2">
+                  <div className="pt-8">
+                    <GripVertical className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <div className="relative">
+                    <img
+                      src={image.imgUrl}
+                      alt={image.alt || `バナー画像 ${index + 1}`}
+                      className="w-48 h-16 object-cover rounded-lg"
+                    />
+                    <div className="absolute top-1 left-1 bg-black/60 text-white text-xs px-1.5 py-0.5 rounded">
+                      {index + 1}
+                    </div>
+                  </div>
+                </div>
+
+                {/* 入力欄と操作ボタン */}
+                <div className="flex-1 space-y-3">
+                  {/* Alt説明文 */}
+                  <div>
+                    <Label htmlFor={`alt-${image.id}`} className="text-sm font-medium mb-1.5 flex items-center gap-1.5">
+                      <FileText className="h-3.5 w-3.5" />
+                      説明文（Alt）
+                    </Label>
+                    <Input
+                      id={`alt-${image.id}`}
+                      type="text"
+                      placeholder="画像の説明を入力"
+                      value={tempAlts[image.id] || ''}
+                      onChange={(e) => setTempAlts(prev => ({ ...prev, [image.id]: e.target.value }))}
+                      className="w-full"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      画像の内容を説明するテキスト（アクセシビリティ向上のため）
+                    </p>
+                  </div>
+
+                  {/* URL入力 */}
+                  <div>
+                    <Label htmlFor={`url-${image.id}`} className="text-sm font-medium mb-1.5 flex items-center gap-1.5">
+                      <Link className="h-3.5 w-3.5" />
+                      リンクURL
+                    </Label>
+                    <Input
+                      id={`url-${image.id}`}
+                      type="url"
+                      placeholder="https://example.com"
+                      value={tempUrls[image.id] || ''}
+                      onChange={(e) => setTempUrls(prev => ({ ...prev, [image.id]: e.target.value }))}
+                      className="w-full"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      画像クリック時のリンク先URL（任意）
+                    </p>
+                  </div>
+
+                  {/* 操作ボタン */}
+                  <div className="flex justify-between">
+                    <Button
+                      size="sm"
+                      onClick={() => handleSaveData(image.id)}
+                      disabled={isSavingId === image.id}
+                    >
+                      {isSavingId === image.id ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <>
+                          <Save className="h-4 w-4 mr-1.5" />
+                          保存
+                        </>
+                      )}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDeleteImage(image.id)}
+                      disabled={isDeletingId === image.id}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      {isDeletingId === image.id ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <>
+                          <Trash2 className="h-4 w-4 mr-1.5" />
+                          削除
+                        </>
+                      )}
+                    </Button>
+                  </div>
                 </div>
               </div>
-            )}
-          </div>
-        </div>
-
-        {/* アップロード領域 */}
-        <div
-          {...getRootProps()}
-          className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors
-            ${isDragActive 
-              ? 'border-primary bg-primary/10' 
-              : 'border-gray-300 hover:border-primary hover:bg-primary/5'
-            }
-            ${isUploading ? 'pointer-events-none opacity-50' : ''}
-          `}
-        >
-          <input {...getInputProps()} />
-          <Upload className="h-8 w-8 mx-auto mb-3 text-gray-400" />
-          <p className="text-sm text-gray-600 mb-1">
-            {isDragActive
-              ? 'ファイルをここにドロップ'
-              : 'クリックまたはドラッグしてバナー画像をアップロード'
-            }
-          </p>
-          <p className="text-xs text-gray-500">
-            WebP形式に自動変換されます（最大8MB）
-          </p>
-        </div>
-
-        {/* 操作ボタン */}
-        <div className="flex gap-3">
-          {displayBannerUrl && (
-            <Button
-              variant="outline"
-              onClick={handleRemoveBanner}
-              disabled={isUploading}
-              className="text-red-600 hover:text-red-700 hover:bg-red-50"
+            </div>
+          ))}
+          
+          {/* アップロード領域 */}
+          {bannerImages.length < 3 && (
+            <div
+              {...getRootProps()}
+              className={`w-full p-8 border-2 border-dashed rounded-lg ${
+                isDragActive 
+                  ? 'border-primary bg-primary/10' 
+                  : 'border-gray-300 hover:border-primary hover:bg-primary/5'
+              } flex items-center justify-center cursor-pointer transition-colors ${
+                isUploading ? 'pointer-events-none opacity-50' : ''
+              }`}
             >
-              <X className="h-4 w-4 mr-2" />
-              バナーを削除
-            </Button>
+              <input {...getInputProps()} />
+              <div className="text-center">
+                {isUploading ? (
+                  <>
+                    <Loader2 className="h-8 w-8 mx-auto mb-2 text-gray-400 animate-spin" />
+                    <p className="text-sm text-gray-600">アップロード中...</p>
+                  </>
+                ) : (
+                  <>
+                    <Upload className="h-8 w-8 mx-auto mb-2 text-gray-400" />
+                    <p className="text-sm text-gray-600 mb-1">
+                      {isDragActive ? 'ドロップしてアップロード' : 'クリックまたはドラッグして画像を追加'}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      残り{3 - bannerImages.length}枚追加可能
+                    </p>
+                  </>
+                )}
+              </div>
+            </div>
           )}
         </div>
-        
-        {/* アップロード状況 */}
-        {isUploading && (
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-            バナー画像を変換してアップロード中...
-          </div>
-        )}
 
-        {/* バナーのガイドライン */}
-        <div className="mt-4 p-4 bg-gray-50 rounded-lg border">
-          <h4 className="text-sm font-medium text-gray-900 mb-2">バナー画像のガイドライン</h4>
-          <ul className="text-xs text-gray-600 space-y-1">
-            <li>• 推奨サイズ: 600×200px（3:1の比率）</li>
-            <li>• ファイル形式: JPG、PNG、GIF、WebP</li>
-            <li>• ファイルサイズ: 最大8MB</li>
-            <li>• 自動的にWebP形式に変換されます</li>
-            <li>• 文字やロゴは画像の中央部分に配置することを推奨</li>
-          </ul>
+        {/* 説明テキスト */}
+        <div className="space-y-2 text-sm text-gray-500">
+          <p>• 最大3枚まで画像を追加できます（推奨サイズ: 600×200px）</p>
+          <p>• JPG、PNG、GIF、WebP形式に対応（最大10MB）</p>
         </div>
       </div>
     </div>

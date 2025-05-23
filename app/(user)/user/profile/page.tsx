@@ -13,7 +13,6 @@ import { useState, useEffect } from "react"
 export default function ProfilePage() {
   const { data: session } = useSession();
   const [userIcon, setUserIcon] = useState<string>('');
-  const [userBanner, setUserBanner] = useState<string>('');
 
   // セッションとDBから最新のiconUrlとbannerUrlを取得
   useEffect(() => {
@@ -32,9 +31,7 @@ export default function ProfilePage() {
           // エラーの場合はセッションから取得
           setUserIcon(session.user.iconUrl || '');
         }
-        
-        // バナー画像の初期値をセッションから設定（安全にアクセス）
-        setUserBanner(session.user?.bannerUrl || '');
+
       }
     };
 
@@ -45,9 +42,7 @@ export default function ProfilePage() {
     setUserIcon(newIconUrl);
   };
 
-  const handleBannerUpdate = (newBannerUrl: string) => {
-    setUserBanner(newBannerUrl);
-  };
+
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-5xl">
@@ -102,9 +97,7 @@ export default function ProfilePage() {
           <AccordionContent>
             {session?.user?.id && (
               <BannerSettings 
-                currentBannerUrl={userBanner}
                 userId={session.user.id}
-                onBannerUpdate={handleBannerUpdate}
               />
             )}
           </AccordionContent>
@@ -117,7 +110,11 @@ export default function ProfilePage() {
             </div>
           </AccordionTrigger>
           <AccordionContent>
-            <CarouselSettings />
+            {session?.user?.id && (
+              <CarouselSettings 
+                userId={session.user.id}
+              />
+            )}
           </AccordionContent>
         </AccordionItem>
 
