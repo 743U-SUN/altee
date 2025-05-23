@@ -91,20 +91,28 @@ model NotificationSettings {
 }
 
 model UserLink {
-  id          String  @id @default(uuid())
-  category    String?
-  iconId      String?
-  url         String
-  description String?
-  sortOrder   Int     @default(0)
+  id              String   @id @default(uuid())
+  url             String
+  title           String?
+  description     String?
+  sortOrder       Int      @default(0)
+  isActive        Boolean  @default(true)
+  useOriginalIcon Boolean  @default(false)
+  originalIconUrl String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   // リレーション
-  userId     String
-  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  linkType   LinkType? @relation(fields: [linkTypeId], references: [id])
-  linkTypeId String?
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serviceId String
+  service   LinkService  @relation(fields: [serviceId], references: [id])
+  iconId    String?
+  icon      ServiceIcon? @relation(fields: [iconId], references: [id])
 
   @@index([userId])
+  @@index([serviceId])
+  @@index([iconId])
 }
 
 model UserYoutubeSettings {
@@ -233,15 +241,43 @@ model UserDisplaySettings {
   @@index([userId])
 }
 
-model LinkType {
-  id          String  @id @default(uuid())
-  name        String
-  slug        String  @unique
-  description String?
-  icons       String?
+model LinkService {
+  id                String   @id @default(uuid())
+  name              String
+  slug              String   @unique
+  description       String?
+  baseUrl           String?
+  allowOriginalIcon Boolean  @default(true)
+  isActive          Boolean  @default(true)
+  sortOrder         Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   // リレーション
+  icons ServiceIcon[]
   links UserLink[]
+}
+
+model ServiceIcon {
+  id          String    @id @default(uuid())
+  name        String
+  fileName    String
+  filePath    String
+  style       IconStyle
+  colorScheme IconColor
+  description String?
+  isActive    Boolean   @default(true)
+  sortOrder   Int       @default(0)
+  uploadedBy  String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // リレーション
+  serviceId String
+  service   LinkService @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  links     UserLink[]
+
+  @@index([serviceId])
 }
 
 model VerificationToken {
@@ -372,4 +408,20 @@ enum ArticleStatus {
   DRAFT
   PUBLISHED
   ARCHIVED
+}
+
+enum IconStyle {
+  FILLED
+  OUTLINE
+  MINIMAL
+  GRADIENT
+  THREE_D
+}
+
+enum IconColor {
+  ORIGINAL
+  MONOCHROME
+  WHITE
+  BLACK
+  CUSTOM
 }

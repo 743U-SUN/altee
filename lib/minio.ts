@@ -52,9 +52,11 @@ export async function uploadFile(
     const objectName = `${folder}/${fileName}`;
 
     // ファイルをアップロード
-    await minioClient.putObject(BUCKET_NAME, objectName, fileBuffer, {
+    const metaData = {
       'Content-Type': contentType,
-    });
+    };
+    
+    await minioClient.putObject(BUCKET_NAME, objectName, fileBuffer, fileBuffer.length, metaData);
 
     // 公開URLを返す（開発環境ではlocalhost、本番環境では適切なエンドポイント）
     const publicEndpoint = process.env.NODE_ENV === 'development' 

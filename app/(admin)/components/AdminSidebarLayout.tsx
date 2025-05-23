@@ -24,12 +24,12 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 
-// 記事用ナビゲーションアイテム
-const adminNavItems = [
+// Admin用ナビゲーションアイテム
+const AdminNavItems = [
   {
-    id:"blog",
-    title: "admin",
-    url: "/blog",
+    id:"article",
+    title: "article",
+    url: "/admin/articles",
     icon: Book,
   },
   {
@@ -129,7 +129,7 @@ export function AdminSidebarLayout({ children }: { children: React.ReactNode }) 
           <SidebarGroup>
             <SidebarGroupContent className="px-1.5 md:px-0">
               <SidebarMenu>
-                {adminNavItems.map((item) => (
+                {AdminNavItems.map((item) => (
                   <SidebarMenuItem key={item.id}>
                     <SidebarMenuButton
                       tooltip={{

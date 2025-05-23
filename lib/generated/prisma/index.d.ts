@@ -79,10 +79,15 @@ export type UserImageCarousel = $Result.DefaultSelection<Prisma.$UserImageCarous
  */
 export type UserDisplaySettings = $Result.DefaultSelection<Prisma.$UserDisplaySettingsPayload>
 /**
- * Model LinkType
+ * Model LinkService
  * 
  */
-export type LinkType = $Result.DefaultSelection<Prisma.$LinkTypePayload>
+export type LinkService = $Result.DefaultSelection<Prisma.$LinkServicePayload>
+/**
+ * Model ServiceIcon
+ * 
+ */
+export type ServiceIcon = $Result.DefaultSelection<Prisma.$ServiceIconPayload>
 /**
  * Model VerificationToken
  * 
@@ -136,11 +141,41 @@ export namespace $Enums {
 
 export type ArticleStatus = (typeof ArticleStatus)[keyof typeof ArticleStatus]
 
+
+export const IconStyle: {
+  FILLED: 'FILLED',
+  OUTLINE: 'OUTLINE',
+  MINIMAL: 'MINIMAL',
+  GRADIENT: 'GRADIENT',
+  THREE_D: 'THREE_D'
+};
+
+export type IconStyle = (typeof IconStyle)[keyof typeof IconStyle]
+
+
+export const IconColor: {
+  ORIGINAL: 'ORIGINAL',
+  MONOCHROME: 'MONOCHROME',
+  WHITE: 'WHITE',
+  BLACK: 'BLACK',
+  CUSTOM: 'CUSTOM'
+};
+
+export type IconColor = (typeof IconColor)[keyof typeof IconColor]
+
 }
 
 export type ArticleStatus = $Enums.ArticleStatus
 
 export const ArticleStatus: typeof $Enums.ArticleStatus
+
+export type IconStyle = $Enums.IconStyle
+
+export const IconStyle: typeof $Enums.IconStyle
+
+export type IconColor = $Enums.IconColor
+
+export const IconColor: typeof $Enums.IconColor
 
 /**
  * ##  Prisma Client ʲˢ
@@ -398,14 +433,24 @@ export class PrismaClient<
   get userDisplaySettings(): Prisma.UserDisplaySettingsDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.linkType`: Exposes CRUD operations for the **LinkType** model.
+   * `prisma.linkService`: Exposes CRUD operations for the **LinkService** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more LinkTypes
-    * const linkTypes = await prisma.linkType.findMany()
+    * // Fetch zero or more LinkServices
+    * const linkServices = await prisma.linkService.findMany()
     * ```
     */
-  get linkType(): Prisma.LinkTypeDelegate<ExtArgs, ClientOptions>;
+  get linkService(): Prisma.LinkServiceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.serviceIcon`: Exposes CRUD operations for the **ServiceIcon** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ServiceIcons
+    * const serviceIcons = await prisma.serviceIcon.findMany()
+    * ```
+    */
+  get serviceIcon(): Prisma.ServiceIconDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.verificationToken`: Exposes CRUD operations for the **VerificationToken** model.
@@ -939,7 +984,8 @@ export namespace Prisma {
     UserCustomQuestion: 'UserCustomQuestion',
     UserImageCarousel: 'UserImageCarousel',
     UserDisplaySettings: 'UserDisplaySettings',
-    LinkType: 'LinkType',
+    LinkService: 'LinkService',
+    ServiceIcon: 'ServiceIcon',
     VerificationToken: 'VerificationToken',
     Author: 'Author',
     Category: 'Category',
@@ -966,7 +1012,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "notificationSettings" | "userLink" | "userYoutubeSettings" | "userImageBanner" | "userYoutubeVideo" | "userPopupSettings" | "userOGP" | "userCustomQuestion" | "userImageCarousel" | "userDisplaySettings" | "linkType" | "verificationToken" | "author" | "category" | "tag" | "article" | "articleCategory" | "articleTag" | "comment"
+      modelProps: "user" | "account" | "session" | "notificationSettings" | "userLink" | "userYoutubeSettings" | "userImageBanner" | "userYoutubeVideo" | "userPopupSettings" | "userOGP" | "userCustomQuestion" | "userImageCarousel" | "userDisplaySettings" | "linkService" | "serviceIcon" | "verificationToken" | "author" | "category" | "tag" | "article" | "articleCategory" | "articleTag" | "comment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1932,77 +1978,151 @@ export namespace Prisma {
           }
         }
       }
-      LinkType: {
-        payload: Prisma.$LinkTypePayload<ExtArgs>
-        fields: Prisma.LinkTypeFieldRefs
+      LinkService: {
+        payload: Prisma.$LinkServicePayload<ExtArgs>
+        fields: Prisma.LinkServiceFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.LinkTypeFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LinkTypePayload> | null
+            args: Prisma.LinkServiceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkServicePayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.LinkTypeFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LinkTypePayload>
+            args: Prisma.LinkServiceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkServicePayload>
           }
           findFirst: {
-            args: Prisma.LinkTypeFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LinkTypePayload> | null
+            args: Prisma.LinkServiceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkServicePayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.LinkTypeFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LinkTypePayload>
+            args: Prisma.LinkServiceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkServicePayload>
           }
           findMany: {
-            args: Prisma.LinkTypeFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LinkTypePayload>[]
+            args: Prisma.LinkServiceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkServicePayload>[]
           }
           create: {
-            args: Prisma.LinkTypeCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LinkTypePayload>
+            args: Prisma.LinkServiceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkServicePayload>
           }
           createMany: {
-            args: Prisma.LinkTypeCreateManyArgs<ExtArgs>
+            args: Prisma.LinkServiceCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.LinkTypeCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LinkTypePayload>[]
+            args: Prisma.LinkServiceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkServicePayload>[]
           }
           delete: {
-            args: Prisma.LinkTypeDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LinkTypePayload>
+            args: Prisma.LinkServiceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkServicePayload>
           }
           update: {
-            args: Prisma.LinkTypeUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LinkTypePayload>
+            args: Prisma.LinkServiceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkServicePayload>
           }
           deleteMany: {
-            args: Prisma.LinkTypeDeleteManyArgs<ExtArgs>
+            args: Prisma.LinkServiceDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.LinkTypeUpdateManyArgs<ExtArgs>
+            args: Prisma.LinkServiceUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.LinkTypeUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LinkTypePayload>[]
+            args: Prisma.LinkServiceUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkServicePayload>[]
           }
           upsert: {
-            args: Prisma.LinkTypeUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$LinkTypePayload>
+            args: Prisma.LinkServiceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LinkServicePayload>
           }
           aggregate: {
-            args: Prisma.LinkTypeAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateLinkType>
+            args: Prisma.LinkServiceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLinkService>
           }
           groupBy: {
-            args: Prisma.LinkTypeGroupByArgs<ExtArgs>
-            result: $Utils.Optional<LinkTypeGroupByOutputType>[]
+            args: Prisma.LinkServiceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LinkServiceGroupByOutputType>[]
           }
           count: {
-            args: Prisma.LinkTypeCountArgs<ExtArgs>
-            result: $Utils.Optional<LinkTypeCountAggregateOutputType> | number
+            args: Prisma.LinkServiceCountArgs<ExtArgs>
+            result: $Utils.Optional<LinkServiceCountAggregateOutputType> | number
+          }
+        }
+      }
+      ServiceIcon: {
+        payload: Prisma.$ServiceIconPayload<ExtArgs>
+        fields: Prisma.ServiceIconFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ServiceIconFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceIconPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ServiceIconFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceIconPayload>
+          }
+          findFirst: {
+            args: Prisma.ServiceIconFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceIconPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ServiceIconFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceIconPayload>
+          }
+          findMany: {
+            args: Prisma.ServiceIconFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceIconPayload>[]
+          }
+          create: {
+            args: Prisma.ServiceIconCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceIconPayload>
+          }
+          createMany: {
+            args: Prisma.ServiceIconCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ServiceIconCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceIconPayload>[]
+          }
+          delete: {
+            args: Prisma.ServiceIconDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceIconPayload>
+          }
+          update: {
+            args: Prisma.ServiceIconUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceIconPayload>
+          }
+          deleteMany: {
+            args: Prisma.ServiceIconDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ServiceIconUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ServiceIconUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceIconPayload>[]
+          }
+          upsert: {
+            args: Prisma.ServiceIconUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ServiceIconPayload>
+          }
+          aggregate: {
+            args: Prisma.ServiceIconAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateServiceIcon>
+          }
+          groupBy: {
+            args: Prisma.ServiceIconGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ServiceIconGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ServiceIconCountArgs<ExtArgs>
+            result: $Utils.Optional<ServiceIconCountAggregateOutputType> | number
           }
         }
       }
@@ -2695,7 +2815,8 @@ export namespace Prisma {
     userCustomQuestion?: UserCustomQuestionOmit
     userImageCarousel?: UserImageCarouselOmit
     userDisplaySettings?: UserDisplaySettingsOmit
-    linkType?: LinkTypeOmit
+    linkService?: LinkServiceOmit
+    serviceIcon?: ServiceIconOmit
     verificationToken?: VerificationTokenOmit
     author?: AuthorOmit
     category?: CategoryOmit
@@ -2910,32 +3031,72 @@ export namespace Prisma {
 
 
   /**
-   * Count Type LinkTypeCountOutputType
+   * Count Type LinkServiceCountOutputType
    */
 
-  export type LinkTypeCountOutputType = {
+  export type LinkServiceCountOutputType = {
+    icons: number
     links: number
   }
 
-  export type LinkTypeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    links?: boolean | LinkTypeCountOutputTypeCountLinksArgs
+  export type LinkServiceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    icons?: boolean | LinkServiceCountOutputTypeCountIconsArgs
+    links?: boolean | LinkServiceCountOutputTypeCountLinksArgs
   }
 
   // Custom InputTypes
   /**
-   * LinkTypeCountOutputType without action
+   * LinkServiceCountOutputType without action
    */
-  export type LinkTypeCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkTypeCountOutputType
+     * Select specific fields to fetch from the LinkServiceCountOutputType
      */
-    select?: LinkTypeCountOutputTypeSelect<ExtArgs> | null
+    select?: LinkServiceCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * LinkTypeCountOutputType without action
+   * LinkServiceCountOutputType without action
    */
-  export type LinkTypeCountOutputTypeCountLinksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceCountOutputTypeCountIconsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceIconWhereInput
+  }
+
+  /**
+   * LinkServiceCountOutputType without action
+   */
+  export type LinkServiceCountOutputTypeCountLinksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserLinkWhereInput
+  }
+
+
+  /**
+   * Count Type ServiceIconCountOutputType
+   */
+
+  export type ServiceIconCountOutputType = {
+    links: number
+  }
+
+  export type ServiceIconCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    links?: boolean | ServiceIconCountOutputTypeCountLinksArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ServiceIconCountOutputType without action
+   */
+  export type ServiceIconCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIconCountOutputType
+     */
+    select?: ServiceIconCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ServiceIconCountOutputType without action
+   */
+  export type ServiceIconCountOutputTypeCountLinksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserLinkWhereInput
   }
 
@@ -7940,35 +8101,50 @@ export namespace Prisma {
 
   export type UserLinkMinAggregateOutputType = {
     id: string | null
-    category: string | null
-    iconId: string | null
     url: string | null
+    title: string | null
     description: string | null
     sortOrder: number | null
+    isActive: boolean | null
+    useOriginalIcon: boolean | null
+    originalIconUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     userId: string | null
-    linkTypeId: string | null
+    serviceId: string | null
+    iconId: string | null
   }
 
   export type UserLinkMaxAggregateOutputType = {
     id: string | null
-    category: string | null
-    iconId: string | null
     url: string | null
+    title: string | null
     description: string | null
     sortOrder: number | null
+    isActive: boolean | null
+    useOriginalIcon: boolean | null
+    originalIconUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
     userId: string | null
-    linkTypeId: string | null
+    serviceId: string | null
+    iconId: string | null
   }
 
   export type UserLinkCountAggregateOutputType = {
     id: number
-    category: number
-    iconId: number
     url: number
+    title: number
     description: number
     sortOrder: number
+    isActive: number
+    useOriginalIcon: number
+    originalIconUrl: number
+    createdAt: number
+    updatedAt: number
     userId: number
-    linkTypeId: number
+    serviceId: number
+    iconId: number
     _all: number
   }
 
@@ -7983,35 +8159,50 @@ export namespace Prisma {
 
   export type UserLinkMinAggregateInputType = {
     id?: true
-    category?: true
-    iconId?: true
     url?: true
+    title?: true
     description?: true
     sortOrder?: true
+    isActive?: true
+    useOriginalIcon?: true
+    originalIconUrl?: true
+    createdAt?: true
+    updatedAt?: true
     userId?: true
-    linkTypeId?: true
+    serviceId?: true
+    iconId?: true
   }
 
   export type UserLinkMaxAggregateInputType = {
     id?: true
-    category?: true
-    iconId?: true
     url?: true
+    title?: true
     description?: true
     sortOrder?: true
+    isActive?: true
+    useOriginalIcon?: true
+    originalIconUrl?: true
+    createdAt?: true
+    updatedAt?: true
     userId?: true
-    linkTypeId?: true
+    serviceId?: true
+    iconId?: true
   }
 
   export type UserLinkCountAggregateInputType = {
     id?: true
-    category?: true
-    iconId?: true
     url?: true
+    title?: true
     description?: true
     sortOrder?: true
+    isActive?: true
+    useOriginalIcon?: true
+    originalIconUrl?: true
+    createdAt?: true
+    updatedAt?: true
     userId?: true
-    linkTypeId?: true
+    serviceId?: true
+    iconId?: true
     _all?: true
   }
 
@@ -8103,13 +8294,18 @@ export namespace Prisma {
 
   export type UserLinkGroupByOutputType = {
     id: string
-    category: string | null
-    iconId: string | null
     url: string
+    title: string | null
     description: string | null
     sortOrder: number
+    isActive: boolean
+    useOriginalIcon: boolean
+    originalIconUrl: string | null
+    createdAt: Date
+    updatedAt: Date
     userId: string
-    linkTypeId: string | null
+    serviceId: string
+    iconId: string | null
     _count: UserLinkCountAggregateOutputType | null
     _avg: UserLinkAvgAggregateOutputType | null
     _sum: UserLinkSumAggregateOutputType | null
@@ -8133,83 +8329,115 @@ export namespace Prisma {
 
   export type UserLinkSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    category?: boolean
-    iconId?: boolean
     url?: boolean
+    title?: boolean
     description?: boolean
     sortOrder?: boolean
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     userId?: boolean
-    linkTypeId?: boolean
+    serviceId?: boolean
+    iconId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    linkType?: boolean | UserLink$linkTypeArgs<ExtArgs>
+    service?: boolean | LinkServiceDefaultArgs<ExtArgs>
+    icon?: boolean | UserLink$iconArgs<ExtArgs>
   }, ExtArgs["result"]["userLink"]>
 
   export type UserLinkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    category?: boolean
-    iconId?: boolean
     url?: boolean
+    title?: boolean
     description?: boolean
     sortOrder?: boolean
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     userId?: boolean
-    linkTypeId?: boolean
+    serviceId?: boolean
+    iconId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    linkType?: boolean | UserLink$linkTypeArgs<ExtArgs>
+    service?: boolean | LinkServiceDefaultArgs<ExtArgs>
+    icon?: boolean | UserLink$iconArgs<ExtArgs>
   }, ExtArgs["result"]["userLink"]>
 
   export type UserLinkSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    category?: boolean
-    iconId?: boolean
     url?: boolean
+    title?: boolean
     description?: boolean
     sortOrder?: boolean
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     userId?: boolean
-    linkTypeId?: boolean
+    serviceId?: boolean
+    iconId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    linkType?: boolean | UserLink$linkTypeArgs<ExtArgs>
+    service?: boolean | LinkServiceDefaultArgs<ExtArgs>
+    icon?: boolean | UserLink$iconArgs<ExtArgs>
   }, ExtArgs["result"]["userLink"]>
 
   export type UserLinkSelectScalar = {
     id?: boolean
-    category?: boolean
-    iconId?: boolean
     url?: boolean
+    title?: boolean
     description?: boolean
     sortOrder?: boolean
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     userId?: boolean
-    linkTypeId?: boolean
+    serviceId?: boolean
+    iconId?: boolean
   }
 
-  export type UserLinkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "category" | "iconId" | "url" | "description" | "sortOrder" | "userId" | "linkTypeId", ExtArgs["result"]["userLink"]>
+  export type UserLinkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "url" | "title" | "description" | "sortOrder" | "isActive" | "useOriginalIcon" | "originalIconUrl" | "createdAt" | "updatedAt" | "userId" | "serviceId" | "iconId", ExtArgs["result"]["userLink"]>
   export type UserLinkInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    linkType?: boolean | UserLink$linkTypeArgs<ExtArgs>
+    service?: boolean | LinkServiceDefaultArgs<ExtArgs>
+    icon?: boolean | UserLink$iconArgs<ExtArgs>
   }
   export type UserLinkIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    linkType?: boolean | UserLink$linkTypeArgs<ExtArgs>
+    service?: boolean | LinkServiceDefaultArgs<ExtArgs>
+    icon?: boolean | UserLink$iconArgs<ExtArgs>
   }
   export type UserLinkIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    linkType?: boolean | UserLink$linkTypeArgs<ExtArgs>
+    service?: boolean | LinkServiceDefaultArgs<ExtArgs>
+    icon?: boolean | UserLink$iconArgs<ExtArgs>
   }
 
   export type $UserLinkPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "UserLink"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      linkType: Prisma.$LinkTypePayload<ExtArgs> | null
+      service: Prisma.$LinkServicePayload<ExtArgs>
+      icon: Prisma.$ServiceIconPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      category: string | null
-      iconId: string | null
       url: string
+      title: string | null
       description: string | null
       sortOrder: number
+      isActive: boolean
+      useOriginalIcon: boolean
+      originalIconUrl: string | null
+      createdAt: Date
+      updatedAt: Date
       userId: string
-      linkTypeId: string | null
+      serviceId: string
+      iconId: string | null
     }, ExtArgs["result"]["userLink"]>
     composites: {}
   }
@@ -8605,7 +8833,8 @@ export namespace Prisma {
   export interface Prisma__UserLinkClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    linkType<T extends UserLink$linkTypeArgs<ExtArgs> = {}>(args?: Subset<T, UserLink$linkTypeArgs<ExtArgs>>): Prisma__LinkTypeClient<$Result.GetResult<Prisma.$LinkTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    service<T extends LinkServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LinkServiceDefaultArgs<ExtArgs>>): Prisma__LinkServiceClient<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    icon<T extends UserLink$iconArgs<ExtArgs> = {}>(args?: Subset<T, UserLink$iconArgs<ExtArgs>>): Prisma__ServiceIconClient<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8636,13 +8865,18 @@ export namespace Prisma {
    */
   interface UserLinkFieldRefs {
     readonly id: FieldRef<"UserLink", 'String'>
-    readonly category: FieldRef<"UserLink", 'String'>
-    readonly iconId: FieldRef<"UserLink", 'String'>
     readonly url: FieldRef<"UserLink", 'String'>
+    readonly title: FieldRef<"UserLink", 'String'>
     readonly description: FieldRef<"UserLink", 'String'>
     readonly sortOrder: FieldRef<"UserLink", 'Int'>
+    readonly isActive: FieldRef<"UserLink", 'Boolean'>
+    readonly useOriginalIcon: FieldRef<"UserLink", 'Boolean'>
+    readonly originalIconUrl: FieldRef<"UserLink", 'String'>
+    readonly createdAt: FieldRef<"UserLink", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserLink", 'DateTime'>
     readonly userId: FieldRef<"UserLink", 'String'>
-    readonly linkTypeId: FieldRef<"UserLink", 'String'>
+    readonly serviceId: FieldRef<"UserLink", 'String'>
+    readonly iconId: FieldRef<"UserLink", 'String'>
   }
     
 
@@ -9039,22 +9273,22 @@ export namespace Prisma {
   }
 
   /**
-   * UserLink.linkType
+   * UserLink.icon
    */
-  export type UserLink$linkTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserLink$iconArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the ServiceIcon
      */
-    select?: LinkTypeSelect<ExtArgs> | null
+    select?: ServiceIconSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the ServiceIcon
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: ServiceIconOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LinkTypeInclude<ExtArgs> | null
-    where?: LinkTypeWhereInput
+    include?: ServiceIconInclude<ExtArgs> | null
+    where?: ServiceIconWhereInput
   }
 
   /**
@@ -17980,208 +18214,300 @@ export namespace Prisma {
 
 
   /**
-   * Model LinkType
+   * Model LinkService
    */
 
-  export type AggregateLinkType = {
-    _count: LinkTypeCountAggregateOutputType | null
-    _min: LinkTypeMinAggregateOutputType | null
-    _max: LinkTypeMaxAggregateOutputType | null
+  export type AggregateLinkService = {
+    _count: LinkServiceCountAggregateOutputType | null
+    _avg: LinkServiceAvgAggregateOutputType | null
+    _sum: LinkServiceSumAggregateOutputType | null
+    _min: LinkServiceMinAggregateOutputType | null
+    _max: LinkServiceMaxAggregateOutputType | null
   }
 
-  export type LinkTypeMinAggregateOutputType = {
+  export type LinkServiceAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type LinkServiceSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type LinkServiceMinAggregateOutputType = {
     id: string | null
     name: string | null
     slug: string | null
     description: string | null
-    icons: string | null
+    baseUrl: string | null
+    allowOriginalIcon: boolean | null
+    isActive: boolean | null
+    sortOrder: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
-  export type LinkTypeMaxAggregateOutputType = {
+  export type LinkServiceMaxAggregateOutputType = {
     id: string | null
     name: string | null
     slug: string | null
     description: string | null
-    icons: string | null
+    baseUrl: string | null
+    allowOriginalIcon: boolean | null
+    isActive: boolean | null
+    sortOrder: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
-  export type LinkTypeCountAggregateOutputType = {
+  export type LinkServiceCountAggregateOutputType = {
     id: number
     name: number
     slug: number
     description: number
-    icons: number
+    baseUrl: number
+    allowOriginalIcon: number
+    isActive: number
+    sortOrder: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
-  export type LinkTypeMinAggregateInputType = {
-    id?: true
-    name?: true
-    slug?: true
-    description?: true
-    icons?: true
+  export type LinkServiceAvgAggregateInputType = {
+    sortOrder?: true
   }
 
-  export type LinkTypeMaxAggregateInputType = {
-    id?: true
-    name?: true
-    slug?: true
-    description?: true
-    icons?: true
+  export type LinkServiceSumAggregateInputType = {
+    sortOrder?: true
   }
 
-  export type LinkTypeCountAggregateInputType = {
+  export type LinkServiceMinAggregateInputType = {
     id?: true
     name?: true
     slug?: true
     description?: true
-    icons?: true
+    baseUrl?: true
+    allowOriginalIcon?: true
+    isActive?: true
+    sortOrder?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LinkServiceMaxAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    description?: true
+    baseUrl?: true
+    allowOriginalIcon?: true
+    isActive?: true
+    sortOrder?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LinkServiceCountAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    description?: true
+    baseUrl?: true
+    allowOriginalIcon?: true
+    isActive?: true
+    sortOrder?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
-  export type LinkTypeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which LinkType to aggregate.
+     * Filter which LinkService to aggregate.
      */
-    where?: LinkTypeWhereInput
+    where?: LinkServiceWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of LinkTypes to fetch.
+     * Determine the order of LinkServices to fetch.
      */
-    orderBy?: LinkTypeOrderByWithRelationInput | LinkTypeOrderByWithRelationInput[]
+    orderBy?: LinkServiceOrderByWithRelationInput | LinkServiceOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: LinkTypeWhereUniqueInput
+    cursor?: LinkServiceWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` LinkTypes from the position of the cursor.
+     * Take `±n` LinkServices from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` LinkTypes.
+     * Skip the first `n` LinkServices.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned LinkTypes
+     * Count returned LinkServices
     **/
-    _count?: true | LinkTypeCountAggregateInputType
+    _count?: true | LinkServiceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: LinkServiceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: LinkServiceSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: LinkTypeMinAggregateInputType
+    _min?: LinkServiceMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: LinkTypeMaxAggregateInputType
+    _max?: LinkServiceMaxAggregateInputType
   }
 
-  export type GetLinkTypeAggregateType<T extends LinkTypeAggregateArgs> = {
-        [P in keyof T & keyof AggregateLinkType]: P extends '_count' | 'count'
+  export type GetLinkServiceAggregateType<T extends LinkServiceAggregateArgs> = {
+        [P in keyof T & keyof AggregateLinkService]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateLinkType[P]>
-      : GetScalarType<T[P], AggregateLinkType[P]>
+        : GetScalarType<T[P], AggregateLinkService[P]>
+      : GetScalarType<T[P], AggregateLinkService[P]>
   }
 
 
 
 
-  export type LinkTypeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: LinkTypeWhereInput
-    orderBy?: LinkTypeOrderByWithAggregationInput | LinkTypeOrderByWithAggregationInput[]
-    by: LinkTypeScalarFieldEnum[] | LinkTypeScalarFieldEnum
-    having?: LinkTypeScalarWhereWithAggregatesInput
+  export type LinkServiceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LinkServiceWhereInput
+    orderBy?: LinkServiceOrderByWithAggregationInput | LinkServiceOrderByWithAggregationInput[]
+    by: LinkServiceScalarFieldEnum[] | LinkServiceScalarFieldEnum
+    having?: LinkServiceScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: LinkTypeCountAggregateInputType | true
-    _min?: LinkTypeMinAggregateInputType
-    _max?: LinkTypeMaxAggregateInputType
+    _count?: LinkServiceCountAggregateInputType | true
+    _avg?: LinkServiceAvgAggregateInputType
+    _sum?: LinkServiceSumAggregateInputType
+    _min?: LinkServiceMinAggregateInputType
+    _max?: LinkServiceMaxAggregateInputType
   }
 
-  export type LinkTypeGroupByOutputType = {
+  export type LinkServiceGroupByOutputType = {
     id: string
     name: string
     slug: string
     description: string | null
-    icons: string | null
-    _count: LinkTypeCountAggregateOutputType | null
-    _min: LinkTypeMinAggregateOutputType | null
-    _max: LinkTypeMaxAggregateOutputType | null
+    baseUrl: string | null
+    allowOriginalIcon: boolean
+    isActive: boolean
+    sortOrder: number
+    createdAt: Date
+    updatedAt: Date
+    _count: LinkServiceCountAggregateOutputType | null
+    _avg: LinkServiceAvgAggregateOutputType | null
+    _sum: LinkServiceSumAggregateOutputType | null
+    _min: LinkServiceMinAggregateOutputType | null
+    _max: LinkServiceMaxAggregateOutputType | null
   }
 
-  type GetLinkTypeGroupByPayload<T extends LinkTypeGroupByArgs> = Prisma.PrismaPromise<
+  type GetLinkServiceGroupByPayload<T extends LinkServiceGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<LinkTypeGroupByOutputType, T['by']> &
+      PickEnumerable<LinkServiceGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof LinkTypeGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof LinkServiceGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], LinkTypeGroupByOutputType[P]>
-            : GetScalarType<T[P], LinkTypeGroupByOutputType[P]>
+              : GetScalarType<T[P], LinkServiceGroupByOutputType[P]>
+            : GetScalarType<T[P], LinkServiceGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type LinkTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type LinkServiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     slug?: boolean
     description?: boolean
-    icons?: boolean
-    links?: boolean | LinkType$linksArgs<ExtArgs>
-    _count?: boolean | LinkTypeCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["linkType"]>
+    baseUrl?: boolean
+    allowOriginalIcon?: boolean
+    isActive?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    icons?: boolean | LinkService$iconsArgs<ExtArgs>
+    links?: boolean | LinkService$linksArgs<ExtArgs>
+    _count?: boolean | LinkServiceCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["linkService"]>
 
-  export type LinkTypeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type LinkServiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     slug?: boolean
     description?: boolean
-    icons?: boolean
-  }, ExtArgs["result"]["linkType"]>
+    baseUrl?: boolean
+    allowOriginalIcon?: boolean
+    isActive?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["linkService"]>
 
-  export type LinkTypeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type LinkServiceSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     slug?: boolean
     description?: boolean
-    icons?: boolean
-  }, ExtArgs["result"]["linkType"]>
+    baseUrl?: boolean
+    allowOriginalIcon?: boolean
+    isActive?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["linkService"]>
 
-  export type LinkTypeSelectScalar = {
+  export type LinkServiceSelectScalar = {
     id?: boolean
     name?: boolean
     slug?: boolean
     description?: boolean
-    icons?: boolean
+    baseUrl?: boolean
+    allowOriginalIcon?: boolean
+    isActive?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type LinkTypeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "icons", ExtArgs["result"]["linkType"]>
-  export type LinkTypeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    links?: boolean | LinkType$linksArgs<ExtArgs>
-    _count?: boolean | LinkTypeCountOutputTypeDefaultArgs<ExtArgs>
+  export type LinkServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "baseUrl" | "allowOriginalIcon" | "isActive" | "sortOrder" | "createdAt" | "updatedAt", ExtArgs["result"]["linkService"]>
+  export type LinkServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    icons?: boolean | LinkService$iconsArgs<ExtArgs>
+    links?: boolean | LinkService$linksArgs<ExtArgs>
+    _count?: boolean | LinkServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type LinkTypeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type LinkTypeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type LinkServiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type LinkServiceIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
-  export type $LinkTypePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "LinkType"
+  export type $LinkServicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LinkService"
     objects: {
+      icons: Prisma.$ServiceIconPayload<ExtArgs>[]
       links: Prisma.$UserLinkPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -18189,137 +18515,142 @@ export namespace Prisma {
       name: string
       slug: string
       description: string | null
-      icons: string | null
-    }, ExtArgs["result"]["linkType"]>
+      baseUrl: string | null
+      allowOriginalIcon: boolean
+      isActive: boolean
+      sortOrder: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["linkService"]>
     composites: {}
   }
 
-  type LinkTypeGetPayload<S extends boolean | null | undefined | LinkTypeDefaultArgs> = $Result.GetResult<Prisma.$LinkTypePayload, S>
+  type LinkServiceGetPayload<S extends boolean | null | undefined | LinkServiceDefaultArgs> = $Result.GetResult<Prisma.$LinkServicePayload, S>
 
-  type LinkTypeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<LinkTypeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: LinkTypeCountAggregateInputType | true
+  type LinkServiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LinkServiceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LinkServiceCountAggregateInputType | true
     }
 
-  export interface LinkTypeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LinkType'], meta: { name: 'LinkType' } }
+  export interface LinkServiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LinkService'], meta: { name: 'LinkService' } }
     /**
-     * Find zero or one LinkType that matches the filter.
-     * @param {LinkTypeFindUniqueArgs} args - Arguments to find a LinkType
+     * Find zero or one LinkService that matches the filter.
+     * @param {LinkServiceFindUniqueArgs} args - Arguments to find a LinkService
      * @example
-     * // Get one LinkType
-     * const linkType = await prisma.linkType.findUnique({
+     * // Get one LinkService
+     * const linkService = await prisma.linkService.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends LinkTypeFindUniqueArgs>(args: SelectSubset<T, LinkTypeFindUniqueArgs<ExtArgs>>): Prisma__LinkTypeClient<$Result.GetResult<Prisma.$LinkTypePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends LinkServiceFindUniqueArgs>(args: SelectSubset<T, LinkServiceFindUniqueArgs<ExtArgs>>): Prisma__LinkServiceClient<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one LinkType that matches the filter or throw an error with `error.code='P2025'`
+     * Find one LinkService that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {LinkTypeFindUniqueOrThrowArgs} args - Arguments to find a LinkType
+     * @param {LinkServiceFindUniqueOrThrowArgs} args - Arguments to find a LinkService
      * @example
-     * // Get one LinkType
-     * const linkType = await prisma.linkType.findUniqueOrThrow({
+     * // Get one LinkService
+     * const linkService = await prisma.linkService.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends LinkTypeFindUniqueOrThrowArgs>(args: SelectSubset<T, LinkTypeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LinkTypeClient<$Result.GetResult<Prisma.$LinkTypePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends LinkServiceFindUniqueOrThrowArgs>(args: SelectSubset<T, LinkServiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LinkServiceClient<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first LinkType that matches the filter.
+     * Find the first LinkService that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LinkTypeFindFirstArgs} args - Arguments to find a LinkType
+     * @param {LinkServiceFindFirstArgs} args - Arguments to find a LinkService
      * @example
-     * // Get one LinkType
-     * const linkType = await prisma.linkType.findFirst({
+     * // Get one LinkService
+     * const linkService = await prisma.linkService.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends LinkTypeFindFirstArgs>(args?: SelectSubset<T, LinkTypeFindFirstArgs<ExtArgs>>): Prisma__LinkTypeClient<$Result.GetResult<Prisma.$LinkTypePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends LinkServiceFindFirstArgs>(args?: SelectSubset<T, LinkServiceFindFirstArgs<ExtArgs>>): Prisma__LinkServiceClient<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first LinkType that matches the filter or
+     * Find the first LinkService that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LinkTypeFindFirstOrThrowArgs} args - Arguments to find a LinkType
+     * @param {LinkServiceFindFirstOrThrowArgs} args - Arguments to find a LinkService
      * @example
-     * // Get one LinkType
-     * const linkType = await prisma.linkType.findFirstOrThrow({
+     * // Get one LinkService
+     * const linkService = await prisma.linkService.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends LinkTypeFindFirstOrThrowArgs>(args?: SelectSubset<T, LinkTypeFindFirstOrThrowArgs<ExtArgs>>): Prisma__LinkTypeClient<$Result.GetResult<Prisma.$LinkTypePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends LinkServiceFindFirstOrThrowArgs>(args?: SelectSubset<T, LinkServiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__LinkServiceClient<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more LinkTypes that matches the filter.
+     * Find zero or more LinkServices that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LinkTypeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {LinkServiceFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all LinkTypes
-     * const linkTypes = await prisma.linkType.findMany()
+     * // Get all LinkServices
+     * const linkServices = await prisma.linkService.findMany()
      * 
-     * // Get first 10 LinkTypes
-     * const linkTypes = await prisma.linkType.findMany({ take: 10 })
+     * // Get first 10 LinkServices
+     * const linkServices = await prisma.linkService.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const linkTypeWithIdOnly = await prisma.linkType.findMany({ select: { id: true } })
+     * const linkServiceWithIdOnly = await prisma.linkService.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends LinkTypeFindManyArgs>(args?: SelectSubset<T, LinkTypeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LinkTypePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends LinkServiceFindManyArgs>(args?: SelectSubset<T, LinkServiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a LinkType.
-     * @param {LinkTypeCreateArgs} args - Arguments to create a LinkType.
+     * Create a LinkService.
+     * @param {LinkServiceCreateArgs} args - Arguments to create a LinkService.
      * @example
-     * // Create one LinkType
-     * const LinkType = await prisma.linkType.create({
+     * // Create one LinkService
+     * const LinkService = await prisma.linkService.create({
      *   data: {
-     *     // ... data to create a LinkType
+     *     // ... data to create a LinkService
      *   }
      * })
      * 
      */
-    create<T extends LinkTypeCreateArgs>(args: SelectSubset<T, LinkTypeCreateArgs<ExtArgs>>): Prisma__LinkTypeClient<$Result.GetResult<Prisma.$LinkTypePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends LinkServiceCreateArgs>(args: SelectSubset<T, LinkServiceCreateArgs<ExtArgs>>): Prisma__LinkServiceClient<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many LinkTypes.
-     * @param {LinkTypeCreateManyArgs} args - Arguments to create many LinkTypes.
+     * Create many LinkServices.
+     * @param {LinkServiceCreateManyArgs} args - Arguments to create many LinkServices.
      * @example
-     * // Create many LinkTypes
-     * const linkType = await prisma.linkType.createMany({
+     * // Create many LinkServices
+     * const linkService = await prisma.linkService.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends LinkTypeCreateManyArgs>(args?: SelectSubset<T, LinkTypeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends LinkServiceCreateManyArgs>(args?: SelectSubset<T, LinkServiceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many LinkTypes and returns the data saved in the database.
-     * @param {LinkTypeCreateManyAndReturnArgs} args - Arguments to create many LinkTypes.
+     * Create many LinkServices and returns the data saved in the database.
+     * @param {LinkServiceCreateManyAndReturnArgs} args - Arguments to create many LinkServices.
      * @example
-     * // Create many LinkTypes
-     * const linkType = await prisma.linkType.createManyAndReturn({
+     * // Create many LinkServices
+     * const linkService = await prisma.linkService.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many LinkTypes and only return the `id`
-     * const linkTypeWithIdOnly = await prisma.linkType.createManyAndReturn({
+     * // Create many LinkServices and only return the `id`
+     * const linkServiceWithIdOnly = await prisma.linkService.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -18329,28 +18660,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends LinkTypeCreateManyAndReturnArgs>(args?: SelectSubset<T, LinkTypeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LinkTypePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends LinkServiceCreateManyAndReturnArgs>(args?: SelectSubset<T, LinkServiceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a LinkType.
-     * @param {LinkTypeDeleteArgs} args - Arguments to delete one LinkType.
+     * Delete a LinkService.
+     * @param {LinkServiceDeleteArgs} args - Arguments to delete one LinkService.
      * @example
-     * // Delete one LinkType
-     * const LinkType = await prisma.linkType.delete({
+     * // Delete one LinkService
+     * const LinkService = await prisma.linkService.delete({
      *   where: {
-     *     // ... filter to delete one LinkType
+     *     // ... filter to delete one LinkService
      *   }
      * })
      * 
      */
-    delete<T extends LinkTypeDeleteArgs>(args: SelectSubset<T, LinkTypeDeleteArgs<ExtArgs>>): Prisma__LinkTypeClient<$Result.GetResult<Prisma.$LinkTypePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends LinkServiceDeleteArgs>(args: SelectSubset<T, LinkServiceDeleteArgs<ExtArgs>>): Prisma__LinkServiceClient<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one LinkType.
-     * @param {LinkTypeUpdateArgs} args - Arguments to update one LinkType.
+     * Update one LinkService.
+     * @param {LinkServiceUpdateArgs} args - Arguments to update one LinkService.
      * @example
-     * // Update one LinkType
-     * const linkType = await prisma.linkType.update({
+     * // Update one LinkService
+     * const linkService = await prisma.linkService.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -18360,30 +18691,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends LinkTypeUpdateArgs>(args: SelectSubset<T, LinkTypeUpdateArgs<ExtArgs>>): Prisma__LinkTypeClient<$Result.GetResult<Prisma.$LinkTypePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends LinkServiceUpdateArgs>(args: SelectSubset<T, LinkServiceUpdateArgs<ExtArgs>>): Prisma__LinkServiceClient<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more LinkTypes.
-     * @param {LinkTypeDeleteManyArgs} args - Arguments to filter LinkTypes to delete.
+     * Delete zero or more LinkServices.
+     * @param {LinkServiceDeleteManyArgs} args - Arguments to filter LinkServices to delete.
      * @example
-     * // Delete a few LinkTypes
-     * const { count } = await prisma.linkType.deleteMany({
+     * // Delete a few LinkServices
+     * const { count } = await prisma.linkService.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends LinkTypeDeleteManyArgs>(args?: SelectSubset<T, LinkTypeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends LinkServiceDeleteManyArgs>(args?: SelectSubset<T, LinkServiceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more LinkTypes.
+     * Update zero or more LinkServices.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LinkTypeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {LinkServiceUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many LinkTypes
-     * const linkType = await prisma.linkType.updateMany({
+     * // Update many LinkServices
+     * const linkService = await prisma.linkService.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -18393,14 +18724,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends LinkTypeUpdateManyArgs>(args: SelectSubset<T, LinkTypeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends LinkServiceUpdateManyArgs>(args: SelectSubset<T, LinkServiceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more LinkTypes and returns the data updated in the database.
-     * @param {LinkTypeUpdateManyAndReturnArgs} args - Arguments to update many LinkTypes.
+     * Update zero or more LinkServices and returns the data updated in the database.
+     * @param {LinkServiceUpdateManyAndReturnArgs} args - Arguments to update many LinkServices.
      * @example
-     * // Update many LinkTypes
-     * const linkType = await prisma.linkType.updateManyAndReturn({
+     * // Update many LinkServices
+     * const linkService = await prisma.linkService.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -18409,8 +18740,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more LinkTypes and only return the `id`
-     * const linkTypeWithIdOnly = await prisma.linkType.updateManyAndReturn({
+     * // Update zero or more LinkServices and only return the `id`
+     * const linkServiceWithIdOnly = await prisma.linkService.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -18423,56 +18754,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends LinkTypeUpdateManyAndReturnArgs>(args: SelectSubset<T, LinkTypeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LinkTypePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends LinkServiceUpdateManyAndReturnArgs>(args: SelectSubset<T, LinkServiceUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one LinkType.
-     * @param {LinkTypeUpsertArgs} args - Arguments to update or create a LinkType.
+     * Create or update one LinkService.
+     * @param {LinkServiceUpsertArgs} args - Arguments to update or create a LinkService.
      * @example
-     * // Update or create a LinkType
-     * const linkType = await prisma.linkType.upsert({
+     * // Update or create a LinkService
+     * const linkService = await prisma.linkService.upsert({
      *   create: {
-     *     // ... data to create a LinkType
+     *     // ... data to create a LinkService
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the LinkType we want to update
+     *     // ... the filter for the LinkService we want to update
      *   }
      * })
      */
-    upsert<T extends LinkTypeUpsertArgs>(args: SelectSubset<T, LinkTypeUpsertArgs<ExtArgs>>): Prisma__LinkTypeClient<$Result.GetResult<Prisma.$LinkTypePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends LinkServiceUpsertArgs>(args: SelectSubset<T, LinkServiceUpsertArgs<ExtArgs>>): Prisma__LinkServiceClient<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of LinkTypes.
+     * Count the number of LinkServices.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LinkTypeCountArgs} args - Arguments to filter LinkTypes to count.
+     * @param {LinkServiceCountArgs} args - Arguments to filter LinkServices to count.
      * @example
-     * // Count the number of LinkTypes
-     * const count = await prisma.linkType.count({
+     * // Count the number of LinkServices
+     * const count = await prisma.linkService.count({
      *   where: {
-     *     // ... the filter for the LinkTypes we want to count
+     *     // ... the filter for the LinkServices we want to count
      *   }
      * })
     **/
-    count<T extends LinkTypeCountArgs>(
-      args?: Subset<T, LinkTypeCountArgs>,
+    count<T extends LinkServiceCountArgs>(
+      args?: Subset<T, LinkServiceCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], LinkTypeCountAggregateOutputType>
+          : GetScalarType<T['select'], LinkServiceCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a LinkType.
+     * Allows you to perform aggregations operations on a LinkService.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LinkTypeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {LinkServiceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -18492,13 +18823,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends LinkTypeAggregateArgs>(args: Subset<T, LinkTypeAggregateArgs>): Prisma.PrismaPromise<GetLinkTypeAggregateType<T>>
+    aggregate<T extends LinkServiceAggregateArgs>(args: Subset<T, LinkServiceAggregateArgs>): Prisma.PrismaPromise<GetLinkServiceAggregateType<T>>
 
     /**
-     * Group by LinkType.
+     * Group by LinkService.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {LinkTypeGroupByArgs} args - Group by arguments.
+     * @param {LinkServiceGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -18513,14 +18844,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends LinkTypeGroupByArgs,
+      T extends LinkServiceGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: LinkTypeGroupByArgs['orderBy'] }
-        : { orderBy?: LinkTypeGroupByArgs['orderBy'] },
+        ? { orderBy: LinkServiceGroupByArgs['orderBy'] }
+        : { orderBy?: LinkServiceGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -18569,22 +18900,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, LinkTypeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLinkTypeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, LinkServiceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLinkServiceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the LinkType model
+   * Fields of the LinkService model
    */
-  readonly fields: LinkTypeFieldRefs;
+  readonly fields: LinkServiceFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for LinkType.
+   * The delegate class that acts as a "Promise-like" for LinkService.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__LinkTypeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__LinkServiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    links<T extends LinkType$linksArgs<ExtArgs> = {}>(args?: Subset<T, LinkType$linksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    icons<T extends LinkService$iconsArgs<ExtArgs> = {}>(args?: Subset<T, LinkService$iconsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    links<T extends LinkService$linksArgs<ExtArgs> = {}>(args?: Subset<T, LinkService$linksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18611,405 +18943,434 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the LinkType model
+   * Fields of the LinkService model
    */
-  interface LinkTypeFieldRefs {
-    readonly id: FieldRef<"LinkType", 'String'>
-    readonly name: FieldRef<"LinkType", 'String'>
-    readonly slug: FieldRef<"LinkType", 'String'>
-    readonly description: FieldRef<"LinkType", 'String'>
-    readonly icons: FieldRef<"LinkType", 'String'>
+  interface LinkServiceFieldRefs {
+    readonly id: FieldRef<"LinkService", 'String'>
+    readonly name: FieldRef<"LinkService", 'String'>
+    readonly slug: FieldRef<"LinkService", 'String'>
+    readonly description: FieldRef<"LinkService", 'String'>
+    readonly baseUrl: FieldRef<"LinkService", 'String'>
+    readonly allowOriginalIcon: FieldRef<"LinkService", 'Boolean'>
+    readonly isActive: FieldRef<"LinkService", 'Boolean'>
+    readonly sortOrder: FieldRef<"LinkService", 'Int'>
+    readonly createdAt: FieldRef<"LinkService", 'DateTime'>
+    readonly updatedAt: FieldRef<"LinkService", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * LinkType findUnique
+   * LinkService findUnique
    */
-  export type LinkTypeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the LinkService
      */
-    select?: LinkTypeSelect<ExtArgs> | null
+    select?: LinkServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the LinkService
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: LinkServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LinkTypeInclude<ExtArgs> | null
+    include?: LinkServiceInclude<ExtArgs> | null
     /**
-     * Filter, which LinkType to fetch.
+     * Filter, which LinkService to fetch.
      */
-    where: LinkTypeWhereUniqueInput
+    where: LinkServiceWhereUniqueInput
   }
 
   /**
-   * LinkType findUniqueOrThrow
+   * LinkService findUniqueOrThrow
    */
-  export type LinkTypeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the LinkService
      */
-    select?: LinkTypeSelect<ExtArgs> | null
+    select?: LinkServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the LinkService
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: LinkServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LinkTypeInclude<ExtArgs> | null
+    include?: LinkServiceInclude<ExtArgs> | null
     /**
-     * Filter, which LinkType to fetch.
+     * Filter, which LinkService to fetch.
      */
-    where: LinkTypeWhereUniqueInput
+    where: LinkServiceWhereUniqueInput
   }
 
   /**
-   * LinkType findFirst
+   * LinkService findFirst
    */
-  export type LinkTypeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the LinkService
      */
-    select?: LinkTypeSelect<ExtArgs> | null
+    select?: LinkServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the LinkService
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: LinkServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LinkTypeInclude<ExtArgs> | null
+    include?: LinkServiceInclude<ExtArgs> | null
     /**
-     * Filter, which LinkType to fetch.
+     * Filter, which LinkService to fetch.
      */
-    where?: LinkTypeWhereInput
+    where?: LinkServiceWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of LinkTypes to fetch.
+     * Determine the order of LinkServices to fetch.
      */
-    orderBy?: LinkTypeOrderByWithRelationInput | LinkTypeOrderByWithRelationInput[]
+    orderBy?: LinkServiceOrderByWithRelationInput | LinkServiceOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for LinkTypes.
+     * Sets the position for searching for LinkServices.
      */
-    cursor?: LinkTypeWhereUniqueInput
+    cursor?: LinkServiceWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` LinkTypes from the position of the cursor.
+     * Take `±n` LinkServices from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` LinkTypes.
+     * Skip the first `n` LinkServices.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of LinkTypes.
+     * Filter by unique combinations of LinkServices.
      */
-    distinct?: LinkTypeScalarFieldEnum | LinkTypeScalarFieldEnum[]
+    distinct?: LinkServiceScalarFieldEnum | LinkServiceScalarFieldEnum[]
   }
 
   /**
-   * LinkType findFirstOrThrow
+   * LinkService findFirstOrThrow
    */
-  export type LinkTypeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the LinkService
      */
-    select?: LinkTypeSelect<ExtArgs> | null
+    select?: LinkServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the LinkService
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: LinkServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LinkTypeInclude<ExtArgs> | null
+    include?: LinkServiceInclude<ExtArgs> | null
     /**
-     * Filter, which LinkType to fetch.
+     * Filter, which LinkService to fetch.
      */
-    where?: LinkTypeWhereInput
+    where?: LinkServiceWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of LinkTypes to fetch.
+     * Determine the order of LinkServices to fetch.
      */
-    orderBy?: LinkTypeOrderByWithRelationInput | LinkTypeOrderByWithRelationInput[]
+    orderBy?: LinkServiceOrderByWithRelationInput | LinkServiceOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for LinkTypes.
+     * Sets the position for searching for LinkServices.
      */
-    cursor?: LinkTypeWhereUniqueInput
+    cursor?: LinkServiceWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` LinkTypes from the position of the cursor.
+     * Take `±n` LinkServices from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` LinkTypes.
+     * Skip the first `n` LinkServices.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of LinkTypes.
+     * Filter by unique combinations of LinkServices.
      */
-    distinct?: LinkTypeScalarFieldEnum | LinkTypeScalarFieldEnum[]
+    distinct?: LinkServiceScalarFieldEnum | LinkServiceScalarFieldEnum[]
   }
 
   /**
-   * LinkType findMany
+   * LinkService findMany
    */
-  export type LinkTypeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the LinkService
      */
-    select?: LinkTypeSelect<ExtArgs> | null
+    select?: LinkServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the LinkService
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: LinkServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LinkTypeInclude<ExtArgs> | null
+    include?: LinkServiceInclude<ExtArgs> | null
     /**
-     * Filter, which LinkTypes to fetch.
+     * Filter, which LinkServices to fetch.
      */
-    where?: LinkTypeWhereInput
+    where?: LinkServiceWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of LinkTypes to fetch.
+     * Determine the order of LinkServices to fetch.
      */
-    orderBy?: LinkTypeOrderByWithRelationInput | LinkTypeOrderByWithRelationInput[]
+    orderBy?: LinkServiceOrderByWithRelationInput | LinkServiceOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing LinkTypes.
+     * Sets the position for listing LinkServices.
      */
-    cursor?: LinkTypeWhereUniqueInput
+    cursor?: LinkServiceWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` LinkTypes from the position of the cursor.
+     * Take `±n` LinkServices from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` LinkTypes.
+     * Skip the first `n` LinkServices.
      */
     skip?: number
-    distinct?: LinkTypeScalarFieldEnum | LinkTypeScalarFieldEnum[]
+    distinct?: LinkServiceScalarFieldEnum | LinkServiceScalarFieldEnum[]
   }
 
   /**
-   * LinkType create
+   * LinkService create
    */
-  export type LinkTypeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the LinkService
      */
-    select?: LinkTypeSelect<ExtArgs> | null
+    select?: LinkServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the LinkService
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: LinkServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LinkTypeInclude<ExtArgs> | null
+    include?: LinkServiceInclude<ExtArgs> | null
     /**
-     * The data needed to create a LinkType.
+     * The data needed to create a LinkService.
      */
-    data: XOR<LinkTypeCreateInput, LinkTypeUncheckedCreateInput>
+    data: XOR<LinkServiceCreateInput, LinkServiceUncheckedCreateInput>
   }
 
   /**
-   * LinkType createMany
+   * LinkService createMany
    */
-  export type LinkTypeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many LinkTypes.
+     * The data used to create many LinkServices.
      */
-    data: LinkTypeCreateManyInput | LinkTypeCreateManyInput[]
+    data: LinkServiceCreateManyInput | LinkServiceCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * LinkType createManyAndReturn
+   * LinkService createManyAndReturn
    */
-  export type LinkTypeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the LinkService
      */
-    select?: LinkTypeSelectCreateManyAndReturn<ExtArgs> | null
+    select?: LinkServiceSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the LinkService
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: LinkServiceOmit<ExtArgs> | null
     /**
-     * The data used to create many LinkTypes.
+     * The data used to create many LinkServices.
      */
-    data: LinkTypeCreateManyInput | LinkTypeCreateManyInput[]
+    data: LinkServiceCreateManyInput | LinkServiceCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * LinkType update
+   * LinkService update
    */
-  export type LinkTypeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the LinkService
      */
-    select?: LinkTypeSelect<ExtArgs> | null
+    select?: LinkServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the LinkService
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: LinkServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LinkTypeInclude<ExtArgs> | null
+    include?: LinkServiceInclude<ExtArgs> | null
     /**
-     * The data needed to update a LinkType.
+     * The data needed to update a LinkService.
      */
-    data: XOR<LinkTypeUpdateInput, LinkTypeUncheckedUpdateInput>
+    data: XOR<LinkServiceUpdateInput, LinkServiceUncheckedUpdateInput>
     /**
-     * Choose, which LinkType to update.
+     * Choose, which LinkService to update.
      */
-    where: LinkTypeWhereUniqueInput
+    where: LinkServiceWhereUniqueInput
   }
 
   /**
-   * LinkType updateMany
+   * LinkService updateMany
    */
-  export type LinkTypeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update LinkTypes.
+     * The data used to update LinkServices.
      */
-    data: XOR<LinkTypeUpdateManyMutationInput, LinkTypeUncheckedUpdateManyInput>
+    data: XOR<LinkServiceUpdateManyMutationInput, LinkServiceUncheckedUpdateManyInput>
     /**
-     * Filter which LinkTypes to update
+     * Filter which LinkServices to update
      */
-    where?: LinkTypeWhereInput
+    where?: LinkServiceWhereInput
     /**
-     * Limit how many LinkTypes to update.
+     * Limit how many LinkServices to update.
      */
     limit?: number
   }
 
   /**
-   * LinkType updateManyAndReturn
+   * LinkService updateManyAndReturn
    */
-  export type LinkTypeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the LinkService
      */
-    select?: LinkTypeSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: LinkServiceSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the LinkService
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: LinkServiceOmit<ExtArgs> | null
     /**
-     * The data used to update LinkTypes.
+     * The data used to update LinkServices.
      */
-    data: XOR<LinkTypeUpdateManyMutationInput, LinkTypeUncheckedUpdateManyInput>
+    data: XOR<LinkServiceUpdateManyMutationInput, LinkServiceUncheckedUpdateManyInput>
     /**
-     * Filter which LinkTypes to update
+     * Filter which LinkServices to update
      */
-    where?: LinkTypeWhereInput
+    where?: LinkServiceWhereInput
     /**
-     * Limit how many LinkTypes to update.
+     * Limit how many LinkServices to update.
      */
     limit?: number
   }
 
   /**
-   * LinkType upsert
+   * LinkService upsert
    */
-  export type LinkTypeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the LinkService
      */
-    select?: LinkTypeSelect<ExtArgs> | null
+    select?: LinkServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the LinkService
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: LinkServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LinkTypeInclude<ExtArgs> | null
+    include?: LinkServiceInclude<ExtArgs> | null
     /**
-     * The filter to search for the LinkType to update in case it exists.
+     * The filter to search for the LinkService to update in case it exists.
      */
-    where: LinkTypeWhereUniqueInput
+    where: LinkServiceWhereUniqueInput
     /**
-     * In case the LinkType found by the `where` argument doesn't exist, create a new LinkType with this data.
+     * In case the LinkService found by the `where` argument doesn't exist, create a new LinkService with this data.
      */
-    create: XOR<LinkTypeCreateInput, LinkTypeUncheckedCreateInput>
+    create: XOR<LinkServiceCreateInput, LinkServiceUncheckedCreateInput>
     /**
-     * In case the LinkType was found with the provided `where` argument, update it with this data.
+     * In case the LinkService was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<LinkTypeUpdateInput, LinkTypeUncheckedUpdateInput>
+    update: XOR<LinkServiceUpdateInput, LinkServiceUncheckedUpdateInput>
   }
 
   /**
-   * LinkType delete
+   * LinkService delete
    */
-  export type LinkTypeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the LinkService
      */
-    select?: LinkTypeSelect<ExtArgs> | null
+    select?: LinkServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the LinkService
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: LinkServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LinkTypeInclude<ExtArgs> | null
+    include?: LinkServiceInclude<ExtArgs> | null
     /**
-     * Filter which LinkType to delete.
+     * Filter which LinkService to delete.
      */
-    where: LinkTypeWhereUniqueInput
+    where: LinkServiceWhereUniqueInput
   }
 
   /**
-   * LinkType deleteMany
+   * LinkService deleteMany
    */
-  export type LinkTypeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which LinkTypes to delete
+     * Filter which LinkServices to delete
      */
-    where?: LinkTypeWhereInput
+    where?: LinkServiceWhereInput
     /**
-     * Limit how many LinkTypes to delete.
+     * Limit how many LinkServices to delete.
      */
     limit?: number
   }
 
   /**
-   * LinkType.links
+   * LinkService.icons
    */
-  export type LinkType$linksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkService$iconsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconInclude<ExtArgs> | null
+    where?: ServiceIconWhereInput
+    orderBy?: ServiceIconOrderByWithRelationInput | ServiceIconOrderByWithRelationInput[]
+    cursor?: ServiceIconWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ServiceIconScalarFieldEnum | ServiceIconScalarFieldEnum[]
+  }
+
+  /**
+   * LinkService.links
+   */
+  export type LinkService$linksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the UserLink
      */
@@ -19031,21 +19392,1247 @@ export namespace Prisma {
   }
 
   /**
-   * LinkType without action
+   * LinkService without action
    */
-  export type LinkTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type LinkServiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the LinkType
+     * Select specific fields to fetch from the LinkService
      */
-    select?: LinkTypeSelect<ExtArgs> | null
+    select?: LinkServiceSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the LinkType
+     * Omit specific fields from the LinkService
      */
-    omit?: LinkTypeOmit<ExtArgs> | null
+    omit?: LinkServiceOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: LinkTypeInclude<ExtArgs> | null
+    include?: LinkServiceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ServiceIcon
+   */
+
+  export type AggregateServiceIcon = {
+    _count: ServiceIconCountAggregateOutputType | null
+    _avg: ServiceIconAvgAggregateOutputType | null
+    _sum: ServiceIconSumAggregateOutputType | null
+    _min: ServiceIconMinAggregateOutputType | null
+    _max: ServiceIconMaxAggregateOutputType | null
+  }
+
+  export type ServiceIconAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type ServiceIconSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type ServiceIconMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    fileName: string | null
+    filePath: string | null
+    style: $Enums.IconStyle | null
+    colorScheme: $Enums.IconColor | null
+    description: string | null
+    isActive: boolean | null
+    sortOrder: number | null
+    uploadedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    serviceId: string | null
+  }
+
+  export type ServiceIconMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    fileName: string | null
+    filePath: string | null
+    style: $Enums.IconStyle | null
+    colorScheme: $Enums.IconColor | null
+    description: string | null
+    isActive: boolean | null
+    sortOrder: number | null
+    uploadedBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    serviceId: string | null
+  }
+
+  export type ServiceIconCountAggregateOutputType = {
+    id: number
+    name: number
+    fileName: number
+    filePath: number
+    style: number
+    colorScheme: number
+    description: number
+    isActive: number
+    sortOrder: number
+    uploadedBy: number
+    createdAt: number
+    updatedAt: number
+    serviceId: number
+    _all: number
+  }
+
+
+  export type ServiceIconAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type ServiceIconSumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type ServiceIconMinAggregateInputType = {
+    id?: true
+    name?: true
+    fileName?: true
+    filePath?: true
+    style?: true
+    colorScheme?: true
+    description?: true
+    isActive?: true
+    sortOrder?: true
+    uploadedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    serviceId?: true
+  }
+
+  export type ServiceIconMaxAggregateInputType = {
+    id?: true
+    name?: true
+    fileName?: true
+    filePath?: true
+    style?: true
+    colorScheme?: true
+    description?: true
+    isActive?: true
+    sortOrder?: true
+    uploadedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    serviceId?: true
+  }
+
+  export type ServiceIconCountAggregateInputType = {
+    id?: true
+    name?: true
+    fileName?: true
+    filePath?: true
+    style?: true
+    colorScheme?: true
+    description?: true
+    isActive?: true
+    sortOrder?: true
+    uploadedBy?: true
+    createdAt?: true
+    updatedAt?: true
+    serviceId?: true
+    _all?: true
+  }
+
+  export type ServiceIconAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceIcon to aggregate.
+     */
+    where?: ServiceIconWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceIcons to fetch.
+     */
+    orderBy?: ServiceIconOrderByWithRelationInput | ServiceIconOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ServiceIconWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceIcons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceIcons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ServiceIcons
+    **/
+    _count?: true | ServiceIconCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ServiceIconAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ServiceIconSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ServiceIconMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ServiceIconMaxAggregateInputType
+  }
+
+  export type GetServiceIconAggregateType<T extends ServiceIconAggregateArgs> = {
+        [P in keyof T & keyof AggregateServiceIcon]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateServiceIcon[P]>
+      : GetScalarType<T[P], AggregateServiceIcon[P]>
+  }
+
+
+
+
+  export type ServiceIconGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ServiceIconWhereInput
+    orderBy?: ServiceIconOrderByWithAggregationInput | ServiceIconOrderByWithAggregationInput[]
+    by: ServiceIconScalarFieldEnum[] | ServiceIconScalarFieldEnum
+    having?: ServiceIconScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ServiceIconCountAggregateInputType | true
+    _avg?: ServiceIconAvgAggregateInputType
+    _sum?: ServiceIconSumAggregateInputType
+    _min?: ServiceIconMinAggregateInputType
+    _max?: ServiceIconMaxAggregateInputType
+  }
+
+  export type ServiceIconGroupByOutputType = {
+    id: string
+    name: string
+    fileName: string
+    filePath: string
+    style: $Enums.IconStyle
+    colorScheme: $Enums.IconColor
+    description: string | null
+    isActive: boolean
+    sortOrder: number
+    uploadedBy: string | null
+    createdAt: Date
+    updatedAt: Date
+    serviceId: string
+    _count: ServiceIconCountAggregateOutputType | null
+    _avg: ServiceIconAvgAggregateOutputType | null
+    _sum: ServiceIconSumAggregateOutputType | null
+    _min: ServiceIconMinAggregateOutputType | null
+    _max: ServiceIconMaxAggregateOutputType | null
+  }
+
+  type GetServiceIconGroupByPayload<T extends ServiceIconGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ServiceIconGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ServiceIconGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ServiceIconGroupByOutputType[P]>
+            : GetScalarType<T[P], ServiceIconGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ServiceIconSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    fileName?: boolean
+    filePath?: boolean
+    style?: boolean
+    colorScheme?: boolean
+    description?: boolean
+    isActive?: boolean
+    sortOrder?: boolean
+    uploadedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    serviceId?: boolean
+    service?: boolean | LinkServiceDefaultArgs<ExtArgs>
+    links?: boolean | ServiceIcon$linksArgs<ExtArgs>
+    _count?: boolean | ServiceIconCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceIcon"]>
+
+  export type ServiceIconSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    fileName?: boolean
+    filePath?: boolean
+    style?: boolean
+    colorScheme?: boolean
+    description?: boolean
+    isActive?: boolean
+    sortOrder?: boolean
+    uploadedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    serviceId?: boolean
+    service?: boolean | LinkServiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceIcon"]>
+
+  export type ServiceIconSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    fileName?: boolean
+    filePath?: boolean
+    style?: boolean
+    colorScheme?: boolean
+    description?: boolean
+    isActive?: boolean
+    sortOrder?: boolean
+    uploadedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    serviceId?: boolean
+    service?: boolean | LinkServiceDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["serviceIcon"]>
+
+  export type ServiceIconSelectScalar = {
+    id?: boolean
+    name?: boolean
+    fileName?: boolean
+    filePath?: boolean
+    style?: boolean
+    colorScheme?: boolean
+    description?: boolean
+    isActive?: boolean
+    sortOrder?: boolean
+    uploadedBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    serviceId?: boolean
+  }
+
+  export type ServiceIconOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "fileName" | "filePath" | "style" | "colorScheme" | "description" | "isActive" | "sortOrder" | "uploadedBy" | "createdAt" | "updatedAt" | "serviceId", ExtArgs["result"]["serviceIcon"]>
+  export type ServiceIconInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | LinkServiceDefaultArgs<ExtArgs>
+    links?: boolean | ServiceIcon$linksArgs<ExtArgs>
+    _count?: boolean | ServiceIconCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ServiceIconIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | LinkServiceDefaultArgs<ExtArgs>
+  }
+  export type ServiceIconIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service?: boolean | LinkServiceDefaultArgs<ExtArgs>
+  }
+
+  export type $ServiceIconPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ServiceIcon"
+    objects: {
+      service: Prisma.$LinkServicePayload<ExtArgs>
+      links: Prisma.$UserLinkPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      fileName: string
+      filePath: string
+      style: $Enums.IconStyle
+      colorScheme: $Enums.IconColor
+      description: string | null
+      isActive: boolean
+      sortOrder: number
+      uploadedBy: string | null
+      createdAt: Date
+      updatedAt: Date
+      serviceId: string
+    }, ExtArgs["result"]["serviceIcon"]>
+    composites: {}
+  }
+
+  type ServiceIconGetPayload<S extends boolean | null | undefined | ServiceIconDefaultArgs> = $Result.GetResult<Prisma.$ServiceIconPayload, S>
+
+  type ServiceIconCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ServiceIconFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ServiceIconCountAggregateInputType | true
+    }
+
+  export interface ServiceIconDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ServiceIcon'], meta: { name: 'ServiceIcon' } }
+    /**
+     * Find zero or one ServiceIcon that matches the filter.
+     * @param {ServiceIconFindUniqueArgs} args - Arguments to find a ServiceIcon
+     * @example
+     * // Get one ServiceIcon
+     * const serviceIcon = await prisma.serviceIcon.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ServiceIconFindUniqueArgs>(args: SelectSubset<T, ServiceIconFindUniqueArgs<ExtArgs>>): Prisma__ServiceIconClient<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ServiceIcon that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ServiceIconFindUniqueOrThrowArgs} args - Arguments to find a ServiceIcon
+     * @example
+     * // Get one ServiceIcon
+     * const serviceIcon = await prisma.serviceIcon.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ServiceIconFindUniqueOrThrowArgs>(args: SelectSubset<T, ServiceIconFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ServiceIconClient<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceIcon that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceIconFindFirstArgs} args - Arguments to find a ServiceIcon
+     * @example
+     * // Get one ServiceIcon
+     * const serviceIcon = await prisma.serviceIcon.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ServiceIconFindFirstArgs>(args?: SelectSubset<T, ServiceIconFindFirstArgs<ExtArgs>>): Prisma__ServiceIconClient<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ServiceIcon that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceIconFindFirstOrThrowArgs} args - Arguments to find a ServiceIcon
+     * @example
+     * // Get one ServiceIcon
+     * const serviceIcon = await prisma.serviceIcon.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ServiceIconFindFirstOrThrowArgs>(args?: SelectSubset<T, ServiceIconFindFirstOrThrowArgs<ExtArgs>>): Prisma__ServiceIconClient<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ServiceIcons that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceIconFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ServiceIcons
+     * const serviceIcons = await prisma.serviceIcon.findMany()
+     * 
+     * // Get first 10 ServiceIcons
+     * const serviceIcons = await prisma.serviceIcon.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const serviceIconWithIdOnly = await prisma.serviceIcon.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ServiceIconFindManyArgs>(args?: SelectSubset<T, ServiceIconFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ServiceIcon.
+     * @param {ServiceIconCreateArgs} args - Arguments to create a ServiceIcon.
+     * @example
+     * // Create one ServiceIcon
+     * const ServiceIcon = await prisma.serviceIcon.create({
+     *   data: {
+     *     // ... data to create a ServiceIcon
+     *   }
+     * })
+     * 
+     */
+    create<T extends ServiceIconCreateArgs>(args: SelectSubset<T, ServiceIconCreateArgs<ExtArgs>>): Prisma__ServiceIconClient<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ServiceIcons.
+     * @param {ServiceIconCreateManyArgs} args - Arguments to create many ServiceIcons.
+     * @example
+     * // Create many ServiceIcons
+     * const serviceIcon = await prisma.serviceIcon.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ServiceIconCreateManyArgs>(args?: SelectSubset<T, ServiceIconCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ServiceIcons and returns the data saved in the database.
+     * @param {ServiceIconCreateManyAndReturnArgs} args - Arguments to create many ServiceIcons.
+     * @example
+     * // Create many ServiceIcons
+     * const serviceIcon = await prisma.serviceIcon.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ServiceIcons and only return the `id`
+     * const serviceIconWithIdOnly = await prisma.serviceIcon.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ServiceIconCreateManyAndReturnArgs>(args?: SelectSubset<T, ServiceIconCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ServiceIcon.
+     * @param {ServiceIconDeleteArgs} args - Arguments to delete one ServiceIcon.
+     * @example
+     * // Delete one ServiceIcon
+     * const ServiceIcon = await prisma.serviceIcon.delete({
+     *   where: {
+     *     // ... filter to delete one ServiceIcon
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ServiceIconDeleteArgs>(args: SelectSubset<T, ServiceIconDeleteArgs<ExtArgs>>): Prisma__ServiceIconClient<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ServiceIcon.
+     * @param {ServiceIconUpdateArgs} args - Arguments to update one ServiceIcon.
+     * @example
+     * // Update one ServiceIcon
+     * const serviceIcon = await prisma.serviceIcon.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ServiceIconUpdateArgs>(args: SelectSubset<T, ServiceIconUpdateArgs<ExtArgs>>): Prisma__ServiceIconClient<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ServiceIcons.
+     * @param {ServiceIconDeleteManyArgs} args - Arguments to filter ServiceIcons to delete.
+     * @example
+     * // Delete a few ServiceIcons
+     * const { count } = await prisma.serviceIcon.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ServiceIconDeleteManyArgs>(args?: SelectSubset<T, ServiceIconDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceIcons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceIconUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ServiceIcons
+     * const serviceIcon = await prisma.serviceIcon.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ServiceIconUpdateManyArgs>(args: SelectSubset<T, ServiceIconUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ServiceIcons and returns the data updated in the database.
+     * @param {ServiceIconUpdateManyAndReturnArgs} args - Arguments to update many ServiceIcons.
+     * @example
+     * // Update many ServiceIcons
+     * const serviceIcon = await prisma.serviceIcon.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ServiceIcons and only return the `id`
+     * const serviceIconWithIdOnly = await prisma.serviceIcon.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ServiceIconUpdateManyAndReturnArgs>(args: SelectSubset<T, ServiceIconUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ServiceIcon.
+     * @param {ServiceIconUpsertArgs} args - Arguments to update or create a ServiceIcon.
+     * @example
+     * // Update or create a ServiceIcon
+     * const serviceIcon = await prisma.serviceIcon.upsert({
+     *   create: {
+     *     // ... data to create a ServiceIcon
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ServiceIcon we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ServiceIconUpsertArgs>(args: SelectSubset<T, ServiceIconUpsertArgs<ExtArgs>>): Prisma__ServiceIconClient<$Result.GetResult<Prisma.$ServiceIconPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ServiceIcons.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceIconCountArgs} args - Arguments to filter ServiceIcons to count.
+     * @example
+     * // Count the number of ServiceIcons
+     * const count = await prisma.serviceIcon.count({
+     *   where: {
+     *     // ... the filter for the ServiceIcons we want to count
+     *   }
+     * })
+    **/
+    count<T extends ServiceIconCountArgs>(
+      args?: Subset<T, ServiceIconCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ServiceIconCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ServiceIcon.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceIconAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ServiceIconAggregateArgs>(args: Subset<T, ServiceIconAggregateArgs>): Prisma.PrismaPromise<GetServiceIconAggregateType<T>>
+
+    /**
+     * Group by ServiceIcon.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ServiceIconGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ServiceIconGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ServiceIconGroupByArgs['orderBy'] }
+        : { orderBy?: ServiceIconGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ServiceIconGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetServiceIconGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ServiceIcon model
+   */
+  readonly fields: ServiceIconFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ServiceIcon.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ServiceIconClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    service<T extends LinkServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LinkServiceDefaultArgs<ExtArgs>>): Prisma__LinkServiceClient<$Result.GetResult<Prisma.$LinkServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    links<T extends ServiceIcon$linksArgs<ExtArgs> = {}>(args?: Subset<T, ServiceIcon$linksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ServiceIcon model
+   */
+  interface ServiceIconFieldRefs {
+    readonly id: FieldRef<"ServiceIcon", 'String'>
+    readonly name: FieldRef<"ServiceIcon", 'String'>
+    readonly fileName: FieldRef<"ServiceIcon", 'String'>
+    readonly filePath: FieldRef<"ServiceIcon", 'String'>
+    readonly style: FieldRef<"ServiceIcon", 'IconStyle'>
+    readonly colorScheme: FieldRef<"ServiceIcon", 'IconColor'>
+    readonly description: FieldRef<"ServiceIcon", 'String'>
+    readonly isActive: FieldRef<"ServiceIcon", 'Boolean'>
+    readonly sortOrder: FieldRef<"ServiceIcon", 'Int'>
+    readonly uploadedBy: FieldRef<"ServiceIcon", 'String'>
+    readonly createdAt: FieldRef<"ServiceIcon", 'DateTime'>
+    readonly updatedAt: FieldRef<"ServiceIcon", 'DateTime'>
+    readonly serviceId: FieldRef<"ServiceIcon", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ServiceIcon findUnique
+   */
+  export type ServiceIconFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceIcon to fetch.
+     */
+    where: ServiceIconWhereUniqueInput
+  }
+
+  /**
+   * ServiceIcon findUniqueOrThrow
+   */
+  export type ServiceIconFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceIcon to fetch.
+     */
+    where: ServiceIconWhereUniqueInput
+  }
+
+  /**
+   * ServiceIcon findFirst
+   */
+  export type ServiceIconFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceIcon to fetch.
+     */
+    where?: ServiceIconWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceIcons to fetch.
+     */
+    orderBy?: ServiceIconOrderByWithRelationInput | ServiceIconOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceIcons.
+     */
+    cursor?: ServiceIconWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceIcons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceIcons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceIcons.
+     */
+    distinct?: ServiceIconScalarFieldEnum | ServiceIconScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceIcon findFirstOrThrow
+   */
+  export type ServiceIconFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceIcon to fetch.
+     */
+    where?: ServiceIconWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceIcons to fetch.
+     */
+    orderBy?: ServiceIconOrderByWithRelationInput | ServiceIconOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ServiceIcons.
+     */
+    cursor?: ServiceIconWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceIcons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceIcons.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ServiceIcons.
+     */
+    distinct?: ServiceIconScalarFieldEnum | ServiceIconScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceIcon findMany
+   */
+  export type ServiceIconFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconInclude<ExtArgs> | null
+    /**
+     * Filter, which ServiceIcons to fetch.
+     */
+    where?: ServiceIconWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ServiceIcons to fetch.
+     */
+    orderBy?: ServiceIconOrderByWithRelationInput | ServiceIconOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ServiceIcons.
+     */
+    cursor?: ServiceIconWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ServiceIcons from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ServiceIcons.
+     */
+    skip?: number
+    distinct?: ServiceIconScalarFieldEnum | ServiceIconScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceIcon create
+   */
+  export type ServiceIconCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ServiceIcon.
+     */
+    data: XOR<ServiceIconCreateInput, ServiceIconUncheckedCreateInput>
+  }
+
+  /**
+   * ServiceIcon createMany
+   */
+  export type ServiceIconCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ServiceIcons.
+     */
+    data: ServiceIconCreateManyInput | ServiceIconCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ServiceIcon createManyAndReturn
+   */
+  export type ServiceIconCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * The data used to create many ServiceIcons.
+     */
+    data: ServiceIconCreateManyInput | ServiceIconCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceIcon update
+   */
+  export type ServiceIconUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ServiceIcon.
+     */
+    data: XOR<ServiceIconUpdateInput, ServiceIconUncheckedUpdateInput>
+    /**
+     * Choose, which ServiceIcon to update.
+     */
+    where: ServiceIconWhereUniqueInput
+  }
+
+  /**
+   * ServiceIcon updateMany
+   */
+  export type ServiceIconUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ServiceIcons.
+     */
+    data: XOR<ServiceIconUpdateManyMutationInput, ServiceIconUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceIcons to update
+     */
+    where?: ServiceIconWhereInput
+    /**
+     * Limit how many ServiceIcons to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceIcon updateManyAndReturn
+   */
+  export type ServiceIconUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * The data used to update ServiceIcons.
+     */
+    data: XOR<ServiceIconUpdateManyMutationInput, ServiceIconUncheckedUpdateManyInput>
+    /**
+     * Filter which ServiceIcons to update
+     */
+    where?: ServiceIconWhereInput
+    /**
+     * Limit how many ServiceIcons to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ServiceIcon upsert
+   */
+  export type ServiceIconUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ServiceIcon to update in case it exists.
+     */
+    where: ServiceIconWhereUniqueInput
+    /**
+     * In case the ServiceIcon found by the `where` argument doesn't exist, create a new ServiceIcon with this data.
+     */
+    create: XOR<ServiceIconCreateInput, ServiceIconUncheckedCreateInput>
+    /**
+     * In case the ServiceIcon was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ServiceIconUpdateInput, ServiceIconUncheckedUpdateInput>
+  }
+
+  /**
+   * ServiceIcon delete
+   */
+  export type ServiceIconDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconInclude<ExtArgs> | null
+    /**
+     * Filter which ServiceIcon to delete.
+     */
+    where: ServiceIconWhereUniqueInput
+  }
+
+  /**
+   * ServiceIcon deleteMany
+   */
+  export type ServiceIconDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ServiceIcons to delete
+     */
+    where?: ServiceIconWhereInput
+    /**
+     * Limit how many ServiceIcons to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ServiceIcon.links
+   */
+  export type ServiceIcon$linksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserLink
+     */
+    select?: UserLinkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserLink
+     */
+    omit?: UserLinkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserLinkInclude<ExtArgs> | null
+    where?: UserLinkWhereInput
+    orderBy?: UserLinkOrderByWithRelationInput | UserLinkOrderByWithRelationInput[]
+    cursor?: UserLinkWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserLinkScalarFieldEnum | UserLinkScalarFieldEnum[]
+  }
+
+  /**
+   * ServiceIcon without action
+   */
+  export type ServiceIconDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceIcon
+     */
+    select?: ServiceIconSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceIcon
+     */
+    omit?: ServiceIconOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceIconInclude<ExtArgs> | null
   }
 
 
@@ -27943,13 +29530,18 @@ export namespace Prisma {
 
   export const UserLinkScalarFieldEnum: {
     id: 'id',
-    category: 'category',
-    iconId: 'iconId',
     url: 'url',
+    title: 'title',
     description: 'description',
     sortOrder: 'sortOrder',
+    isActive: 'isActive',
+    useOriginalIcon: 'useOriginalIcon',
+    originalIconUrl: 'originalIconUrl',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
     userId: 'userId',
-    linkTypeId: 'linkTypeId'
+    serviceId: 'serviceId',
+    iconId: 'iconId'
   };
 
   export type UserLinkScalarFieldEnum = (typeof UserLinkScalarFieldEnum)[keyof typeof UserLinkScalarFieldEnum]
@@ -28064,15 +29656,39 @@ export namespace Prisma {
   export type UserDisplaySettingsScalarFieldEnum = (typeof UserDisplaySettingsScalarFieldEnum)[keyof typeof UserDisplaySettingsScalarFieldEnum]
 
 
-  export const LinkTypeScalarFieldEnum: {
+  export const LinkServiceScalarFieldEnum: {
     id: 'id',
     name: 'name',
     slug: 'slug',
     description: 'description',
-    icons: 'icons'
+    baseUrl: 'baseUrl',
+    allowOriginalIcon: 'allowOriginalIcon',
+    isActive: 'isActive',
+    sortOrder: 'sortOrder',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
-  export type LinkTypeScalarFieldEnum = (typeof LinkTypeScalarFieldEnum)[keyof typeof LinkTypeScalarFieldEnum]
+  export type LinkServiceScalarFieldEnum = (typeof LinkServiceScalarFieldEnum)[keyof typeof LinkServiceScalarFieldEnum]
+
+
+  export const ServiceIconScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    fileName: 'fileName',
+    filePath: 'filePath',
+    style: 'style',
+    colorScheme: 'colorScheme',
+    description: 'description',
+    isActive: 'isActive',
+    sortOrder: 'sortOrder',
+    uploadedBy: 'uploadedBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    serviceId: 'serviceId'
+  };
+
+  export type ServiceIconScalarFieldEnum = (typeof ServiceIconScalarFieldEnum)[keyof typeof ServiceIconScalarFieldEnum]
 
 
   export const VerificationTokenScalarFieldEnum: {
@@ -28244,6 +29860,34 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'IconStyle'
+   */
+  export type EnumIconStyleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IconStyle'>
+    
+
+
+  /**
+   * Reference to a field of type 'IconStyle[]'
+   */
+  export type ListEnumIconStyleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IconStyle[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'IconColor'
+   */
+  export type EnumIconColorFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IconColor'>
+    
+
+
+  /**
+   * Reference to a field of type 'IconColor[]'
+   */
+  export type ListEnumIconColorFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IconColor[]'>
     
 
 
@@ -28622,28 +30266,40 @@ export namespace Prisma {
     OR?: UserLinkWhereInput[]
     NOT?: UserLinkWhereInput | UserLinkWhereInput[]
     id?: StringFilter<"UserLink"> | string
-    category?: StringNullableFilter<"UserLink"> | string | null
-    iconId?: StringNullableFilter<"UserLink"> | string | null
     url?: StringFilter<"UserLink"> | string
+    title?: StringNullableFilter<"UserLink"> | string | null
     description?: StringNullableFilter<"UserLink"> | string | null
     sortOrder?: IntFilter<"UserLink"> | number
+    isActive?: BoolFilter<"UserLink"> | boolean
+    useOriginalIcon?: BoolFilter<"UserLink"> | boolean
+    originalIconUrl?: StringNullableFilter<"UserLink"> | string | null
+    createdAt?: DateTimeFilter<"UserLink"> | Date | string
+    updatedAt?: DateTimeFilter<"UserLink"> | Date | string
     userId?: StringFilter<"UserLink"> | string
-    linkTypeId?: StringNullableFilter<"UserLink"> | string | null
+    serviceId?: StringFilter<"UserLink"> | string
+    iconId?: StringNullableFilter<"UserLink"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    linkType?: XOR<LinkTypeNullableScalarRelationFilter, LinkTypeWhereInput> | null
+    service?: XOR<LinkServiceScalarRelationFilter, LinkServiceWhereInput>
+    icon?: XOR<ServiceIconNullableScalarRelationFilter, ServiceIconWhereInput> | null
   }
 
   export type UserLinkOrderByWithRelationInput = {
     id?: SortOrder
-    category?: SortOrderInput | SortOrder
-    iconId?: SortOrderInput | SortOrder
     url?: SortOrder
+    title?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     sortOrder?: SortOrder
+    isActive?: SortOrder
+    useOriginalIcon?: SortOrder
+    originalIconUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
-    linkTypeId?: SortOrderInput | SortOrder
+    serviceId?: SortOrder
+    iconId?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
-    linkType?: LinkTypeOrderByWithRelationInput
+    service?: LinkServiceOrderByWithRelationInput
+    icon?: ServiceIconOrderByWithRelationInput
   }
 
   export type UserLinkWhereUniqueInput = Prisma.AtLeast<{
@@ -28651,26 +30307,37 @@ export namespace Prisma {
     AND?: UserLinkWhereInput | UserLinkWhereInput[]
     OR?: UserLinkWhereInput[]
     NOT?: UserLinkWhereInput | UserLinkWhereInput[]
-    category?: StringNullableFilter<"UserLink"> | string | null
-    iconId?: StringNullableFilter<"UserLink"> | string | null
     url?: StringFilter<"UserLink"> | string
+    title?: StringNullableFilter<"UserLink"> | string | null
     description?: StringNullableFilter<"UserLink"> | string | null
     sortOrder?: IntFilter<"UserLink"> | number
+    isActive?: BoolFilter<"UserLink"> | boolean
+    useOriginalIcon?: BoolFilter<"UserLink"> | boolean
+    originalIconUrl?: StringNullableFilter<"UserLink"> | string | null
+    createdAt?: DateTimeFilter<"UserLink"> | Date | string
+    updatedAt?: DateTimeFilter<"UserLink"> | Date | string
     userId?: StringFilter<"UserLink"> | string
-    linkTypeId?: StringNullableFilter<"UserLink"> | string | null
+    serviceId?: StringFilter<"UserLink"> | string
+    iconId?: StringNullableFilter<"UserLink"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    linkType?: XOR<LinkTypeNullableScalarRelationFilter, LinkTypeWhereInput> | null
+    service?: XOR<LinkServiceScalarRelationFilter, LinkServiceWhereInput>
+    icon?: XOR<ServiceIconNullableScalarRelationFilter, ServiceIconWhereInput> | null
   }, "id">
 
   export type UserLinkOrderByWithAggregationInput = {
     id?: SortOrder
-    category?: SortOrderInput | SortOrder
-    iconId?: SortOrderInput | SortOrder
     url?: SortOrder
+    title?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     sortOrder?: SortOrder
+    isActive?: SortOrder
+    useOriginalIcon?: SortOrder
+    originalIconUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
-    linkTypeId?: SortOrderInput | SortOrder
+    serviceId?: SortOrder
+    iconId?: SortOrderInput | SortOrder
     _count?: UserLinkCountOrderByAggregateInput
     _avg?: UserLinkAvgOrderByAggregateInput
     _max?: UserLinkMaxOrderByAggregateInput
@@ -28683,13 +30350,18 @@ export namespace Prisma {
     OR?: UserLinkScalarWhereWithAggregatesInput[]
     NOT?: UserLinkScalarWhereWithAggregatesInput | UserLinkScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"UserLink"> | string
-    category?: StringNullableWithAggregatesFilter<"UserLink"> | string | null
-    iconId?: StringNullableWithAggregatesFilter<"UserLink"> | string | null
     url?: StringWithAggregatesFilter<"UserLink"> | string
+    title?: StringNullableWithAggregatesFilter<"UserLink"> | string | null
     description?: StringNullableWithAggregatesFilter<"UserLink"> | string | null
     sortOrder?: IntWithAggregatesFilter<"UserLink"> | number
+    isActive?: BoolWithAggregatesFilter<"UserLink"> | boolean
+    useOriginalIcon?: BoolWithAggregatesFilter<"UserLink"> | boolean
+    originalIconUrl?: StringNullableWithAggregatesFilter<"UserLink"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"UserLink"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserLink"> | Date | string
     userId?: StringWithAggregatesFilter<"UserLink"> | string
-    linkTypeId?: StringNullableWithAggregatesFilter<"UserLink"> | string | null
+    serviceId?: StringWithAggregatesFilter<"UserLink"> | string
+    iconId?: StringNullableWithAggregatesFilter<"UserLink"> | string | null
   }
 
   export type UserYoutubeSettingsWhereInput = {
@@ -29248,59 +30920,189 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"UserDisplaySettings"> | string
   }
 
-  export type LinkTypeWhereInput = {
-    AND?: LinkTypeWhereInput | LinkTypeWhereInput[]
-    OR?: LinkTypeWhereInput[]
-    NOT?: LinkTypeWhereInput | LinkTypeWhereInput[]
-    id?: StringFilter<"LinkType"> | string
-    name?: StringFilter<"LinkType"> | string
-    slug?: StringFilter<"LinkType"> | string
-    description?: StringNullableFilter<"LinkType"> | string | null
-    icons?: StringNullableFilter<"LinkType"> | string | null
+  export type LinkServiceWhereInput = {
+    AND?: LinkServiceWhereInput | LinkServiceWhereInput[]
+    OR?: LinkServiceWhereInput[]
+    NOT?: LinkServiceWhereInput | LinkServiceWhereInput[]
+    id?: StringFilter<"LinkService"> | string
+    name?: StringFilter<"LinkService"> | string
+    slug?: StringFilter<"LinkService"> | string
+    description?: StringNullableFilter<"LinkService"> | string | null
+    baseUrl?: StringNullableFilter<"LinkService"> | string | null
+    allowOriginalIcon?: BoolFilter<"LinkService"> | boolean
+    isActive?: BoolFilter<"LinkService"> | boolean
+    sortOrder?: IntFilter<"LinkService"> | number
+    createdAt?: DateTimeFilter<"LinkService"> | Date | string
+    updatedAt?: DateTimeFilter<"LinkService"> | Date | string
+    icons?: ServiceIconListRelationFilter
     links?: UserLinkListRelationFilter
   }
 
-  export type LinkTypeOrderByWithRelationInput = {
+  export type LinkServiceOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     description?: SortOrderInput | SortOrder
-    icons?: SortOrderInput | SortOrder
+    baseUrl?: SortOrderInput | SortOrder
+    allowOriginalIcon?: SortOrder
+    isActive?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    icons?: ServiceIconOrderByRelationAggregateInput
     links?: UserLinkOrderByRelationAggregateInput
   }
 
-  export type LinkTypeWhereUniqueInput = Prisma.AtLeast<{
+  export type LinkServiceWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     slug?: string
-    AND?: LinkTypeWhereInput | LinkTypeWhereInput[]
-    OR?: LinkTypeWhereInput[]
-    NOT?: LinkTypeWhereInput | LinkTypeWhereInput[]
-    name?: StringFilter<"LinkType"> | string
-    description?: StringNullableFilter<"LinkType"> | string | null
-    icons?: StringNullableFilter<"LinkType"> | string | null
+    AND?: LinkServiceWhereInput | LinkServiceWhereInput[]
+    OR?: LinkServiceWhereInput[]
+    NOT?: LinkServiceWhereInput | LinkServiceWhereInput[]
+    name?: StringFilter<"LinkService"> | string
+    description?: StringNullableFilter<"LinkService"> | string | null
+    baseUrl?: StringNullableFilter<"LinkService"> | string | null
+    allowOriginalIcon?: BoolFilter<"LinkService"> | boolean
+    isActive?: BoolFilter<"LinkService"> | boolean
+    sortOrder?: IntFilter<"LinkService"> | number
+    createdAt?: DateTimeFilter<"LinkService"> | Date | string
+    updatedAt?: DateTimeFilter<"LinkService"> | Date | string
+    icons?: ServiceIconListRelationFilter
     links?: UserLinkListRelationFilter
   }, "id" | "slug">
 
-  export type LinkTypeOrderByWithAggregationInput = {
+  export type LinkServiceOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     description?: SortOrderInput | SortOrder
-    icons?: SortOrderInput | SortOrder
-    _count?: LinkTypeCountOrderByAggregateInput
-    _max?: LinkTypeMaxOrderByAggregateInput
-    _min?: LinkTypeMinOrderByAggregateInput
+    baseUrl?: SortOrderInput | SortOrder
+    allowOriginalIcon?: SortOrder
+    isActive?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LinkServiceCountOrderByAggregateInput
+    _avg?: LinkServiceAvgOrderByAggregateInput
+    _max?: LinkServiceMaxOrderByAggregateInput
+    _min?: LinkServiceMinOrderByAggregateInput
+    _sum?: LinkServiceSumOrderByAggregateInput
   }
 
-  export type LinkTypeScalarWhereWithAggregatesInput = {
-    AND?: LinkTypeScalarWhereWithAggregatesInput | LinkTypeScalarWhereWithAggregatesInput[]
-    OR?: LinkTypeScalarWhereWithAggregatesInput[]
-    NOT?: LinkTypeScalarWhereWithAggregatesInput | LinkTypeScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"LinkType"> | string
-    name?: StringWithAggregatesFilter<"LinkType"> | string
-    slug?: StringWithAggregatesFilter<"LinkType"> | string
-    description?: StringNullableWithAggregatesFilter<"LinkType"> | string | null
-    icons?: StringNullableWithAggregatesFilter<"LinkType"> | string | null
+  export type LinkServiceScalarWhereWithAggregatesInput = {
+    AND?: LinkServiceScalarWhereWithAggregatesInput | LinkServiceScalarWhereWithAggregatesInput[]
+    OR?: LinkServiceScalarWhereWithAggregatesInput[]
+    NOT?: LinkServiceScalarWhereWithAggregatesInput | LinkServiceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LinkService"> | string
+    name?: StringWithAggregatesFilter<"LinkService"> | string
+    slug?: StringWithAggregatesFilter<"LinkService"> | string
+    description?: StringNullableWithAggregatesFilter<"LinkService"> | string | null
+    baseUrl?: StringNullableWithAggregatesFilter<"LinkService"> | string | null
+    allowOriginalIcon?: BoolWithAggregatesFilter<"LinkService"> | boolean
+    isActive?: BoolWithAggregatesFilter<"LinkService"> | boolean
+    sortOrder?: IntWithAggregatesFilter<"LinkService"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"LinkService"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LinkService"> | Date | string
+  }
+
+  export type ServiceIconWhereInput = {
+    AND?: ServiceIconWhereInput | ServiceIconWhereInput[]
+    OR?: ServiceIconWhereInput[]
+    NOT?: ServiceIconWhereInput | ServiceIconWhereInput[]
+    id?: StringFilter<"ServiceIcon"> | string
+    name?: StringFilter<"ServiceIcon"> | string
+    fileName?: StringFilter<"ServiceIcon"> | string
+    filePath?: StringFilter<"ServiceIcon"> | string
+    style?: EnumIconStyleFilter<"ServiceIcon"> | $Enums.IconStyle
+    colorScheme?: EnumIconColorFilter<"ServiceIcon"> | $Enums.IconColor
+    description?: StringNullableFilter<"ServiceIcon"> | string | null
+    isActive?: BoolFilter<"ServiceIcon"> | boolean
+    sortOrder?: IntFilter<"ServiceIcon"> | number
+    uploadedBy?: StringNullableFilter<"ServiceIcon"> | string | null
+    createdAt?: DateTimeFilter<"ServiceIcon"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceIcon"> | Date | string
+    serviceId?: StringFilter<"ServiceIcon"> | string
+    service?: XOR<LinkServiceScalarRelationFilter, LinkServiceWhereInput>
+    links?: UserLinkListRelationFilter
+  }
+
+  export type ServiceIconOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    filePath?: SortOrder
+    style?: SortOrder
+    colorScheme?: SortOrder
+    description?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    sortOrder?: SortOrder
+    uploadedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    serviceId?: SortOrder
+    service?: LinkServiceOrderByWithRelationInput
+    links?: UserLinkOrderByRelationAggregateInput
+  }
+
+  export type ServiceIconWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ServiceIconWhereInput | ServiceIconWhereInput[]
+    OR?: ServiceIconWhereInput[]
+    NOT?: ServiceIconWhereInput | ServiceIconWhereInput[]
+    name?: StringFilter<"ServiceIcon"> | string
+    fileName?: StringFilter<"ServiceIcon"> | string
+    filePath?: StringFilter<"ServiceIcon"> | string
+    style?: EnumIconStyleFilter<"ServiceIcon"> | $Enums.IconStyle
+    colorScheme?: EnumIconColorFilter<"ServiceIcon"> | $Enums.IconColor
+    description?: StringNullableFilter<"ServiceIcon"> | string | null
+    isActive?: BoolFilter<"ServiceIcon"> | boolean
+    sortOrder?: IntFilter<"ServiceIcon"> | number
+    uploadedBy?: StringNullableFilter<"ServiceIcon"> | string | null
+    createdAt?: DateTimeFilter<"ServiceIcon"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceIcon"> | Date | string
+    serviceId?: StringFilter<"ServiceIcon"> | string
+    service?: XOR<LinkServiceScalarRelationFilter, LinkServiceWhereInput>
+    links?: UserLinkListRelationFilter
+  }, "id">
+
+  export type ServiceIconOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    filePath?: SortOrder
+    style?: SortOrder
+    colorScheme?: SortOrder
+    description?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    sortOrder?: SortOrder
+    uploadedBy?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    serviceId?: SortOrder
+    _count?: ServiceIconCountOrderByAggregateInput
+    _avg?: ServiceIconAvgOrderByAggregateInput
+    _max?: ServiceIconMaxOrderByAggregateInput
+    _min?: ServiceIconMinOrderByAggregateInput
+    _sum?: ServiceIconSumOrderByAggregateInput
+  }
+
+  export type ServiceIconScalarWhereWithAggregatesInput = {
+    AND?: ServiceIconScalarWhereWithAggregatesInput | ServiceIconScalarWhereWithAggregatesInput[]
+    OR?: ServiceIconScalarWhereWithAggregatesInput[]
+    NOT?: ServiceIconScalarWhereWithAggregatesInput | ServiceIconScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ServiceIcon"> | string
+    name?: StringWithAggregatesFilter<"ServiceIcon"> | string
+    fileName?: StringWithAggregatesFilter<"ServiceIcon"> | string
+    filePath?: StringWithAggregatesFilter<"ServiceIcon"> | string
+    style?: EnumIconStyleWithAggregatesFilter<"ServiceIcon"> | $Enums.IconStyle
+    colorScheme?: EnumIconColorWithAggregatesFilter<"ServiceIcon"> | $Enums.IconColor
+    description?: StringNullableWithAggregatesFilter<"ServiceIcon"> | string | null
+    isActive?: BoolWithAggregatesFilter<"ServiceIcon"> | boolean
+    sortOrder?: IntWithAggregatesFilter<"ServiceIcon"> | number
+    uploadedBy?: StringNullableWithAggregatesFilter<"ServiceIcon"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ServiceIcon"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ServiceIcon"> | Date | string
+    serviceId?: StringWithAggregatesFilter<"ServiceIcon"> | string
   }
 
   export type VerificationTokenWhereInput = {
@@ -30195,77 +31997,111 @@ export namespace Prisma {
 
   export type UserLinkCreateInput = {
     id?: string
-    category?: string | null
-    iconId?: string | null
     url: string
+    title?: string | null
     description?: string | null
     sortOrder?: number
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutLinksInput
-    linkType?: LinkTypeCreateNestedOneWithoutLinksInput
+    service: LinkServiceCreateNestedOneWithoutLinksInput
+    icon?: ServiceIconCreateNestedOneWithoutLinksInput
   }
 
   export type UserLinkUncheckedCreateInput = {
     id?: string
-    category?: string | null
-    iconId?: string | null
     url: string
+    title?: string | null
     description?: string | null
     sortOrder?: number
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     userId: string
-    linkTypeId?: string | null
+    serviceId: string
+    iconId?: string | null
   }
 
   export type UserLinkUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    iconId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutLinksNestedInput
-    linkType?: LinkTypeUpdateOneWithoutLinksNestedInput
+    service?: LinkServiceUpdateOneRequiredWithoutLinksNestedInput
+    icon?: ServiceIconUpdateOneWithoutLinksNestedInput
   }
 
   export type UserLinkUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    iconId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
-    linkTypeId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: StringFieldUpdateOperationsInput | string
+    iconId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserLinkCreateManyInput = {
     id?: string
-    category?: string | null
-    iconId?: string | null
     url: string
+    title?: string | null
     description?: string | null
     sortOrder?: number
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     userId: string
-    linkTypeId?: string | null
+    serviceId: string
+    iconId?: string | null
   }
 
   export type UserLinkUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    iconId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserLinkUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    iconId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
-    linkTypeId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceId?: StringFieldUpdateOperationsInput | string
+    iconId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserYoutubeSettingsCreateInput = {
@@ -30859,64 +32695,218 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type LinkTypeCreateInput = {
+  export type LinkServiceCreateInput = {
     id?: string
     name: string
     slug: string
     description?: string | null
-    icons?: string | null
-    links?: UserLinkCreateNestedManyWithoutLinkTypeInput
+    baseUrl?: string | null
+    allowOriginalIcon?: boolean
+    isActive?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    icons?: ServiceIconCreateNestedManyWithoutServiceInput
+    links?: UserLinkCreateNestedManyWithoutServiceInput
   }
 
-  export type LinkTypeUncheckedCreateInput = {
+  export type LinkServiceUncheckedCreateInput = {
     id?: string
     name: string
     slug: string
     description?: string | null
-    icons?: string | null
-    links?: UserLinkUncheckedCreateNestedManyWithoutLinkTypeInput
+    baseUrl?: string | null
+    allowOriginalIcon?: boolean
+    isActive?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    icons?: ServiceIconUncheckedCreateNestedManyWithoutServiceInput
+    links?: UserLinkUncheckedCreateNestedManyWithoutServiceInput
   }
 
-  export type LinkTypeUpdateInput = {
+  export type LinkServiceUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    icons?: NullableStringFieldUpdateOperationsInput | string | null
-    links?: UserLinkUpdateManyWithoutLinkTypeNestedInput
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    allowOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    icons?: ServiceIconUpdateManyWithoutServiceNestedInput
+    links?: UserLinkUpdateManyWithoutServiceNestedInput
   }
 
-  export type LinkTypeUncheckedUpdateInput = {
+  export type LinkServiceUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    icons?: NullableStringFieldUpdateOperationsInput | string | null
-    links?: UserLinkUncheckedUpdateManyWithoutLinkTypeNestedInput
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    allowOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    icons?: ServiceIconUncheckedUpdateManyWithoutServiceNestedInput
+    links?: UserLinkUncheckedUpdateManyWithoutServiceNestedInput
   }
 
-  export type LinkTypeCreateManyInput = {
+  export type LinkServiceCreateManyInput = {
     id?: string
     name: string
     slug: string
     description?: string | null
-    icons?: string | null
+    baseUrl?: string | null
+    allowOriginalIcon?: boolean
+    isActive?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type LinkTypeUpdateManyMutationInput = {
+  export type LinkServiceUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    icons?: NullableStringFieldUpdateOperationsInput | string | null
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    allowOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type LinkTypeUncheckedUpdateManyInput = {
+  export type LinkServiceUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    icons?: NullableStringFieldUpdateOperationsInput | string | null
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    allowOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceIconCreateInput = {
+    id?: string
+    name: string
+    fileName: string
+    filePath: string
+    style: $Enums.IconStyle
+    colorScheme: $Enums.IconColor
+    description?: string | null
+    isActive?: boolean
+    sortOrder?: number
+    uploadedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    service: LinkServiceCreateNestedOneWithoutIconsInput
+    links?: UserLinkCreateNestedManyWithoutIconInput
+  }
+
+  export type ServiceIconUncheckedCreateInput = {
+    id?: string
+    name: string
+    fileName: string
+    filePath: string
+    style: $Enums.IconStyle
+    colorScheme: $Enums.IconColor
+    description?: string | null
+    isActive?: boolean
+    sortOrder?: number
+    uploadedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    serviceId: string
+    links?: UserLinkUncheckedCreateNestedManyWithoutIconInput
+  }
+
+  export type ServiceIconUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
+    style?: EnumIconStyleFieldUpdateOperationsInput | $Enums.IconStyle
+    colorScheme?: EnumIconColorFieldUpdateOperationsInput | $Enums.IconColor
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    service?: LinkServiceUpdateOneRequiredWithoutIconsNestedInput
+    links?: UserLinkUpdateManyWithoutIconNestedInput
+  }
+
+  export type ServiceIconUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
+    style?: EnumIconStyleFieldUpdateOperationsInput | $Enums.IconStyle
+    colorScheme?: EnumIconColorFieldUpdateOperationsInput | $Enums.IconColor
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    links?: UserLinkUncheckedUpdateManyWithoutIconNestedInput
+  }
+
+  export type ServiceIconCreateManyInput = {
+    id?: string
+    name: string
+    fileName: string
+    filePath: string
+    style: $Enums.IconStyle
+    colorScheme: $Enums.IconColor
+    description?: string | null
+    isActive?: boolean
+    sortOrder?: number
+    uploadedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    serviceId: string
+  }
+
+  export type ServiceIconUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
+    style?: EnumIconStyleFieldUpdateOperationsInput | $Enums.IconStyle
+    colorScheme?: EnumIconColorFieldUpdateOperationsInput | $Enums.IconColor
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ServiceIconUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
+    style?: EnumIconStyleFieldUpdateOperationsInput | $Enums.IconStyle
+    colorScheme?: EnumIconColorFieldUpdateOperationsInput | $Enums.IconColor
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceId?: StringFieldUpdateOperationsInput | string
   }
 
   export type VerificationTokenCreateInput = {
@@ -31867,20 +33857,30 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type LinkTypeNullableScalarRelationFilter = {
-    is?: LinkTypeWhereInput | null
-    isNot?: LinkTypeWhereInput | null
+  export type LinkServiceScalarRelationFilter = {
+    is?: LinkServiceWhereInput
+    isNot?: LinkServiceWhereInput
+  }
+
+  export type ServiceIconNullableScalarRelationFilter = {
+    is?: ServiceIconWhereInput | null
+    isNot?: ServiceIconWhereInput | null
   }
 
   export type UserLinkCountOrderByAggregateInput = {
     id?: SortOrder
-    category?: SortOrder
-    iconId?: SortOrder
     url?: SortOrder
+    title?: SortOrder
     description?: SortOrder
     sortOrder?: SortOrder
+    isActive?: SortOrder
+    useOriginalIcon?: SortOrder
+    originalIconUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
-    linkTypeId?: SortOrder
+    serviceId?: SortOrder
+    iconId?: SortOrder
   }
 
   export type UserLinkAvgOrderByAggregateInput = {
@@ -31889,24 +33889,34 @@ export namespace Prisma {
 
   export type UserLinkMaxOrderByAggregateInput = {
     id?: SortOrder
-    category?: SortOrder
-    iconId?: SortOrder
     url?: SortOrder
+    title?: SortOrder
     description?: SortOrder
     sortOrder?: SortOrder
+    isActive?: SortOrder
+    useOriginalIcon?: SortOrder
+    originalIconUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
-    linkTypeId?: SortOrder
+    serviceId?: SortOrder
+    iconId?: SortOrder
   }
 
   export type UserLinkMinOrderByAggregateInput = {
     id?: SortOrder
-    category?: SortOrder
-    iconId?: SortOrder
     url?: SortOrder
+    title?: SortOrder
     description?: SortOrder
     sortOrder?: SortOrder
+    isActive?: SortOrder
+    useOriginalIcon?: SortOrder
+    originalIconUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     userId?: SortOrder
-    linkTypeId?: SortOrder
+    serviceId?: SortOrder
+    iconId?: SortOrder
   }
 
   export type UserLinkSumOrderByAggregateInput = {
@@ -32231,28 +34241,151 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
-  export type LinkTypeCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    slug?: SortOrder
-    description?: SortOrder
-    icons?: SortOrder
+  export type ServiceIconListRelationFilter = {
+    every?: ServiceIconWhereInput
+    some?: ServiceIconWhereInput
+    none?: ServiceIconWhereInput
   }
 
-  export type LinkTypeMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    slug?: SortOrder
-    description?: SortOrder
-    icons?: SortOrder
+  export type ServiceIconOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
-  export type LinkTypeMinOrderByAggregateInput = {
+  export type LinkServiceCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     slug?: SortOrder
     description?: SortOrder
-    icons?: SortOrder
+    baseUrl?: SortOrder
+    allowOriginalIcon?: SortOrder
+    isActive?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LinkServiceAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type LinkServiceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    baseUrl?: SortOrder
+    allowOriginalIcon?: SortOrder
+    isActive?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LinkServiceMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    baseUrl?: SortOrder
+    allowOriginalIcon?: SortOrder
+    isActive?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LinkServiceSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type EnumIconStyleFilter<$PrismaModel = never> = {
+    equals?: $Enums.IconStyle | EnumIconStyleFieldRefInput<$PrismaModel>
+    in?: $Enums.IconStyle[] | ListEnumIconStyleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IconStyle[] | ListEnumIconStyleFieldRefInput<$PrismaModel>
+    not?: NestedEnumIconStyleFilter<$PrismaModel> | $Enums.IconStyle
+  }
+
+  export type EnumIconColorFilter<$PrismaModel = never> = {
+    equals?: $Enums.IconColor | EnumIconColorFieldRefInput<$PrismaModel>
+    in?: $Enums.IconColor[] | ListEnumIconColorFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IconColor[] | ListEnumIconColorFieldRefInput<$PrismaModel>
+    not?: NestedEnumIconColorFilter<$PrismaModel> | $Enums.IconColor
+  }
+
+  export type ServiceIconCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    filePath?: SortOrder
+    style?: SortOrder
+    colorScheme?: SortOrder
+    description?: SortOrder
+    isActive?: SortOrder
+    sortOrder?: SortOrder
+    uploadedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    serviceId?: SortOrder
+  }
+
+  export type ServiceIconAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type ServiceIconMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    filePath?: SortOrder
+    style?: SortOrder
+    colorScheme?: SortOrder
+    description?: SortOrder
+    isActive?: SortOrder
+    sortOrder?: SortOrder
+    uploadedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    serviceId?: SortOrder
+  }
+
+  export type ServiceIconMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    fileName?: SortOrder
+    filePath?: SortOrder
+    style?: SortOrder
+    colorScheme?: SortOrder
+    description?: SortOrder
+    isActive?: SortOrder
+    sortOrder?: SortOrder
+    uploadedBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    serviceId?: SortOrder
+  }
+
+  export type ServiceIconSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type EnumIconStyleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IconStyle | EnumIconStyleFieldRefInput<$PrismaModel>
+    in?: $Enums.IconStyle[] | ListEnumIconStyleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IconStyle[] | ListEnumIconStyleFieldRefInput<$PrismaModel>
+    not?: NestedEnumIconStyleWithAggregatesFilter<$PrismaModel> | $Enums.IconStyle
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIconStyleFilter<$PrismaModel>
+    _max?: NestedEnumIconStyleFilter<$PrismaModel>
+  }
+
+  export type EnumIconColorWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IconColor | EnumIconColorFieldRefInput<$PrismaModel>
+    in?: $Enums.IconColor[] | ListEnumIconColorFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IconColor[] | ListEnumIconColorFieldRefInput<$PrismaModel>
+    not?: NestedEnumIconColorWithAggregatesFilter<$PrismaModel> | $Enums.IconColor
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIconColorFilter<$PrismaModel>
+    _max?: NestedEnumIconColorFilter<$PrismaModel>
   }
 
   export type VerificationTokenIdentifierTokenCompoundUniqueInput = {
@@ -33142,10 +35275,16 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type LinkTypeCreateNestedOneWithoutLinksInput = {
-    create?: XOR<LinkTypeCreateWithoutLinksInput, LinkTypeUncheckedCreateWithoutLinksInput>
-    connectOrCreate?: LinkTypeCreateOrConnectWithoutLinksInput
-    connect?: LinkTypeWhereUniqueInput
+  export type LinkServiceCreateNestedOneWithoutLinksInput = {
+    create?: XOR<LinkServiceCreateWithoutLinksInput, LinkServiceUncheckedCreateWithoutLinksInput>
+    connectOrCreate?: LinkServiceCreateOrConnectWithoutLinksInput
+    connect?: LinkServiceWhereUniqueInput
+  }
+
+  export type ServiceIconCreateNestedOneWithoutLinksInput = {
+    create?: XOR<ServiceIconCreateWithoutLinksInput, ServiceIconUncheckedCreateWithoutLinksInput>
+    connectOrCreate?: ServiceIconCreateOrConnectWithoutLinksInput
+    connect?: ServiceIconWhereUniqueInput
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -33164,14 +35303,22 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutLinksInput, UserUpdateWithoutLinksInput>, UserUncheckedUpdateWithoutLinksInput>
   }
 
-  export type LinkTypeUpdateOneWithoutLinksNestedInput = {
-    create?: XOR<LinkTypeCreateWithoutLinksInput, LinkTypeUncheckedCreateWithoutLinksInput>
-    connectOrCreate?: LinkTypeCreateOrConnectWithoutLinksInput
-    upsert?: LinkTypeUpsertWithoutLinksInput
-    disconnect?: LinkTypeWhereInput | boolean
-    delete?: LinkTypeWhereInput | boolean
-    connect?: LinkTypeWhereUniqueInput
-    update?: XOR<XOR<LinkTypeUpdateToOneWithWhereWithoutLinksInput, LinkTypeUpdateWithoutLinksInput>, LinkTypeUncheckedUpdateWithoutLinksInput>
+  export type LinkServiceUpdateOneRequiredWithoutLinksNestedInput = {
+    create?: XOR<LinkServiceCreateWithoutLinksInput, LinkServiceUncheckedCreateWithoutLinksInput>
+    connectOrCreate?: LinkServiceCreateOrConnectWithoutLinksInput
+    upsert?: LinkServiceUpsertWithoutLinksInput
+    connect?: LinkServiceWhereUniqueInput
+    update?: XOR<XOR<LinkServiceUpdateToOneWithWhereWithoutLinksInput, LinkServiceUpdateWithoutLinksInput>, LinkServiceUncheckedUpdateWithoutLinksInput>
+  }
+
+  export type ServiceIconUpdateOneWithoutLinksNestedInput = {
+    create?: XOR<ServiceIconCreateWithoutLinksInput, ServiceIconUncheckedCreateWithoutLinksInput>
+    connectOrCreate?: ServiceIconCreateOrConnectWithoutLinksInput
+    upsert?: ServiceIconUpsertWithoutLinksInput
+    disconnect?: ServiceIconWhereInput | boolean
+    delete?: ServiceIconWhereInput | boolean
+    connect?: ServiceIconWhereUniqueInput
+    update?: XOR<XOR<ServiceIconUpdateToOneWithWhereWithoutLinksInput, ServiceIconUpdateWithoutLinksInput>, ServiceIconUncheckedUpdateWithoutLinksInput>
   }
 
   export type UserCreateNestedOneWithoutYoutubeSettingsInput = {
@@ -33328,45 +35475,151 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDisplaySettingsInput, UserUpdateWithoutDisplaySettingsInput>, UserUncheckedUpdateWithoutDisplaySettingsInput>
   }
 
-  export type UserLinkCreateNestedManyWithoutLinkTypeInput = {
-    create?: XOR<UserLinkCreateWithoutLinkTypeInput, UserLinkUncheckedCreateWithoutLinkTypeInput> | UserLinkCreateWithoutLinkTypeInput[] | UserLinkUncheckedCreateWithoutLinkTypeInput[]
-    connectOrCreate?: UserLinkCreateOrConnectWithoutLinkTypeInput | UserLinkCreateOrConnectWithoutLinkTypeInput[]
-    createMany?: UserLinkCreateManyLinkTypeInputEnvelope
+  export type ServiceIconCreateNestedManyWithoutServiceInput = {
+    create?: XOR<ServiceIconCreateWithoutServiceInput, ServiceIconUncheckedCreateWithoutServiceInput> | ServiceIconCreateWithoutServiceInput[] | ServiceIconUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceIconCreateOrConnectWithoutServiceInput | ServiceIconCreateOrConnectWithoutServiceInput[]
+    createMany?: ServiceIconCreateManyServiceInputEnvelope
+    connect?: ServiceIconWhereUniqueInput | ServiceIconWhereUniqueInput[]
+  }
+
+  export type UserLinkCreateNestedManyWithoutServiceInput = {
+    create?: XOR<UserLinkCreateWithoutServiceInput, UserLinkUncheckedCreateWithoutServiceInput> | UserLinkCreateWithoutServiceInput[] | UserLinkUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: UserLinkCreateOrConnectWithoutServiceInput | UserLinkCreateOrConnectWithoutServiceInput[]
+    createMany?: UserLinkCreateManyServiceInputEnvelope
     connect?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
   }
 
-  export type UserLinkUncheckedCreateNestedManyWithoutLinkTypeInput = {
-    create?: XOR<UserLinkCreateWithoutLinkTypeInput, UserLinkUncheckedCreateWithoutLinkTypeInput> | UserLinkCreateWithoutLinkTypeInput[] | UserLinkUncheckedCreateWithoutLinkTypeInput[]
-    connectOrCreate?: UserLinkCreateOrConnectWithoutLinkTypeInput | UserLinkCreateOrConnectWithoutLinkTypeInput[]
-    createMany?: UserLinkCreateManyLinkTypeInputEnvelope
+  export type ServiceIconUncheckedCreateNestedManyWithoutServiceInput = {
+    create?: XOR<ServiceIconCreateWithoutServiceInput, ServiceIconUncheckedCreateWithoutServiceInput> | ServiceIconCreateWithoutServiceInput[] | ServiceIconUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceIconCreateOrConnectWithoutServiceInput | ServiceIconCreateOrConnectWithoutServiceInput[]
+    createMany?: ServiceIconCreateManyServiceInputEnvelope
+    connect?: ServiceIconWhereUniqueInput | ServiceIconWhereUniqueInput[]
+  }
+
+  export type UserLinkUncheckedCreateNestedManyWithoutServiceInput = {
+    create?: XOR<UserLinkCreateWithoutServiceInput, UserLinkUncheckedCreateWithoutServiceInput> | UserLinkCreateWithoutServiceInput[] | UserLinkUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: UserLinkCreateOrConnectWithoutServiceInput | UserLinkCreateOrConnectWithoutServiceInput[]
+    createMany?: UserLinkCreateManyServiceInputEnvelope
     connect?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
   }
 
-  export type UserLinkUpdateManyWithoutLinkTypeNestedInput = {
-    create?: XOR<UserLinkCreateWithoutLinkTypeInput, UserLinkUncheckedCreateWithoutLinkTypeInput> | UserLinkCreateWithoutLinkTypeInput[] | UserLinkUncheckedCreateWithoutLinkTypeInput[]
-    connectOrCreate?: UserLinkCreateOrConnectWithoutLinkTypeInput | UserLinkCreateOrConnectWithoutLinkTypeInput[]
-    upsert?: UserLinkUpsertWithWhereUniqueWithoutLinkTypeInput | UserLinkUpsertWithWhereUniqueWithoutLinkTypeInput[]
-    createMany?: UserLinkCreateManyLinkTypeInputEnvelope
+  export type ServiceIconUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<ServiceIconCreateWithoutServiceInput, ServiceIconUncheckedCreateWithoutServiceInput> | ServiceIconCreateWithoutServiceInput[] | ServiceIconUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceIconCreateOrConnectWithoutServiceInput | ServiceIconCreateOrConnectWithoutServiceInput[]
+    upsert?: ServiceIconUpsertWithWhereUniqueWithoutServiceInput | ServiceIconUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: ServiceIconCreateManyServiceInputEnvelope
+    set?: ServiceIconWhereUniqueInput | ServiceIconWhereUniqueInput[]
+    disconnect?: ServiceIconWhereUniqueInput | ServiceIconWhereUniqueInput[]
+    delete?: ServiceIconWhereUniqueInput | ServiceIconWhereUniqueInput[]
+    connect?: ServiceIconWhereUniqueInput | ServiceIconWhereUniqueInput[]
+    update?: ServiceIconUpdateWithWhereUniqueWithoutServiceInput | ServiceIconUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: ServiceIconUpdateManyWithWhereWithoutServiceInput | ServiceIconUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: ServiceIconScalarWhereInput | ServiceIconScalarWhereInput[]
+  }
+
+  export type UserLinkUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<UserLinkCreateWithoutServiceInput, UserLinkUncheckedCreateWithoutServiceInput> | UserLinkCreateWithoutServiceInput[] | UserLinkUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: UserLinkCreateOrConnectWithoutServiceInput | UserLinkCreateOrConnectWithoutServiceInput[]
+    upsert?: UserLinkUpsertWithWhereUniqueWithoutServiceInput | UserLinkUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: UserLinkCreateManyServiceInputEnvelope
     set?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
     disconnect?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
     delete?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
     connect?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
-    update?: UserLinkUpdateWithWhereUniqueWithoutLinkTypeInput | UserLinkUpdateWithWhereUniqueWithoutLinkTypeInput[]
-    updateMany?: UserLinkUpdateManyWithWhereWithoutLinkTypeInput | UserLinkUpdateManyWithWhereWithoutLinkTypeInput[]
+    update?: UserLinkUpdateWithWhereUniqueWithoutServiceInput | UserLinkUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: UserLinkUpdateManyWithWhereWithoutServiceInput | UserLinkUpdateManyWithWhereWithoutServiceInput[]
     deleteMany?: UserLinkScalarWhereInput | UserLinkScalarWhereInput[]
   }
 
-  export type UserLinkUncheckedUpdateManyWithoutLinkTypeNestedInput = {
-    create?: XOR<UserLinkCreateWithoutLinkTypeInput, UserLinkUncheckedCreateWithoutLinkTypeInput> | UserLinkCreateWithoutLinkTypeInput[] | UserLinkUncheckedCreateWithoutLinkTypeInput[]
-    connectOrCreate?: UserLinkCreateOrConnectWithoutLinkTypeInput | UserLinkCreateOrConnectWithoutLinkTypeInput[]
-    upsert?: UserLinkUpsertWithWhereUniqueWithoutLinkTypeInput | UserLinkUpsertWithWhereUniqueWithoutLinkTypeInput[]
-    createMany?: UserLinkCreateManyLinkTypeInputEnvelope
+  export type ServiceIconUncheckedUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<ServiceIconCreateWithoutServiceInput, ServiceIconUncheckedCreateWithoutServiceInput> | ServiceIconCreateWithoutServiceInput[] | ServiceIconUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: ServiceIconCreateOrConnectWithoutServiceInput | ServiceIconCreateOrConnectWithoutServiceInput[]
+    upsert?: ServiceIconUpsertWithWhereUniqueWithoutServiceInput | ServiceIconUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: ServiceIconCreateManyServiceInputEnvelope
+    set?: ServiceIconWhereUniqueInput | ServiceIconWhereUniqueInput[]
+    disconnect?: ServiceIconWhereUniqueInput | ServiceIconWhereUniqueInput[]
+    delete?: ServiceIconWhereUniqueInput | ServiceIconWhereUniqueInput[]
+    connect?: ServiceIconWhereUniqueInput | ServiceIconWhereUniqueInput[]
+    update?: ServiceIconUpdateWithWhereUniqueWithoutServiceInput | ServiceIconUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: ServiceIconUpdateManyWithWhereWithoutServiceInput | ServiceIconUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: ServiceIconScalarWhereInput | ServiceIconScalarWhereInput[]
+  }
+
+  export type UserLinkUncheckedUpdateManyWithoutServiceNestedInput = {
+    create?: XOR<UserLinkCreateWithoutServiceInput, UserLinkUncheckedCreateWithoutServiceInput> | UserLinkCreateWithoutServiceInput[] | UserLinkUncheckedCreateWithoutServiceInput[]
+    connectOrCreate?: UserLinkCreateOrConnectWithoutServiceInput | UserLinkCreateOrConnectWithoutServiceInput[]
+    upsert?: UserLinkUpsertWithWhereUniqueWithoutServiceInput | UserLinkUpsertWithWhereUniqueWithoutServiceInput[]
+    createMany?: UserLinkCreateManyServiceInputEnvelope
     set?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
     disconnect?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
     delete?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
     connect?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
-    update?: UserLinkUpdateWithWhereUniqueWithoutLinkTypeInput | UserLinkUpdateWithWhereUniqueWithoutLinkTypeInput[]
-    updateMany?: UserLinkUpdateManyWithWhereWithoutLinkTypeInput | UserLinkUpdateManyWithWhereWithoutLinkTypeInput[]
+    update?: UserLinkUpdateWithWhereUniqueWithoutServiceInput | UserLinkUpdateWithWhereUniqueWithoutServiceInput[]
+    updateMany?: UserLinkUpdateManyWithWhereWithoutServiceInput | UserLinkUpdateManyWithWhereWithoutServiceInput[]
+    deleteMany?: UserLinkScalarWhereInput | UserLinkScalarWhereInput[]
+  }
+
+  export type LinkServiceCreateNestedOneWithoutIconsInput = {
+    create?: XOR<LinkServiceCreateWithoutIconsInput, LinkServiceUncheckedCreateWithoutIconsInput>
+    connectOrCreate?: LinkServiceCreateOrConnectWithoutIconsInput
+    connect?: LinkServiceWhereUniqueInput
+  }
+
+  export type UserLinkCreateNestedManyWithoutIconInput = {
+    create?: XOR<UserLinkCreateWithoutIconInput, UserLinkUncheckedCreateWithoutIconInput> | UserLinkCreateWithoutIconInput[] | UserLinkUncheckedCreateWithoutIconInput[]
+    connectOrCreate?: UserLinkCreateOrConnectWithoutIconInput | UserLinkCreateOrConnectWithoutIconInput[]
+    createMany?: UserLinkCreateManyIconInputEnvelope
+    connect?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
+  }
+
+  export type UserLinkUncheckedCreateNestedManyWithoutIconInput = {
+    create?: XOR<UserLinkCreateWithoutIconInput, UserLinkUncheckedCreateWithoutIconInput> | UserLinkCreateWithoutIconInput[] | UserLinkUncheckedCreateWithoutIconInput[]
+    connectOrCreate?: UserLinkCreateOrConnectWithoutIconInput | UserLinkCreateOrConnectWithoutIconInput[]
+    createMany?: UserLinkCreateManyIconInputEnvelope
+    connect?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
+  }
+
+  export type EnumIconStyleFieldUpdateOperationsInput = {
+    set?: $Enums.IconStyle
+  }
+
+  export type EnumIconColorFieldUpdateOperationsInput = {
+    set?: $Enums.IconColor
+  }
+
+  export type LinkServiceUpdateOneRequiredWithoutIconsNestedInput = {
+    create?: XOR<LinkServiceCreateWithoutIconsInput, LinkServiceUncheckedCreateWithoutIconsInput>
+    connectOrCreate?: LinkServiceCreateOrConnectWithoutIconsInput
+    upsert?: LinkServiceUpsertWithoutIconsInput
+    connect?: LinkServiceWhereUniqueInput
+    update?: XOR<XOR<LinkServiceUpdateToOneWithWhereWithoutIconsInput, LinkServiceUpdateWithoutIconsInput>, LinkServiceUncheckedUpdateWithoutIconsInput>
+  }
+
+  export type UserLinkUpdateManyWithoutIconNestedInput = {
+    create?: XOR<UserLinkCreateWithoutIconInput, UserLinkUncheckedCreateWithoutIconInput> | UserLinkCreateWithoutIconInput[] | UserLinkUncheckedCreateWithoutIconInput[]
+    connectOrCreate?: UserLinkCreateOrConnectWithoutIconInput | UserLinkCreateOrConnectWithoutIconInput[]
+    upsert?: UserLinkUpsertWithWhereUniqueWithoutIconInput | UserLinkUpsertWithWhereUniqueWithoutIconInput[]
+    createMany?: UserLinkCreateManyIconInputEnvelope
+    set?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
+    disconnect?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
+    delete?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
+    connect?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
+    update?: UserLinkUpdateWithWhereUniqueWithoutIconInput | UserLinkUpdateWithWhereUniqueWithoutIconInput[]
+    updateMany?: UserLinkUpdateManyWithWhereWithoutIconInput | UserLinkUpdateManyWithWhereWithoutIconInput[]
+    deleteMany?: UserLinkScalarWhereInput | UserLinkScalarWhereInput[]
+  }
+
+  export type UserLinkUncheckedUpdateManyWithoutIconNestedInput = {
+    create?: XOR<UserLinkCreateWithoutIconInput, UserLinkUncheckedCreateWithoutIconInput> | UserLinkCreateWithoutIconInput[] | UserLinkUncheckedCreateWithoutIconInput[]
+    connectOrCreate?: UserLinkCreateOrConnectWithoutIconInput | UserLinkCreateOrConnectWithoutIconInput[]
+    upsert?: UserLinkUpsertWithWhereUniqueWithoutIconInput | UserLinkUpsertWithWhereUniqueWithoutIconInput[]
+    createMany?: UserLinkCreateManyIconInputEnvelope
+    set?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
+    disconnect?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
+    delete?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
+    connect?: UserLinkWhereUniqueInput | UserLinkWhereUniqueInput[]
+    update?: UserLinkUpdateWithWhereUniqueWithoutIconInput | UserLinkUpdateWithWhereUniqueWithoutIconInput[]
+    updateMany?: UserLinkUpdateManyWithWhereWithoutIconInput | UserLinkUpdateManyWithWhereWithoutIconInput[]
     deleteMany?: UserLinkScalarWhereInput | UserLinkScalarWhereInput[]
   }
 
@@ -34057,6 +36310,40 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedEnumIconStyleFilter<$PrismaModel = never> = {
+    equals?: $Enums.IconStyle | EnumIconStyleFieldRefInput<$PrismaModel>
+    in?: $Enums.IconStyle[] | ListEnumIconStyleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IconStyle[] | ListEnumIconStyleFieldRefInput<$PrismaModel>
+    not?: NestedEnumIconStyleFilter<$PrismaModel> | $Enums.IconStyle
+  }
+
+  export type NestedEnumIconColorFilter<$PrismaModel = never> = {
+    equals?: $Enums.IconColor | EnumIconColorFieldRefInput<$PrismaModel>
+    in?: $Enums.IconColor[] | ListEnumIconColorFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IconColor[] | ListEnumIconColorFieldRefInput<$PrismaModel>
+    not?: NestedEnumIconColorFilter<$PrismaModel> | $Enums.IconColor
+  }
+
+  export type NestedEnumIconStyleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IconStyle | EnumIconStyleFieldRefInput<$PrismaModel>
+    in?: $Enums.IconStyle[] | ListEnumIconStyleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IconStyle[] | ListEnumIconStyleFieldRefInput<$PrismaModel>
+    not?: NestedEnumIconStyleWithAggregatesFilter<$PrismaModel> | $Enums.IconStyle
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIconStyleFilter<$PrismaModel>
+    _max?: NestedEnumIconStyleFilter<$PrismaModel>
+  }
+
+  export type NestedEnumIconColorWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IconColor | EnumIconColorFieldRefInput<$PrismaModel>
+    in?: $Enums.IconColor[] | ListEnumIconColorFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IconColor[] | ListEnumIconColorFieldRefInput<$PrismaModel>
+    not?: NestedEnumIconColorWithAggregatesFilter<$PrismaModel> | $Enums.IconColor
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIconColorFilter<$PrismaModel>
+    _max?: NestedEnumIconColorFilter<$PrismaModel>
+  }
+
   export type NestedEnumArticleStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.ArticleStatus | EnumArticleStatusFieldRefInput<$PrismaModel>
     in?: $Enums.ArticleStatus[] | ListEnumArticleStatusFieldRefInput<$PrismaModel>
@@ -34155,22 +36442,32 @@ export namespace Prisma {
 
   export type UserLinkCreateWithoutUserInput = {
     id?: string
-    category?: string | null
-    iconId?: string | null
     url: string
+    title?: string | null
     description?: string | null
     sortOrder?: number
-    linkType?: LinkTypeCreateNestedOneWithoutLinksInput
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    service: LinkServiceCreateNestedOneWithoutLinksInput
+    icon?: ServiceIconCreateNestedOneWithoutLinksInput
   }
 
   export type UserLinkUncheckedCreateWithoutUserInput = {
     id?: string
-    category?: string | null
-    iconId?: string | null
     url: string
+    title?: string | null
     description?: string | null
     sortOrder?: number
-    linkTypeId?: string | null
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    serviceId: string
+    iconId?: string | null
   }
 
   export type UserLinkCreateOrConnectWithoutUserInput = {
@@ -34524,13 +36821,18 @@ export namespace Prisma {
     OR?: UserLinkScalarWhereInput[]
     NOT?: UserLinkScalarWhereInput | UserLinkScalarWhereInput[]
     id?: StringFilter<"UserLink"> | string
-    category?: StringNullableFilter<"UserLink"> | string | null
-    iconId?: StringNullableFilter<"UserLink"> | string | null
     url?: StringFilter<"UserLink"> | string
+    title?: StringNullableFilter<"UserLink"> | string | null
     description?: StringNullableFilter<"UserLink"> | string | null
     sortOrder?: IntFilter<"UserLink"> | number
+    isActive?: BoolFilter<"UserLink"> | boolean
+    useOriginalIcon?: BoolFilter<"UserLink"> | boolean
+    originalIconUrl?: StringNullableFilter<"UserLink"> | string | null
+    createdAt?: DateTimeFilter<"UserLink"> | Date | string
+    updatedAt?: DateTimeFilter<"UserLink"> | Date | string
     userId?: StringFilter<"UserLink"> | string
-    linkTypeId?: StringNullableFilter<"UserLink"> | string | null
+    serviceId?: StringFilter<"UserLink"> | string
+    iconId?: StringNullableFilter<"UserLink"> | string | null
   }
 
   export type UserImageBannerUpsertWithWhereUniqueWithoutUserInput = {
@@ -35304,25 +37606,74 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutLinksInput, UserUncheckedCreateWithoutLinksInput>
   }
 
-  export type LinkTypeCreateWithoutLinksInput = {
+  export type LinkServiceCreateWithoutLinksInput = {
     id?: string
     name: string
     slug: string
     description?: string | null
-    icons?: string | null
+    baseUrl?: string | null
+    allowOriginalIcon?: boolean
+    isActive?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    icons?: ServiceIconCreateNestedManyWithoutServiceInput
   }
 
-  export type LinkTypeUncheckedCreateWithoutLinksInput = {
+  export type LinkServiceUncheckedCreateWithoutLinksInput = {
     id?: string
     name: string
     slug: string
     description?: string | null
-    icons?: string | null
+    baseUrl?: string | null
+    allowOriginalIcon?: boolean
+    isActive?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    icons?: ServiceIconUncheckedCreateNestedManyWithoutServiceInput
   }
 
-  export type LinkTypeCreateOrConnectWithoutLinksInput = {
-    where: LinkTypeWhereUniqueInput
-    create: XOR<LinkTypeCreateWithoutLinksInput, LinkTypeUncheckedCreateWithoutLinksInput>
+  export type LinkServiceCreateOrConnectWithoutLinksInput = {
+    where: LinkServiceWhereUniqueInput
+    create: XOR<LinkServiceCreateWithoutLinksInput, LinkServiceUncheckedCreateWithoutLinksInput>
+  }
+
+  export type ServiceIconCreateWithoutLinksInput = {
+    id?: string
+    name: string
+    fileName: string
+    filePath: string
+    style: $Enums.IconStyle
+    colorScheme: $Enums.IconColor
+    description?: string | null
+    isActive?: boolean
+    sortOrder?: number
+    uploadedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    service: LinkServiceCreateNestedOneWithoutIconsInput
+  }
+
+  export type ServiceIconUncheckedCreateWithoutLinksInput = {
+    id?: string
+    name: string
+    fileName: string
+    filePath: string
+    style: $Enums.IconStyle
+    colorScheme: $Enums.IconColor
+    description?: string | null
+    isActive?: boolean
+    sortOrder?: number
+    uploadedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    serviceId: string
+  }
+
+  export type ServiceIconCreateOrConnectWithoutLinksInput = {
+    where: ServiceIconWhereUniqueInput
+    create: XOR<ServiceIconCreateWithoutLinksInput, ServiceIconUncheckedCreateWithoutLinksInput>
   }
 
   export type UserUpsertWithoutLinksInput = {
@@ -35400,31 +37751,86 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type LinkTypeUpsertWithoutLinksInput = {
-    update: XOR<LinkTypeUpdateWithoutLinksInput, LinkTypeUncheckedUpdateWithoutLinksInput>
-    create: XOR<LinkTypeCreateWithoutLinksInput, LinkTypeUncheckedCreateWithoutLinksInput>
-    where?: LinkTypeWhereInput
+  export type LinkServiceUpsertWithoutLinksInput = {
+    update: XOR<LinkServiceUpdateWithoutLinksInput, LinkServiceUncheckedUpdateWithoutLinksInput>
+    create: XOR<LinkServiceCreateWithoutLinksInput, LinkServiceUncheckedCreateWithoutLinksInput>
+    where?: LinkServiceWhereInput
   }
 
-  export type LinkTypeUpdateToOneWithWhereWithoutLinksInput = {
-    where?: LinkTypeWhereInput
-    data: XOR<LinkTypeUpdateWithoutLinksInput, LinkTypeUncheckedUpdateWithoutLinksInput>
+  export type LinkServiceUpdateToOneWithWhereWithoutLinksInput = {
+    where?: LinkServiceWhereInput
+    data: XOR<LinkServiceUpdateWithoutLinksInput, LinkServiceUncheckedUpdateWithoutLinksInput>
   }
 
-  export type LinkTypeUpdateWithoutLinksInput = {
+  export type LinkServiceUpdateWithoutLinksInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    icons?: NullableStringFieldUpdateOperationsInput | string | null
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    allowOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    icons?: ServiceIconUpdateManyWithoutServiceNestedInput
   }
 
-  export type LinkTypeUncheckedUpdateWithoutLinksInput = {
+  export type LinkServiceUncheckedUpdateWithoutLinksInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    icons?: NullableStringFieldUpdateOperationsInput | string | null
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    allowOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    icons?: ServiceIconUncheckedUpdateManyWithoutServiceNestedInput
+  }
+
+  export type ServiceIconUpsertWithoutLinksInput = {
+    update: XOR<ServiceIconUpdateWithoutLinksInput, ServiceIconUncheckedUpdateWithoutLinksInput>
+    create: XOR<ServiceIconCreateWithoutLinksInput, ServiceIconUncheckedCreateWithoutLinksInput>
+    where?: ServiceIconWhereInput
+  }
+
+  export type ServiceIconUpdateToOneWithWhereWithoutLinksInput = {
+    where?: ServiceIconWhereInput
+    data: XOR<ServiceIconUpdateWithoutLinksInput, ServiceIconUncheckedUpdateWithoutLinksInput>
+  }
+
+  export type ServiceIconUpdateWithoutLinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
+    style?: EnumIconStyleFieldUpdateOperationsInput | $Enums.IconStyle
+    colorScheme?: EnumIconColorFieldUpdateOperationsInput | $Enums.IconColor
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    service?: LinkServiceUpdateOneRequiredWithoutIconsNestedInput
+  }
+
+  export type ServiceIconUncheckedUpdateWithoutLinksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
+    style?: EnumIconStyleFieldUpdateOperationsInput | $Enums.IconStyle
+    colorScheme?: EnumIconColorFieldUpdateOperationsInput | $Enums.IconColor
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceId?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserCreateWithoutYoutubeSettingsInput = {
@@ -36554,50 +38960,265 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type UserLinkCreateWithoutLinkTypeInput = {
+  export type ServiceIconCreateWithoutServiceInput = {
     id?: string
-    category?: string | null
-    iconId?: string | null
-    url: string
+    name: string
+    fileName: string
+    filePath: string
+    style: $Enums.IconStyle
+    colorScheme: $Enums.IconColor
     description?: string | null
+    isActive?: boolean
     sortOrder?: number
-    user: UserCreateNestedOneWithoutLinksInput
+    uploadedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    links?: UserLinkCreateNestedManyWithoutIconInput
   }
 
-  export type UserLinkUncheckedCreateWithoutLinkTypeInput = {
+  export type ServiceIconUncheckedCreateWithoutServiceInput = {
     id?: string
-    category?: string | null
-    iconId?: string | null
-    url: string
+    name: string
+    fileName: string
+    filePath: string
+    style: $Enums.IconStyle
+    colorScheme: $Enums.IconColor
     description?: string | null
+    isActive?: boolean
     sortOrder?: number
-    userId: string
+    uploadedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    links?: UserLinkUncheckedCreateNestedManyWithoutIconInput
   }
 
-  export type UserLinkCreateOrConnectWithoutLinkTypeInput = {
-    where: UserLinkWhereUniqueInput
-    create: XOR<UserLinkCreateWithoutLinkTypeInput, UserLinkUncheckedCreateWithoutLinkTypeInput>
+  export type ServiceIconCreateOrConnectWithoutServiceInput = {
+    where: ServiceIconWhereUniqueInput
+    create: XOR<ServiceIconCreateWithoutServiceInput, ServiceIconUncheckedCreateWithoutServiceInput>
   }
 
-  export type UserLinkCreateManyLinkTypeInputEnvelope = {
-    data: UserLinkCreateManyLinkTypeInput | UserLinkCreateManyLinkTypeInput[]
+  export type ServiceIconCreateManyServiceInputEnvelope = {
+    data: ServiceIconCreateManyServiceInput | ServiceIconCreateManyServiceInput[]
     skipDuplicates?: boolean
   }
 
-  export type UserLinkUpsertWithWhereUniqueWithoutLinkTypeInput = {
-    where: UserLinkWhereUniqueInput
-    update: XOR<UserLinkUpdateWithoutLinkTypeInput, UserLinkUncheckedUpdateWithoutLinkTypeInput>
-    create: XOR<UserLinkCreateWithoutLinkTypeInput, UserLinkUncheckedCreateWithoutLinkTypeInput>
+  export type UserLinkCreateWithoutServiceInput = {
+    id?: string
+    url: string
+    title?: string | null
+    description?: string | null
+    sortOrder?: number
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutLinksInput
+    icon?: ServiceIconCreateNestedOneWithoutLinksInput
   }
 
-  export type UserLinkUpdateWithWhereUniqueWithoutLinkTypeInput = {
-    where: UserLinkWhereUniqueInput
-    data: XOR<UserLinkUpdateWithoutLinkTypeInput, UserLinkUncheckedUpdateWithoutLinkTypeInput>
+  export type UserLinkUncheckedCreateWithoutServiceInput = {
+    id?: string
+    url: string
+    title?: string | null
+    description?: string | null
+    sortOrder?: number
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    iconId?: string | null
   }
 
-  export type UserLinkUpdateManyWithWhereWithoutLinkTypeInput = {
+  export type UserLinkCreateOrConnectWithoutServiceInput = {
+    where: UserLinkWhereUniqueInput
+    create: XOR<UserLinkCreateWithoutServiceInput, UserLinkUncheckedCreateWithoutServiceInput>
+  }
+
+  export type UserLinkCreateManyServiceInputEnvelope = {
+    data: UserLinkCreateManyServiceInput | UserLinkCreateManyServiceInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ServiceIconUpsertWithWhereUniqueWithoutServiceInput = {
+    where: ServiceIconWhereUniqueInput
+    update: XOR<ServiceIconUpdateWithoutServiceInput, ServiceIconUncheckedUpdateWithoutServiceInput>
+    create: XOR<ServiceIconCreateWithoutServiceInput, ServiceIconUncheckedCreateWithoutServiceInput>
+  }
+
+  export type ServiceIconUpdateWithWhereUniqueWithoutServiceInput = {
+    where: ServiceIconWhereUniqueInput
+    data: XOR<ServiceIconUpdateWithoutServiceInput, ServiceIconUncheckedUpdateWithoutServiceInput>
+  }
+
+  export type ServiceIconUpdateManyWithWhereWithoutServiceInput = {
+    where: ServiceIconScalarWhereInput
+    data: XOR<ServiceIconUpdateManyMutationInput, ServiceIconUncheckedUpdateManyWithoutServiceInput>
+  }
+
+  export type ServiceIconScalarWhereInput = {
+    AND?: ServiceIconScalarWhereInput | ServiceIconScalarWhereInput[]
+    OR?: ServiceIconScalarWhereInput[]
+    NOT?: ServiceIconScalarWhereInput | ServiceIconScalarWhereInput[]
+    id?: StringFilter<"ServiceIcon"> | string
+    name?: StringFilter<"ServiceIcon"> | string
+    fileName?: StringFilter<"ServiceIcon"> | string
+    filePath?: StringFilter<"ServiceIcon"> | string
+    style?: EnumIconStyleFilter<"ServiceIcon"> | $Enums.IconStyle
+    colorScheme?: EnumIconColorFilter<"ServiceIcon"> | $Enums.IconColor
+    description?: StringNullableFilter<"ServiceIcon"> | string | null
+    isActive?: BoolFilter<"ServiceIcon"> | boolean
+    sortOrder?: IntFilter<"ServiceIcon"> | number
+    uploadedBy?: StringNullableFilter<"ServiceIcon"> | string | null
+    createdAt?: DateTimeFilter<"ServiceIcon"> | Date | string
+    updatedAt?: DateTimeFilter<"ServiceIcon"> | Date | string
+    serviceId?: StringFilter<"ServiceIcon"> | string
+  }
+
+  export type UserLinkUpsertWithWhereUniqueWithoutServiceInput = {
+    where: UserLinkWhereUniqueInput
+    update: XOR<UserLinkUpdateWithoutServiceInput, UserLinkUncheckedUpdateWithoutServiceInput>
+    create: XOR<UserLinkCreateWithoutServiceInput, UserLinkUncheckedCreateWithoutServiceInput>
+  }
+
+  export type UserLinkUpdateWithWhereUniqueWithoutServiceInput = {
+    where: UserLinkWhereUniqueInput
+    data: XOR<UserLinkUpdateWithoutServiceInput, UserLinkUncheckedUpdateWithoutServiceInput>
+  }
+
+  export type UserLinkUpdateManyWithWhereWithoutServiceInput = {
     where: UserLinkScalarWhereInput
-    data: XOR<UserLinkUpdateManyMutationInput, UserLinkUncheckedUpdateManyWithoutLinkTypeInput>
+    data: XOR<UserLinkUpdateManyMutationInput, UserLinkUncheckedUpdateManyWithoutServiceInput>
+  }
+
+  export type LinkServiceCreateWithoutIconsInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    baseUrl?: string | null
+    allowOriginalIcon?: boolean
+    isActive?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    links?: UserLinkCreateNestedManyWithoutServiceInput
+  }
+
+  export type LinkServiceUncheckedCreateWithoutIconsInput = {
+    id?: string
+    name: string
+    slug: string
+    description?: string | null
+    baseUrl?: string | null
+    allowOriginalIcon?: boolean
+    isActive?: boolean
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    links?: UserLinkUncheckedCreateNestedManyWithoutServiceInput
+  }
+
+  export type LinkServiceCreateOrConnectWithoutIconsInput = {
+    where: LinkServiceWhereUniqueInput
+    create: XOR<LinkServiceCreateWithoutIconsInput, LinkServiceUncheckedCreateWithoutIconsInput>
+  }
+
+  export type UserLinkCreateWithoutIconInput = {
+    id?: string
+    url: string
+    title?: string | null
+    description?: string | null
+    sortOrder?: number
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutLinksInput
+    service: LinkServiceCreateNestedOneWithoutLinksInput
+  }
+
+  export type UserLinkUncheckedCreateWithoutIconInput = {
+    id?: string
+    url: string
+    title?: string | null
+    description?: string | null
+    sortOrder?: number
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    serviceId: string
+  }
+
+  export type UserLinkCreateOrConnectWithoutIconInput = {
+    where: UserLinkWhereUniqueInput
+    create: XOR<UserLinkCreateWithoutIconInput, UserLinkUncheckedCreateWithoutIconInput>
+  }
+
+  export type UserLinkCreateManyIconInputEnvelope = {
+    data: UserLinkCreateManyIconInput | UserLinkCreateManyIconInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type LinkServiceUpsertWithoutIconsInput = {
+    update: XOR<LinkServiceUpdateWithoutIconsInput, LinkServiceUncheckedUpdateWithoutIconsInput>
+    create: XOR<LinkServiceCreateWithoutIconsInput, LinkServiceUncheckedCreateWithoutIconsInput>
+    where?: LinkServiceWhereInput
+  }
+
+  export type LinkServiceUpdateToOneWithWhereWithoutIconsInput = {
+    where?: LinkServiceWhereInput
+    data: XOR<LinkServiceUpdateWithoutIconsInput, LinkServiceUncheckedUpdateWithoutIconsInput>
+  }
+
+  export type LinkServiceUpdateWithoutIconsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    allowOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    links?: UserLinkUpdateManyWithoutServiceNestedInput
+  }
+
+  export type LinkServiceUncheckedUpdateWithoutIconsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    baseUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    allowOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    links?: UserLinkUncheckedUpdateManyWithoutServiceNestedInput
+  }
+
+  export type UserLinkUpsertWithWhereUniqueWithoutIconInput = {
+    where: UserLinkWhereUniqueInput
+    update: XOR<UserLinkUpdateWithoutIconInput, UserLinkUncheckedUpdateWithoutIconInput>
+    create: XOR<UserLinkCreateWithoutIconInput, UserLinkUncheckedCreateWithoutIconInput>
+  }
+
+  export type UserLinkUpdateWithWhereUniqueWithoutIconInput = {
+    where: UserLinkWhereUniqueInput
+    data: XOR<UserLinkUpdateWithoutIconInput, UserLinkUncheckedUpdateWithoutIconInput>
+  }
+
+  export type UserLinkUpdateManyWithWhereWithoutIconInput = {
+    where: UserLinkScalarWhereInput
+    data: XOR<UserLinkUpdateManyMutationInput, UserLinkUncheckedUpdateManyWithoutIconInput>
   }
 
   export type UserCreateWithoutAuthorInput = {
@@ -37833,12 +40454,17 @@ export namespace Prisma {
 
   export type UserLinkCreateManyUserInput = {
     id?: string
-    category?: string | null
-    iconId?: string | null
     url: string
+    title?: string | null
     description?: string | null
     sortOrder?: number
-    linkTypeId?: string | null
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    serviceId: string
+    iconId?: string | null
   }
 
   export type UserImageBannerCreateManyUserInput = {
@@ -37936,32 +40562,47 @@ export namespace Prisma {
 
   export type UserLinkUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    iconId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
-    linkType?: LinkTypeUpdateOneWithoutLinksNestedInput
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    service?: LinkServiceUpdateOneRequiredWithoutLinksNestedInput
+    icon?: ServiceIconUpdateOneWithoutLinksNestedInput
   }
 
   export type UserLinkUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    iconId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
-    linkTypeId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    iconId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserLinkUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    iconId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
-    linkTypeId?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+    iconId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserImageBannerUpdateWithoutUserInput = {
@@ -38109,44 +40750,186 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type UserLinkCreateManyLinkTypeInput = {
+  export type ServiceIconCreateManyServiceInput = {
     id?: string
-    category?: string | null
-    iconId?: string | null
+    name: string
+    fileName: string
+    filePath: string
+    style: $Enums.IconStyle
+    colorScheme: $Enums.IconColor
+    description?: string | null
+    isActive?: boolean
+    sortOrder?: number
+    uploadedBy?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserLinkCreateManyServiceInput = {
+    id?: string
     url: string
+    title?: string | null
     description?: string | null
     sortOrder?: number
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     userId: string
+    iconId?: string | null
   }
 
-  export type UserLinkUpdateWithoutLinkTypeInput = {
+  export type ServiceIconUpdateWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    iconId?: NullableStringFieldUpdateOperationsInput | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
+    style?: EnumIconStyleFieldUpdateOperationsInput | $Enums.IconStyle
+    colorScheme?: EnumIconColorFieldUpdateOperationsInput | $Enums.IconColor
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    links?: UserLinkUpdateManyWithoutIconNestedInput
+  }
+
+  export type ServiceIconUncheckedUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
+    style?: EnumIconStyleFieldUpdateOperationsInput | $Enums.IconStyle
+    colorScheme?: EnumIconColorFieldUpdateOperationsInput | $Enums.IconColor
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    links?: UserLinkUncheckedUpdateManyWithoutIconNestedInput
+  }
+
+  export type ServiceIconUncheckedUpdateManyWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    fileName?: StringFieldUpdateOperationsInput | string
+    filePath?: StringFieldUpdateOperationsInput | string
+    style?: EnumIconStyleFieldUpdateOperationsInput | $Enums.IconStyle
+    colorScheme?: EnumIconColorFieldUpdateOperationsInput | $Enums.IconColor
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    uploadedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserLinkUpdateWithoutServiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutLinksNestedInput
+    icon?: ServiceIconUpdateOneWithoutLinksNestedInput
   }
 
-  export type UserLinkUncheckedUpdateWithoutLinkTypeInput = {
+  export type UserLinkUncheckedUpdateWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    iconId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    iconId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type UserLinkUncheckedUpdateManyWithoutLinkTypeInput = {
+  export type UserLinkUncheckedUpdateManyWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: NullableStringFieldUpdateOperationsInput | string | null
-    iconId?: NullableStringFieldUpdateOperationsInput | string | null
     url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+    iconId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserLinkCreateManyIconInput = {
+    id?: string
+    url: string
+    title?: string | null
+    description?: string | null
+    sortOrder?: number
+    isActive?: boolean
+    useOriginalIcon?: boolean
+    originalIconUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    serviceId: string
+  }
+
+  export type UserLinkUpdateWithoutIconInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutLinksNestedInput
+    service?: LinkServiceUpdateOneRequiredWithoutLinksNestedInput
+  }
+
+  export type UserLinkUncheckedUpdateWithoutIconInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserLinkUncheckedUpdateManyWithoutIconInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    useOriginalIcon?: BoolFieldUpdateOperationsInput | boolean
+    originalIconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    serviceId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ArticleCreateManyAuthorInput = {
