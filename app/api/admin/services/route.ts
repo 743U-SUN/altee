@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/auth'
 import { LinkServiceOperations } from '@/lib/links/linkService'
 import { serviceSchema, validateFormData } from '@/lib/links/validation'
-import type { ServiceFilters } from '@/types/link'
+import type { ServiceFilters, ServiceFormData } from '@/types/link'
 
 export async function GET(request: NextRequest) {
   try {
@@ -65,7 +65,13 @@ export async function POST(request: NextRequest) {
     }
 
     // サービス作成
-    const service = await LinkServiceOperations.createService(validation.data!)
+    const serviceData = {
+      ...validation.data!,
+      // デフォルト値を確実に設定
+      allowOriginalIcon: validation.data!.allowOriginalIcon ?? true
+    }
+    
+    const service = await LinkServiceOperations.createService(serviceData)
 
     return NextResponse.json({ 
       success: true,

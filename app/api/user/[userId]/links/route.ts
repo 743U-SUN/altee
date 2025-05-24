@@ -5,7 +5,7 @@ import { auth } from '@/auth'
 import { UserLinkOperations } from '@/lib/links/linkService'
 import { userLinkSchema, validateFormData, validateOriginalIconFile } from '@/lib/links/validation'
 import { uploadFile } from '@/lib/minio'
-import type { LinkFilters } from '@/types/link'
+import type { LinkFilters, LinkFormData } from '@/types/link'
 
 interface Params {
   userId: string
@@ -146,10 +146,12 @@ export async function POST(
     // リンク作成
     const linkData = {
       ...validation.data!,
-      // 空文字列のiconIdはnullに変換
-      iconId: validation.data!.iconId || null,
+      // デフォルト値を確実に設定
+      useOriginalIcon: validation.data!.useOriginalIcon ?? false,
+      // 空文字列のiconIdはundefinedに変換
+      iconId: validation.data!.iconId || undefined,
       // オリジナルアイコンURLを追加
-      originalIconUrl: originalIconUrl || null
+      originalIconUrl: originalIconUrl || undefined
     }
     
     const link = await UserLinkOperations.createUserLink(userId, linkData)

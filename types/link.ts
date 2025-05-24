@@ -88,6 +88,13 @@ export interface LinkFormData {
   originalIconFile?: File
 }
 
+// リンク更新用の型（フォームデータ + その他更新可能なプロパティ）
+export interface LinkUpdateData extends Omit<LinkFormData, 'originalIconFile'> {
+  isActive?: boolean
+  sortOrder?: number
+  originalIconUrl?: string
+}
+
 export interface ServiceFormData {
   name: string
   slug: string

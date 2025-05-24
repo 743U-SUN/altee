@@ -37,19 +37,17 @@ import { Loader2, Image as ImageIcon } from 'lucide-react'
 
 import { validateOriginalIconFile } from '@/lib/links/validation'
 import { useUserServices, useUserServiceIcons } from '../hooks/useUserLinks'
-import type { UserLink } from '@/types/link'
+import type { UserLink, LinkFormData } from '@/types/link'
 
 const linkFormSchema = z.object({
   serviceId: z.string().min(1, 'サービスを選択してください'),
   url: z.string().url('有効なURLを入力してください'),
   title: z.string().optional(),
   description: z.string().optional(),
-  useOriginalIcon: z.boolean().default(false),
+  useOriginalIcon: z.boolean(),
   iconId: z.string().optional(),
   originalIconFile: z.instanceof(File).optional(),
 })
-
-type LinkFormData = z.infer<typeof linkFormSchema>
 
 interface LinkEditDialogProps {
   open: boolean
@@ -67,7 +65,7 @@ export function LinkEditDialog({
   loading
 }: LinkEditDialogProps) {
   const [selectedServiceId, setSelectedServiceId] = useState<string>('')
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined)
   const [fileError, setFileError] = useState<string>('')
   const [previewUrl, setPreviewUrl] = useState<string>('')
   
@@ -109,7 +107,7 @@ export function LinkEditDialog({
     } else if (!link && open) {
       form.reset()
       setSelectedServiceId('')
-      setSelectedFile(null)
+      setSelectedFile(undefined)
       setFileError('')
       setPreviewUrl('')
     }
@@ -131,7 +129,7 @@ export function LinkEditDialog({
     const validation = validateOriginalIconFile(file)
     if (!validation.isValid) {
       setFileError(validation.error || '')
-      setSelectedFile(null)
+      setSelectedFile(undefined)
       setPreviewUrl('')
       return
     }
@@ -150,7 +148,7 @@ export function LinkEditDialog({
 
   // ファイル削除処理
   const handleFileRemove = () => {
-    setSelectedFile(null)
+    setSelectedFile(undefined)
     setFileError('')
     setPreviewUrl('')
     form.setValue('originalIconFile', undefined)
@@ -180,7 +178,7 @@ export function LinkEditDialog({
       onOpenChange(false)
       form.reset()
       setSelectedServiceId('')
-      setSelectedFile(null)
+      setSelectedFile(undefined)
       setFileError('')
       setPreviewUrl('')
     }

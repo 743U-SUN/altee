@@ -7,7 +7,8 @@ import type {
   UserLink, 
   LinkService, 
   ServiceIcon, 
-  LinkFormData 
+  LinkFormData,
+  LinkUpdateData
 } from '@/types/link'
 
 /**
@@ -91,7 +92,7 @@ export function useUserLinks(userId: string) {
   }, [executeCreate, fetchLinks, userId])
 
   // リンク更新
-  const updateLink = useCallback(async (linkId: string, data: Partial<LinkFormData>) => {
+  const updateLink = useCallback(async (linkId: string, data: Partial<LinkUpdateData>) => {
     const result = await executeUpdate(async () => {
       const response = await fetch(`/api/user/${userId}/links/${linkId}`, {
         method: 'PATCH',
