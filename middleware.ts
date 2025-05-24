@@ -19,6 +19,10 @@ export default auth((req) => {
   const protectedRoutes = ["/profile", "/settings", "/dashboard", "/user"];
   const isProtectedRoute = protectedRoutes.some(route => nextUrl.pathname.startsWith(route));
   
+  // 管理者専用ルート
+  const adminRoutes = ["/admin"];
+  const isAdminRoute = adminRoutes.some(route => nextUrl.pathname.startsWith(route));
+  
   // 認証ページ（既にログイン済みならリダイレクト）
   const authRoutes = ["/login"];
   const isAuthRoute = authRoutes.some(route => nextUrl.pathname.startsWith(route));
@@ -27,8 +31,17 @@ export default auth((req) => {
   const isWelcomePage = nextUrl.pathname.startsWith("/login/welcome");
 
   // 認証が必要なページに未認証でアクセスした場合、ログインページへ
-  if (isProtectedRoute && !isAuthenticated) {
+  if ((isProtectedRoute || isAdminRoute) && !isAuthenticated) {
     return NextResponse.redirect(new URL("/login", nextUrl));
+  }
+  
+  // 管理者専用ページに管理者権限なしでアクセスした場合、トップページへ
+  if (isAdminRoute && isAuthenticated && user) {
+    const userRole = user.role;
+    if (userRole !== "admin") {
+      console.log("Access denied to admin route - user role:", userRole);
+      return NextResponse.redirect(new URL("/", nextUrl));
+    }
   }
 
   // 認証済みユーザーの処理
@@ -44,10 +57,16 @@ export default auth((req) => {
       }
     } else {
       // 正規のハンドルを持つユーザーの場合
-      // welcomeページまたはログインページにアクセスしようとした場合、userページにリダイレクト
+      // welcomeページまたはログインページにアクセスしようとした場合、roleに応じてリダイレクト
       if (isWelcomePage || (isAuthRoute && !isWelcomePage)) {
-        console.log("Redirecting to user page - valid handle:", user.handle);
-        return NextResponse.redirect(new URL("/user", nextUrl));
+        const userRole = user.role;
+        if (userRole === "admin") {
+          console.log("Redirecting to admin page - admin user:", user.handle);
+          return NextResponse.redirect(new URL("/admin", nextUrl));
+        } else {
+          console.log("Redirecting to user page - regular user:", user.handle);
+          return NextResponse.redirect(new URL("/user", nextUrl));
+        }
       }
     }
   }
@@ -63,6 +82,7 @@ export const config = {
     "/settings/:path*", 
     "/dashboard/:path*",
     "/user/:path*",
-    "/article"
+    "/article",
+    "/admin/:path*"
   ],
 };

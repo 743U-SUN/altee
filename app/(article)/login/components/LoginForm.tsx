@@ -13,7 +13,7 @@ export default function LoginForm() {
   const handleOAuthSignIn = async (provider: "google" | "discord") => {
     setIsLoading(true);
     try {
-      await signIn(provider, { callbackUrl: "/article" });
+      await signIn(provider);
     } catch (error) {
       console.error("Authentication error:", error);
     } finally {
