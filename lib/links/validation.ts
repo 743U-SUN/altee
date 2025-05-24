@@ -60,7 +60,7 @@ export const userLinkSchema = z.object({
 })
 
 /**
- * ファイルアップロードの検証
+ * ファイルアップロードの検証（Admin用）
  */
 export function validateUploadFile(file: File): {
   isValid: boolean
@@ -89,6 +89,50 @@ export function validateUploadFile(file: File): {
     return {
       isValid: false,
       error: 'ファイル名に無効な文字が含まれています。'
+    }
+  }
+
+  return { isValid: true }
+}
+
+/**
+ * オリジナルアイコンファイルのバリデーション（SVGのみ）
+ */
+export function validateOriginalIconFile(file: File): {
+  isValid: boolean
+  error?: string
+} {
+  const allowedTypes = ['image/svg+xml']
+  const maxSize = 1 * 1024 * 1024 // 1MB（SVGなので小さめ）
+
+  if (!allowedTypes.includes(file.type)) {
+    return {
+      isValid: false,
+      error: 'オリジナルアイコンはSVGファイルのみ許可されています。'
+    }
+  }
+
+  if (file.size > maxSize) {
+    return {
+      isValid: false,
+      error: 'ファイルサイズが大きすぎます。最大1MBまで許可されています。'
+    }
+  }
+
+  // ファイル名の検証（危険な文字を含まないか）
+  const dangerousChars = /[<>:"/\\|?*]/
+  if (dangerousChars.test(file.name)) {
+    return {
+      isValid: false,
+      error: 'ファイル名に無効な文字が含まれています。'
+    }
+  }
+
+  // SVGの基本的な構造チェック（オプション）
+  if (!file.name.toLowerCase().endsWith('.svg')) {
+    return {
+      isValid: false,
+      error: 'SVGファイルの拡張子が正しくありません。'
     }
   }
 

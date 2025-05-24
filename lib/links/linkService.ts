@@ -1,6 +1,7 @@
 // リンク関連の共通サービス関数
 
 import { prisma } from '@/lib/prisma'
+import { deleteFile } from '@/lib/minio'
 import type { LinkService, ServiceIcon, UserLink, LinkFilters, ServiceFilters, IconFilters } from '@/types/link'
 
 /**
@@ -425,12 +426,48 @@ export class UserLinkOperations {
 
   // ユーザーリンク削除
   static async deleteUserLink(id: string, userId: string) {
-    return await prisma.userLink.delete({
+    // 削除前にリンク情報を取得（ファイル削除用）
+    const link = await prisma.userLink.findFirst({
+      where: {
+        id,
+        userId // セキュリティのため
+      },
+      select: {
+        originalIconUrl: true
+      }
+    })
+
+    if (!link) {
+      throw new Error('リンクが見つかりません')
+    }
+
+    // リンクを削除
+    const deletedLink = await prisma.userLink.delete({
       where: {
         id,
         userId // セキュリティのため、自分のリンクのみ削除可能
       }
     })
+
+    // オリジナルアイコンがある場合はS3からも削除
+    if (link.originalIconUrl) {
+      try {
+        // URLからファイルパスを抽出
+        // 例: http://localhost:9000/bucket/user-icons/userId/filename.svg
+        // -> user-icons/userId/filename.svg
+        const url = new URL(link.originalIconUrl)
+        const pathParts = url.pathname.split('/')
+        // バケット名を除いたパスを作成
+        const objectName = pathParts.slice(2).join('/') // 最初の2つは空文字列とバケット名
+        
+        await deleteFile(objectName)
+      } catch (fileError) {
+        // ファイル削除エラーはログに記録するだけで、リンク削除は継続
+        console.error('オリジナルアイコンファイルの削除に失敗:', fileError)
+      }
+    }
+
+    return deletedLink
   }
 
   // リンク順序更新

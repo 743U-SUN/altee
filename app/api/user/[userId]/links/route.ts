@@ -3,7 +3,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/auth'
 import { UserLinkOperations } from '@/lib/links/linkService'
-import { userLinkSchema, validateFormData } from '@/lib/links/validation'
+import { userLinkSchema, validateFormData, validateOriginalIconFile } from '@/lib/links/validation'
+import { uploadFile } from '@/lib/minio'
 import type { LinkFilters } from '@/types/link'
 
 interface Params {
@@ -73,7 +74,60 @@ export async function POST(
       return NextResponse.json({ error: '権限がありません' }, { status: 403 })
     }
 
-    const body = await request.json()
+    // Content-Typeによって処理を分岐
+    const contentType = request.headers.get('content-type') || ''
+    let body: any
+    let originalIconUrl: string | undefined
+
+    if (contentType.includes('multipart/form-data')) {
+      // FormDataの場合（ファイルアップロード）
+      const formData = await request.formData()
+      
+      // FormDataからデータを抽出
+      body = {
+        serviceId: formData.get('serviceId') as string,
+        url: formData.get('url') as string,
+        title: formData.get('title') as string || undefined,
+        description: formData.get('description') as string || undefined,
+        useOriginalIcon: formData.get('useOriginalIcon') === 'true',
+      }
+
+      // ファイルの処理
+      const file = formData.get('originalIconFile') as File
+      if (file && body.useOriginalIcon) {
+        // ファイルバリデーション
+        const fileValidation = validateOriginalIconFile(file)
+        if (!fileValidation.isValid) {
+          return NextResponse.json(
+            { 
+              success: false,
+              error: fileValidation.error 
+            },
+            { status: 400 }
+          )
+        }
+
+        // ファイル名生成（ユーザーID + タイムスタンプ）
+        const timestamp = Date.now()
+        const extension = file.name.split('.').pop()
+        const fileName = `${userId}-${timestamp}.${extension}`
+        
+        // ファイルをBufferに変換
+        const arrayBuffer = await file.arrayBuffer()
+        const fileBuffer = Buffer.from(arrayBuffer)
+        
+        // MinIOにアップロード（ユーザー専用フォルダ）
+        originalIconUrl = await uploadFile(
+          fileName,
+          fileBuffer,
+          file.type,
+          `user-icons/${userId}`
+        )
+      }
+    } else {
+      // JSONの場合
+      body = await request.json()
+    }
     
     // バリデーション
     const validation = validateFormData(userLinkSchema, body)
@@ -90,7 +144,15 @@ export async function POST(
     }
 
     // リンク作成
-    const link = await UserLinkOperations.createUserLink(userId, validation.data!)
+    const linkData = {
+      ...validation.data!,
+      // 空文字列のiconIdはnullに変換
+      iconId: validation.data!.iconId || null,
+      // オリジナルアイコンURLを追加
+      originalIconUrl: originalIconUrl || null
+    }
+    
+    const link = await UserLinkOperations.createUserLink(userId, linkData)
 
     return NextResponse.json({ 
       success: true,

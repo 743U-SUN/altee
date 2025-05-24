@@ -59,6 +59,7 @@ export function UserLinkManager() {
     open: boolean
     link: UserLink | null
   }>({ open: false, link: null })
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
 
   const {
     links,
@@ -68,6 +69,7 @@ export function UserLinkManager() {
     updateLink,
     deleteLink,
     toggleLinkActive,
+    reorderLinks,
     fetchLinks,
     creating,
     updating,
@@ -81,17 +83,20 @@ export function UserLinkManager() {
     }
   }, [session?.user?.id, fetchLinks])
 
-  // 検索フィルター
-  const filteredLinks = links.filter(link => {
-    if (!searchTerm) return true
-    const searchLower = searchTerm.toLowerCase()
-    return (
-      link.title?.toLowerCase().includes(searchLower) ||
-      link.description?.toLowerCase().includes(searchLower) ||
-      link.url.toLowerCase().includes(searchLower) ||
-      link.service.name.toLowerCase().includes(searchLower)
-    )
-  })
+  // 検索フィルターとソート
+  const filteredLinks = links
+    .slice() // 元の配列を変更しないようにコピー
+    .sort((a, b) => a.sortOrder - b.sortOrder) // sortOrderでソート
+    .filter(link => {
+      if (!searchTerm) return true
+      const searchLower = searchTerm.toLowerCase()
+      return (
+        link.title?.toLowerCase().includes(searchLower) ||
+        link.description?.toLowerCase().includes(searchLower) ||
+        link.url.toLowerCase().includes(searchLower) ||
+        link.service.name.toLowerCase().includes(searchLower)
+      )
+    })
 
   const handleCreate = () => {
     setLinkDialog({ open: true, link: null })
@@ -114,6 +119,39 @@ export function UserLinkManager() {
     
     await deleteLink(deleteDialog.link.id)
     setDeleteDialog({ open: false, link: null })
+  }
+
+  // ドラッグ&ドロップで並び替え
+  const handleDragStart = (index: number) => {
+    setDraggedIndex(index)
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+  }
+
+  const handleDrop = async (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault()
+    
+    if (draggedIndex === null || draggedIndex === dropIndex) {
+      setDraggedIndex(null)
+      return
+    }
+
+    const newLinks = [...filteredLinks]
+    const [draggedItem] = newLinks.splice(draggedIndex, 1)
+    newLinks.splice(dropIndex, 0, draggedItem)
+
+    // 並び順を更新
+    const updatedLinks = newLinks.map((link, index) => ({
+      ...link,
+      sortOrder: index
+    }))
+
+    setDraggedIndex(null)
+
+    // APIで並び順を更新
+    await reorderLinks(updatedLinks)
   }
 
   if (!session?.user) {
@@ -184,6 +222,13 @@ export function UserLinkManager() {
           </div>
         </CardHeader>
         <CardContent>
+          {searchTerm && (
+            <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <p className="text-sm text-yellow-700">
+                検索中はリンクの並び替えはできません。並び替えをする場合は検索をクリアしてください。
+              </p>
+            </div>
+          )}
           {loading ? (
             <div className="flex justify-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
@@ -201,25 +246,48 @@ export function UserLinkManager() {
             </div>
           ) : (
             <div className="space-y-4">
-              {filteredLinks.map((link) => (
+              {filteredLinks.map((link, index) => (
                 <div 
-                  key={link.id} 
-                  className="flex items-center gap-4 p-4 border rounded-lg"
+                  key={link.id}
+                  draggable={!searchTerm} // 検索中はドラッグ無効
+                  onDragStart={() => !searchTerm && handleDragStart(index)}
+                  onDragOver={!searchTerm ? handleDragOver : undefined}
+                  onDrop={!searchTerm ? (e) => handleDrop(e, index) : undefined}
+                  className={`flex items-center gap-4 p-4 border rounded-lg transition-all ${
+                    draggedIndex === index 
+                      ? 'opacity-50 border-primary bg-primary/5' 
+                      : 'border-gray-200 hover:border-gray-300'
+                  } ${
+                    searchTerm ? 'cursor-default' : 'cursor-move'
+                  }`}
                 >
                   {/* ドラッグハンドル */}
-                  <div className="cursor-grab text-gray-400">
+                  <div className={`${
+                    searchTerm 
+                      ? 'cursor-default text-gray-300' 
+                      : 'cursor-grab text-gray-400 hover:text-gray-600'
+                  }`}>
                     <GripVertical className="h-4 w-4" />
                   </div>
 
                   {/* アイコン */}
                   <div className="flex-shrink-0">
-                    {link.icon ? (
+                    {link.useOriginalIcon && link.originalIconUrl ? (
+                      // オリジナルアイコン
+                      <img
+                        src={link.originalIconUrl}
+                        alt={link.service.name}
+                        className="w-8 h-8 object-contain"
+                      />
+                    ) : link.icon ? (
+                      // 管理者設定アイコン
                       <img
                         src={link.icon.filePath}
                         alt={link.service.name}
                         className="w-8 h-8 object-contain"
                       />
                     ) : (
+                      // デフォルトアイコン
                       <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center">
                         <span className="text-xs font-medium text-gray-600">
                           {link.service.name.charAt(0).toUpperCase()}

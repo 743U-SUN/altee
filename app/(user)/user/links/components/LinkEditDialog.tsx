@@ -35,6 +35,7 @@ import { Switch } from '@/components/ui/switch'
 import { Badge } from '@/components/ui/badge'
 import { Loader2, Image as ImageIcon } from 'lucide-react'
 
+import { validateOriginalIconFile } from '@/lib/links/validation'
 import { useUserServices, useUserServiceIcons } from '../hooks/useUserLinks'
 import type { UserLink } from '@/types/link'
 
@@ -45,6 +46,7 @@ const linkFormSchema = z.object({
   description: z.string().optional(),
   useOriginalIcon: z.boolean().default(false),
   iconId: z.string().optional(),
+  originalIconFile: z.instanceof(File).optional(),
 })
 
 type LinkFormData = z.infer<typeof linkFormSchema>
@@ -65,6 +67,9 @@ export function LinkEditDialog({
   loading
 }: LinkEditDialogProps) {
   const [selectedServiceId, setSelectedServiceId] = useState<string>('')
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [fileError, setFileError] = useState<string>('')
+  const [previewUrl, setPreviewUrl] = useState<string>('')
   
   const { services, loading: servicesLoading } = useUserServices()
   const { icons, loading: iconsLoading } = useUserServiceIcons(selectedServiceId)
@@ -77,7 +82,7 @@ export function LinkEditDialog({
       title: '',
       description: '',
       useOriginalIcon: false,
-      iconId: '',
+      iconId: undefined, // 空文字列ではなくundefinedを使用
     }
   })
 
@@ -96,32 +101,95 @@ export function LinkEditDialog({
         iconId: link.iconId || '',
       })
       setSelectedServiceId(link.serviceId)
+      
+      // 既存のオリジナルアイコンがある場合
+      if (link.useOriginalIcon && link.originalIconUrl) {
+        setPreviewUrl(link.originalIconUrl)
+      }
     } else if (!link && open) {
       form.reset()
       setSelectedServiceId('')
+      setSelectedFile(null)
+      setFileError('')
+      setPreviewUrl('')
     }
   }, [link, open, form])
 
   // サービス選択時のアイコンリセット
   useEffect(() => {
     if (selectedServiceId && !link) {
-      form.setValue('iconId', '')
+      form.setValue('iconId', undefined) // 空文字列ではなくundefinedを使用
     }
   }, [selectedServiceId, form, link])
 
+  // ファイル選択処理
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    // バリデーション
+    const validation = validateOriginalIconFile(file)
+    if (!validation.isValid) {
+      setFileError(validation.error || '')
+      setSelectedFile(null)
+      setPreviewUrl('')
+      return
+    }
+
+    setFileError('')
+    setSelectedFile(file)
+    form.setValue('originalIconFile', file)
+
+    // プレビュー用URL生成（SVGファイル用）
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      setPreviewUrl(e.target?.result as string)
+    }
+    reader.readAsDataURL(file)
+  }
+
+  // ファイル削除処理
+  const handleFileRemove = () => {
+    setSelectedFile(null)
+    setFileError('')
+    setPreviewUrl('')
+    form.setValue('originalIconFile', undefined)
+    
+    // input要素のvalueもクリア
+    const fileInput = document.getElementById('original-icon-file') as HTMLInputElement
+    if (fileInput) {
+      fileInput.value = ''
+    }
+  }
   const handleSubmit = async (data: LinkFormData) => {
-    const result = await onSubmit(data)
+    // オリジナルアイコン使用時のバリデーション
+    if (data.useOriginalIcon && !link?.originalIconUrl && !selectedFile) {
+      setFileError('オリジナルアイコンを選択してください')
+      return
+    }
+
+    // オリジナルアイコン使用時はiconIdをクリア
+    const submitData = {
+      ...data,
+      iconId: data.useOriginalIcon ? undefined : data.iconId,
+      originalIconFile: data.useOriginalIcon ? selectedFile : undefined
+    }
+    
+    const result = await onSubmit(submitData)
     if (result.success) {
       onOpenChange(false)
       form.reset()
       setSelectedServiceId('')
+      setSelectedFile(null)
+      setFileError('')
+      setPreviewUrl('')
     }
   }
 
   const handleServiceChange = (serviceId: string) => {
     setSelectedServiceId(serviceId)
     form.setValue('serviceId', serviceId)
-    form.setValue('iconId', '')
+    form.setValue('iconId', undefined) // 空文字列ではなくundefinedを使用
     form.setValue('useOriginalIcon', false)
   }
 
@@ -251,18 +319,91 @@ export function LinkEditDialog({
                             オリジナルアイコンを使用
                           </FormLabel>
                           <div className="text-xs text-gray-500">
-                            独自のアイコンを使用します
+                            独自のアイコンを使用します（SVGのみ）
                           </div>
                         </div>
                         <FormControl>
                           <Switch
                             checked={field.value}
-                            onCheckedChange={field.onChange}
+                            onCheckedChange={(checked) => {
+                              field.onChange(checked)
+                              // オリジナルアイコン使用時はiconIdをクリア
+                              if (checked) {
+                                form.setValue('iconId', undefined)
+                              } else {
+                                // オリジナルアイコン使用をオフにしたらファイルをクリア
+                                handleFileRemove()
+                              }
+                            }}
                           />
                         </FormControl>
                       </FormItem>
                     )}
                   />
+                )}
+
+                {/* オリジナルアイコンアップロード */}
+                {useOriginalIcon && (
+                  <div className="space-y-3">
+                    <FormLabel>SVGアイコンアップロード</FormLabel>
+                    
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-center w-full">
+                        <label 
+                          htmlFor="original-icon-file"
+                          className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100"
+                        >
+                          <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                            {previewUrl ? (
+                              <div className="w-16 h-16 mb-2">
+                                <img 
+                                  src={previewUrl} 
+                                  alt="アイコンプレビュー" 
+                                  className="w-full h-full object-contain"
+                                />
+                              </div>
+                            ) : (
+                              <ImageIcon className="w-8 h-8 mb-2 text-gray-500" />
+                            )}
+                            <p className="mb-2 text-sm text-gray-500">
+                              <span className="font-semibold">クリックしてアップロード</span>
+                            </p>
+                            <p className="text-xs text-gray-500">SVGファイル (1MBまで)</p>
+                          </div>
+                          <input 
+                            id="original-icon-file"
+                            type="file" 
+                            accept="image/svg+xml"
+                            onChange={handleFileSelect}
+                            className="hidden" 
+                          />
+                        </label>
+                      </div>
+                      
+                      {/* ファイル情報と削除ボタン */}
+                      {(selectedFile || previewUrl) && (
+                        <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                          <div className="text-sm text-gray-600">
+                            {selectedFile ? selectedFile.name : '既存のアイコン'}
+                          </div>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={handleFileRemove}
+                            className="h-6 px-2 text-red-600 hover:text-red-700"
+                          >
+                            削除
+                          </Button>
+                        </div>
+                      )}
+                      
+                      {/* エラーメッセージ */}
+                      {fileError && (
+                        <p className="text-sm text-red-600">{fileError}</p>
+                      )}
+                    </div>
+                  </div>
                 )}
 
                 {/* 既定アイコン選択 */}

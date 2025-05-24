@@ -47,11 +47,30 @@ export function useUserLinks(userId: string) {
   // リンク作成
   const createLink = useCallback(async (data: LinkFormData) => {
     const result = await executeCreate(async () => {
-      const response = await fetch(`/api/user/${userId}/links`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      })
+      let response: Response
+      
+      if (data.originalIconFile) {
+        // ファイルアップロードの場合はFormDataを使用
+        const formData = new FormData()
+        formData.append('serviceId', data.serviceId)
+        formData.append('url', data.url)
+        if (data.title) formData.append('title', data.title)
+        if (data.description) formData.append('description', data.description)
+        formData.append('useOriginalIcon', data.useOriginalIcon.toString())
+        formData.append('originalIconFile', data.originalIconFile)
+        
+        response = await fetch(`/api/user/${userId}/links`, {
+          method: 'POST',
+          body: formData // Content-TypeはFormDataが自動設定
+        })
+      } else {
+        // 通常のJSON送信
+        response = await fetch(`/api/user/${userId}/links`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        })
+      }
 
       if (!response.ok) {
         const error = await response.json()
@@ -128,6 +147,44 @@ export function useUserLinks(userId: string) {
     return updateLink(linkId, { isActive })
   }, [updateLink])
 
+  // リンク並び替え
+  const reorderLinks = useCallback(async (reorderedLinks: UserLink[]) => {
+    const result = await executeUpdate(async () => {
+      const response = await fetch(`/api/user/${userId}/links/reorder`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          links: reorderedLinks.map((link, index) => ({
+            id: link.id,
+            sortOrder: index
+          }))
+        })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'リンクの並び替えに失敗しました')
+      }
+
+      return response.json()
+    })
+
+    if (result.success) {
+      toast.success('リンクの並び順を更新しました')
+      // 楽観的更新: 成功時はローカル状態を即座に更新
+      setLinks(reorderedLinks.map((link, index) => ({
+        ...link,
+        sortOrder: index
+      })))
+    } else {
+      toast.error(result.error || 'リンクの並び替えに失敗しました')
+      // エラー時は元のデータを再取得
+      fetchLinks()
+    }
+
+    return result
+  }, [executeUpdate, fetchLinks, userId])
+
   return {
     // データ
     links,
@@ -139,6 +196,7 @@ export function useUserLinks(userId: string) {
     updateLink,
     deleteLink,
     toggleLinkActive,
+    reorderLinks,
     fetchLinks,
     
     // ローディング状態

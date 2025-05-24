@@ -29,7 +29,13 @@ export async function PATCH(
 
     const body = await request.json()
     
-    const link = await UserLinkOperations.updateUserLink(linkId, userId, body)
+    // 空文字列のiconIdはnullに変換
+    const updateData = {
+      ...body,
+      iconId: body.iconId || null
+    }
+    
+    const link = await UserLinkOperations.updateUserLink(linkId, userId, updateData)
 
     return NextResponse.json({ 
       success: true,

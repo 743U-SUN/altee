@@ -40,7 +40,7 @@ const menuItems = [
   {
     title: "リンク設定",
     icon: LinkIcon,
-    href: "/user/link",
+    href: "/user/links",
   },
   {
     title: "Youtube設定",
