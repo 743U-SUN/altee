@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { validateHandle, checkHandleAvailability } from "@/lib/validation/handleValidation";
-import { HandleSetupForm, HandleUpdateResponse } from "@/lib/types/handle";
+import type { HandleSetupForm as HandleSetupFormType, HandleUpdateResponse } from "@/lib/types/handle";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Loader2, CheckCircle, XCircle } from "lucide-react";
@@ -37,9 +37,10 @@ export default function HandleSetupForm() {
   const {
     register,
     handleSubmit,
+    setValue,
     watch,
     formState: { errors }
-  } = useForm<HandleSetupForm>({
+  } = useForm<HandleSetupFormType>({
     resolver: zodResolver(handleSchema),
     mode: "onChange"
   });
@@ -88,7 +89,12 @@ export default function HandleSetupForm() {
   // デバウンス用のtimeout管理
   // ハンドル入力時の処理
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    // 自動的に小文字に変換
+    const value = e.target.value.toLowerCase();
+    
+    // react-hook-formの状態を更新
+    setValue("handle", value, { shouldValidate: true });
+    
     setAvailabilityMessage("");
     setAvailabilityStatus("");
     
@@ -117,7 +123,7 @@ export default function HandleSetupForm() {
   }, [debounceTimeout]);
 
   // フォーム送信処理
-  const onSubmit = async (data: HandleSetupForm) => {
+  const onSubmit = async (data: HandleSetupFormType) => {
     if (availabilityStatus !== "available") {
       setSubmitMessage("使用可能なハンドルを入力してください");
       setSubmitStatus("error");
@@ -173,10 +179,7 @@ export default function HandleSetupForm() {
               type="text"
               placeholder="your_handle"
               {...register("handle")}
-              onChange={(e) => {
-                register("handle").onChange(e);
-                handleInputChange(e);
-              }}
+              onChange={handleInputChange}
               className={`pr-10 ${
                 availabilityStatus === "available" ? "border-green-500" : 
                 availabilityStatus === "unavailable" ? "border-red-500" : ""
@@ -206,7 +209,7 @@ export default function HandleSetupForm() {
           )}
           
           <p className="text-xs text-muted-foreground">
-            ハンドルはあなたの個人ページのURLに使用されます。3-20文字の英数字、アンダースコア、ハイフンが使用できます。
+            ハンドルはあなたの個人ページのURLに使用されます。3-20文字の英数字、アンダースコア、ハイフンが使用できます（大文字は自動的に小文字に変換されます）。
           </p>
         </div>
 

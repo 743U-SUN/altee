@@ -11,7 +11,7 @@ import { toast } from "sonner"
  * 認証、バリデーション、エラーハンドリング、レート制限を統合
  */
 
-interface UseSecureFormOptions<T extends z.ZodType> {
+interface UseSecureFormOptions<T extends z.ZodObject<any>> {
   schema: T
   apiEndpoint: string
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
@@ -22,7 +22,7 @@ interface UseSecureFormOptions<T extends z.ZodType> {
   enableAutoFetch?: boolean
 }
 
-export function useSecureForm<T extends z.ZodType>({
+export function useSecureForm<T extends z.ZodObject<any>>({
   schema,
   apiEndpoint,
   method = 'POST',
@@ -39,19 +39,17 @@ export function useSecureForm<T extends z.ZodType>({
   const defaultValues = useMemo(() => {
     const defaults: any = {}
     
-    if (schema && schema.shape) {
-      Object.keys(schema.shape).forEach(key => {
-        const field = schema.shape[key]
-        // オプショナルフィールドかどうかチェック
-        if (field._def?.typeName === 'ZodOptional') {
-          defaults[key] = ""
-        } else if (field._def?.typeName === 'ZodString') {
-          defaults[key] = ""
-        } else {
-          defaults[key] = ""
-        }
-      })
-    }
+    Object.keys(schema.shape).forEach(key => {
+      const field = schema.shape[key]
+      // オプショナルフィールドかどうかチェック
+      if (field._def?.typeName === 'ZodOptional') {
+        defaults[key] = ""
+      } else if (field._def?.typeName === 'ZodString') {
+        defaults[key] = ""
+      } else {
+        defaults[key] = ""
+      }
+    })
     
     return defaults
   }, [schema])
@@ -118,7 +116,7 @@ export function useSecureForm<T extends z.ZodType>({
       
       // フォームの値を更新（undefinedを空文字列に変換）
       if (result && typeof result === 'object') {
-        const schemaKeys = Object.keys(schema.shape || {})
+        const schemaKeys = Object.keys(schema.shape)
         const formData: any = {}
         
         schemaKeys.forEach(key => {

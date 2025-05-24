@@ -52,11 +52,6 @@ const AdminNavItems = [
   },
 ];
 
-const userData = {
-  name: "username",
-  email: "user@example.com",
-  avatar: "/avatars/user.jpg",
-};
 
 // モバイルシート用のサイドバーコンテンツ
 function MobileSheetContent({ children }: { children: React.ReactNode }) {
@@ -152,7 +147,7 @@ export function AdminSidebarLayout({ children }: { children: React.ReactNode }) 
           </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
-          <NavUser user={userData} />
+          <NavUser />
         </SidebarFooter>
       </Sidebar>
 

@@ -1,5 +1,7 @@
 "use client"
 
+import { useSession, signOut } from "next-auth/react"
+import { useRouter } from "next/navigation"
 import {
   BadgeCheck,
   Bell,
@@ -32,16 +34,78 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
-export function NavUser({
-  user,
-}: {
-  user: {
-    name: string
-    email: string
-    avatar: string
-  }
-}) {
+export function NavUser() {
+  const { data: session, status } = useSession()
   const { isMobile } = useSidebar()
+  const router = useRouter()
+
+  // ログアウト処理
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: "/login" })
+  }
+
+  // Account（ダッシュボード）への遷移
+  const handleAccount = () => {
+    router.push("/user")
+  }
+
+  // MyPage（個別ページ）への遷移
+  const handleMyPage = () => {
+    if (session?.user?.handle) {
+      router.push(`/${session.user.handle}`)
+    }
+  }
+
+  // ログインページへの遷移
+  const handleLogin = () => {
+    router.push("/login")
+  }
+
+  // ローディング中
+  if (status === "loading") {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton size="lg" className="md:h-8 md:p-0">
+            <Avatar className="h-8 w-8 rounded-lg">
+              <AvatarFallback className="rounded-lg">...</AvatarFallback>
+            </Avatar>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-medium">Loading...</span>
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    )
+  }
+
+  // 未ログインユーザー
+  if (!session?.user) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            size="lg"
+            className="md:h-8 md:p-0 cursor-pointer"
+            onClick={handleLogin}
+          >
+            <Avatar className="h-8 w-8 rounded-lg">
+              <AvatarImage src="/circleUserRound.svg" alt="ログイン" />
+              <AvatarFallback className="rounded-lg">?</AvatarFallback>
+            </Avatar>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-medium">ログイン</span>
+            </div>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    )
+  }
+
+  // ログイン済みユーザー
+  const user = session.user
+  const userName = user.characterName || "NoName"
+  const userIcon = user.iconUrl || "/user.svg"
 
   return (
     <SidebarMenu>
@@ -53,12 +117,15 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:h-8 md:p-0"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarImage src={userIcon} alt={userName} />
+                <AvatarFallback className="rounded-lg">
+                  {userName.charAt(0).toUpperCase()}
+                </AvatarFallback>
               </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+              <div className="flex items-center flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-medium line-clamp-2">
+                  {userName}
+                </span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
@@ -72,29 +139,32 @@ export function NavUser({
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  <AvatarImage src={userIcon} alt={userName} />
+                  <AvatarFallback className="rounded-lg">
+                    {userName.charAt(0).toUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                <div className="flex items-center flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-medium line-clamp-2">
+                    {userName}
+                  </span>
                 </div>
               </div>
             </DropdownMenuLabel>
 
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleAccount} className="cursor-pointer">
                 <UserCog />
                 Account
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleMyPage} className="cursor-pointer">
                 <PanelsTopLeft />
                 MyPage
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
               <LogOut />
               Log out
             </DropdownMenuItem>

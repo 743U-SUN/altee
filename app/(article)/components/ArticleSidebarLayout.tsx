@@ -148,7 +148,7 @@ export function ArticleSidebarLayout({ children }: { children: React.ReactNode }
           </SidebarGroup>
         </SidebarContent>
         <SidebarFooter>
-          <NavUser user={userData} />
+          <NavUser />
         </SidebarFooter>
       </Sidebar>
 

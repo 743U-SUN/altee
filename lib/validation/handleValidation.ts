@@ -1,4 +1,5 @@
 import { HandleValidationResult } from "../types/handle";
+import { isReservedWord } from "../constants/reservedWords";
 
 /**
  * ハンドルが一時的なものかチェック
@@ -28,12 +29,12 @@ export function validateHandle(handle: string): HandleValidationResult {
     };
   }
 
-  // 使用可能文字チェック（英数字、アンダースコア、ハイフンのみ）
-  const validPattern = /^[a-zA-Z0-9_-]+$/;
+  // 使用可能文字チェック（小文字の英数字、アンダースコア、ハイフンのみ）
+  const validPattern = /^[a-z0-9_-]+$/;
   if (!validPattern.test(handle)) {
     return {
       isValid: false,
-      message: "ハンドルは英数字、アンダースコア（_）、ハイフン（-）のみ使用できます"
+      message: "ハンドルは小文字の英数字、アンダースコア（_）、ハイフン（-）のみ使用できます"
     };
   }
 
@@ -46,8 +47,7 @@ export function validateHandle(handle: string): HandleValidationResult {
   }
 
   // 予約語チェック
-  const reservedWords = ['admin', 'api', 'app', 'www', 'mail', 'ftp', 'help', 'about', 'contact', 'privacy', 'terms', 'login', 'register', 'signup', 'signin', 'logout', 'user', 'users', 'profile', 'settings', 'dashboard', 'welcome', 'temp'];
-  if (reservedWords.includes(handle.toLowerCase())) {
+  if (isReservedWord(handle.toLowerCase())) {
     return {
       isValid: false,
       message: "このハンドルは予約語のため使用できません"

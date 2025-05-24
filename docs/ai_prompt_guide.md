@@ -1,15 +1,13 @@
-今回はcomponents/nav-user.tsxを編集していきたい。
-これは様々なページのサイドナビのフッターに表示されて、ユーザーの情報を表示するものなのだけれど、現在は仮のデータを取得して表示するようになっているのね。
-それを、ちゃんとデータベースからデータを持ってきて表示するようにしたい。
-まず、データベースについてはPrismaスキーマprisma/schema.prismaを見てもらえると話が早いと思う。
-まずアイコンはUserのIconを表示したい。もしなければpublic/user.svgを表示して欲しい。
-クリックすると色々と表示されるのだけれど、まずアイコンの横にはusernameとemailがあると思う。usernameはPrismaのUserのcharacterNameを表示したい。なければ"NoName"と表示しよう。名前が2行以上になる場合は省略するように。
-emailは表示しなくて良い。削除して。その分名前をアイコンの真横に来るように。垂直方向に中央寄せして。
-その下のAccountはユーザー向けのダッシュボードのトップページapp/(user)/user/page.tsxにジャンプするように。
-MyPageはユーザーの個別のページapp/(user)/[handle]/page.tsxに飛ぶようにしたい。まだhandleの方は何も作っていないんだけどね。
-で、最後のLogoutはちゃんとログアウトが機能するようにしたい。
-ここまでがログインしているユーザーに表示するもの。
-
-ログインしていないユーザーに対しては、ユーザーのアイコンの代わりにpublic/circleUserRound.svgを表示して、クリックした場合app/(article)/login/page.tsxに飛ぶようにしたい。
-
-ということで、まずは計画を立ててもらいたい。
+今回はエラーを解消していきたい。
+[{
+	"resource": "/home/okome/sakura/altee/app/(article)/login/welcome/components/HandleSetupForm.tsx",
+	"owner": "typescript",
+	"code": "2865",
+	"severity": 8,
+	"message": "インポート 'HandleSetupForm' は、グローバル値と競合するため、'isolatedModules' が有効な場合は、型のみのインポートで宣言する必要があります。",
+	"source": "ts",
+	"startLineNumber": 12,
+	"startColumn": 10,
+	"endLineNumber": 12,
+	"endColumn": 25
+}]

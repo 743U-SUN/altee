@@ -1,13 +1,14 @@
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
+import type { Adapter, AdapterUser } from "next-auth/adapters";
 import { prisma } from "@/lib/prisma";
 import Google from "next-auth/providers/google";
 import Discord from "next-auth/providers/discord";
 
 // PrismaAdapterをカスタマイズ
-const customPrismaAdapter = {
+const customPrismaAdapter: Adapter = {
   ...PrismaAdapter(prisma),
-  createUser: async (data) => {
+  createUser: async (data: Omit<AdapterUser, "id">): Promise<AdapterUser> => {
     // ユーザー作成時に暫定的なハンドルを設定
     // ランダムな文字列を生成（Edge Runtimeでも動作する方法）
     const randomString = Math.random().toString(36).substring(2, 10);
@@ -23,9 +24,18 @@ const customPrismaAdapter = {
     };
     
     // ユーザー作成
-    return prisma.user.create({
+    const createdUser = await prisma.user.create({
       data: userData,
     });
+    
+    // AdapterUser型に適合するように変換（null → undefined）
+    return {
+      id: createdUser.id,
+      email: createdUser.email,
+      emailVerified: createdUser.emailVerified,
+      name: createdUser.name ?? undefined,
+      image: createdUser.iconUrl ?? undefined,
+    };
   },
 };
 
@@ -65,16 +75,18 @@ export const {
               role: true, 
               iconUrl: true, 
               bannerUrl: true,
+              characterName: true,
               handleChangeTokens: true,
               handleChangeCount: true
             }
           });
           
           if (dbUser) {
-            token.handle = dbUser.handle;
-            token.role = dbUser.role;
-            token.iconUrl = dbUser.iconUrl;
-            token.bannerUrl = dbUser.bannerUrl;
+            token.handle = dbUser.handle ?? undefined;
+            token.role = dbUser.role ?? undefined;
+            token.iconUrl = dbUser.iconUrl ?? undefined;
+            token.bannerUrl = dbUser.bannerUrl ?? undefined;
+            token.characterName = dbUser.characterName ?? undefined;
             token.handleChangeTokens = dbUser.handleChangeTokens;
             token.handleChangeCount = dbUser.handleChangeCount;
           }
@@ -99,34 +111,38 @@ export const {
               role: true, 
               iconUrl: true, 
               bannerUrl: true,
+              characterName: true,
               handleChangeTokens: true,
               handleChangeCount: true
             }
           });
           
           if (dbUser) {
-            session.user.handle = dbUser.handle;
-            session.user.role = dbUser.role;
-            session.user.iconUrl = dbUser.iconUrl;
-            session.user.bannerUrl = dbUser.bannerUrl;
+            session.user.handle = dbUser.handle ?? undefined;
+            session.user.role = dbUser.role ?? undefined;
+            session.user.iconUrl = dbUser.iconUrl ?? undefined;
+            session.user.bannerUrl = dbUser.bannerUrl ?? undefined;
+            session.user.characterName = dbUser.characterName ?? undefined;
             session.user.handleChangeTokens = dbUser.handleChangeTokens;
             session.user.handleChangeCount = dbUser.handleChangeCount;
           } else {
             // ユーザーが見つからない場合のフォールバック
             console.warn('User not found in database:', token.id);
             // トークンの情報を使用（古い情報でもセッションを維持）
-            if (token.handle) session.user.handle = token.handle as string;
-            if (token.role) session.user.role = token.role as string;
-            if (token.iconUrl) session.user.iconUrl = token.iconUrl as string;
-            if (token.bannerUrl) session.user.bannerUrl = token.bannerUrl as string;
+            if (token.handle !== undefined) session.user.handle = token.handle as string;
+            if (token.role !== undefined) session.user.role = token.role as string;
+            if (token.iconUrl !== undefined) session.user.iconUrl = token.iconUrl as string;
+            if (token.bannerUrl !== undefined) session.user.bannerUrl = token.bannerUrl as string;
+            if (token.characterName !== undefined) session.user.characterName = token.characterName as string;
           }
         } catch (error) {
           // データベースエラーの場合はトークンの情報を使用
           console.error('Database error in session callback:', error);
-          if (token.handle) session.user.handle = token.handle as string;
-          if (token.role) session.user.role = token.role as string;
-          if (token.iconUrl) session.user.iconUrl = token.iconUrl as string;
-          if (token.bannerUrl) session.user.bannerUrl = token.bannerUrl as string;
+          if (token.handle !== undefined) session.user.handle = token.handle as string;
+          if (token.role !== undefined) session.user.role = token.role as string;
+          if (token.iconUrl !== undefined) session.user.iconUrl = token.iconUrl as string;
+          if (token.bannerUrl !== undefined) session.user.bannerUrl = token.bannerUrl as string;
+          if (token.characterName !== undefined) session.user.characterName = token.characterName as string;
         }
       }
       return session;
