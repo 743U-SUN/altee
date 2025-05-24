@@ -3293,8 +3293,20 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    handleChangeCount: number | null
+    handleChangeTokens: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    handleChangeCount: number | null
+    handleChangeTokens: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -3309,6 +3321,9 @@ export namespace Prisma {
     iconUrl: string | null
     bannerUrl: string | null
     handle: string | null
+    handleChangeCount: number | null
+    handleChangeTokens: number | null
+    isPremiumUser: boolean | null
     role: string | null
     subscriptionStatus: string | null
     emailVerified: Date | null
@@ -3329,6 +3344,9 @@ export namespace Prisma {
     iconUrl: string | null
     bannerUrl: string | null
     handle: string | null
+    handleChangeCount: number | null
+    handleChangeTokens: number | null
+    isPremiumUser: boolean | null
     role: string | null
     subscriptionStatus: string | null
     emailVerified: Date | null
@@ -3349,6 +3367,9 @@ export namespace Prisma {
     iconUrl: number
     bannerUrl: number
     handle: number
+    handleChangeCount: number
+    handleChangeTokens: number
+    isPremiumUser: number
     role: number
     subscriptionStatus: number
     emailVerified: number
@@ -3358,6 +3379,16 @@ export namespace Prisma {
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    handleChangeCount?: true
+    handleChangeTokens?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    handleChangeCount?: true
+    handleChangeTokens?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -3371,6 +3402,9 @@ export namespace Prisma {
     iconUrl?: true
     bannerUrl?: true
     handle?: true
+    handleChangeCount?: true
+    handleChangeTokens?: true
+    isPremiumUser?: true
     role?: true
     subscriptionStatus?: true
     emailVerified?: true
@@ -3391,6 +3425,9 @@ export namespace Prisma {
     iconUrl?: true
     bannerUrl?: true
     handle?: true
+    handleChangeCount?: true
+    handleChangeTokens?: true
+    isPremiumUser?: true
     role?: true
     subscriptionStatus?: true
     emailVerified?: true
@@ -3411,6 +3448,9 @@ export namespace Prisma {
     iconUrl?: true
     bannerUrl?: true
     handle?: true
+    handleChangeCount?: true
+    handleChangeTokens?: true
+    isPremiumUser?: true
     role?: true
     subscriptionStatus?: true
     emailVerified?: true
@@ -3458,6 +3498,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -3488,6 +3540,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -3504,6 +3558,9 @@ export namespace Prisma {
     iconUrl: string | null
     bannerUrl: string | null
     handle: string | null
+    handleChangeCount: number
+    handleChangeTokens: number
+    isPremiumUser: boolean
     role: string
     subscriptionStatus: string | null
     emailVerified: Date | null
@@ -3511,6 +3568,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -3541,6 +3600,9 @@ export namespace Prisma {
     iconUrl?: boolean
     bannerUrl?: boolean
     handle?: boolean
+    handleChangeCount?: boolean
+    handleChangeTokens?: boolean
+    isPremiumUser?: boolean
     role?: boolean
     subscriptionStatus?: boolean
     emailVerified?: boolean
@@ -3575,6 +3637,9 @@ export namespace Prisma {
     iconUrl?: boolean
     bannerUrl?: boolean
     handle?: boolean
+    handleChangeCount?: boolean
+    handleChangeTokens?: boolean
+    isPremiumUser?: boolean
     role?: boolean
     subscriptionStatus?: boolean
     emailVerified?: boolean
@@ -3595,6 +3660,9 @@ export namespace Prisma {
     iconUrl?: boolean
     bannerUrl?: boolean
     handle?: boolean
+    handleChangeCount?: boolean
+    handleChangeTokens?: boolean
+    isPremiumUser?: boolean
     role?: boolean
     subscriptionStatus?: boolean
     emailVerified?: boolean
@@ -3615,6 +3683,9 @@ export namespace Prisma {
     iconUrl?: boolean
     bannerUrl?: boolean
     handle?: boolean
+    handleChangeCount?: boolean
+    handleChangeTokens?: boolean
+    isPremiumUser?: boolean
     role?: boolean
     subscriptionStatus?: boolean
     emailVerified?: boolean
@@ -3623,7 +3694,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "characterName" | "subname" | "bio" | "birthday" | "gender" | "iconUrl" | "bannerUrl" | "handle" | "role" | "subscriptionStatus" | "emailVerified" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "characterName" | "subname" | "bio" | "birthday" | "gender" | "iconUrl" | "bannerUrl" | "handle" | "handleChangeCount" | "handleChangeTokens" | "isPremiumUser" | "role" | "subscriptionStatus" | "emailVerified" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -3672,6 +3743,9 @@ export namespace Prisma {
       iconUrl: string | null
       bannerUrl: string | null
       handle: string | null
+      handleChangeCount: number
+      handleChangeTokens: number
+      isPremiumUser: boolean
       role: string
       subscriptionStatus: string | null
       emailVerified: Date | null
@@ -4125,6 +4199,9 @@ export namespace Prisma {
     readonly iconUrl: FieldRef<"User", 'String'>
     readonly bannerUrl: FieldRef<"User", 'String'>
     readonly handle: FieldRef<"User", 'String'>
+    readonly handleChangeCount: FieldRef<"User", 'Int'>
+    readonly handleChangeTokens: FieldRef<"User", 'Int'>
+    readonly isPremiumUser: FieldRef<"User", 'Boolean'>
     readonly role: FieldRef<"User", 'String'>
     readonly subscriptionStatus: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'DateTime'>
@@ -29480,6 +29557,9 @@ export namespace Prisma {
     iconUrl: 'iconUrl',
     bannerUrl: 'bannerUrl',
     handle: 'handle',
+    handleChangeCount: 'handleChangeCount',
+    handleChangeTokens: 'handleChangeTokens',
+    isPremiumUser: 'isPremiumUser',
     role: 'role',
     subscriptionStatus: 'subscriptionStatus',
     emailVerified: 'emailVerified',
@@ -29843,13 +29923,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -29860,6 +29933,13 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -29937,6 +30017,9 @@ export namespace Prisma {
     iconUrl?: StringNullableFilter<"User"> | string | null
     bannerUrl?: StringNullableFilter<"User"> | string | null
     handle?: StringNullableFilter<"User"> | string | null
+    handleChangeCount?: IntFilter<"User"> | number
+    handleChangeTokens?: IntFilter<"User"> | number
+    isPremiumUser?: BoolFilter<"User"> | boolean
     role?: StringFilter<"User"> | string
     subscriptionStatus?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -29970,6 +30053,9 @@ export namespace Prisma {
     iconUrl?: SortOrderInput | SortOrder
     bannerUrl?: SortOrderInput | SortOrder
     handle?: SortOrderInput | SortOrder
+    handleChangeCount?: SortOrder
+    handleChangeTokens?: SortOrder
+    isPremiumUser?: SortOrder
     role?: SortOrder
     subscriptionStatus?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
@@ -30006,6 +30092,9 @@ export namespace Prisma {
     gender?: StringNullableFilter<"User"> | string | null
     iconUrl?: StringNullableFilter<"User"> | string | null
     bannerUrl?: StringNullableFilter<"User"> | string | null
+    handleChangeCount?: IntFilter<"User"> | number
+    handleChangeTokens?: IntFilter<"User"> | number
+    isPremiumUser?: BoolFilter<"User"> | boolean
     role?: StringFilter<"User"> | string
     subscriptionStatus?: StringNullableFilter<"User"> | string | null
     emailVerified?: DateTimeNullableFilter<"User"> | Date | string | null
@@ -30039,6 +30128,9 @@ export namespace Prisma {
     iconUrl?: SortOrderInput | SortOrder
     bannerUrl?: SortOrderInput | SortOrder
     handle?: SortOrderInput | SortOrder
+    handleChangeCount?: SortOrder
+    handleChangeTokens?: SortOrder
+    isPremiumUser?: SortOrder
     role?: SortOrder
     subscriptionStatus?: SortOrderInput | SortOrder
     emailVerified?: SortOrderInput | SortOrder
@@ -30046,8 +30138,10 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -30065,6 +30159,9 @@ export namespace Prisma {
     iconUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     bannerUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     handle?: StringNullableWithAggregatesFilter<"User"> | string | null
+    handleChangeCount?: IntWithAggregatesFilter<"User"> | number
+    handleChangeTokens?: IntWithAggregatesFilter<"User"> | number
+    isPremiumUser?: BoolWithAggregatesFilter<"User"> | boolean
     role?: StringWithAggregatesFilter<"User"> | string
     subscriptionStatus?: StringNullableWithAggregatesFilter<"User"> | string | null
     emailVerified?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -31622,6 +31719,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -31655,6 +31755,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -31688,6 +31791,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31721,6 +31827,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31754,6 +31863,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -31774,6 +31886,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -31794,6 +31909,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -33464,6 +33582,17 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -33597,12 +33726,20 @@ export namespace Prisma {
     iconUrl?: SortOrder
     bannerUrl?: SortOrder
     handle?: SortOrder
+    handleChangeCount?: SortOrder
+    handleChangeTokens?: SortOrder
+    isPremiumUser?: SortOrder
     role?: SortOrder
     subscriptionStatus?: SortOrder
     emailVerified?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    handleChangeCount?: SortOrder
+    handleChangeTokens?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -33617,6 +33754,9 @@ export namespace Prisma {
     iconUrl?: SortOrder
     bannerUrl?: SortOrder
     handle?: SortOrder
+    handleChangeCount?: SortOrder
+    handleChangeTokens?: SortOrder
+    isPremiumUser?: SortOrder
     role?: SortOrder
     subscriptionStatus?: SortOrder
     emailVerified?: SortOrder
@@ -33637,12 +33777,20 @@ export namespace Prisma {
     iconUrl?: SortOrder
     bannerUrl?: SortOrder
     handle?: SortOrder
+    handleChangeCount?: SortOrder
+    handleChangeTokens?: SortOrder
+    isPremiumUser?: SortOrder
     role?: SortOrder
     subscriptionStatus?: SortOrder
     emailVerified?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    handleChangeCount?: SortOrder
+    handleChangeTokens?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -33693,6 +33841,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -33846,17 +34010,6 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type LinkServiceScalarRelationFilter = {
     is?: LinkServiceWhereInput
     isNot?: LinkServiceWhereInput
@@ -33921,22 +34074,6 @@ export namespace Prisma {
 
   export type UserLinkSumOrderByAggregateInput = {
     sortOrder?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type UserYoutubeVideoListRelationFilter = {
@@ -34895,6 +35032,14 @@ export namespace Prisma {
     set?: Date | string | null
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
   }
@@ -35285,14 +35430,6 @@ export namespace Prisma {
     create?: XOR<ServiceIconCreateWithoutLinksInput, ServiceIconUncheckedCreateWithoutLinksInput>
     connectOrCreate?: ServiceIconCreateOrConnectWithoutLinksInput
     connect?: ServiceIconWhereUniqueInput
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type UserUpdateOneRequiredWithoutLinksNestedInput = {
@@ -36148,6 +36285,17 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -36179,17 +36327,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -36232,6 +36369,33 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -36281,33 +36445,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedEnumIconStyleFilter<$PrismaModel = never> = {
@@ -37117,6 +37254,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -37149,6 +37289,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -37197,6 +37340,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37229,6 +37375,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37261,6 +37410,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -37293,6 +37445,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -37341,6 +37496,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37373,6 +37531,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37405,6 +37566,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -37437,6 +37601,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -37485,6 +37652,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37517,6 +37687,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37549,6 +37722,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -37581,6 +37757,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -37699,6 +37878,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37731,6 +37913,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37845,6 +38030,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -37877,6 +38065,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -37957,6 +38148,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37989,6 +38183,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38052,6 +38249,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -38084,6 +38284,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -38132,6 +38335,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38164,6 +38370,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38252,6 +38461,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -38284,6 +38496,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -38332,6 +38547,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38364,6 +38582,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38396,6 +38617,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -38428,6 +38652,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -38476,6 +38703,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38508,6 +38738,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38540,6 +38773,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -38572,6 +38808,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -38620,6 +38859,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38652,6 +38894,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38684,6 +38929,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -38716,6 +38964,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -38764,6 +39015,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38796,6 +39050,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38828,6 +39085,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -38860,6 +39120,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -38908,6 +39171,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38940,6 +39206,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39233,6 +39502,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -39265,6 +39537,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -39357,6 +39632,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39389,6 +39667,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40206,6 +40487,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -40238,6 +40522,9 @@ export namespace Prisma {
     iconUrl?: string | null
     bannerUrl?: string | null
     handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
     role?: string
     subscriptionStatus?: string | null
     emailVerified?: Date | string | null
@@ -40380,6 +40667,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -40412,6 +40702,9 @@ export namespace Prisma {
     iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
     handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
     role?: StringFieldUpdateOperationsInput | string
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

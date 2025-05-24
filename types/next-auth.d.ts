@@ -9,6 +9,8 @@ declare module "next-auth" {
       role?: string;    // オプショナルに変更
       iconUrl?: string; // アイコンURLを追加
       bannerUrl?: string; // バナーURLを追加
+      handleChangeTokens?: number; // ハンドル変更可能回数
+      handleChangeCount?: number;  // ハンドル変更回数
     } & DefaultSession["user"];
   }
   
@@ -17,6 +19,8 @@ declare module "next-auth" {
     role?: string;
     iconUrl?: string; // アイコンURLを追加
     bannerUrl?: string; // バナーURLを追加
+    handleChangeTokens?: number; // ハンドル変更可能回数
+    handleChangeCount?: number;  // ハンドル変更回数
   }
 }
 
@@ -27,5 +31,7 @@ declare module "next-auth/jwt" {
     role?: string;
     iconUrl?: string; // アイコンURLを追加
     bannerUrl?: string; // バナーURLを追加
+    handleChangeTokens?: number; // ハンドル変更可能回数
+    handleChangeCount?: number;  // ハンドル変更回数
   }
 }
