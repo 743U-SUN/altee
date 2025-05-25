@@ -109,7 +109,8 @@ export const ALLOWED_INPUT_TYPES = [
   'image/gif',
   'image/webp',
   'image/tiff',
-  'image/bmp'
+  'image/bmp',
+  'image/svg+xml'
 ];
 
 // ファイル形式検証
@@ -280,6 +281,7 @@ export function generateImageFileName(
   let extension = 'webp';
   if (outputFormat === 'image/jpeg') extension = 'jpg';
   if (outputFormat === 'image/png') extension = 'png';
+  if (outputFormat === 'image/svg+xml') extension = 'svg';
   
   return `${prefix}-${userId}-${timestamp}-${randomSuffix}.${extension}`;
 }

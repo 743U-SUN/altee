@@ -5,6 +5,7 @@ import { auth } from '@/auth'
 import { IconOperations } from '@/lib/links/linkService'
 import { iconSchema, validateFormData, validateUploadFile } from '@/lib/links/validation'
 import { uploadFile } from '@/lib/minio'
+import { sanitizeSvgFile, isSvgFile, createSvgBuffer } from '@/lib/svg-sanitizer'
 import type { IconFilters } from '@/types/link'
 
 export async function GET(request: NextRequest) {
@@ -110,13 +111,53 @@ export async function POST(request: NextRequest) {
     const arrayBuffer = await file.arrayBuffer()
     const fileBuffer = Buffer.from(arrayBuffer)
     
-    // MinIOにアップロード
-    const filePath = await uploadFile(
-      fileName,
-      fileBuffer,
-      file.type,
-      'icons/services'
-    )
+    let filePath: string
+    let uploadDetails: any
+    
+    // SVGファイルの場合はサニタイズ処理
+    if (isSvgFile(file)) {
+      console.log('SVGサニタイズ処理開始:', file.name)
+      
+      // SVGサニタイズ
+      const sanitizeResult = await sanitizeSvgFile(file)
+      
+      if (sanitizeResult.hasRemovedDangerousContent) {
+        console.log('危険なコンテンツを除去:', {
+          removedElements: sanitizeResult.removedElements,
+          removedAttributes: sanitizeResult.removedAttributes
+        })
+      }
+      
+      // サニタイズされたSVGからBufferを作成
+      const sanitizedBuffer = createSvgBuffer(sanitizeResult.sanitizedSvg)
+      
+      // MinIOにアップロード
+      filePath = await uploadFile(
+        fileName,
+        sanitizedBuffer,
+        'image/svg+xml',
+        'icons/services'
+      )
+      
+      uploadDetails = {
+        hasRemovedDangerousContent: sanitizeResult.hasRemovedDangerousContent,
+        removedElements: sanitizeResult.removedElements,
+        removedAttributes: sanitizeResult.removedAttributes
+      }
+      
+    } else {
+      // 通常の画像ファイルの処理
+      filePath = await uploadFile(
+        fileName,
+        fileBuffer,
+        file.type,
+        'icons/services'
+      )
+      
+      uploadDetails = {
+        format: file.type
+      }
+    }
 
     // データベースに保存
     const icon = await IconOperations.createIcon({
@@ -133,7 +174,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ 
       success: true,
       icon,
-      message: 'アイコンをアップロードしました'
+      message: 'アイコンをアップロードしました',
+      details: uploadDetails
     })
   } catch (error) {
     console.error('アイコンアップロードエラー:', error)

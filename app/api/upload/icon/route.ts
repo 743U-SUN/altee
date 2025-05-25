@@ -7,6 +7,7 @@ import {
   processImageWithPreset, 
   generateImageFileName 
 } from '@/lib/image-processing';
+import { sanitizeSvgFile, isSvgFile, createSvgBuffer } from '@/lib/svg-sanitizer';
 
 // ファイルサイズ制限（5MB）
 const MAX_FILE_SIZE = 5 * 1024 * 1024;
@@ -72,21 +73,71 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const inputBuffer = Buffer.from(bytes);
 
-    // アイコン用プリセットで画像を処理
-    console.log('画像変換開始: アイコン用プリセットを使用');
-    const processedResult = await processImageWithPreset(inputBuffer, 'icon');
+    let fileUrl: string;
+    let uploadDetails: any;
 
-    // ファイル名を生成
-    const fileName = generateImageFileName(userId, 'user-icon', processedResult.outputFormat);
+    // SVGファイルの場合はサニタイズのみ、その他はWebP変換
+    if (isSvgFile(file)) {
+      console.log('サニタイズ処理開始: SVGファイル');
+      
+      // SVGサニタイズ
+      const sanitizeResult = await sanitizeSvgFile(file);
+      
+      if (sanitizeResult.hasRemovedDangerousContent) {
+        console.log('危険なコンテンツを除去しました:', {
+          removedElements: sanitizeResult.removedElements,
+          removedAttributes: sanitizeResult.removedAttributes
+        });
+      }
+      
+      // サニタイズされたSVGからBufferを作成
+      const sanitizedBuffer = createSvgBuffer(sanitizeResult.sanitizedSvg);
+      
+      // ファイル名を生成（SVGはそのまま）
+      const fileName = generateImageFileName(userId, 'user-icon', 'image/svg+xml');
+      
+      // MinIOへのアップロード
+      console.log('MinIOアップロード開始:', fileName);
+      fileUrl = await uploadFile(
+        fileName, 
+        sanitizedBuffer, 
+        'image/svg+xml', 
+        'icons'
+      );
+      
+      uploadDetails = {
+        format: 'svg',
+        originalSize: inputBuffer.length,
+        sanitizedSize: sanitizedBuffer.length,
+        hasRemovedDangerousContent: sanitizeResult.hasRemovedDangerousContent,
+        removedElements: sanitizeResult.removedElements,
+        removedAttributes: sanitizeResult.removedAttributes
+      };
+      
+    } else {
+      // 通常の画像ファイルのWebP変換処理
+      console.log('画像変換開始: アイコン用プリセットを使用');
+      const processedResult = await processImageWithPreset(inputBuffer, 'icon');
 
-    // MinIOへのアップロード
-    console.log('MinIOアップロード開始:', fileName);
-    const fileUrl = await uploadFile(
-      fileName, 
-      processedResult.buffer, 
-      processedResult.outputFormat, 
-      'icons'
-    );
+      // ファイル名を生成
+      const fileName = generateImageFileName(userId, 'user-icon', processedResult.outputFormat);
+
+      // MinIOへのアップロード
+      console.log('MinIOアップロード開始:', fileName);
+      fileUrl = await uploadFile(
+        fileName, 
+        processedResult.buffer, 
+        processedResult.outputFormat, 
+        'icons'
+      );
+      
+      uploadDetails = {
+        format: 'webp',
+        originalSize: processedResult.originalSize,
+        optimizedSize: processedResult.processedSize,
+        compressionRatio: processedResult.compressionRatio
+      };
+    }
 
     // データベースを更新
     await prisma.user.update({
@@ -99,12 +150,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       url: fileUrl,
       message: 'アップロードが完了しました',
-      details: {
-        format: 'webp',
-        originalSize: processedResult.originalSize,
-        optimizedSize: processedResult.processedSize,
-        compressionRatio: processedResult.compressionRatio
-      }
+      details: uploadDetails
     });
 
   } catch (error) {

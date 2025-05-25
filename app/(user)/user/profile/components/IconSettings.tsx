@@ -19,7 +19,7 @@ export function IconSettings({ currentIconUrl, userId, onIconUpdate }: IconSetti
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
-      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp', '.svg']
     },
     maxSize: 5 * 1024 * 1024, // 5MB
     multiple: false,
@@ -111,7 +111,7 @@ export function IconSettings({ currentIconUrl, userId, onIconUpdate }: IconSetti
         <div className="flex items-start gap-2 mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
           <Info className="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5" />
           <div className="text-sm text-blue-700 space-y-1">
-            <p>• アップロードされた画像は自動的にWebP形式に変換され、400×400px以内にリサイズされます</p>
+            <p>• アップロードされた画像は自動的にWebP形式に変換され、400×400px以内にリサイズされます（SVGは変換せずそのまま保存）</p>
             <p>• 正方形の画像を推奨します（円形にクロップされて表示されます）</p>
           </div>
         </div>
@@ -200,7 +200,7 @@ export function IconSettings({ currentIconUrl, userId, onIconUpdate }: IconSetti
         {/* 説明テキスト */}
         <div className="space-y-2 text-sm text-gray-500">
           <p>• 正方形の画像を推奨します（推奨サイズ: 400×400px）</p>
-          <p>• JPG、PNG、GIF、WebP形式に対応（最大5MB）</p>
+          <p>• JPG、PNG、GIF、WebP、SVG形式に対応（最大5MB）</p>
         </div>
       </div>
     </div>

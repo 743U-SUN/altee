@@ -1,14 +1,3 @@
 ありがとう。
-同様にしてImageSidebarを作っていきたい。まず追加する場所はカルーセルの下に追加しよう。アコーディオンのタイトルは「サイドバーイメージ」としてください。
-
-デザインも並べ替えなどもカルーセルと同様に。最大3枚まで登録可能とし、横幅は最大500px, 縦幅は最大1000pxとします。
-今回はPrismaスキーマにまだ何も作っていないので、スキーマの追加が必要になります。
-
-Userのリレーションのところに  
-imageBanners        UserImageBanner[]
-imageCarousels      UserImageCarousel[]
-imageSidebar        UserImageSidebar[]　
-のように追加して、carouselと同じように作ってもらえますか？
-
-なにか質問があれば私に聞いてから実装してください。
-なければ作業に取り掛かってください、
+アイコン設定なのだけれど、app/(user)/user/profile/components/IconSettings.tsx、現在はJPG,PNG,GIF,WebPに対応しているよね。SVGもアップできるようにして、SVGの場合はWebP変換せずにOKということにしたい。SVGの場合はなんていうのかな？ちゃんと悪意のあるものかどうかを見て取り除いたりする工程がったよね？あれを入れたい。app/(admin)/admin/links/page.tsxこのあたりでsvgをアップロードするのがあるから、そこら辺を見て欲しい。
+もしsvgアップロードの際のサニタイズがadmin/linkの方にもなければ、共通のものとしてサニタイズの工程を作ってもらえるかな。その場合はどこに置こうか。libに置けばいいかな？ちょっと考えてみて欲しい。

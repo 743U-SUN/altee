@@ -193,7 +193,7 @@ export function UserLinkManager() {
         </Button>
       </div>
 
-      {/* 検索 */}
+      {/* 検索 
       <Card>
         <CardContent className="p-4">
           <div className="relative">
@@ -207,6 +207,7 @@ export function UserLinkManager() {
           </div>
         </CardContent>
       </Card>
+      */}
 
       {/* リンク一覧 */}
       <Card>
