@@ -45,6 +45,7 @@ model User {
   imageCarousels      UserImageCarousel[]
   imageSidebars       UserImageSidebar[]
   customQuestions     UserCustomQuestion[]
+  infoCategories      UserInfoCategory[]
   youtubeSettings     UserYoutubeSettings?
   recommendYoutubes   UserRecommendYoutube[]
   popupSettings       UserPopupSettings?
@@ -230,6 +231,36 @@ model UserCustomQuestion {
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   
   @@index([userId])
+}
+
+model UserInfoCategory {
+  id        String  @id @default(uuid())
+  name      String  // カテゴリ名（例：「イラスト依頼について」）
+  sortOrder Int     @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // リレーション
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questions UserInfoQuestion[]
+  
+  @@index([userId])
+}
+
+model UserInfoQuestion {
+  id         String  @id @default(uuid())
+  question   String  // 質問内容（最大30文字）
+  answer     String  @db.Text // 回答内容（最大1000文字）
+  sortOrder  Int     @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  // リレーション
+  categoryId String
+  category   UserInfoCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  @@index([categoryId])
 }
 
 model UserImageCarousel {

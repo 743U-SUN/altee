@@ -74,6 +74,16 @@ export type UserOGP = $Result.DefaultSelection<Prisma.$UserOGPPayload>
  */
 export type UserCustomQuestion = $Result.DefaultSelection<Prisma.$UserCustomQuestionPayload>
 /**
+ * Model UserInfoCategory
+ * 
+ */
+export type UserInfoCategory = $Result.DefaultSelection<Prisma.$UserInfoCategoryPayload>
+/**
+ * Model UserInfoQuestion
+ * 
+ */
+export type UserInfoQuestion = $Result.DefaultSelection<Prisma.$UserInfoQuestionPayload>
+/**
  * Model UserImageCarousel
  * 
  */
@@ -431,6 +441,26 @@ export class PrismaClient<
     * ```
     */
   get userCustomQuestion(): Prisma.UserCustomQuestionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userInfoCategory`: Exposes CRUD operations for the **UserInfoCategory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserInfoCategories
+    * const userInfoCategories = await prisma.userInfoCategory.findMany()
+    * ```
+    */
+  get userInfoCategory(): Prisma.UserInfoCategoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userInfoQuestion`: Exposes CRUD operations for the **UserInfoQuestion** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserInfoQuestions
+    * const userInfoQuestions = await prisma.userInfoQuestion.findMany()
+    * ```
+    */
+  get userInfoQuestion(): Prisma.UserInfoQuestionDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.userImageCarousel`: Exposes CRUD operations for the **UserImageCarousel** model.
@@ -1013,6 +1043,8 @@ export namespace Prisma {
     UserPopupSettings: 'UserPopupSettings',
     UserOGP: 'UserOGP',
     UserCustomQuestion: 'UserCustomQuestion',
+    UserInfoCategory: 'UserInfoCategory',
+    UserInfoQuestion: 'UserInfoQuestion',
     UserImageCarousel: 'UserImageCarousel',
     UserImageSidebar: 'UserImageSidebar',
     UserDisplaySettings: 'UserDisplaySettings',
@@ -1044,7 +1076,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "notificationSettings" | "userLink" | "userYoutubeSettings" | "userImageBanner" | "userYoutubeVideo" | "userRecommendYoutube" | "userPopupSettings" | "userOGP" | "userCustomQuestion" | "userImageCarousel" | "userImageSidebar" | "userDisplaySettings" | "linkService" | "serviceIcon" | "verificationToken" | "author" | "category" | "tag" | "article" | "articleCategory" | "articleTag" | "comment"
+      modelProps: "user" | "account" | "session" | "notificationSettings" | "userLink" | "userYoutubeSettings" | "userImageBanner" | "userYoutubeVideo" | "userRecommendYoutube" | "userPopupSettings" | "userOGP" | "userCustomQuestion" | "userInfoCategory" | "userInfoQuestion" | "userImageCarousel" | "userImageSidebar" | "userDisplaySettings" | "linkService" | "serviceIcon" | "verificationToken" | "author" | "category" | "tag" | "article" | "articleCategory" | "articleTag" | "comment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1933,6 +1965,154 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCustomQuestionCountArgs<ExtArgs>
             result: $Utils.Optional<UserCustomQuestionCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserInfoCategory: {
+        payload: Prisma.$UserInfoCategoryPayload<ExtArgs>
+        fields: Prisma.UserInfoCategoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserInfoCategoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoCategoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserInfoCategoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoCategoryPayload>
+          }
+          findFirst: {
+            args: Prisma.UserInfoCategoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoCategoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserInfoCategoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoCategoryPayload>
+          }
+          findMany: {
+            args: Prisma.UserInfoCategoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoCategoryPayload>[]
+          }
+          create: {
+            args: Prisma.UserInfoCategoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoCategoryPayload>
+          }
+          createMany: {
+            args: Prisma.UserInfoCategoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserInfoCategoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoCategoryPayload>[]
+          }
+          delete: {
+            args: Prisma.UserInfoCategoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoCategoryPayload>
+          }
+          update: {
+            args: Prisma.UserInfoCategoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoCategoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserInfoCategoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserInfoCategoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserInfoCategoryUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoCategoryPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserInfoCategoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoCategoryPayload>
+          }
+          aggregate: {
+            args: Prisma.UserInfoCategoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserInfoCategory>
+          }
+          groupBy: {
+            args: Prisma.UserInfoCategoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserInfoCategoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserInfoCategoryCountArgs<ExtArgs>
+            result: $Utils.Optional<UserInfoCategoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserInfoQuestion: {
+        payload: Prisma.$UserInfoQuestionPayload<ExtArgs>
+        fields: Prisma.UserInfoQuestionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserInfoQuestionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoQuestionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserInfoQuestionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoQuestionPayload>
+          }
+          findFirst: {
+            args: Prisma.UserInfoQuestionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoQuestionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserInfoQuestionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoQuestionPayload>
+          }
+          findMany: {
+            args: Prisma.UserInfoQuestionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoQuestionPayload>[]
+          }
+          create: {
+            args: Prisma.UserInfoQuestionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoQuestionPayload>
+          }
+          createMany: {
+            args: Prisma.UserInfoQuestionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserInfoQuestionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoQuestionPayload>[]
+          }
+          delete: {
+            args: Prisma.UserInfoQuestionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoQuestionPayload>
+          }
+          update: {
+            args: Prisma.UserInfoQuestionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoQuestionPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserInfoQuestionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserInfoQuestionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserInfoQuestionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoQuestionPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserInfoQuestionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserInfoQuestionPayload>
+          }
+          aggregate: {
+            args: Prisma.UserInfoQuestionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserInfoQuestion>
+          }
+          groupBy: {
+            args: Prisma.UserInfoQuestionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserInfoQuestionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserInfoQuestionCountArgs<ExtArgs>
+            result: $Utils.Optional<UserInfoQuestionCountAggregateOutputType> | number
           }
         }
       }
@@ -2994,6 +3174,8 @@ export namespace Prisma {
     userPopupSettings?: UserPopupSettingsOmit
     userOGP?: UserOGPOmit
     userCustomQuestion?: UserCustomQuestionOmit
+    userInfoCategory?: UserInfoCategoryOmit
+    userInfoQuestion?: UserInfoQuestionOmit
     userImageCarousel?: UserImageCarouselOmit
     userImageSidebar?: UserImageSidebarOmit
     userDisplaySettings?: UserDisplaySettingsOmit
@@ -3108,6 +3290,7 @@ export namespace Prisma {
     imageCarousels: number
     imageSidebars: number
     customQuestions: number
+    infoCategories: number
     recommendYoutubes: number
     comments: number
   }
@@ -3120,6 +3303,7 @@ export namespace Prisma {
     imageCarousels?: boolean | UserCountOutputTypeCountImageCarouselsArgs
     imageSidebars?: boolean | UserCountOutputTypeCountImageSidebarsArgs
     customQuestions?: boolean | UserCountOutputTypeCountCustomQuestionsArgs
+    infoCategories?: boolean | UserCountOutputTypeCountInfoCategoriesArgs
     recommendYoutubes?: boolean | UserCountOutputTypeCountRecommendYoutubesArgs
     comments?: boolean | UserCountOutputTypeCountCommentsArgs
   }
@@ -3187,6 +3371,13 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountInfoCategoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserInfoCategoryWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountRecommendYoutubesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserRecommendYoutubeWhereInput
   }
@@ -3227,6 +3418,37 @@ export namespace Prisma {
    */
   export type UserYoutubeSettingsCountOutputTypeCountVideosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserYoutubeVideoWhereInput
+  }
+
+
+  /**
+   * Count Type UserInfoCategoryCountOutputType
+   */
+
+  export type UserInfoCategoryCountOutputType = {
+    questions: number
+  }
+
+  export type UserInfoCategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    questions?: boolean | UserInfoCategoryCountOutputTypeCountQuestionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserInfoCategoryCountOutputType without action
+   */
+  export type UserInfoCategoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategoryCountOutputType
+     */
+    select?: UserInfoCategoryCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserInfoCategoryCountOutputType without action
+   */
+  export type UserInfoCategoryCountOutputTypeCountQuestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserInfoQuestionWhereInput
   }
 
 
@@ -3817,6 +4039,7 @@ export namespace Prisma {
     imageCarousels?: boolean | User$imageCarouselsArgs<ExtArgs>
     imageSidebars?: boolean | User$imageSidebarsArgs<ExtArgs>
     customQuestions?: boolean | User$customQuestionsArgs<ExtArgs>
+    infoCategories?: boolean | User$infoCategoriesArgs<ExtArgs>
     youtubeSettings?: boolean | User$youtubeSettingsArgs<ExtArgs>
     recommendYoutubes?: boolean | User$recommendYoutubesArgs<ExtArgs>
     popupSettings?: boolean | User$popupSettingsArgs<ExtArgs>
@@ -3906,6 +4129,7 @@ export namespace Prisma {
     imageCarousels?: boolean | User$imageCarouselsArgs<ExtArgs>
     imageSidebars?: boolean | User$imageSidebarsArgs<ExtArgs>
     customQuestions?: boolean | User$customQuestionsArgs<ExtArgs>
+    infoCategories?: boolean | User$infoCategoriesArgs<ExtArgs>
     youtubeSettings?: boolean | User$youtubeSettingsArgs<ExtArgs>
     recommendYoutubes?: boolean | User$recommendYoutubesArgs<ExtArgs>
     popupSettings?: boolean | User$popupSettingsArgs<ExtArgs>
@@ -3929,6 +4153,7 @@ export namespace Prisma {
       imageCarousels: Prisma.$UserImageCarouselPayload<ExtArgs>[]
       imageSidebars: Prisma.$UserImageSidebarPayload<ExtArgs>[]
       customQuestions: Prisma.$UserCustomQuestionPayload<ExtArgs>[]
+      infoCategories: Prisma.$UserInfoCategoryPayload<ExtArgs>[]
       youtubeSettings: Prisma.$UserYoutubeSettingsPayload<ExtArgs> | null
       recommendYoutubes: Prisma.$UserRecommendYoutubePayload<ExtArgs>[]
       popupSettings: Prisma.$UserPopupSettingsPayload<ExtArgs> | null
@@ -4360,6 +4585,7 @@ export namespace Prisma {
     imageCarousels<T extends User$imageCarouselsArgs<ExtArgs> = {}>(args?: Subset<T, User$imageCarouselsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImageCarouselPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     imageSidebars<T extends User$imageSidebarsArgs<ExtArgs> = {}>(args?: Subset<T, User$imageSidebarsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customQuestions<T extends User$customQuestionsArgs<ExtArgs> = {}>(args?: Subset<T, User$customQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCustomQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    infoCategories<T extends User$infoCategoriesArgs<ExtArgs> = {}>(args?: Subset<T, User$infoCategoriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     youtubeSettings<T extends User$youtubeSettingsArgs<ExtArgs> = {}>(args?: Subset<T, User$youtubeSettingsArgs<ExtArgs>>): Prisma__UserYoutubeSettingsClient<$Result.GetResult<Prisma.$UserYoutubeSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     recommendYoutubes<T extends User$recommendYoutubesArgs<ExtArgs> = {}>(args?: Subset<T, User$recommendYoutubesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     popupSettings<T extends User$popupSettingsArgs<ExtArgs> = {}>(args?: Subset<T, User$popupSettingsArgs<ExtArgs>>): Prisma__UserPopupSettingsClient<$Result.GetResult<Prisma.$UserPopupSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -4988,6 +5214,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserCustomQuestionScalarFieldEnum | UserCustomQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * User.infoCategories
+   */
+  export type User$infoCategoriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryInclude<ExtArgs> | null
+    where?: UserInfoCategoryWhereInput
+    orderBy?: UserInfoCategoryOrderByWithRelationInput | UserInfoCategoryOrderByWithRelationInput[]
+    cursor?: UserInfoCategoryWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserInfoCategoryScalarFieldEnum | UserInfoCategoryScalarFieldEnum[]
   }
 
   /**
@@ -17472,6 +17722,2259 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserCustomQuestionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserInfoCategory
+   */
+
+  export type AggregateUserInfoCategory = {
+    _count: UserInfoCategoryCountAggregateOutputType | null
+    _avg: UserInfoCategoryAvgAggregateOutputType | null
+    _sum: UserInfoCategorySumAggregateOutputType | null
+    _min: UserInfoCategoryMinAggregateOutputType | null
+    _max: UserInfoCategoryMaxAggregateOutputType | null
+  }
+
+  export type UserInfoCategoryAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type UserInfoCategorySumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type UserInfoCategoryMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    sortOrder: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type UserInfoCategoryMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    sortOrder: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type UserInfoCategoryCountAggregateOutputType = {
+    id: number
+    name: number
+    sortOrder: number
+    createdAt: number
+    updatedAt: number
+    userId: number
+    _all: number
+  }
+
+
+  export type UserInfoCategoryAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type UserInfoCategorySumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type UserInfoCategoryMinAggregateInputType = {
+    id?: true
+    name?: true
+    sortOrder?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type UserInfoCategoryMaxAggregateInputType = {
+    id?: true
+    name?: true
+    sortOrder?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type UserInfoCategoryCountAggregateInputType = {
+    id?: true
+    name?: true
+    sortOrder?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type UserInfoCategoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserInfoCategory to aggregate.
+     */
+    where?: UserInfoCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInfoCategories to fetch.
+     */
+    orderBy?: UserInfoCategoryOrderByWithRelationInput | UserInfoCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserInfoCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInfoCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInfoCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserInfoCategories
+    **/
+    _count?: true | UserInfoCategoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserInfoCategoryAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserInfoCategorySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserInfoCategoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserInfoCategoryMaxAggregateInputType
+  }
+
+  export type GetUserInfoCategoryAggregateType<T extends UserInfoCategoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserInfoCategory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserInfoCategory[P]>
+      : GetScalarType<T[P], AggregateUserInfoCategory[P]>
+  }
+
+
+
+
+  export type UserInfoCategoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserInfoCategoryWhereInput
+    orderBy?: UserInfoCategoryOrderByWithAggregationInput | UserInfoCategoryOrderByWithAggregationInput[]
+    by: UserInfoCategoryScalarFieldEnum[] | UserInfoCategoryScalarFieldEnum
+    having?: UserInfoCategoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserInfoCategoryCountAggregateInputType | true
+    _avg?: UserInfoCategoryAvgAggregateInputType
+    _sum?: UserInfoCategorySumAggregateInputType
+    _min?: UserInfoCategoryMinAggregateInputType
+    _max?: UserInfoCategoryMaxAggregateInputType
+  }
+
+  export type UserInfoCategoryGroupByOutputType = {
+    id: string
+    name: string
+    sortOrder: number
+    createdAt: Date
+    updatedAt: Date
+    userId: string
+    _count: UserInfoCategoryCountAggregateOutputType | null
+    _avg: UserInfoCategoryAvgAggregateOutputType | null
+    _sum: UserInfoCategorySumAggregateOutputType | null
+    _min: UserInfoCategoryMinAggregateOutputType | null
+    _max: UserInfoCategoryMaxAggregateOutputType | null
+  }
+
+  type GetUserInfoCategoryGroupByPayload<T extends UserInfoCategoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserInfoCategoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserInfoCategoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserInfoCategoryGroupByOutputType[P]>
+            : GetScalarType<T[P], UserInfoCategoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserInfoCategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    questions?: boolean | UserInfoCategory$questionsArgs<ExtArgs>
+    _count?: boolean | UserInfoCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userInfoCategory"]>
+
+  export type UserInfoCategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userInfoCategory"]>
+
+  export type UserInfoCategorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userInfoCategory"]>
+
+  export type UserInfoCategorySelectScalar = {
+    id?: boolean
+    name?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+  }
+
+  export type UserInfoCategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "sortOrder" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["userInfoCategory"]>
+  export type UserInfoCategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    questions?: boolean | UserInfoCategory$questionsArgs<ExtArgs>
+    _count?: boolean | UserInfoCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserInfoCategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserInfoCategoryIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserInfoCategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserInfoCategory"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      questions: Prisma.$UserInfoQuestionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      sortOrder: number
+      createdAt: Date
+      updatedAt: Date
+      userId: string
+    }, ExtArgs["result"]["userInfoCategory"]>
+    composites: {}
+  }
+
+  type UserInfoCategoryGetPayload<S extends boolean | null | undefined | UserInfoCategoryDefaultArgs> = $Result.GetResult<Prisma.$UserInfoCategoryPayload, S>
+
+  type UserInfoCategoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserInfoCategoryFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserInfoCategoryCountAggregateInputType | true
+    }
+
+  export interface UserInfoCategoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserInfoCategory'], meta: { name: 'UserInfoCategory' } }
+    /**
+     * Find zero or one UserInfoCategory that matches the filter.
+     * @param {UserInfoCategoryFindUniqueArgs} args - Arguments to find a UserInfoCategory
+     * @example
+     * // Get one UserInfoCategory
+     * const userInfoCategory = await prisma.userInfoCategory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserInfoCategoryFindUniqueArgs>(args: SelectSubset<T, UserInfoCategoryFindUniqueArgs<ExtArgs>>): Prisma__UserInfoCategoryClient<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserInfoCategory that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserInfoCategoryFindUniqueOrThrowArgs} args - Arguments to find a UserInfoCategory
+     * @example
+     * // Get one UserInfoCategory
+     * const userInfoCategory = await prisma.userInfoCategory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserInfoCategoryFindUniqueOrThrowArgs>(args: SelectSubset<T, UserInfoCategoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserInfoCategoryClient<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserInfoCategory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoCategoryFindFirstArgs} args - Arguments to find a UserInfoCategory
+     * @example
+     * // Get one UserInfoCategory
+     * const userInfoCategory = await prisma.userInfoCategory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserInfoCategoryFindFirstArgs>(args?: SelectSubset<T, UserInfoCategoryFindFirstArgs<ExtArgs>>): Prisma__UserInfoCategoryClient<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserInfoCategory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoCategoryFindFirstOrThrowArgs} args - Arguments to find a UserInfoCategory
+     * @example
+     * // Get one UserInfoCategory
+     * const userInfoCategory = await prisma.userInfoCategory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserInfoCategoryFindFirstOrThrowArgs>(args?: SelectSubset<T, UserInfoCategoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserInfoCategoryClient<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserInfoCategories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoCategoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserInfoCategories
+     * const userInfoCategories = await prisma.userInfoCategory.findMany()
+     * 
+     * // Get first 10 UserInfoCategories
+     * const userInfoCategories = await prisma.userInfoCategory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userInfoCategoryWithIdOnly = await prisma.userInfoCategory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserInfoCategoryFindManyArgs>(args?: SelectSubset<T, UserInfoCategoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserInfoCategory.
+     * @param {UserInfoCategoryCreateArgs} args - Arguments to create a UserInfoCategory.
+     * @example
+     * // Create one UserInfoCategory
+     * const UserInfoCategory = await prisma.userInfoCategory.create({
+     *   data: {
+     *     // ... data to create a UserInfoCategory
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserInfoCategoryCreateArgs>(args: SelectSubset<T, UserInfoCategoryCreateArgs<ExtArgs>>): Prisma__UserInfoCategoryClient<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserInfoCategories.
+     * @param {UserInfoCategoryCreateManyArgs} args - Arguments to create many UserInfoCategories.
+     * @example
+     * // Create many UserInfoCategories
+     * const userInfoCategory = await prisma.userInfoCategory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserInfoCategoryCreateManyArgs>(args?: SelectSubset<T, UserInfoCategoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserInfoCategories and returns the data saved in the database.
+     * @param {UserInfoCategoryCreateManyAndReturnArgs} args - Arguments to create many UserInfoCategories.
+     * @example
+     * // Create many UserInfoCategories
+     * const userInfoCategory = await prisma.userInfoCategory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserInfoCategories and only return the `id`
+     * const userInfoCategoryWithIdOnly = await prisma.userInfoCategory.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserInfoCategoryCreateManyAndReturnArgs>(args?: SelectSubset<T, UserInfoCategoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserInfoCategory.
+     * @param {UserInfoCategoryDeleteArgs} args - Arguments to delete one UserInfoCategory.
+     * @example
+     * // Delete one UserInfoCategory
+     * const UserInfoCategory = await prisma.userInfoCategory.delete({
+     *   where: {
+     *     // ... filter to delete one UserInfoCategory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserInfoCategoryDeleteArgs>(args: SelectSubset<T, UserInfoCategoryDeleteArgs<ExtArgs>>): Prisma__UserInfoCategoryClient<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserInfoCategory.
+     * @param {UserInfoCategoryUpdateArgs} args - Arguments to update one UserInfoCategory.
+     * @example
+     * // Update one UserInfoCategory
+     * const userInfoCategory = await prisma.userInfoCategory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserInfoCategoryUpdateArgs>(args: SelectSubset<T, UserInfoCategoryUpdateArgs<ExtArgs>>): Prisma__UserInfoCategoryClient<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserInfoCategories.
+     * @param {UserInfoCategoryDeleteManyArgs} args - Arguments to filter UserInfoCategories to delete.
+     * @example
+     * // Delete a few UserInfoCategories
+     * const { count } = await prisma.userInfoCategory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserInfoCategoryDeleteManyArgs>(args?: SelectSubset<T, UserInfoCategoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserInfoCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoCategoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserInfoCategories
+     * const userInfoCategory = await prisma.userInfoCategory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserInfoCategoryUpdateManyArgs>(args: SelectSubset<T, UserInfoCategoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserInfoCategories and returns the data updated in the database.
+     * @param {UserInfoCategoryUpdateManyAndReturnArgs} args - Arguments to update many UserInfoCategories.
+     * @example
+     * // Update many UserInfoCategories
+     * const userInfoCategory = await prisma.userInfoCategory.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserInfoCategories and only return the `id`
+     * const userInfoCategoryWithIdOnly = await prisma.userInfoCategory.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserInfoCategoryUpdateManyAndReturnArgs>(args: SelectSubset<T, UserInfoCategoryUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserInfoCategory.
+     * @param {UserInfoCategoryUpsertArgs} args - Arguments to update or create a UserInfoCategory.
+     * @example
+     * // Update or create a UserInfoCategory
+     * const userInfoCategory = await prisma.userInfoCategory.upsert({
+     *   create: {
+     *     // ... data to create a UserInfoCategory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserInfoCategory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserInfoCategoryUpsertArgs>(args: SelectSubset<T, UserInfoCategoryUpsertArgs<ExtArgs>>): Prisma__UserInfoCategoryClient<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserInfoCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoCategoryCountArgs} args - Arguments to filter UserInfoCategories to count.
+     * @example
+     * // Count the number of UserInfoCategories
+     * const count = await prisma.userInfoCategory.count({
+     *   where: {
+     *     // ... the filter for the UserInfoCategories we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserInfoCategoryCountArgs>(
+      args?: Subset<T, UserInfoCategoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserInfoCategoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserInfoCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoCategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserInfoCategoryAggregateArgs>(args: Subset<T, UserInfoCategoryAggregateArgs>): Prisma.PrismaPromise<GetUserInfoCategoryAggregateType<T>>
+
+    /**
+     * Group by UserInfoCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoCategoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserInfoCategoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserInfoCategoryGroupByArgs['orderBy'] }
+        : { orderBy?: UserInfoCategoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserInfoCategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserInfoCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserInfoCategory model
+   */
+  readonly fields: UserInfoCategoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserInfoCategory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserInfoCategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    questions<T extends UserInfoCategory$questionsArgs<ExtArgs> = {}>(args?: Subset<T, UserInfoCategory$questionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInfoQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserInfoCategory model
+   */
+  interface UserInfoCategoryFieldRefs {
+    readonly id: FieldRef<"UserInfoCategory", 'String'>
+    readonly name: FieldRef<"UserInfoCategory", 'String'>
+    readonly sortOrder: FieldRef<"UserInfoCategory", 'Int'>
+    readonly createdAt: FieldRef<"UserInfoCategory", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserInfoCategory", 'DateTime'>
+    readonly userId: FieldRef<"UserInfoCategory", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserInfoCategory findUnique
+   */
+  export type UserInfoCategoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInfoCategory to fetch.
+     */
+    where: UserInfoCategoryWhereUniqueInput
+  }
+
+  /**
+   * UserInfoCategory findUniqueOrThrow
+   */
+  export type UserInfoCategoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInfoCategory to fetch.
+     */
+    where: UserInfoCategoryWhereUniqueInput
+  }
+
+  /**
+   * UserInfoCategory findFirst
+   */
+  export type UserInfoCategoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInfoCategory to fetch.
+     */
+    where?: UserInfoCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInfoCategories to fetch.
+     */
+    orderBy?: UserInfoCategoryOrderByWithRelationInput | UserInfoCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserInfoCategories.
+     */
+    cursor?: UserInfoCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInfoCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInfoCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserInfoCategories.
+     */
+    distinct?: UserInfoCategoryScalarFieldEnum | UserInfoCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * UserInfoCategory findFirstOrThrow
+   */
+  export type UserInfoCategoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInfoCategory to fetch.
+     */
+    where?: UserInfoCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInfoCategories to fetch.
+     */
+    orderBy?: UserInfoCategoryOrderByWithRelationInput | UserInfoCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserInfoCategories.
+     */
+    cursor?: UserInfoCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInfoCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInfoCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserInfoCategories.
+     */
+    distinct?: UserInfoCategoryScalarFieldEnum | UserInfoCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * UserInfoCategory findMany
+   */
+  export type UserInfoCategoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInfoCategories to fetch.
+     */
+    where?: UserInfoCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInfoCategories to fetch.
+     */
+    orderBy?: UserInfoCategoryOrderByWithRelationInput | UserInfoCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserInfoCategories.
+     */
+    cursor?: UserInfoCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInfoCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInfoCategories.
+     */
+    skip?: number
+    distinct?: UserInfoCategoryScalarFieldEnum | UserInfoCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * UserInfoCategory create
+   */
+  export type UserInfoCategoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserInfoCategory.
+     */
+    data: XOR<UserInfoCategoryCreateInput, UserInfoCategoryUncheckedCreateInput>
+  }
+
+  /**
+   * UserInfoCategory createMany
+   */
+  export type UserInfoCategoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserInfoCategories.
+     */
+    data: UserInfoCategoryCreateManyInput | UserInfoCategoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserInfoCategory createManyAndReturn
+   */
+  export type UserInfoCategoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserInfoCategories.
+     */
+    data: UserInfoCategoryCreateManyInput | UserInfoCategoryCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserInfoCategory update
+   */
+  export type UserInfoCategoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserInfoCategory.
+     */
+    data: XOR<UserInfoCategoryUpdateInput, UserInfoCategoryUncheckedUpdateInput>
+    /**
+     * Choose, which UserInfoCategory to update.
+     */
+    where: UserInfoCategoryWhereUniqueInput
+  }
+
+  /**
+   * UserInfoCategory updateMany
+   */
+  export type UserInfoCategoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserInfoCategories.
+     */
+    data: XOR<UserInfoCategoryUpdateManyMutationInput, UserInfoCategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which UserInfoCategories to update
+     */
+    where?: UserInfoCategoryWhereInput
+    /**
+     * Limit how many UserInfoCategories to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserInfoCategory updateManyAndReturn
+   */
+  export type UserInfoCategoryUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * The data used to update UserInfoCategories.
+     */
+    data: XOR<UserInfoCategoryUpdateManyMutationInput, UserInfoCategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which UserInfoCategories to update
+     */
+    where?: UserInfoCategoryWhereInput
+    /**
+     * Limit how many UserInfoCategories to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserInfoCategory upsert
+   */
+  export type UserInfoCategoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserInfoCategory to update in case it exists.
+     */
+    where: UserInfoCategoryWhereUniqueInput
+    /**
+     * In case the UserInfoCategory found by the `where` argument doesn't exist, create a new UserInfoCategory with this data.
+     */
+    create: XOR<UserInfoCategoryCreateInput, UserInfoCategoryUncheckedCreateInput>
+    /**
+     * In case the UserInfoCategory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserInfoCategoryUpdateInput, UserInfoCategoryUncheckedUpdateInput>
+  }
+
+  /**
+   * UserInfoCategory delete
+   */
+  export type UserInfoCategoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryInclude<ExtArgs> | null
+    /**
+     * Filter which UserInfoCategory to delete.
+     */
+    where: UserInfoCategoryWhereUniqueInput
+  }
+
+  /**
+   * UserInfoCategory deleteMany
+   */
+  export type UserInfoCategoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserInfoCategories to delete
+     */
+    where?: UserInfoCategoryWhereInput
+    /**
+     * Limit how many UserInfoCategories to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserInfoCategory.questions
+   */
+  export type UserInfoCategory$questionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionInclude<ExtArgs> | null
+    where?: UserInfoQuestionWhereInput
+    orderBy?: UserInfoQuestionOrderByWithRelationInput | UserInfoQuestionOrderByWithRelationInput[]
+    cursor?: UserInfoQuestionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserInfoQuestionScalarFieldEnum | UserInfoQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * UserInfoCategory without action
+   */
+  export type UserInfoCategoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoCategory
+     */
+    select?: UserInfoCategorySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoCategory
+     */
+    omit?: UserInfoCategoryOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoCategoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserInfoQuestion
+   */
+
+  export type AggregateUserInfoQuestion = {
+    _count: UserInfoQuestionCountAggregateOutputType | null
+    _avg: UserInfoQuestionAvgAggregateOutputType | null
+    _sum: UserInfoQuestionSumAggregateOutputType | null
+    _min: UserInfoQuestionMinAggregateOutputType | null
+    _max: UserInfoQuestionMaxAggregateOutputType | null
+  }
+
+  export type UserInfoQuestionAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type UserInfoQuestionSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type UserInfoQuestionMinAggregateOutputType = {
+    id: string | null
+    question: string | null
+    answer: string | null
+    sortOrder: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    categoryId: string | null
+  }
+
+  export type UserInfoQuestionMaxAggregateOutputType = {
+    id: string | null
+    question: string | null
+    answer: string | null
+    sortOrder: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    categoryId: string | null
+  }
+
+  export type UserInfoQuestionCountAggregateOutputType = {
+    id: number
+    question: number
+    answer: number
+    sortOrder: number
+    createdAt: number
+    updatedAt: number
+    categoryId: number
+    _all: number
+  }
+
+
+  export type UserInfoQuestionAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type UserInfoQuestionSumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type UserInfoQuestionMinAggregateInputType = {
+    id?: true
+    question?: true
+    answer?: true
+    sortOrder?: true
+    createdAt?: true
+    updatedAt?: true
+    categoryId?: true
+  }
+
+  export type UserInfoQuestionMaxAggregateInputType = {
+    id?: true
+    question?: true
+    answer?: true
+    sortOrder?: true
+    createdAt?: true
+    updatedAt?: true
+    categoryId?: true
+  }
+
+  export type UserInfoQuestionCountAggregateInputType = {
+    id?: true
+    question?: true
+    answer?: true
+    sortOrder?: true
+    createdAt?: true
+    updatedAt?: true
+    categoryId?: true
+    _all?: true
+  }
+
+  export type UserInfoQuestionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserInfoQuestion to aggregate.
+     */
+    where?: UserInfoQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInfoQuestions to fetch.
+     */
+    orderBy?: UserInfoQuestionOrderByWithRelationInput | UserInfoQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserInfoQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInfoQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInfoQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserInfoQuestions
+    **/
+    _count?: true | UserInfoQuestionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserInfoQuestionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserInfoQuestionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserInfoQuestionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserInfoQuestionMaxAggregateInputType
+  }
+
+  export type GetUserInfoQuestionAggregateType<T extends UserInfoQuestionAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserInfoQuestion]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserInfoQuestion[P]>
+      : GetScalarType<T[P], AggregateUserInfoQuestion[P]>
+  }
+
+
+
+
+  export type UserInfoQuestionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserInfoQuestionWhereInput
+    orderBy?: UserInfoQuestionOrderByWithAggregationInput | UserInfoQuestionOrderByWithAggregationInput[]
+    by: UserInfoQuestionScalarFieldEnum[] | UserInfoQuestionScalarFieldEnum
+    having?: UserInfoQuestionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserInfoQuestionCountAggregateInputType | true
+    _avg?: UserInfoQuestionAvgAggregateInputType
+    _sum?: UserInfoQuestionSumAggregateInputType
+    _min?: UserInfoQuestionMinAggregateInputType
+    _max?: UserInfoQuestionMaxAggregateInputType
+  }
+
+  export type UserInfoQuestionGroupByOutputType = {
+    id: string
+    question: string
+    answer: string
+    sortOrder: number
+    createdAt: Date
+    updatedAt: Date
+    categoryId: string
+    _count: UserInfoQuestionCountAggregateOutputType | null
+    _avg: UserInfoQuestionAvgAggregateOutputType | null
+    _sum: UserInfoQuestionSumAggregateOutputType | null
+    _min: UserInfoQuestionMinAggregateOutputType | null
+    _max: UserInfoQuestionMaxAggregateOutputType | null
+  }
+
+  type GetUserInfoQuestionGroupByPayload<T extends UserInfoQuestionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserInfoQuestionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserInfoQuestionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserInfoQuestionGroupByOutputType[P]>
+            : GetScalarType<T[P], UserInfoQuestionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserInfoQuestionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    question?: boolean
+    answer?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    categoryId?: boolean
+    category?: boolean | UserInfoCategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userInfoQuestion"]>
+
+  export type UserInfoQuestionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    question?: boolean
+    answer?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    categoryId?: boolean
+    category?: boolean | UserInfoCategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userInfoQuestion"]>
+
+  export type UserInfoQuestionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    question?: boolean
+    answer?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    categoryId?: boolean
+    category?: boolean | UserInfoCategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userInfoQuestion"]>
+
+  export type UserInfoQuestionSelectScalar = {
+    id?: boolean
+    question?: boolean
+    answer?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    categoryId?: boolean
+  }
+
+  export type UserInfoQuestionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "question" | "answer" | "sortOrder" | "createdAt" | "updatedAt" | "categoryId", ExtArgs["result"]["userInfoQuestion"]>
+  export type UserInfoQuestionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | UserInfoCategoryDefaultArgs<ExtArgs>
+  }
+  export type UserInfoQuestionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | UserInfoCategoryDefaultArgs<ExtArgs>
+  }
+  export type UserInfoQuestionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | UserInfoCategoryDefaultArgs<ExtArgs>
+  }
+
+  export type $UserInfoQuestionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserInfoQuestion"
+    objects: {
+      category: Prisma.$UserInfoCategoryPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      question: string
+      answer: string
+      sortOrder: number
+      createdAt: Date
+      updatedAt: Date
+      categoryId: string
+    }, ExtArgs["result"]["userInfoQuestion"]>
+    composites: {}
+  }
+
+  type UserInfoQuestionGetPayload<S extends boolean | null | undefined | UserInfoQuestionDefaultArgs> = $Result.GetResult<Prisma.$UserInfoQuestionPayload, S>
+
+  type UserInfoQuestionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserInfoQuestionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserInfoQuestionCountAggregateInputType | true
+    }
+
+  export interface UserInfoQuestionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserInfoQuestion'], meta: { name: 'UserInfoQuestion' } }
+    /**
+     * Find zero or one UserInfoQuestion that matches the filter.
+     * @param {UserInfoQuestionFindUniqueArgs} args - Arguments to find a UserInfoQuestion
+     * @example
+     * // Get one UserInfoQuestion
+     * const userInfoQuestion = await prisma.userInfoQuestion.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserInfoQuestionFindUniqueArgs>(args: SelectSubset<T, UserInfoQuestionFindUniqueArgs<ExtArgs>>): Prisma__UserInfoQuestionClient<$Result.GetResult<Prisma.$UserInfoQuestionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserInfoQuestion that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserInfoQuestionFindUniqueOrThrowArgs} args - Arguments to find a UserInfoQuestion
+     * @example
+     * // Get one UserInfoQuestion
+     * const userInfoQuestion = await prisma.userInfoQuestion.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserInfoQuestionFindUniqueOrThrowArgs>(args: SelectSubset<T, UserInfoQuestionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserInfoQuestionClient<$Result.GetResult<Prisma.$UserInfoQuestionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserInfoQuestion that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoQuestionFindFirstArgs} args - Arguments to find a UserInfoQuestion
+     * @example
+     * // Get one UserInfoQuestion
+     * const userInfoQuestion = await prisma.userInfoQuestion.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserInfoQuestionFindFirstArgs>(args?: SelectSubset<T, UserInfoQuestionFindFirstArgs<ExtArgs>>): Prisma__UserInfoQuestionClient<$Result.GetResult<Prisma.$UserInfoQuestionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserInfoQuestion that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoQuestionFindFirstOrThrowArgs} args - Arguments to find a UserInfoQuestion
+     * @example
+     * // Get one UserInfoQuestion
+     * const userInfoQuestion = await prisma.userInfoQuestion.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserInfoQuestionFindFirstOrThrowArgs>(args?: SelectSubset<T, UserInfoQuestionFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserInfoQuestionClient<$Result.GetResult<Prisma.$UserInfoQuestionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserInfoQuestions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoQuestionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserInfoQuestions
+     * const userInfoQuestions = await prisma.userInfoQuestion.findMany()
+     * 
+     * // Get first 10 UserInfoQuestions
+     * const userInfoQuestions = await prisma.userInfoQuestion.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userInfoQuestionWithIdOnly = await prisma.userInfoQuestion.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserInfoQuestionFindManyArgs>(args?: SelectSubset<T, UserInfoQuestionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInfoQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserInfoQuestion.
+     * @param {UserInfoQuestionCreateArgs} args - Arguments to create a UserInfoQuestion.
+     * @example
+     * // Create one UserInfoQuestion
+     * const UserInfoQuestion = await prisma.userInfoQuestion.create({
+     *   data: {
+     *     // ... data to create a UserInfoQuestion
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserInfoQuestionCreateArgs>(args: SelectSubset<T, UserInfoQuestionCreateArgs<ExtArgs>>): Prisma__UserInfoQuestionClient<$Result.GetResult<Prisma.$UserInfoQuestionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserInfoQuestions.
+     * @param {UserInfoQuestionCreateManyArgs} args - Arguments to create many UserInfoQuestions.
+     * @example
+     * // Create many UserInfoQuestions
+     * const userInfoQuestion = await prisma.userInfoQuestion.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserInfoQuestionCreateManyArgs>(args?: SelectSubset<T, UserInfoQuestionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserInfoQuestions and returns the data saved in the database.
+     * @param {UserInfoQuestionCreateManyAndReturnArgs} args - Arguments to create many UserInfoQuestions.
+     * @example
+     * // Create many UserInfoQuestions
+     * const userInfoQuestion = await prisma.userInfoQuestion.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserInfoQuestions and only return the `id`
+     * const userInfoQuestionWithIdOnly = await prisma.userInfoQuestion.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserInfoQuestionCreateManyAndReturnArgs>(args?: SelectSubset<T, UserInfoQuestionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInfoQuestionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserInfoQuestion.
+     * @param {UserInfoQuestionDeleteArgs} args - Arguments to delete one UserInfoQuestion.
+     * @example
+     * // Delete one UserInfoQuestion
+     * const UserInfoQuestion = await prisma.userInfoQuestion.delete({
+     *   where: {
+     *     // ... filter to delete one UserInfoQuestion
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserInfoQuestionDeleteArgs>(args: SelectSubset<T, UserInfoQuestionDeleteArgs<ExtArgs>>): Prisma__UserInfoQuestionClient<$Result.GetResult<Prisma.$UserInfoQuestionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserInfoQuestion.
+     * @param {UserInfoQuestionUpdateArgs} args - Arguments to update one UserInfoQuestion.
+     * @example
+     * // Update one UserInfoQuestion
+     * const userInfoQuestion = await prisma.userInfoQuestion.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserInfoQuestionUpdateArgs>(args: SelectSubset<T, UserInfoQuestionUpdateArgs<ExtArgs>>): Prisma__UserInfoQuestionClient<$Result.GetResult<Prisma.$UserInfoQuestionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserInfoQuestions.
+     * @param {UserInfoQuestionDeleteManyArgs} args - Arguments to filter UserInfoQuestions to delete.
+     * @example
+     * // Delete a few UserInfoQuestions
+     * const { count } = await prisma.userInfoQuestion.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserInfoQuestionDeleteManyArgs>(args?: SelectSubset<T, UserInfoQuestionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserInfoQuestions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoQuestionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserInfoQuestions
+     * const userInfoQuestion = await prisma.userInfoQuestion.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserInfoQuestionUpdateManyArgs>(args: SelectSubset<T, UserInfoQuestionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserInfoQuestions and returns the data updated in the database.
+     * @param {UserInfoQuestionUpdateManyAndReturnArgs} args - Arguments to update many UserInfoQuestions.
+     * @example
+     * // Update many UserInfoQuestions
+     * const userInfoQuestion = await prisma.userInfoQuestion.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserInfoQuestions and only return the `id`
+     * const userInfoQuestionWithIdOnly = await prisma.userInfoQuestion.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserInfoQuestionUpdateManyAndReturnArgs>(args: SelectSubset<T, UserInfoQuestionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserInfoQuestionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserInfoQuestion.
+     * @param {UserInfoQuestionUpsertArgs} args - Arguments to update or create a UserInfoQuestion.
+     * @example
+     * // Update or create a UserInfoQuestion
+     * const userInfoQuestion = await prisma.userInfoQuestion.upsert({
+     *   create: {
+     *     // ... data to create a UserInfoQuestion
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserInfoQuestion we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserInfoQuestionUpsertArgs>(args: SelectSubset<T, UserInfoQuestionUpsertArgs<ExtArgs>>): Prisma__UserInfoQuestionClient<$Result.GetResult<Prisma.$UserInfoQuestionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserInfoQuestions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoQuestionCountArgs} args - Arguments to filter UserInfoQuestions to count.
+     * @example
+     * // Count the number of UserInfoQuestions
+     * const count = await prisma.userInfoQuestion.count({
+     *   where: {
+     *     // ... the filter for the UserInfoQuestions we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserInfoQuestionCountArgs>(
+      args?: Subset<T, UserInfoQuestionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserInfoQuestionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserInfoQuestion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoQuestionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserInfoQuestionAggregateArgs>(args: Subset<T, UserInfoQuestionAggregateArgs>): Prisma.PrismaPromise<GetUserInfoQuestionAggregateType<T>>
+
+    /**
+     * Group by UserInfoQuestion.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserInfoQuestionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserInfoQuestionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserInfoQuestionGroupByArgs['orderBy'] }
+        : { orderBy?: UserInfoQuestionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserInfoQuestionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserInfoQuestionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserInfoQuestion model
+   */
+  readonly fields: UserInfoQuestionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserInfoQuestion.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserInfoQuestionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    category<T extends UserInfoCategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserInfoCategoryDefaultArgs<ExtArgs>>): Prisma__UserInfoCategoryClient<$Result.GetResult<Prisma.$UserInfoCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserInfoQuestion model
+   */
+  interface UserInfoQuestionFieldRefs {
+    readonly id: FieldRef<"UserInfoQuestion", 'String'>
+    readonly question: FieldRef<"UserInfoQuestion", 'String'>
+    readonly answer: FieldRef<"UserInfoQuestion", 'String'>
+    readonly sortOrder: FieldRef<"UserInfoQuestion", 'Int'>
+    readonly createdAt: FieldRef<"UserInfoQuestion", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserInfoQuestion", 'DateTime'>
+    readonly categoryId: FieldRef<"UserInfoQuestion", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserInfoQuestion findUnique
+   */
+  export type UserInfoQuestionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInfoQuestion to fetch.
+     */
+    where: UserInfoQuestionWhereUniqueInput
+  }
+
+  /**
+   * UserInfoQuestion findUniqueOrThrow
+   */
+  export type UserInfoQuestionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInfoQuestion to fetch.
+     */
+    where: UserInfoQuestionWhereUniqueInput
+  }
+
+  /**
+   * UserInfoQuestion findFirst
+   */
+  export type UserInfoQuestionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInfoQuestion to fetch.
+     */
+    where?: UserInfoQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInfoQuestions to fetch.
+     */
+    orderBy?: UserInfoQuestionOrderByWithRelationInput | UserInfoQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserInfoQuestions.
+     */
+    cursor?: UserInfoQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInfoQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInfoQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserInfoQuestions.
+     */
+    distinct?: UserInfoQuestionScalarFieldEnum | UserInfoQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * UserInfoQuestion findFirstOrThrow
+   */
+  export type UserInfoQuestionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInfoQuestion to fetch.
+     */
+    where?: UserInfoQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInfoQuestions to fetch.
+     */
+    orderBy?: UserInfoQuestionOrderByWithRelationInput | UserInfoQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserInfoQuestions.
+     */
+    cursor?: UserInfoQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInfoQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInfoQuestions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserInfoQuestions.
+     */
+    distinct?: UserInfoQuestionScalarFieldEnum | UserInfoQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * UserInfoQuestion findMany
+   */
+  export type UserInfoQuestionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionInclude<ExtArgs> | null
+    /**
+     * Filter, which UserInfoQuestions to fetch.
+     */
+    where?: UserInfoQuestionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserInfoQuestions to fetch.
+     */
+    orderBy?: UserInfoQuestionOrderByWithRelationInput | UserInfoQuestionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserInfoQuestions.
+     */
+    cursor?: UserInfoQuestionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserInfoQuestions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserInfoQuestions.
+     */
+    skip?: number
+    distinct?: UserInfoQuestionScalarFieldEnum | UserInfoQuestionScalarFieldEnum[]
+  }
+
+  /**
+   * UserInfoQuestion create
+   */
+  export type UserInfoQuestionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserInfoQuestion.
+     */
+    data: XOR<UserInfoQuestionCreateInput, UserInfoQuestionUncheckedCreateInput>
+  }
+
+  /**
+   * UserInfoQuestion createMany
+   */
+  export type UserInfoQuestionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserInfoQuestions.
+     */
+    data: UserInfoQuestionCreateManyInput | UserInfoQuestionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserInfoQuestion createManyAndReturn
+   */
+  export type UserInfoQuestionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserInfoQuestions.
+     */
+    data: UserInfoQuestionCreateManyInput | UserInfoQuestionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserInfoQuestion update
+   */
+  export type UserInfoQuestionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserInfoQuestion.
+     */
+    data: XOR<UserInfoQuestionUpdateInput, UserInfoQuestionUncheckedUpdateInput>
+    /**
+     * Choose, which UserInfoQuestion to update.
+     */
+    where: UserInfoQuestionWhereUniqueInput
+  }
+
+  /**
+   * UserInfoQuestion updateMany
+   */
+  export type UserInfoQuestionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserInfoQuestions.
+     */
+    data: XOR<UserInfoQuestionUpdateManyMutationInput, UserInfoQuestionUncheckedUpdateManyInput>
+    /**
+     * Filter which UserInfoQuestions to update
+     */
+    where?: UserInfoQuestionWhereInput
+    /**
+     * Limit how many UserInfoQuestions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserInfoQuestion updateManyAndReturn
+   */
+  export type UserInfoQuestionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * The data used to update UserInfoQuestions.
+     */
+    data: XOR<UserInfoQuestionUpdateManyMutationInput, UserInfoQuestionUncheckedUpdateManyInput>
+    /**
+     * Filter which UserInfoQuestions to update
+     */
+    where?: UserInfoQuestionWhereInput
+    /**
+     * Limit how many UserInfoQuestions to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserInfoQuestion upsert
+   */
+  export type UserInfoQuestionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserInfoQuestion to update in case it exists.
+     */
+    where: UserInfoQuestionWhereUniqueInput
+    /**
+     * In case the UserInfoQuestion found by the `where` argument doesn't exist, create a new UserInfoQuestion with this data.
+     */
+    create: XOR<UserInfoQuestionCreateInput, UserInfoQuestionUncheckedCreateInput>
+    /**
+     * In case the UserInfoQuestion was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserInfoQuestionUpdateInput, UserInfoQuestionUncheckedUpdateInput>
+  }
+
+  /**
+   * UserInfoQuestion delete
+   */
+  export type UserInfoQuestionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionInclude<ExtArgs> | null
+    /**
+     * Filter which UserInfoQuestion to delete.
+     */
+    where: UserInfoQuestionWhereUniqueInput
+  }
+
+  /**
+   * UserInfoQuestion deleteMany
+   */
+  export type UserInfoQuestionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserInfoQuestions to delete
+     */
+    where?: UserInfoQuestionWhereInput
+    /**
+     * Limit how many UserInfoQuestions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserInfoQuestion without action
+   */
+  export type UserInfoQuestionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserInfoQuestion
+     */
+    select?: UserInfoQuestionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserInfoQuestion
+     */
+    omit?: UserInfoQuestionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInfoQuestionInclude<ExtArgs> | null
   }
 
 
@@ -32242,6 +34745,31 @@ export namespace Prisma {
   export type UserCustomQuestionScalarFieldEnum = (typeof UserCustomQuestionScalarFieldEnum)[keyof typeof UserCustomQuestionScalarFieldEnum]
 
 
+  export const UserInfoCategoryScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    sortOrder: 'sortOrder',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    userId: 'userId'
+  };
+
+  export type UserInfoCategoryScalarFieldEnum = (typeof UserInfoCategoryScalarFieldEnum)[keyof typeof UserInfoCategoryScalarFieldEnum]
+
+
+  export const UserInfoQuestionScalarFieldEnum: {
+    id: 'id',
+    question: 'question',
+    answer: 'answer',
+    sortOrder: 'sortOrder',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    categoryId: 'categoryId'
+  };
+
+  export type UserInfoQuestionScalarFieldEnum = (typeof UserInfoQuestionScalarFieldEnum)[keyof typeof UserInfoQuestionScalarFieldEnum]
+
+
   export const UserImageCarouselScalarFieldEnum: {
     id: 'id',
     url: 'url',
@@ -32580,6 +35108,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselListRelationFilter
     imageSidebars?: UserImageSidebarListRelationFilter
     customQuestions?: UserCustomQuestionListRelationFilter
+    infoCategories?: UserInfoCategoryListRelationFilter
     youtubeSettings?: XOR<UserYoutubeSettingsNullableScalarRelationFilter, UserYoutubeSettingsWhereInput> | null
     recommendYoutubes?: UserRecommendYoutubeListRelationFilter
     popupSettings?: XOR<UserPopupSettingsNullableScalarRelationFilter, UserPopupSettingsWhereInput> | null
@@ -32618,6 +35147,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselOrderByRelationAggregateInput
     imageSidebars?: UserImageSidebarOrderByRelationAggregateInput
     customQuestions?: UserCustomQuestionOrderByRelationAggregateInput
+    infoCategories?: UserInfoCategoryOrderByRelationAggregateInput
     youtubeSettings?: UserYoutubeSettingsOrderByWithRelationInput
     recommendYoutubes?: UserRecommendYoutubeOrderByRelationAggregateInput
     popupSettings?: UserPopupSettingsOrderByWithRelationInput
@@ -32659,6 +35189,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselListRelationFilter
     imageSidebars?: UserImageSidebarListRelationFilter
     customQuestions?: UserCustomQuestionListRelationFilter
+    infoCategories?: UserInfoCategoryListRelationFilter
     youtubeSettings?: XOR<UserYoutubeSettingsNullableScalarRelationFilter, UserYoutubeSettingsWhereInput> | null
     recommendYoutubes?: UserRecommendYoutubeListRelationFilter
     popupSettings?: XOR<UserPopupSettingsNullableScalarRelationFilter, UserPopupSettingsWhereInput> | null
@@ -33507,6 +36038,138 @@ export namespace Prisma {
     answer?: StringWithAggregatesFilter<"UserCustomQuestion"> | string
     sortOrder?: IntWithAggregatesFilter<"UserCustomQuestion"> | number
     userId?: StringWithAggregatesFilter<"UserCustomQuestion"> | string
+  }
+
+  export type UserInfoCategoryWhereInput = {
+    AND?: UserInfoCategoryWhereInput | UserInfoCategoryWhereInput[]
+    OR?: UserInfoCategoryWhereInput[]
+    NOT?: UserInfoCategoryWhereInput | UserInfoCategoryWhereInput[]
+    id?: StringFilter<"UserInfoCategory"> | string
+    name?: StringFilter<"UserInfoCategory"> | string
+    sortOrder?: IntFilter<"UserInfoCategory"> | number
+    createdAt?: DateTimeFilter<"UserInfoCategory"> | Date | string
+    updatedAt?: DateTimeFilter<"UserInfoCategory"> | Date | string
+    userId?: StringFilter<"UserInfoCategory"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    questions?: UserInfoQuestionListRelationFilter
+  }
+
+  export type UserInfoCategoryOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+    questions?: UserInfoQuestionOrderByRelationAggregateInput
+  }
+
+  export type UserInfoCategoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserInfoCategoryWhereInput | UserInfoCategoryWhereInput[]
+    OR?: UserInfoCategoryWhereInput[]
+    NOT?: UserInfoCategoryWhereInput | UserInfoCategoryWhereInput[]
+    name?: StringFilter<"UserInfoCategory"> | string
+    sortOrder?: IntFilter<"UserInfoCategory"> | number
+    createdAt?: DateTimeFilter<"UserInfoCategory"> | Date | string
+    updatedAt?: DateTimeFilter<"UserInfoCategory"> | Date | string
+    userId?: StringFilter<"UserInfoCategory"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    questions?: UserInfoQuestionListRelationFilter
+  }, "id">
+
+  export type UserInfoCategoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    _count?: UserInfoCategoryCountOrderByAggregateInput
+    _avg?: UserInfoCategoryAvgOrderByAggregateInput
+    _max?: UserInfoCategoryMaxOrderByAggregateInput
+    _min?: UserInfoCategoryMinOrderByAggregateInput
+    _sum?: UserInfoCategorySumOrderByAggregateInput
+  }
+
+  export type UserInfoCategoryScalarWhereWithAggregatesInput = {
+    AND?: UserInfoCategoryScalarWhereWithAggregatesInput | UserInfoCategoryScalarWhereWithAggregatesInput[]
+    OR?: UserInfoCategoryScalarWhereWithAggregatesInput[]
+    NOT?: UserInfoCategoryScalarWhereWithAggregatesInput | UserInfoCategoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserInfoCategory"> | string
+    name?: StringWithAggregatesFilter<"UserInfoCategory"> | string
+    sortOrder?: IntWithAggregatesFilter<"UserInfoCategory"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"UserInfoCategory"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserInfoCategory"> | Date | string
+    userId?: StringWithAggregatesFilter<"UserInfoCategory"> | string
+  }
+
+  export type UserInfoQuestionWhereInput = {
+    AND?: UserInfoQuestionWhereInput | UserInfoQuestionWhereInput[]
+    OR?: UserInfoQuestionWhereInput[]
+    NOT?: UserInfoQuestionWhereInput | UserInfoQuestionWhereInput[]
+    id?: StringFilter<"UserInfoQuestion"> | string
+    question?: StringFilter<"UserInfoQuestion"> | string
+    answer?: StringFilter<"UserInfoQuestion"> | string
+    sortOrder?: IntFilter<"UserInfoQuestion"> | number
+    createdAt?: DateTimeFilter<"UserInfoQuestion"> | Date | string
+    updatedAt?: DateTimeFilter<"UserInfoQuestion"> | Date | string
+    categoryId?: StringFilter<"UserInfoQuestion"> | string
+    category?: XOR<UserInfoCategoryScalarRelationFilter, UserInfoCategoryWhereInput>
+  }
+
+  export type UserInfoQuestionOrderByWithRelationInput = {
+    id?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    categoryId?: SortOrder
+    category?: UserInfoCategoryOrderByWithRelationInput
+  }
+
+  export type UserInfoQuestionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserInfoQuestionWhereInput | UserInfoQuestionWhereInput[]
+    OR?: UserInfoQuestionWhereInput[]
+    NOT?: UserInfoQuestionWhereInput | UserInfoQuestionWhereInput[]
+    question?: StringFilter<"UserInfoQuestion"> | string
+    answer?: StringFilter<"UserInfoQuestion"> | string
+    sortOrder?: IntFilter<"UserInfoQuestion"> | number
+    createdAt?: DateTimeFilter<"UserInfoQuestion"> | Date | string
+    updatedAt?: DateTimeFilter<"UserInfoQuestion"> | Date | string
+    categoryId?: StringFilter<"UserInfoQuestion"> | string
+    category?: XOR<UserInfoCategoryScalarRelationFilter, UserInfoCategoryWhereInput>
+  }, "id">
+
+  export type UserInfoQuestionOrderByWithAggregationInput = {
+    id?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    categoryId?: SortOrder
+    _count?: UserInfoQuestionCountOrderByAggregateInput
+    _avg?: UserInfoQuestionAvgOrderByAggregateInput
+    _max?: UserInfoQuestionMaxOrderByAggregateInput
+    _min?: UserInfoQuestionMinOrderByAggregateInput
+    _sum?: UserInfoQuestionSumOrderByAggregateInput
+  }
+
+  export type UserInfoQuestionScalarWhereWithAggregatesInput = {
+    AND?: UserInfoQuestionScalarWhereWithAggregatesInput | UserInfoQuestionScalarWhereWithAggregatesInput[]
+    OR?: UserInfoQuestionScalarWhereWithAggregatesInput[]
+    NOT?: UserInfoQuestionScalarWhereWithAggregatesInput | UserInfoQuestionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserInfoQuestion"> | string
+    question?: StringWithAggregatesFilter<"UserInfoQuestion"> | string
+    answer?: StringWithAggregatesFilter<"UserInfoQuestion"> | string
+    sortOrder?: IntWithAggregatesFilter<"UserInfoQuestion"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"UserInfoQuestion"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserInfoQuestion"> | Date | string
+    categoryId?: StringWithAggregatesFilter<"UserInfoQuestion"> | string
   }
 
   export type UserImageCarouselWhereInput = {
@@ -34432,6 +37095,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -34470,6 +37134,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -34508,6 +37173,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -34546,6 +37212,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -35453,6 +38120,141 @@ export namespace Prisma {
     answer?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserInfoCategoryCreateInput = {
+    id?: string
+    name: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutInfoCategoriesInput
+    questions?: UserInfoQuestionCreateNestedManyWithoutCategoryInput
+  }
+
+  export type UserInfoCategoryUncheckedCreateInput = {
+    id?: string
+    name: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+    questions?: UserInfoQuestionUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type UserInfoCategoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInfoCategoriesNestedInput
+    questions?: UserInfoQuestionUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type UserInfoCategoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    questions?: UserInfoQuestionUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type UserInfoCategoryCreateManyInput = {
+    id?: string
+    name: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type UserInfoCategoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInfoCategoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserInfoQuestionCreateInput = {
+    id?: string
+    question: string
+    answer: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: UserInfoCategoryCreateNestedOneWithoutQuestionsInput
+  }
+
+  export type UserInfoQuestionUncheckedCreateInput = {
+    id?: string
+    question: string
+    answer: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    categoryId: string
+  }
+
+  export type UserInfoQuestionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: UserInfoCategoryUpdateOneRequiredWithoutQuestionsNestedInput
+  }
+
+  export type UserInfoQuestionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserInfoQuestionCreateManyInput = {
+    id?: string
+    question: string
+    answer: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    categoryId: string
+  }
+
+  export type UserInfoQuestionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInfoQuestionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    categoryId?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserImageCarouselCreateInput = {
@@ -36512,6 +39314,12 @@ export namespace Prisma {
     none?: UserCustomQuestionWhereInput
   }
 
+  export type UserInfoCategoryListRelationFilter = {
+    every?: UserInfoCategoryWhereInput
+    some?: UserInfoCategoryWhereInput
+    none?: UserInfoCategoryWhereInput
+  }
+
   export type UserYoutubeSettingsNullableScalarRelationFilter = {
     is?: UserYoutubeSettingsWhereInput | null
     isNot?: UserYoutubeSettingsWhereInput | null
@@ -36579,6 +39387,10 @@ export namespace Prisma {
   }
 
   export type UserCustomQuestionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserInfoCategoryOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -37227,6 +40039,94 @@ export namespace Prisma {
     sortOrder?: SortOrder
   }
 
+  export type UserInfoQuestionListRelationFilter = {
+    every?: UserInfoQuestionWhereInput
+    some?: UserInfoQuestionWhereInput
+    none?: UserInfoQuestionWhereInput
+  }
+
+  export type UserInfoQuestionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserInfoCategoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserInfoCategoryAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type UserInfoCategoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserInfoCategoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserInfoCategorySumOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type UserInfoCategoryScalarRelationFilter = {
+    is?: UserInfoCategoryWhereInput
+    isNot?: UserInfoCategoryWhereInput
+  }
+
+  export type UserInfoQuestionCountOrderByAggregateInput = {
+    id?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    categoryId?: SortOrder
+  }
+
+  export type UserInfoQuestionAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type UserInfoQuestionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    categoryId?: SortOrder
+  }
+
+  export type UserInfoQuestionMinOrderByAggregateInput = {
+    id?: SortOrder
+    question?: SortOrder
+    answer?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    categoryId?: SortOrder
+  }
+
+  export type UserInfoQuestionSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
   export type UserImageCarouselCountOrderByAggregateInput = {
     id?: SortOrder
     url?: SortOrder
@@ -37863,6 +40763,13 @@ export namespace Prisma {
     connect?: UserCustomQuestionWhereUniqueInput | UserCustomQuestionWhereUniqueInput[]
   }
 
+  export type UserInfoCategoryCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserInfoCategoryCreateWithoutUserInput, UserInfoCategoryUncheckedCreateWithoutUserInput> | UserInfoCategoryCreateWithoutUserInput[] | UserInfoCategoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserInfoCategoryCreateOrConnectWithoutUserInput | UserInfoCategoryCreateOrConnectWithoutUserInput[]
+    createMany?: UserInfoCategoryCreateManyUserInputEnvelope
+    connect?: UserInfoCategoryWhereUniqueInput | UserInfoCategoryWhereUniqueInput[]
+  }
+
   export type UserYoutubeSettingsCreateNestedOneWithoutUserInput = {
     create?: XOR<UserYoutubeSettingsCreateWithoutUserInput, UserYoutubeSettingsUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserYoutubeSettingsCreateOrConnectWithoutUserInput
@@ -37960,6 +40867,13 @@ export namespace Prisma {
     connectOrCreate?: UserCustomQuestionCreateOrConnectWithoutUserInput | UserCustomQuestionCreateOrConnectWithoutUserInput[]
     createMany?: UserCustomQuestionCreateManyUserInputEnvelope
     connect?: UserCustomQuestionWhereUniqueInput | UserCustomQuestionWhereUniqueInput[]
+  }
+
+  export type UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserInfoCategoryCreateWithoutUserInput, UserInfoCategoryUncheckedCreateWithoutUserInput> | UserInfoCategoryCreateWithoutUserInput[] | UserInfoCategoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserInfoCategoryCreateOrConnectWithoutUserInput | UserInfoCategoryCreateOrConnectWithoutUserInput[]
+    createMany?: UserInfoCategoryCreateManyUserInputEnvelope
+    connect?: UserInfoCategoryWhereUniqueInput | UserInfoCategoryWhereUniqueInput[]
   }
 
   export type UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput = {
@@ -38140,6 +41054,20 @@ export namespace Prisma {
     update?: UserCustomQuestionUpdateWithWhereUniqueWithoutUserInput | UserCustomQuestionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserCustomQuestionUpdateManyWithWhereWithoutUserInput | UserCustomQuestionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UserCustomQuestionScalarWhereInput | UserCustomQuestionScalarWhereInput[]
+  }
+
+  export type UserInfoCategoryUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserInfoCategoryCreateWithoutUserInput, UserInfoCategoryUncheckedCreateWithoutUserInput> | UserInfoCategoryCreateWithoutUserInput[] | UserInfoCategoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserInfoCategoryCreateOrConnectWithoutUserInput | UserInfoCategoryCreateOrConnectWithoutUserInput[]
+    upsert?: UserInfoCategoryUpsertWithWhereUniqueWithoutUserInput | UserInfoCategoryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserInfoCategoryCreateManyUserInputEnvelope
+    set?: UserInfoCategoryWhereUniqueInput | UserInfoCategoryWhereUniqueInput[]
+    disconnect?: UserInfoCategoryWhereUniqueInput | UserInfoCategoryWhereUniqueInput[]
+    delete?: UserInfoCategoryWhereUniqueInput | UserInfoCategoryWhereUniqueInput[]
+    connect?: UserInfoCategoryWhereUniqueInput | UserInfoCategoryWhereUniqueInput[]
+    update?: UserInfoCategoryUpdateWithWhereUniqueWithoutUserInput | UserInfoCategoryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserInfoCategoryUpdateManyWithWhereWithoutUserInput | UserInfoCategoryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserInfoCategoryScalarWhereInput | UserInfoCategoryScalarWhereInput[]
   }
 
   export type UserYoutubeSettingsUpdateOneWithoutUserNestedInput = {
@@ -38326,6 +41254,20 @@ export namespace Prisma {
     update?: UserCustomQuestionUpdateWithWhereUniqueWithoutUserInput | UserCustomQuestionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserCustomQuestionUpdateManyWithWhereWithoutUserInput | UserCustomQuestionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UserCustomQuestionScalarWhereInput | UserCustomQuestionScalarWhereInput[]
+  }
+
+  export type UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserInfoCategoryCreateWithoutUserInput, UserInfoCategoryUncheckedCreateWithoutUserInput> | UserInfoCategoryCreateWithoutUserInput[] | UserInfoCategoryUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserInfoCategoryCreateOrConnectWithoutUserInput | UserInfoCategoryCreateOrConnectWithoutUserInput[]
+    upsert?: UserInfoCategoryUpsertWithWhereUniqueWithoutUserInput | UserInfoCategoryUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserInfoCategoryCreateManyUserInputEnvelope
+    set?: UserInfoCategoryWhereUniqueInput | UserInfoCategoryWhereUniqueInput[]
+    disconnect?: UserInfoCategoryWhereUniqueInput | UserInfoCategoryWhereUniqueInput[]
+    delete?: UserInfoCategoryWhereUniqueInput | UserInfoCategoryWhereUniqueInput[]
+    connect?: UserInfoCategoryWhereUniqueInput | UserInfoCategoryWhereUniqueInput[]
+    update?: UserInfoCategoryUpdateWithWhereUniqueWithoutUserInput | UserInfoCategoryUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserInfoCategoryUpdateManyWithWhereWithoutUserInput | UserInfoCategoryUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserInfoCategoryScalarWhereInput | UserInfoCategoryScalarWhereInput[]
   }
 
   export type UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput = {
@@ -38638,6 +41580,76 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutCustomQuestionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCustomQuestionsInput, UserUpdateWithoutCustomQuestionsInput>, UserUncheckedUpdateWithoutCustomQuestionsInput>
+  }
+
+  export type UserCreateNestedOneWithoutInfoCategoriesInput = {
+    create?: XOR<UserCreateWithoutInfoCategoriesInput, UserUncheckedCreateWithoutInfoCategoriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInfoCategoriesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserInfoQuestionCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<UserInfoQuestionCreateWithoutCategoryInput, UserInfoQuestionUncheckedCreateWithoutCategoryInput> | UserInfoQuestionCreateWithoutCategoryInput[] | UserInfoQuestionUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: UserInfoQuestionCreateOrConnectWithoutCategoryInput | UserInfoQuestionCreateOrConnectWithoutCategoryInput[]
+    createMany?: UserInfoQuestionCreateManyCategoryInputEnvelope
+    connect?: UserInfoQuestionWhereUniqueInput | UserInfoQuestionWhereUniqueInput[]
+  }
+
+  export type UserInfoQuestionUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<UserInfoQuestionCreateWithoutCategoryInput, UserInfoQuestionUncheckedCreateWithoutCategoryInput> | UserInfoQuestionCreateWithoutCategoryInput[] | UserInfoQuestionUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: UserInfoQuestionCreateOrConnectWithoutCategoryInput | UserInfoQuestionCreateOrConnectWithoutCategoryInput[]
+    createMany?: UserInfoQuestionCreateManyCategoryInputEnvelope
+    connect?: UserInfoQuestionWhereUniqueInput | UserInfoQuestionWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutInfoCategoriesNestedInput = {
+    create?: XOR<UserCreateWithoutInfoCategoriesInput, UserUncheckedCreateWithoutInfoCategoriesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInfoCategoriesInput
+    upsert?: UserUpsertWithoutInfoCategoriesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInfoCategoriesInput, UserUpdateWithoutInfoCategoriesInput>, UserUncheckedUpdateWithoutInfoCategoriesInput>
+  }
+
+  export type UserInfoQuestionUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<UserInfoQuestionCreateWithoutCategoryInput, UserInfoQuestionUncheckedCreateWithoutCategoryInput> | UserInfoQuestionCreateWithoutCategoryInput[] | UserInfoQuestionUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: UserInfoQuestionCreateOrConnectWithoutCategoryInput | UserInfoQuestionCreateOrConnectWithoutCategoryInput[]
+    upsert?: UserInfoQuestionUpsertWithWhereUniqueWithoutCategoryInput | UserInfoQuestionUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: UserInfoQuestionCreateManyCategoryInputEnvelope
+    set?: UserInfoQuestionWhereUniqueInput | UserInfoQuestionWhereUniqueInput[]
+    disconnect?: UserInfoQuestionWhereUniqueInput | UserInfoQuestionWhereUniqueInput[]
+    delete?: UserInfoQuestionWhereUniqueInput | UserInfoQuestionWhereUniqueInput[]
+    connect?: UserInfoQuestionWhereUniqueInput | UserInfoQuestionWhereUniqueInput[]
+    update?: UserInfoQuestionUpdateWithWhereUniqueWithoutCategoryInput | UserInfoQuestionUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: UserInfoQuestionUpdateManyWithWhereWithoutCategoryInput | UserInfoQuestionUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: UserInfoQuestionScalarWhereInput | UserInfoQuestionScalarWhereInput[]
+  }
+
+  export type UserInfoQuestionUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<UserInfoQuestionCreateWithoutCategoryInput, UserInfoQuestionUncheckedCreateWithoutCategoryInput> | UserInfoQuestionCreateWithoutCategoryInput[] | UserInfoQuestionUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: UserInfoQuestionCreateOrConnectWithoutCategoryInput | UserInfoQuestionCreateOrConnectWithoutCategoryInput[]
+    upsert?: UserInfoQuestionUpsertWithWhereUniqueWithoutCategoryInput | UserInfoQuestionUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: UserInfoQuestionCreateManyCategoryInputEnvelope
+    set?: UserInfoQuestionWhereUniqueInput | UserInfoQuestionWhereUniqueInput[]
+    disconnect?: UserInfoQuestionWhereUniqueInput | UserInfoQuestionWhereUniqueInput[]
+    delete?: UserInfoQuestionWhereUniqueInput | UserInfoQuestionWhereUniqueInput[]
+    connect?: UserInfoQuestionWhereUniqueInput | UserInfoQuestionWhereUniqueInput[]
+    update?: UserInfoQuestionUpdateWithWhereUniqueWithoutCategoryInput | UserInfoQuestionUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: UserInfoQuestionUpdateManyWithWhereWithoutCategoryInput | UserInfoQuestionUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: UserInfoQuestionScalarWhereInput | UserInfoQuestionScalarWhereInput[]
+  }
+
+  export type UserInfoCategoryCreateNestedOneWithoutQuestionsInput = {
+    create?: XOR<UserInfoCategoryCreateWithoutQuestionsInput, UserInfoCategoryUncheckedCreateWithoutQuestionsInput>
+    connectOrCreate?: UserInfoCategoryCreateOrConnectWithoutQuestionsInput
+    connect?: UserInfoCategoryWhereUniqueInput
+  }
+
+  export type UserInfoCategoryUpdateOneRequiredWithoutQuestionsNestedInput = {
+    create?: XOR<UserInfoCategoryCreateWithoutQuestionsInput, UserInfoCategoryUncheckedCreateWithoutQuestionsInput>
+    connectOrCreate?: UserInfoCategoryCreateOrConnectWithoutQuestionsInput
+    upsert?: UserInfoCategoryUpsertWithoutQuestionsInput
+    connect?: UserInfoCategoryWhereUniqueInput
+    update?: XOR<XOR<UserInfoCategoryUpdateToOneWithWhereWithoutQuestionsInput, UserInfoCategoryUpdateWithoutQuestionsInput>, UserInfoCategoryUncheckedUpdateWithoutQuestionsInput>
   }
 
   export type UserCreateNestedOneWithoutImageCarouselsInput = {
@@ -39789,6 +42801,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserInfoCategoryCreateWithoutUserInput = {
+    id?: string
+    name: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    questions?: UserInfoQuestionCreateNestedManyWithoutCategoryInput
+  }
+
+  export type UserInfoCategoryUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    questions?: UserInfoQuestionUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type UserInfoCategoryCreateOrConnectWithoutUserInput = {
+    where: UserInfoCategoryWhereUniqueInput
+    create: XOR<UserInfoCategoryCreateWithoutUserInput, UserInfoCategoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserInfoCategoryCreateManyUserInputEnvelope = {
+    data: UserInfoCategoryCreateManyUserInput | UserInfoCategoryCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserYoutubeSettingsCreateWithoutUserInput = {
     id?: string
     channelId?: string | null
@@ -40213,6 +43253,34 @@ export namespace Prisma {
     userId?: StringFilter<"UserCustomQuestion"> | string
   }
 
+  export type UserInfoCategoryUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserInfoCategoryWhereUniqueInput
+    update: XOR<UserInfoCategoryUpdateWithoutUserInput, UserInfoCategoryUncheckedUpdateWithoutUserInput>
+    create: XOR<UserInfoCategoryCreateWithoutUserInput, UserInfoCategoryUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserInfoCategoryUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserInfoCategoryWhereUniqueInput
+    data: XOR<UserInfoCategoryUpdateWithoutUserInput, UserInfoCategoryUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserInfoCategoryUpdateManyWithWhereWithoutUserInput = {
+    where: UserInfoCategoryScalarWhereInput
+    data: XOR<UserInfoCategoryUpdateManyMutationInput, UserInfoCategoryUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserInfoCategoryScalarWhereInput = {
+    AND?: UserInfoCategoryScalarWhereInput | UserInfoCategoryScalarWhereInput[]
+    OR?: UserInfoCategoryScalarWhereInput[]
+    NOT?: UserInfoCategoryScalarWhereInput | UserInfoCategoryScalarWhereInput[]
+    id?: StringFilter<"UserInfoCategory"> | string
+    name?: StringFilter<"UserInfoCategory"> | string
+    sortOrder?: IntFilter<"UserInfoCategory"> | number
+    createdAt?: DateTimeFilter<"UserInfoCategory"> | Date | string
+    updatedAt?: DateTimeFilter<"UserInfoCategory"> | Date | string
+    userId?: StringFilter<"UserInfoCategory"> | string
+  }
+
   export type UserYoutubeSettingsUpsertWithoutUserInput = {
     update: XOR<UserYoutubeSettingsUpdateWithoutUserInput, UserYoutubeSettingsUncheckedUpdateWithoutUserInput>
     create: XOR<UserYoutubeSettingsCreateWithoutUserInput, UserYoutubeSettingsUncheckedCreateWithoutUserInput>
@@ -40461,6 +43529,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -40498,6 +43567,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -40551,6 +43621,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -40588,6 +43659,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -40625,6 +43697,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -40662,6 +43735,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -40715,6 +43789,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -40752,6 +43827,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -40790,6 +43866,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -40827,6 +43904,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -40880,6 +43958,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -40917,6 +43996,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -40953,6 +44033,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -40990,6 +44071,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -41113,6 +44195,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -41150,6 +44233,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -41270,6 +44354,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
@@ -41307,6 +44392,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
@@ -41392,6 +44478,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
@@ -41429,6 +44516,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -41496,6 +44584,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -41533,6 +44622,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -41586,6 +44676,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -41623,6 +44714,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -41721,6 +44813,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
@@ -41758,6 +44851,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
@@ -41811,6 +44905,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
@@ -41848,6 +44943,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -41885,6 +44981,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
@@ -41922,6 +45019,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
@@ -41975,6 +45073,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
@@ -42012,6 +45111,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -42048,6 +45148,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -42085,6 +45186,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -42138,6 +45240,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -42175,6 +45278,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -42212,6 +45316,7 @@ export namespace Prisma {
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -42249,6 +45354,7 @@ export namespace Prisma {
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -42302,6 +45408,7 @@ export namespace Prisma {
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -42339,6 +45446,7 @@ export namespace Prisma {
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -42346,6 +45454,283 @@ export namespace Prisma {
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
     author?: AuthorUncheckedUpdateOneWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutInfoCategoriesInput = {
+    id?: string
+    email: string
+    name?: string | null
+    characterName?: string | null
+    subname?: string | null
+    bio?: string | null
+    birthday?: Date | string | null
+    gender?: string | null
+    iconUrl?: string | null
+    bannerUrl?: string | null
+    handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
+    role?: string
+    subscriptionStatus?: string | null
+    emailVerified?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    ogp?: UserOGPCreateNestedOneWithoutUserInput
+    links?: UserLinkCreateNestedManyWithoutUserInput
+    imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
+    imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
+    customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
+    popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
+    displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
+    notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
+    author?: AuthorCreateNestedOneWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutInfoCategoriesInput = {
+    id?: string
+    email: string
+    name?: string | null
+    characterName?: string | null
+    subname?: string | null
+    bio?: string | null
+    birthday?: Date | string | null
+    gender?: string | null
+    iconUrl?: string | null
+    bannerUrl?: string | null
+    handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
+    role?: string
+    subscriptionStatus?: string | null
+    emailVerified?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    ogp?: UserOGPUncheckedCreateNestedOneWithoutUserInput
+    links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
+    imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
+    imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
+    customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
+    popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
+    displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
+    notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+    author?: AuthorUncheckedCreateNestedOneWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutInfoCategoriesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInfoCategoriesInput, UserUncheckedCreateWithoutInfoCategoriesInput>
+  }
+
+  export type UserInfoQuestionCreateWithoutCategoryInput = {
+    id?: string
+    question: string
+    answer: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserInfoQuestionUncheckedCreateWithoutCategoryInput = {
+    id?: string
+    question: string
+    answer: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserInfoQuestionCreateOrConnectWithoutCategoryInput = {
+    where: UserInfoQuestionWhereUniqueInput
+    create: XOR<UserInfoQuestionCreateWithoutCategoryInput, UserInfoQuestionUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type UserInfoQuestionCreateManyCategoryInputEnvelope = {
+    data: UserInfoQuestionCreateManyCategoryInput | UserInfoQuestionCreateManyCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutInfoCategoriesInput = {
+    update: XOR<UserUpdateWithoutInfoCategoriesInput, UserUncheckedUpdateWithoutInfoCategoriesInput>
+    create: XOR<UserCreateWithoutInfoCategoriesInput, UserUncheckedCreateWithoutInfoCategoriesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInfoCategoriesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInfoCategoriesInput, UserUncheckedUpdateWithoutInfoCategoriesInput>
+  }
+
+  export type UserUpdateWithoutInfoCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    characterName?: NullableStringFieldUpdateOperationsInput | string | null
+    subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    ogp?: UserOGPUpdateOneWithoutUserNestedInput
+    links?: UserLinkUpdateManyWithoutUserNestedInput
+    imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
+    imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
+    customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
+    popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
+    displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
+    notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
+    author?: AuthorUpdateOneWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInfoCategoriesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    characterName?: NullableStringFieldUpdateOperationsInput | string | null
+    subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    ogp?: UserOGPUncheckedUpdateOneWithoutUserNestedInput
+    links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
+    imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
+    imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
+    customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
+    popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
+    displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
+    notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+    author?: AuthorUncheckedUpdateOneWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserInfoQuestionUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: UserInfoQuestionWhereUniqueInput
+    update: XOR<UserInfoQuestionUpdateWithoutCategoryInput, UserInfoQuestionUncheckedUpdateWithoutCategoryInput>
+    create: XOR<UserInfoQuestionCreateWithoutCategoryInput, UserInfoQuestionUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type UserInfoQuestionUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: UserInfoQuestionWhereUniqueInput
+    data: XOR<UserInfoQuestionUpdateWithoutCategoryInput, UserInfoQuestionUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type UserInfoQuestionUpdateManyWithWhereWithoutCategoryInput = {
+    where: UserInfoQuestionScalarWhereInput
+    data: XOR<UserInfoQuestionUpdateManyMutationInput, UserInfoQuestionUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type UserInfoQuestionScalarWhereInput = {
+    AND?: UserInfoQuestionScalarWhereInput | UserInfoQuestionScalarWhereInput[]
+    OR?: UserInfoQuestionScalarWhereInput[]
+    NOT?: UserInfoQuestionScalarWhereInput | UserInfoQuestionScalarWhereInput[]
+    id?: StringFilter<"UserInfoQuestion"> | string
+    question?: StringFilter<"UserInfoQuestion"> | string
+    answer?: StringFilter<"UserInfoQuestion"> | string
+    sortOrder?: IntFilter<"UserInfoQuestion"> | number
+    createdAt?: DateTimeFilter<"UserInfoQuestion"> | Date | string
+    updatedAt?: DateTimeFilter<"UserInfoQuestion"> | Date | string
+    categoryId?: StringFilter<"UserInfoQuestion"> | string
+  }
+
+  export type UserInfoCategoryCreateWithoutQuestionsInput = {
+    id?: string
+    name: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutInfoCategoriesInput
+  }
+
+  export type UserInfoCategoryUncheckedCreateWithoutQuestionsInput = {
+    id?: string
+    name: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type UserInfoCategoryCreateOrConnectWithoutQuestionsInput = {
+    where: UserInfoCategoryWhereUniqueInput
+    create: XOR<UserInfoCategoryCreateWithoutQuestionsInput, UserInfoCategoryUncheckedCreateWithoutQuestionsInput>
+  }
+
+  export type UserInfoCategoryUpsertWithoutQuestionsInput = {
+    update: XOR<UserInfoCategoryUpdateWithoutQuestionsInput, UserInfoCategoryUncheckedUpdateWithoutQuestionsInput>
+    create: XOR<UserInfoCategoryCreateWithoutQuestionsInput, UserInfoCategoryUncheckedCreateWithoutQuestionsInput>
+    where?: UserInfoCategoryWhereInput
+  }
+
+  export type UserInfoCategoryUpdateToOneWithWhereWithoutQuestionsInput = {
+    where?: UserInfoCategoryWhereInput
+    data: XOR<UserInfoCategoryUpdateWithoutQuestionsInput, UserInfoCategoryUncheckedUpdateWithoutQuestionsInput>
+  }
+
+  export type UserInfoCategoryUpdateWithoutQuestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInfoCategoriesNestedInput
+  }
+
+  export type UserInfoCategoryUncheckedUpdateWithoutQuestionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserCreateWithoutImageCarouselsInput = {
@@ -42376,6 +45761,7 @@ export namespace Prisma {
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -42413,6 +45799,7 @@ export namespace Prisma {
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -42466,6 +45853,7 @@ export namespace Prisma {
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -42503,6 +45891,7 @@ export namespace Prisma {
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -42540,6 +45929,7 @@ export namespace Prisma {
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -42577,6 +45967,7 @@ export namespace Prisma {
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -42630,6 +46021,7 @@ export namespace Prisma {
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -42667,6 +46059,7 @@ export namespace Prisma {
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -42705,6 +46098,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -42742,6 +46136,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -42795,6 +46190,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -42832,6 +46228,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -43130,6 +46527,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -43167,6 +46565,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -43264,6 +46663,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -43301,6 +46701,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -44123,6 +47524,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -44160,6 +47562,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -44307,6 +47710,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -44344,6 +47748,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -44416,6 +47821,14 @@ export namespace Prisma {
     question: string
     answer: string
     sortOrder?: number
+  }
+
+  export type UserInfoCategoryCreateManyUserInput = {
+    id?: string
+    name: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserRecommendYoutubeCreateManyUserInput = {
@@ -44637,6 +48050,32 @@ export namespace Prisma {
     sortOrder?: IntFieldUpdateOperationsInput | number
   }
 
+  export type UserInfoCategoryUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    questions?: UserInfoQuestionUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type UserInfoCategoryUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    questions?: UserInfoQuestionUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type UserInfoCategoryUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserRecommendYoutubeUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
@@ -44742,6 +48181,42 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     publishedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInfoQuestionCreateManyCategoryInput = {
+    id?: string
+    question: string
+    answer: string
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserInfoQuestionUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInfoQuestionUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserInfoQuestionUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    question?: StringFieldUpdateOperationsInput | string
+    answer?: StringFieldUpdateOperationsInput | string
+    sortOrder?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
