@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation"
 import { SidebarLayout } from "./SidebarLayout"
-import { MobileFooterWrapper } from "./MobileFooterWrapper"
+import { MobileFooterNav } from "./MobileFooterNav"
 import { SecondSidebar } from "./SecondSidebar"
 import {
   Breadcrumb,
@@ -93,7 +93,7 @@ export default function ClientLayout({
       </SidebarInset>
       
       {/* モバイルフッターナビゲーション */}
-      <MobileFooterWrapper />
+      <MobileFooterNav />
     </SidebarProvider>
   )
 }

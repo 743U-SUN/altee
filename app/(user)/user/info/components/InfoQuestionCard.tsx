@@ -184,18 +184,21 @@ export function InfoQuestionCard({ category, userId, onUpdateQuestions }: InfoQu
       <Accordion type="single" collapsible className="w-full space-y-3">
         {category.questions.map((item, index) => (
           <AccordionItem key={item.id} value={item.id} className="border border-gray-200 rounded-lg">
-            <div className="flex items-center justify-between p-4">
-              <AccordionTrigger className="hover:no-underline flex-1 py-0 [&[data-state=open]>svg]:rotate-180">
-                <div className="flex items-center space-x-2">
-                  <MessageSquare className="h-4 w-4 text-blue-500" />
-                  <span className="text-sm font-medium text-left">
+            <div className="relative">
+              <AccordionTrigger className="hover:no-underline w-full px-4 py-4 pr-24 [&[data-state=open]>svg]:rotate-180">
+                <div className="flex items-center space-x-2 text-left min-w-0 flex-1">
+                  <MessageSquare className="h-4 w-4 text-blue-500 flex-shrink-0" />
+                  <span className="text-sm font-medium overflow-hidden text-ellipsis whitespace-nowrap">
                     {tempQuestions[item.id] || item.question || `質問 ${index + 1}`}
                   </span>
                 </div>
               </AccordionTrigger>
-              <div className="flex items-center space-x-2 ml-2">
+              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center space-x-2 z-10">
                 <Button
-                  onClick={() => handleSaveData(item.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSaveData(item.id);
+                  }}
                   disabled={isSavingId === item.id}
                   variant="outline"
                   size="sm"
@@ -208,7 +211,10 @@ export function InfoQuestionCard({ category, userId, onUpdateQuestions }: InfoQu
                   )}
                 </Button>
                 <Button
-                  onClick={() => handleDeleteQuestion(item.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDeleteQuestion(item.id);
+                  }}
                   disabled={isDeletingId === item.id}
                   variant="outline"
                   size="sm"

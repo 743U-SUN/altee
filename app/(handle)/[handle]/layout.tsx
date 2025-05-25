@@ -2,7 +2,7 @@ import { HandleSidebar } from "./components/HandleSidebar";
 import { HandleMobileFooterNav } from "./components/HandleMobileFooterNav";
 import  HandleClientLayout from "./components/HandleClientLayout";
 
-export default function ArticleLayout({
+export default function HandleLayout({
   children,
 }: {
   children: React.ReactNode;
