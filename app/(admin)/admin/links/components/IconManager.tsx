@@ -321,7 +321,6 @@ export function IconManager() {
                             onCheckedChange={(checked) => 
                               toggleIconActive(icon.id, checked)
                             }
-                            size="sm"
                           />
                           
                           <DropdownMenu>
@@ -399,7 +398,6 @@ export function IconManager() {
                       onCheckedChange={(checked) => 
                         toggleIconActive(icon.id, checked)
                       }
-                      size="sm"
                     />
                     
                     <DropdownMenu>

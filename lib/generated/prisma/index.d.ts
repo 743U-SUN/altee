@@ -54,6 +54,11 @@ export type UserImageBanner = $Result.DefaultSelection<Prisma.$UserImageBannerPa
  */
 export type UserYoutubeVideo = $Result.DefaultSelection<Prisma.$UserYoutubeVideoPayload>
 /**
+ * Model UserRecommendYoutube
+ * 
+ */
+export type UserRecommendYoutube = $Result.DefaultSelection<Prisma.$UserRecommendYoutubePayload>
+/**
  * Model UserPopupSettings
  * 
  */
@@ -386,6 +391,16 @@ export class PrismaClient<
     * ```
     */
   get userYoutubeVideo(): Prisma.UserYoutubeVideoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userRecommendYoutube`: Exposes CRUD operations for the **UserRecommendYoutube** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserRecommendYoutubes
+    * const userRecommendYoutubes = await prisma.userRecommendYoutube.findMany()
+    * ```
+    */
+  get userRecommendYoutube(): Prisma.UserRecommendYoutubeDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.userPopupSettings`: Exposes CRUD operations for the **UserPopupSettings** model.
@@ -994,6 +1009,7 @@ export namespace Prisma {
     UserYoutubeSettings: 'UserYoutubeSettings',
     UserImageBanner: 'UserImageBanner',
     UserYoutubeVideo: 'UserYoutubeVideo',
+    UserRecommendYoutube: 'UserRecommendYoutube',
     UserPopupSettings: 'UserPopupSettings',
     UserOGP: 'UserOGP',
     UserCustomQuestion: 'UserCustomQuestion',
@@ -1028,7 +1044,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "notificationSettings" | "userLink" | "userYoutubeSettings" | "userImageBanner" | "userYoutubeVideo" | "userPopupSettings" | "userOGP" | "userCustomQuestion" | "userImageCarousel" | "userImageSidebar" | "userDisplaySettings" | "linkService" | "serviceIcon" | "verificationToken" | "author" | "category" | "tag" | "article" | "articleCategory" | "articleTag" | "comment"
+      modelProps: "user" | "account" | "session" | "notificationSettings" | "userLink" | "userYoutubeSettings" | "userImageBanner" | "userYoutubeVideo" | "userRecommendYoutube" | "userPopupSettings" | "userOGP" | "userCustomQuestion" | "userImageCarousel" | "userImageSidebar" | "userDisplaySettings" | "linkService" | "serviceIcon" | "verificationToken" | "author" | "category" | "tag" | "article" | "articleCategory" | "articleTag" | "comment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1621,6 +1637,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserYoutubeVideoCountArgs<ExtArgs>
             result: $Utils.Optional<UserYoutubeVideoCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserRecommendYoutube: {
+        payload: Prisma.$UserRecommendYoutubePayload<ExtArgs>
+        fields: Prisma.UserRecommendYoutubeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserRecommendYoutubeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecommendYoutubePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserRecommendYoutubeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecommendYoutubePayload>
+          }
+          findFirst: {
+            args: Prisma.UserRecommendYoutubeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecommendYoutubePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserRecommendYoutubeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecommendYoutubePayload>
+          }
+          findMany: {
+            args: Prisma.UserRecommendYoutubeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecommendYoutubePayload>[]
+          }
+          create: {
+            args: Prisma.UserRecommendYoutubeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecommendYoutubePayload>
+          }
+          createMany: {
+            args: Prisma.UserRecommendYoutubeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserRecommendYoutubeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecommendYoutubePayload>[]
+          }
+          delete: {
+            args: Prisma.UserRecommendYoutubeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecommendYoutubePayload>
+          }
+          update: {
+            args: Prisma.UserRecommendYoutubeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecommendYoutubePayload>
+          }
+          deleteMany: {
+            args: Prisma.UserRecommendYoutubeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserRecommendYoutubeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserRecommendYoutubeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecommendYoutubePayload>[]
+          }
+          upsert: {
+            args: Prisma.UserRecommendYoutubeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserRecommendYoutubePayload>
+          }
+          aggregate: {
+            args: Prisma.UserRecommendYoutubeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserRecommendYoutube>
+          }
+          groupBy: {
+            args: Prisma.UserRecommendYoutubeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserRecommendYoutubeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserRecommendYoutubeCountArgs<ExtArgs>
+            result: $Utils.Optional<UserRecommendYoutubeCountAggregateOutputType> | number
           }
         }
       }
@@ -2900,6 +2990,7 @@ export namespace Prisma {
     userYoutubeSettings?: UserYoutubeSettingsOmit
     userImageBanner?: UserImageBannerOmit
     userYoutubeVideo?: UserYoutubeVideoOmit
+    userRecommendYoutube?: UserRecommendYoutubeOmit
     userPopupSettings?: UserPopupSettingsOmit
     userOGP?: UserOGPOmit
     userCustomQuestion?: UserCustomQuestionOmit
@@ -3017,6 +3108,7 @@ export namespace Prisma {
     imageCarousels: number
     imageSidebars: number
     customQuestions: number
+    recommendYoutubes: number
     comments: number
   }
 
@@ -3028,6 +3120,7 @@ export namespace Prisma {
     imageCarousels?: boolean | UserCountOutputTypeCountImageCarouselsArgs
     imageSidebars?: boolean | UserCountOutputTypeCountImageSidebarsArgs
     customQuestions?: boolean | UserCountOutputTypeCountCustomQuestionsArgs
+    recommendYoutubes?: boolean | UserCountOutputTypeCountRecommendYoutubesArgs
     comments?: boolean | UserCountOutputTypeCountCommentsArgs
   }
 
@@ -3089,6 +3182,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCustomQuestionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserCustomQuestionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRecommendYoutubesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserRecommendYoutubeWhereInput
   }
 
   /**
@@ -3718,6 +3818,7 @@ export namespace Prisma {
     imageSidebars?: boolean | User$imageSidebarsArgs<ExtArgs>
     customQuestions?: boolean | User$customQuestionsArgs<ExtArgs>
     youtubeSettings?: boolean | User$youtubeSettingsArgs<ExtArgs>
+    recommendYoutubes?: boolean | User$recommendYoutubesArgs<ExtArgs>
     popupSettings?: boolean | User$popupSettingsArgs<ExtArgs>
     displaySettings?: boolean | User$displaySettingsArgs<ExtArgs>
     notificationSettings?: boolean | User$notificationSettingsArgs<ExtArgs>
@@ -3806,6 +3907,7 @@ export namespace Prisma {
     imageSidebars?: boolean | User$imageSidebarsArgs<ExtArgs>
     customQuestions?: boolean | User$customQuestionsArgs<ExtArgs>
     youtubeSettings?: boolean | User$youtubeSettingsArgs<ExtArgs>
+    recommendYoutubes?: boolean | User$recommendYoutubesArgs<ExtArgs>
     popupSettings?: boolean | User$popupSettingsArgs<ExtArgs>
     displaySettings?: boolean | User$displaySettingsArgs<ExtArgs>
     notificationSettings?: boolean | User$notificationSettingsArgs<ExtArgs>
@@ -3828,6 +3930,7 @@ export namespace Prisma {
       imageSidebars: Prisma.$UserImageSidebarPayload<ExtArgs>[]
       customQuestions: Prisma.$UserCustomQuestionPayload<ExtArgs>[]
       youtubeSettings: Prisma.$UserYoutubeSettingsPayload<ExtArgs> | null
+      recommendYoutubes: Prisma.$UserRecommendYoutubePayload<ExtArgs>[]
       popupSettings: Prisma.$UserPopupSettingsPayload<ExtArgs> | null
       displaySettings: Prisma.$UserDisplaySettingsPayload<ExtArgs> | null
       notificationSettings: Prisma.$NotificationSettingsPayload<ExtArgs> | null
@@ -4258,6 +4361,7 @@ export namespace Prisma {
     imageSidebars<T extends User$imageSidebarsArgs<ExtArgs> = {}>(args?: Subset<T, User$imageSidebarsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customQuestions<T extends User$customQuestionsArgs<ExtArgs> = {}>(args?: Subset<T, User$customQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCustomQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     youtubeSettings<T extends User$youtubeSettingsArgs<ExtArgs> = {}>(args?: Subset<T, User$youtubeSettingsArgs<ExtArgs>>): Prisma__UserYoutubeSettingsClient<$Result.GetResult<Prisma.$UserYoutubeSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    recommendYoutubes<T extends User$recommendYoutubesArgs<ExtArgs> = {}>(args?: Subset<T, User$recommendYoutubesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     popupSettings<T extends User$popupSettingsArgs<ExtArgs> = {}>(args?: Subset<T, User$popupSettingsArgs<ExtArgs>>): Prisma__UserPopupSettingsClient<$Result.GetResult<Prisma.$UserPopupSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     displaySettings<T extends User$displaySettingsArgs<ExtArgs> = {}>(args?: Subset<T, User$displaySettingsArgs<ExtArgs>>): Prisma__UserDisplaySettingsClient<$Result.GetResult<Prisma.$UserDisplaySettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     notificationSettings<T extends User$notificationSettingsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationSettingsArgs<ExtArgs>>): Prisma__NotificationSettingsClient<$Result.GetResult<Prisma.$NotificationSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -4903,6 +5007,30 @@ export namespace Prisma {
      */
     include?: UserYoutubeSettingsInclude<ExtArgs> | null
     where?: UserYoutubeSettingsWhereInput
+  }
+
+  /**
+   * User.recommendYoutubes
+   */
+  export type User$recommendYoutubesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeInclude<ExtArgs> | null
+    where?: UserRecommendYoutubeWhereInput
+    orderBy?: UserRecommendYoutubeOrderByWithRelationInput | UserRecommendYoutubeOrderByWithRelationInput[]
+    cursor?: UserRecommendYoutubeWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserRecommendYoutubeScalarFieldEnum | UserRecommendYoutubeScalarFieldEnum[]
   }
 
   /**
@@ -9539,6 +9667,7 @@ export namespace Prisma {
     id: string | null
     channelId: string | null
     displayCount: number | null
+    lastFetchedAt: Date | null
     pickupVideo: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -9549,6 +9678,7 @@ export namespace Prisma {
     id: string | null
     channelId: string | null
     displayCount: number | null
+    lastFetchedAt: Date | null
     pickupVideo: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -9559,6 +9689,7 @@ export namespace Prisma {
     id: number
     channelId: number
     displayCount: number
+    lastFetchedAt: number
     pickupVideo: number
     createdAt: number
     updatedAt: number
@@ -9579,6 +9710,7 @@ export namespace Prisma {
     id?: true
     channelId?: true
     displayCount?: true
+    lastFetchedAt?: true
     pickupVideo?: true
     createdAt?: true
     updatedAt?: true
@@ -9589,6 +9721,7 @@ export namespace Prisma {
     id?: true
     channelId?: true
     displayCount?: true
+    lastFetchedAt?: true
     pickupVideo?: true
     createdAt?: true
     updatedAt?: true
@@ -9599,6 +9732,7 @@ export namespace Prisma {
     id?: true
     channelId?: true
     displayCount?: true
+    lastFetchedAt?: true
     pickupVideo?: true
     createdAt?: true
     updatedAt?: true
@@ -9696,6 +9830,7 @@ export namespace Prisma {
     id: string
     channelId: string | null
     displayCount: number
+    lastFetchedAt: Date | null
     pickupVideo: string | null
     createdAt: Date
     updatedAt: Date
@@ -9725,6 +9860,7 @@ export namespace Prisma {
     id?: boolean
     channelId?: boolean
     displayCount?: boolean
+    lastFetchedAt?: boolean
     pickupVideo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9738,6 +9874,7 @@ export namespace Prisma {
     id?: boolean
     channelId?: boolean
     displayCount?: boolean
+    lastFetchedAt?: boolean
     pickupVideo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9749,6 +9886,7 @@ export namespace Prisma {
     id?: boolean
     channelId?: boolean
     displayCount?: boolean
+    lastFetchedAt?: boolean
     pickupVideo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -9760,13 +9898,14 @@ export namespace Prisma {
     id?: boolean
     channelId?: boolean
     displayCount?: boolean
+    lastFetchedAt?: boolean
     pickupVideo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     userId?: boolean
   }
 
-  export type UserYoutubeSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "channelId" | "displayCount" | "pickupVideo" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["userYoutubeSettings"]>
+  export type UserYoutubeSettingsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "channelId" | "displayCount" | "lastFetchedAt" | "pickupVideo" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["userYoutubeSettings"]>
   export type UserYoutubeSettingsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     videos?: boolean | UserYoutubeSettings$videosArgs<ExtArgs>
@@ -9789,6 +9928,7 @@ export namespace Prisma {
       id: string
       channelId: string | null
       displayCount: number
+      lastFetchedAt: Date | null
       pickupVideo: string | null
       createdAt: Date
       updatedAt: Date
@@ -10221,6 +10361,7 @@ export namespace Prisma {
     readonly id: FieldRef<"UserYoutubeSettings", 'String'>
     readonly channelId: FieldRef<"UserYoutubeSettings", 'String'>
     readonly displayCount: FieldRef<"UserYoutubeSettings", 'Int'>
+    readonly lastFetchedAt: FieldRef<"UserYoutubeSettings", 'DateTime'>
     readonly pickupVideo: FieldRef<"UserYoutubeSettings", 'String'>
     readonly createdAt: FieldRef<"UserYoutubeSettings", 'DateTime'>
     readonly updatedAt: FieldRef<"UserYoutubeSettings", 'DateTime'>
@@ -12875,6 +13016,1150 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserYoutubeVideoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserRecommendYoutube
+   */
+
+  export type AggregateUserRecommendYoutube = {
+    _count: UserRecommendYoutubeCountAggregateOutputType | null
+    _avg: UserRecommendYoutubeAvgAggregateOutputType | null
+    _sum: UserRecommendYoutubeSumAggregateOutputType | null
+    _min: UserRecommendYoutubeMinAggregateOutputType | null
+    _max: UserRecommendYoutubeMaxAggregateOutputType | null
+  }
+
+  export type UserRecommendYoutubeAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type UserRecommendYoutubeSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type UserRecommendYoutubeMinAggregateOutputType = {
+    id: string | null
+    url: string | null
+    thumbnailUrl: string | null
+    title: string | null
+    description: string | null
+    sortOrder: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type UserRecommendYoutubeMaxAggregateOutputType = {
+    id: string | null
+    url: string | null
+    thumbnailUrl: string | null
+    title: string | null
+    description: string | null
+    sortOrder: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type UserRecommendYoutubeCountAggregateOutputType = {
+    id: number
+    url: number
+    thumbnailUrl: number
+    title: number
+    description: number
+    sortOrder: number
+    createdAt: number
+    updatedAt: number
+    userId: number
+    _all: number
+  }
+
+
+  export type UserRecommendYoutubeAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type UserRecommendYoutubeSumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type UserRecommendYoutubeMinAggregateInputType = {
+    id?: true
+    url?: true
+    thumbnailUrl?: true
+    title?: true
+    description?: true
+    sortOrder?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type UserRecommendYoutubeMaxAggregateInputType = {
+    id?: true
+    url?: true
+    thumbnailUrl?: true
+    title?: true
+    description?: true
+    sortOrder?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type UserRecommendYoutubeCountAggregateInputType = {
+    id?: true
+    url?: true
+    thumbnailUrl?: true
+    title?: true
+    description?: true
+    sortOrder?: true
+    createdAt?: true
+    updatedAt?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type UserRecommendYoutubeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserRecommendYoutube to aggregate.
+     */
+    where?: UserRecommendYoutubeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserRecommendYoutubes to fetch.
+     */
+    orderBy?: UserRecommendYoutubeOrderByWithRelationInput | UserRecommendYoutubeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserRecommendYoutubeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserRecommendYoutubes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserRecommendYoutubes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserRecommendYoutubes
+    **/
+    _count?: true | UserRecommendYoutubeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserRecommendYoutubeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserRecommendYoutubeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserRecommendYoutubeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserRecommendYoutubeMaxAggregateInputType
+  }
+
+  export type GetUserRecommendYoutubeAggregateType<T extends UserRecommendYoutubeAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserRecommendYoutube]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserRecommendYoutube[P]>
+      : GetScalarType<T[P], AggregateUserRecommendYoutube[P]>
+  }
+
+
+
+
+  export type UserRecommendYoutubeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserRecommendYoutubeWhereInput
+    orderBy?: UserRecommendYoutubeOrderByWithAggregationInput | UserRecommendYoutubeOrderByWithAggregationInput[]
+    by: UserRecommendYoutubeScalarFieldEnum[] | UserRecommendYoutubeScalarFieldEnum
+    having?: UserRecommendYoutubeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserRecommendYoutubeCountAggregateInputType | true
+    _avg?: UserRecommendYoutubeAvgAggregateInputType
+    _sum?: UserRecommendYoutubeSumAggregateInputType
+    _min?: UserRecommendYoutubeMinAggregateInputType
+    _max?: UserRecommendYoutubeMaxAggregateInputType
+  }
+
+  export type UserRecommendYoutubeGroupByOutputType = {
+    id: string
+    url: string
+    thumbnailUrl: string | null
+    title: string | null
+    description: string | null
+    sortOrder: number
+    createdAt: Date
+    updatedAt: Date
+    userId: string
+    _count: UserRecommendYoutubeCountAggregateOutputType | null
+    _avg: UserRecommendYoutubeAvgAggregateOutputType | null
+    _sum: UserRecommendYoutubeSumAggregateOutputType | null
+    _min: UserRecommendYoutubeMinAggregateOutputType | null
+    _max: UserRecommendYoutubeMaxAggregateOutputType | null
+  }
+
+  type GetUserRecommendYoutubeGroupByPayload<T extends UserRecommendYoutubeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserRecommendYoutubeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserRecommendYoutubeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserRecommendYoutubeGroupByOutputType[P]>
+            : GetScalarType<T[P], UserRecommendYoutubeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserRecommendYoutubeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    url?: boolean
+    thumbnailUrl?: boolean
+    title?: boolean
+    description?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userRecommendYoutube"]>
+
+  export type UserRecommendYoutubeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    url?: boolean
+    thumbnailUrl?: boolean
+    title?: boolean
+    description?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userRecommendYoutube"]>
+
+  export type UserRecommendYoutubeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    url?: boolean
+    thumbnailUrl?: boolean
+    title?: boolean
+    description?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userRecommendYoutube"]>
+
+  export type UserRecommendYoutubeSelectScalar = {
+    id?: boolean
+    url?: boolean
+    thumbnailUrl?: boolean
+    title?: boolean
+    description?: boolean
+    sortOrder?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+  }
+
+  export type UserRecommendYoutubeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "url" | "thumbnailUrl" | "title" | "description" | "sortOrder" | "createdAt" | "updatedAt" | "userId", ExtArgs["result"]["userRecommendYoutube"]>
+  export type UserRecommendYoutubeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserRecommendYoutubeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserRecommendYoutubeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserRecommendYoutubePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserRecommendYoutube"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      url: string
+      thumbnailUrl: string | null
+      title: string | null
+      description: string | null
+      sortOrder: number
+      createdAt: Date
+      updatedAt: Date
+      userId: string
+    }, ExtArgs["result"]["userRecommendYoutube"]>
+    composites: {}
+  }
+
+  type UserRecommendYoutubeGetPayload<S extends boolean | null | undefined | UserRecommendYoutubeDefaultArgs> = $Result.GetResult<Prisma.$UserRecommendYoutubePayload, S>
+
+  type UserRecommendYoutubeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserRecommendYoutubeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserRecommendYoutubeCountAggregateInputType | true
+    }
+
+  export interface UserRecommendYoutubeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserRecommendYoutube'], meta: { name: 'UserRecommendYoutube' } }
+    /**
+     * Find zero or one UserRecommendYoutube that matches the filter.
+     * @param {UserRecommendYoutubeFindUniqueArgs} args - Arguments to find a UserRecommendYoutube
+     * @example
+     * // Get one UserRecommendYoutube
+     * const userRecommendYoutube = await prisma.userRecommendYoutube.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserRecommendYoutubeFindUniqueArgs>(args: SelectSubset<T, UserRecommendYoutubeFindUniqueArgs<ExtArgs>>): Prisma__UserRecommendYoutubeClient<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserRecommendYoutube that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserRecommendYoutubeFindUniqueOrThrowArgs} args - Arguments to find a UserRecommendYoutube
+     * @example
+     * // Get one UserRecommendYoutube
+     * const userRecommendYoutube = await prisma.userRecommendYoutube.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserRecommendYoutubeFindUniqueOrThrowArgs>(args: SelectSubset<T, UserRecommendYoutubeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserRecommendYoutubeClient<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserRecommendYoutube that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecommendYoutubeFindFirstArgs} args - Arguments to find a UserRecommendYoutube
+     * @example
+     * // Get one UserRecommendYoutube
+     * const userRecommendYoutube = await prisma.userRecommendYoutube.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserRecommendYoutubeFindFirstArgs>(args?: SelectSubset<T, UserRecommendYoutubeFindFirstArgs<ExtArgs>>): Prisma__UserRecommendYoutubeClient<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserRecommendYoutube that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecommendYoutubeFindFirstOrThrowArgs} args - Arguments to find a UserRecommendYoutube
+     * @example
+     * // Get one UserRecommendYoutube
+     * const userRecommendYoutube = await prisma.userRecommendYoutube.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserRecommendYoutubeFindFirstOrThrowArgs>(args?: SelectSubset<T, UserRecommendYoutubeFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserRecommendYoutubeClient<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserRecommendYoutubes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecommendYoutubeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserRecommendYoutubes
+     * const userRecommendYoutubes = await prisma.userRecommendYoutube.findMany()
+     * 
+     * // Get first 10 UserRecommendYoutubes
+     * const userRecommendYoutubes = await prisma.userRecommendYoutube.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userRecommendYoutubeWithIdOnly = await prisma.userRecommendYoutube.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserRecommendYoutubeFindManyArgs>(args?: SelectSubset<T, UserRecommendYoutubeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserRecommendYoutube.
+     * @param {UserRecommendYoutubeCreateArgs} args - Arguments to create a UserRecommendYoutube.
+     * @example
+     * // Create one UserRecommendYoutube
+     * const UserRecommendYoutube = await prisma.userRecommendYoutube.create({
+     *   data: {
+     *     // ... data to create a UserRecommendYoutube
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserRecommendYoutubeCreateArgs>(args: SelectSubset<T, UserRecommendYoutubeCreateArgs<ExtArgs>>): Prisma__UserRecommendYoutubeClient<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserRecommendYoutubes.
+     * @param {UserRecommendYoutubeCreateManyArgs} args - Arguments to create many UserRecommendYoutubes.
+     * @example
+     * // Create many UserRecommendYoutubes
+     * const userRecommendYoutube = await prisma.userRecommendYoutube.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserRecommendYoutubeCreateManyArgs>(args?: SelectSubset<T, UserRecommendYoutubeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserRecommendYoutubes and returns the data saved in the database.
+     * @param {UserRecommendYoutubeCreateManyAndReturnArgs} args - Arguments to create many UserRecommendYoutubes.
+     * @example
+     * // Create many UserRecommendYoutubes
+     * const userRecommendYoutube = await prisma.userRecommendYoutube.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserRecommendYoutubes and only return the `id`
+     * const userRecommendYoutubeWithIdOnly = await prisma.userRecommendYoutube.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserRecommendYoutubeCreateManyAndReturnArgs>(args?: SelectSubset<T, UserRecommendYoutubeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserRecommendYoutube.
+     * @param {UserRecommendYoutubeDeleteArgs} args - Arguments to delete one UserRecommendYoutube.
+     * @example
+     * // Delete one UserRecommendYoutube
+     * const UserRecommendYoutube = await prisma.userRecommendYoutube.delete({
+     *   where: {
+     *     // ... filter to delete one UserRecommendYoutube
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserRecommendYoutubeDeleteArgs>(args: SelectSubset<T, UserRecommendYoutubeDeleteArgs<ExtArgs>>): Prisma__UserRecommendYoutubeClient<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserRecommendYoutube.
+     * @param {UserRecommendYoutubeUpdateArgs} args - Arguments to update one UserRecommendYoutube.
+     * @example
+     * // Update one UserRecommendYoutube
+     * const userRecommendYoutube = await prisma.userRecommendYoutube.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserRecommendYoutubeUpdateArgs>(args: SelectSubset<T, UserRecommendYoutubeUpdateArgs<ExtArgs>>): Prisma__UserRecommendYoutubeClient<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserRecommendYoutubes.
+     * @param {UserRecommendYoutubeDeleteManyArgs} args - Arguments to filter UserRecommendYoutubes to delete.
+     * @example
+     * // Delete a few UserRecommendYoutubes
+     * const { count } = await prisma.userRecommendYoutube.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserRecommendYoutubeDeleteManyArgs>(args?: SelectSubset<T, UserRecommendYoutubeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserRecommendYoutubes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecommendYoutubeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserRecommendYoutubes
+     * const userRecommendYoutube = await prisma.userRecommendYoutube.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserRecommendYoutubeUpdateManyArgs>(args: SelectSubset<T, UserRecommendYoutubeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserRecommendYoutubes and returns the data updated in the database.
+     * @param {UserRecommendYoutubeUpdateManyAndReturnArgs} args - Arguments to update many UserRecommendYoutubes.
+     * @example
+     * // Update many UserRecommendYoutubes
+     * const userRecommendYoutube = await prisma.userRecommendYoutube.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserRecommendYoutubes and only return the `id`
+     * const userRecommendYoutubeWithIdOnly = await prisma.userRecommendYoutube.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserRecommendYoutubeUpdateManyAndReturnArgs>(args: SelectSubset<T, UserRecommendYoutubeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserRecommendYoutube.
+     * @param {UserRecommendYoutubeUpsertArgs} args - Arguments to update or create a UserRecommendYoutube.
+     * @example
+     * // Update or create a UserRecommendYoutube
+     * const userRecommendYoutube = await prisma.userRecommendYoutube.upsert({
+     *   create: {
+     *     // ... data to create a UserRecommendYoutube
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserRecommendYoutube we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserRecommendYoutubeUpsertArgs>(args: SelectSubset<T, UserRecommendYoutubeUpsertArgs<ExtArgs>>): Prisma__UserRecommendYoutubeClient<$Result.GetResult<Prisma.$UserRecommendYoutubePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserRecommendYoutubes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecommendYoutubeCountArgs} args - Arguments to filter UserRecommendYoutubes to count.
+     * @example
+     * // Count the number of UserRecommendYoutubes
+     * const count = await prisma.userRecommendYoutube.count({
+     *   where: {
+     *     // ... the filter for the UserRecommendYoutubes we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserRecommendYoutubeCountArgs>(
+      args?: Subset<T, UserRecommendYoutubeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserRecommendYoutubeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserRecommendYoutube.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecommendYoutubeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserRecommendYoutubeAggregateArgs>(args: Subset<T, UserRecommendYoutubeAggregateArgs>): Prisma.PrismaPromise<GetUserRecommendYoutubeAggregateType<T>>
+
+    /**
+     * Group by UserRecommendYoutube.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserRecommendYoutubeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserRecommendYoutubeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserRecommendYoutubeGroupByArgs['orderBy'] }
+        : { orderBy?: UserRecommendYoutubeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserRecommendYoutubeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserRecommendYoutubeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserRecommendYoutube model
+   */
+  readonly fields: UserRecommendYoutubeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserRecommendYoutube.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserRecommendYoutubeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserRecommendYoutube model
+   */
+  interface UserRecommendYoutubeFieldRefs {
+    readonly id: FieldRef<"UserRecommendYoutube", 'String'>
+    readonly url: FieldRef<"UserRecommendYoutube", 'String'>
+    readonly thumbnailUrl: FieldRef<"UserRecommendYoutube", 'String'>
+    readonly title: FieldRef<"UserRecommendYoutube", 'String'>
+    readonly description: FieldRef<"UserRecommendYoutube", 'String'>
+    readonly sortOrder: FieldRef<"UserRecommendYoutube", 'Int'>
+    readonly createdAt: FieldRef<"UserRecommendYoutube", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserRecommendYoutube", 'DateTime'>
+    readonly userId: FieldRef<"UserRecommendYoutube", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserRecommendYoutube findUnique
+   */
+  export type UserRecommendYoutubeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserRecommendYoutube to fetch.
+     */
+    where: UserRecommendYoutubeWhereUniqueInput
+  }
+
+  /**
+   * UserRecommendYoutube findUniqueOrThrow
+   */
+  export type UserRecommendYoutubeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserRecommendYoutube to fetch.
+     */
+    where: UserRecommendYoutubeWhereUniqueInput
+  }
+
+  /**
+   * UserRecommendYoutube findFirst
+   */
+  export type UserRecommendYoutubeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserRecommendYoutube to fetch.
+     */
+    where?: UserRecommendYoutubeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserRecommendYoutubes to fetch.
+     */
+    orderBy?: UserRecommendYoutubeOrderByWithRelationInput | UserRecommendYoutubeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserRecommendYoutubes.
+     */
+    cursor?: UserRecommendYoutubeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserRecommendYoutubes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserRecommendYoutubes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserRecommendYoutubes.
+     */
+    distinct?: UserRecommendYoutubeScalarFieldEnum | UserRecommendYoutubeScalarFieldEnum[]
+  }
+
+  /**
+   * UserRecommendYoutube findFirstOrThrow
+   */
+  export type UserRecommendYoutubeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserRecommendYoutube to fetch.
+     */
+    where?: UserRecommendYoutubeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserRecommendYoutubes to fetch.
+     */
+    orderBy?: UserRecommendYoutubeOrderByWithRelationInput | UserRecommendYoutubeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserRecommendYoutubes.
+     */
+    cursor?: UserRecommendYoutubeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserRecommendYoutubes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserRecommendYoutubes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserRecommendYoutubes.
+     */
+    distinct?: UserRecommendYoutubeScalarFieldEnum | UserRecommendYoutubeScalarFieldEnum[]
+  }
+
+  /**
+   * UserRecommendYoutube findMany
+   */
+  export type UserRecommendYoutubeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeInclude<ExtArgs> | null
+    /**
+     * Filter, which UserRecommendYoutubes to fetch.
+     */
+    where?: UserRecommendYoutubeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserRecommendYoutubes to fetch.
+     */
+    orderBy?: UserRecommendYoutubeOrderByWithRelationInput | UserRecommendYoutubeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserRecommendYoutubes.
+     */
+    cursor?: UserRecommendYoutubeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserRecommendYoutubes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserRecommendYoutubes.
+     */
+    skip?: number
+    distinct?: UserRecommendYoutubeScalarFieldEnum | UserRecommendYoutubeScalarFieldEnum[]
+  }
+
+  /**
+   * UserRecommendYoutube create
+   */
+  export type UserRecommendYoutubeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserRecommendYoutube.
+     */
+    data: XOR<UserRecommendYoutubeCreateInput, UserRecommendYoutubeUncheckedCreateInput>
+  }
+
+  /**
+   * UserRecommendYoutube createMany
+   */
+  export type UserRecommendYoutubeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserRecommendYoutubes.
+     */
+    data: UserRecommendYoutubeCreateManyInput | UserRecommendYoutubeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserRecommendYoutube createManyAndReturn
+   */
+  export type UserRecommendYoutubeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserRecommendYoutubes.
+     */
+    data: UserRecommendYoutubeCreateManyInput | UserRecommendYoutubeCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserRecommendYoutube update
+   */
+  export type UserRecommendYoutubeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserRecommendYoutube.
+     */
+    data: XOR<UserRecommendYoutubeUpdateInput, UserRecommendYoutubeUncheckedUpdateInput>
+    /**
+     * Choose, which UserRecommendYoutube to update.
+     */
+    where: UserRecommendYoutubeWhereUniqueInput
+  }
+
+  /**
+   * UserRecommendYoutube updateMany
+   */
+  export type UserRecommendYoutubeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserRecommendYoutubes.
+     */
+    data: XOR<UserRecommendYoutubeUpdateManyMutationInput, UserRecommendYoutubeUncheckedUpdateManyInput>
+    /**
+     * Filter which UserRecommendYoutubes to update
+     */
+    where?: UserRecommendYoutubeWhereInput
+    /**
+     * Limit how many UserRecommendYoutubes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserRecommendYoutube updateManyAndReturn
+   */
+  export type UserRecommendYoutubeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * The data used to update UserRecommendYoutubes.
+     */
+    data: XOR<UserRecommendYoutubeUpdateManyMutationInput, UserRecommendYoutubeUncheckedUpdateManyInput>
+    /**
+     * Filter which UserRecommendYoutubes to update
+     */
+    where?: UserRecommendYoutubeWhereInput
+    /**
+     * Limit how many UserRecommendYoutubes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserRecommendYoutube upsert
+   */
+  export type UserRecommendYoutubeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserRecommendYoutube to update in case it exists.
+     */
+    where: UserRecommendYoutubeWhereUniqueInput
+    /**
+     * In case the UserRecommendYoutube found by the `where` argument doesn't exist, create a new UserRecommendYoutube with this data.
+     */
+    create: XOR<UserRecommendYoutubeCreateInput, UserRecommendYoutubeUncheckedCreateInput>
+    /**
+     * In case the UserRecommendYoutube was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserRecommendYoutubeUpdateInput, UserRecommendYoutubeUncheckedUpdateInput>
+  }
+
+  /**
+   * UserRecommendYoutube delete
+   */
+  export type UserRecommendYoutubeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeInclude<ExtArgs> | null
+    /**
+     * Filter which UserRecommendYoutube to delete.
+     */
+    where: UserRecommendYoutubeWhereUniqueInput
+  }
+
+  /**
+   * UserRecommendYoutube deleteMany
+   */
+  export type UserRecommendYoutubeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserRecommendYoutubes to delete
+     */
+    where?: UserRecommendYoutubeWhereInput
+    /**
+     * Limit how many UserRecommendYoutubes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserRecommendYoutube without action
+   */
+  export type UserRecommendYoutubeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserRecommendYoutube
+     */
+    select?: UserRecommendYoutubeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserRecommendYoutube
+     */
+    omit?: UserRecommendYoutubeOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserRecommendYoutubeInclude<ExtArgs> | null
   }
 
 
@@ -30864,6 +32149,7 @@ export namespace Prisma {
     id: 'id',
     channelId: 'channelId',
     displayCount: 'displayCount',
+    lastFetchedAt: 'lastFetchedAt',
     pickupVideo: 'pickupVideo',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -30898,6 +32184,21 @@ export namespace Prisma {
   };
 
   export type UserYoutubeVideoScalarFieldEnum = (typeof UserYoutubeVideoScalarFieldEnum)[keyof typeof UserYoutubeVideoScalarFieldEnum]
+
+
+  export const UserRecommendYoutubeScalarFieldEnum: {
+    id: 'id',
+    url: 'url',
+    thumbnailUrl: 'thumbnailUrl',
+    title: 'title',
+    description: 'description',
+    sortOrder: 'sortOrder',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    userId: 'userId'
+  };
+
+  export type UserRecommendYoutubeScalarFieldEnum = (typeof UserRecommendYoutubeScalarFieldEnum)[keyof typeof UserRecommendYoutubeScalarFieldEnum]
 
 
   export const UserPopupSettingsScalarFieldEnum: {
@@ -31280,6 +32581,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarListRelationFilter
     customQuestions?: UserCustomQuestionListRelationFilter
     youtubeSettings?: XOR<UserYoutubeSettingsNullableScalarRelationFilter, UserYoutubeSettingsWhereInput> | null
+    recommendYoutubes?: UserRecommendYoutubeListRelationFilter
     popupSettings?: XOR<UserPopupSettingsNullableScalarRelationFilter, UserPopupSettingsWhereInput> | null
     displaySettings?: XOR<UserDisplaySettingsNullableScalarRelationFilter, UserDisplaySettingsWhereInput> | null
     notificationSettings?: XOR<NotificationSettingsNullableScalarRelationFilter, NotificationSettingsWhereInput> | null
@@ -31317,6 +32619,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarOrderByRelationAggregateInput
     customQuestions?: UserCustomQuestionOrderByRelationAggregateInput
     youtubeSettings?: UserYoutubeSettingsOrderByWithRelationInput
+    recommendYoutubes?: UserRecommendYoutubeOrderByRelationAggregateInput
     popupSettings?: UserPopupSettingsOrderByWithRelationInput
     displaySettings?: UserDisplaySettingsOrderByWithRelationInput
     notificationSettings?: NotificationSettingsOrderByWithRelationInput
@@ -31357,6 +32660,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarListRelationFilter
     customQuestions?: UserCustomQuestionListRelationFilter
     youtubeSettings?: XOR<UserYoutubeSettingsNullableScalarRelationFilter, UserYoutubeSettingsWhereInput> | null
+    recommendYoutubes?: UserRecommendYoutubeListRelationFilter
     popupSettings?: XOR<UserPopupSettingsNullableScalarRelationFilter, UserPopupSettingsWhereInput> | null
     displaySettings?: XOR<UserDisplaySettingsNullableScalarRelationFilter, UserDisplaySettingsWhereInput> | null
     notificationSettings?: XOR<NotificationSettingsNullableScalarRelationFilter, NotificationSettingsWhereInput> | null
@@ -31716,6 +33020,7 @@ export namespace Prisma {
     id?: StringFilter<"UserYoutubeSettings"> | string
     channelId?: StringNullableFilter<"UserYoutubeSettings"> | string | null
     displayCount?: IntFilter<"UserYoutubeSettings"> | number
+    lastFetchedAt?: DateTimeNullableFilter<"UserYoutubeSettings"> | Date | string | null
     pickupVideo?: StringNullableFilter<"UserYoutubeSettings"> | string | null
     createdAt?: DateTimeFilter<"UserYoutubeSettings"> | Date | string
     updatedAt?: DateTimeFilter<"UserYoutubeSettings"> | Date | string
@@ -31728,6 +33033,7 @@ export namespace Prisma {
     id?: SortOrder
     channelId?: SortOrderInput | SortOrder
     displayCount?: SortOrder
+    lastFetchedAt?: SortOrderInput | SortOrder
     pickupVideo?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31744,6 +33050,7 @@ export namespace Prisma {
     NOT?: UserYoutubeSettingsWhereInput | UserYoutubeSettingsWhereInput[]
     channelId?: StringNullableFilter<"UserYoutubeSettings"> | string | null
     displayCount?: IntFilter<"UserYoutubeSettings"> | number
+    lastFetchedAt?: DateTimeNullableFilter<"UserYoutubeSettings"> | Date | string | null
     pickupVideo?: StringNullableFilter<"UserYoutubeSettings"> | string | null
     createdAt?: DateTimeFilter<"UserYoutubeSettings"> | Date | string
     updatedAt?: DateTimeFilter<"UserYoutubeSettings"> | Date | string
@@ -31755,6 +33062,7 @@ export namespace Prisma {
     id?: SortOrder
     channelId?: SortOrderInput | SortOrder
     displayCount?: SortOrder
+    lastFetchedAt?: SortOrderInput | SortOrder
     pickupVideo?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31773,6 +33081,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"UserYoutubeSettings"> | string
     channelId?: StringNullableWithAggregatesFilter<"UserYoutubeSettings"> | string | null
     displayCount?: IntWithAggregatesFilter<"UserYoutubeSettings"> | number
+    lastFetchedAt?: DateTimeNullableWithAggregatesFilter<"UserYoutubeSettings"> | Date | string | null
     pickupVideo?: StringNullableWithAggregatesFilter<"UserYoutubeSettings"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"UserYoutubeSettings"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UserYoutubeSettings"> | Date | string
@@ -31914,6 +33223,83 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"UserYoutubeVideo"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"UserYoutubeVideo"> | Date | string
     settingsId?: StringWithAggregatesFilter<"UserYoutubeVideo"> | string
+  }
+
+  export type UserRecommendYoutubeWhereInput = {
+    AND?: UserRecommendYoutubeWhereInput | UserRecommendYoutubeWhereInput[]
+    OR?: UserRecommendYoutubeWhereInput[]
+    NOT?: UserRecommendYoutubeWhereInput | UserRecommendYoutubeWhereInput[]
+    id?: StringFilter<"UserRecommendYoutube"> | string
+    url?: StringFilter<"UserRecommendYoutube"> | string
+    thumbnailUrl?: StringNullableFilter<"UserRecommendYoutube"> | string | null
+    title?: StringNullableFilter<"UserRecommendYoutube"> | string | null
+    description?: StringNullableFilter<"UserRecommendYoutube"> | string | null
+    sortOrder?: IntFilter<"UserRecommendYoutube"> | number
+    createdAt?: DateTimeFilter<"UserRecommendYoutube"> | Date | string
+    updatedAt?: DateTimeFilter<"UserRecommendYoutube"> | Date | string
+    userId?: StringFilter<"UserRecommendYoutube"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserRecommendYoutubeOrderByWithRelationInput = {
+    id?: SortOrder
+    url?: SortOrder
+    thumbnailUrl?: SortOrderInput | SortOrder
+    title?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserRecommendYoutubeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserRecommendYoutubeWhereInput | UserRecommendYoutubeWhereInput[]
+    OR?: UserRecommendYoutubeWhereInput[]
+    NOT?: UserRecommendYoutubeWhereInput | UserRecommendYoutubeWhereInput[]
+    url?: StringFilter<"UserRecommendYoutube"> | string
+    thumbnailUrl?: StringNullableFilter<"UserRecommendYoutube"> | string | null
+    title?: StringNullableFilter<"UserRecommendYoutube"> | string | null
+    description?: StringNullableFilter<"UserRecommendYoutube"> | string | null
+    sortOrder?: IntFilter<"UserRecommendYoutube"> | number
+    createdAt?: DateTimeFilter<"UserRecommendYoutube"> | Date | string
+    updatedAt?: DateTimeFilter<"UserRecommendYoutube"> | Date | string
+    userId?: StringFilter<"UserRecommendYoutube"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type UserRecommendYoutubeOrderByWithAggregationInput = {
+    id?: SortOrder
+    url?: SortOrder
+    thumbnailUrl?: SortOrderInput | SortOrder
+    title?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    _count?: UserRecommendYoutubeCountOrderByAggregateInput
+    _avg?: UserRecommendYoutubeAvgOrderByAggregateInput
+    _max?: UserRecommendYoutubeMaxOrderByAggregateInput
+    _min?: UserRecommendYoutubeMinOrderByAggregateInput
+    _sum?: UserRecommendYoutubeSumOrderByAggregateInput
+  }
+
+  export type UserRecommendYoutubeScalarWhereWithAggregatesInput = {
+    AND?: UserRecommendYoutubeScalarWhereWithAggregatesInput | UserRecommendYoutubeScalarWhereWithAggregatesInput[]
+    OR?: UserRecommendYoutubeScalarWhereWithAggregatesInput[]
+    NOT?: UserRecommendYoutubeScalarWhereWithAggregatesInput | UserRecommendYoutubeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserRecommendYoutube"> | string
+    url?: StringWithAggregatesFilter<"UserRecommendYoutube"> | string
+    thumbnailUrl?: StringNullableWithAggregatesFilter<"UserRecommendYoutube"> | string | null
+    title?: StringNullableWithAggregatesFilter<"UserRecommendYoutube"> | string | null
+    description?: StringNullableWithAggregatesFilter<"UserRecommendYoutube"> | string | null
+    sortOrder?: IntWithAggregatesFilter<"UserRecommendYoutube"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"UserRecommendYoutube"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserRecommendYoutube"> | Date | string
+    userId?: StringWithAggregatesFilter<"UserRecommendYoutube"> | string
   }
 
   export type UserPopupSettingsWhereInput = {
@@ -33047,6 +34433,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
@@ -33084,6 +34471,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -33121,6 +34509,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
@@ -33158,6 +34547,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -33540,6 +34930,7 @@ export namespace Prisma {
     id?: string
     channelId?: string | null
     displayCount?: number
+    lastFetchedAt?: Date | string | null
     pickupVideo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33551,6 +34942,7 @@ export namespace Prisma {
     id?: string
     channelId?: string | null
     displayCount?: number
+    lastFetchedAt?: Date | string | null
     pickupVideo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33562,6 +34954,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     displayCount?: IntFieldUpdateOperationsInput | number
+    lastFetchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pickupVideo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33573,6 +34966,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     displayCount?: IntFieldUpdateOperationsInput | number
+    lastFetchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pickupVideo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33584,6 +34978,7 @@ export namespace Prisma {
     id?: string
     channelId?: string | null
     displayCount?: number
+    lastFetchedAt?: Date | string | null
     pickupVideo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33594,6 +34989,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     displayCount?: IntFieldUpdateOperationsInput | number
+    lastFetchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pickupVideo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33603,6 +34999,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     displayCount?: IntFieldUpdateOperationsInput | number
+    lastFetchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pickupVideo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33752,6 +35149,89 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     settingsId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserRecommendYoutubeCreateInput = {
+    id?: string
+    url: string
+    thumbnailUrl?: string | null
+    title?: string | null
+    description?: string | null
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRecommendYoutubesInput
+  }
+
+  export type UserRecommendYoutubeUncheckedCreateInput = {
+    id?: string
+    url: string
+    thumbnailUrl?: string | null
+    title?: string | null
+    description?: string | null
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type UserRecommendYoutubeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRecommendYoutubesNestedInput
+  }
+
+  export type UserRecommendYoutubeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserRecommendYoutubeCreateManyInput = {
+    id?: string
+    url: string
+    thumbnailUrl?: string | null
+    title?: string | null
+    description?: string | null
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type UserRecommendYoutubeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserRecommendYoutubeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserPopupSettingsCreateInput = {
@@ -35037,6 +36517,12 @@ export namespace Prisma {
     isNot?: UserYoutubeSettingsWhereInput | null
   }
 
+  export type UserRecommendYoutubeListRelationFilter = {
+    every?: UserRecommendYoutubeWhereInput
+    some?: UserRecommendYoutubeWhereInput
+    none?: UserRecommendYoutubeWhereInput
+  }
+
   export type UserPopupSettingsNullableScalarRelationFilter = {
     is?: UserPopupSettingsWhereInput | null
     isNot?: UserPopupSettingsWhereInput | null
@@ -35093,6 +36579,10 @@ export namespace Prisma {
   }
 
   export type UserCustomQuestionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserRecommendYoutubeOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -35476,6 +36966,7 @@ export namespace Prisma {
     id?: SortOrder
     channelId?: SortOrder
     displayCount?: SortOrder
+    lastFetchedAt?: SortOrder
     pickupVideo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -35490,6 +36981,7 @@ export namespace Prisma {
     id?: SortOrder
     channelId?: SortOrder
     displayCount?: SortOrder
+    lastFetchedAt?: SortOrder
     pickupVideo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -35500,6 +36992,7 @@ export namespace Prisma {
     id?: SortOrder
     channelId?: SortOrder
     displayCount?: SortOrder
+    lastFetchedAt?: SortOrder
     pickupVideo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -35584,6 +37077,50 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     settingsId?: SortOrder
+  }
+
+  export type UserRecommendYoutubeCountOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    thumbnailUrl?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserRecommendYoutubeAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type UserRecommendYoutubeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    thumbnailUrl?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserRecommendYoutubeMinOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    thumbnailUrl?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    sortOrder?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserRecommendYoutubeSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
   }
 
   export type UserPopupSettingsCountOrderByAggregateInput = {
@@ -36332,6 +37869,13 @@ export namespace Prisma {
     connect?: UserYoutubeSettingsWhereUniqueInput
   }
 
+  export type UserRecommendYoutubeCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserRecommendYoutubeCreateWithoutUserInput, UserRecommendYoutubeUncheckedCreateWithoutUserInput> | UserRecommendYoutubeCreateWithoutUserInput[] | UserRecommendYoutubeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserRecommendYoutubeCreateOrConnectWithoutUserInput | UserRecommendYoutubeCreateOrConnectWithoutUserInput[]
+    createMany?: UserRecommendYoutubeCreateManyUserInputEnvelope
+    connect?: UserRecommendYoutubeWhereUniqueInput | UserRecommendYoutubeWhereUniqueInput[]
+  }
+
   export type UserPopupSettingsCreateNestedOneWithoutUserInput = {
     create?: XOR<UserPopupSettingsCreateWithoutUserInput, UserPopupSettingsUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserPopupSettingsCreateOrConnectWithoutUserInput
@@ -36422,6 +37966,13 @@ export namespace Prisma {
     create?: XOR<UserYoutubeSettingsCreateWithoutUserInput, UserYoutubeSettingsUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserYoutubeSettingsCreateOrConnectWithoutUserInput
     connect?: UserYoutubeSettingsWhereUniqueInput
+  }
+
+  export type UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserRecommendYoutubeCreateWithoutUserInput, UserRecommendYoutubeUncheckedCreateWithoutUserInput> | UserRecommendYoutubeCreateWithoutUserInput[] | UserRecommendYoutubeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserRecommendYoutubeCreateOrConnectWithoutUserInput | UserRecommendYoutubeCreateOrConnectWithoutUserInput[]
+    createMany?: UserRecommendYoutubeCreateManyUserInputEnvelope
+    connect?: UserRecommendYoutubeWhereUniqueInput | UserRecommendYoutubeWhereUniqueInput[]
   }
 
   export type UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput = {
@@ -36601,6 +38152,20 @@ export namespace Prisma {
     update?: XOR<XOR<UserYoutubeSettingsUpdateToOneWithWhereWithoutUserInput, UserYoutubeSettingsUpdateWithoutUserInput>, UserYoutubeSettingsUncheckedUpdateWithoutUserInput>
   }
 
+  export type UserRecommendYoutubeUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserRecommendYoutubeCreateWithoutUserInput, UserRecommendYoutubeUncheckedCreateWithoutUserInput> | UserRecommendYoutubeCreateWithoutUserInput[] | UserRecommendYoutubeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserRecommendYoutubeCreateOrConnectWithoutUserInput | UserRecommendYoutubeCreateOrConnectWithoutUserInput[]
+    upsert?: UserRecommendYoutubeUpsertWithWhereUniqueWithoutUserInput | UserRecommendYoutubeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserRecommendYoutubeCreateManyUserInputEnvelope
+    set?: UserRecommendYoutubeWhereUniqueInput | UserRecommendYoutubeWhereUniqueInput[]
+    disconnect?: UserRecommendYoutubeWhereUniqueInput | UserRecommendYoutubeWhereUniqueInput[]
+    delete?: UserRecommendYoutubeWhereUniqueInput | UserRecommendYoutubeWhereUniqueInput[]
+    connect?: UserRecommendYoutubeWhereUniqueInput | UserRecommendYoutubeWhereUniqueInput[]
+    update?: UserRecommendYoutubeUpdateWithWhereUniqueWithoutUserInput | UserRecommendYoutubeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserRecommendYoutubeUpdateManyWithWhereWithoutUserInput | UserRecommendYoutubeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserRecommendYoutubeScalarWhereInput | UserRecommendYoutubeScalarWhereInput[]
+  }
+
   export type UserPopupSettingsUpdateOneWithoutUserNestedInput = {
     create?: XOR<UserPopupSettingsCreateWithoutUserInput, UserPopupSettingsUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserPopupSettingsCreateOrConnectWithoutUserInput
@@ -36771,6 +38336,20 @@ export namespace Prisma {
     delete?: UserYoutubeSettingsWhereInput | boolean
     connect?: UserYoutubeSettingsWhereUniqueInput
     update?: XOR<XOR<UserYoutubeSettingsUpdateToOneWithWhereWithoutUserInput, UserYoutubeSettingsUpdateWithoutUserInput>, UserYoutubeSettingsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserRecommendYoutubeCreateWithoutUserInput, UserRecommendYoutubeUncheckedCreateWithoutUserInput> | UserRecommendYoutubeCreateWithoutUserInput[] | UserRecommendYoutubeUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserRecommendYoutubeCreateOrConnectWithoutUserInput | UserRecommendYoutubeCreateOrConnectWithoutUserInput[]
+    upsert?: UserRecommendYoutubeUpsertWithWhereUniqueWithoutUserInput | UserRecommendYoutubeUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserRecommendYoutubeCreateManyUserInputEnvelope
+    set?: UserRecommendYoutubeWhereUniqueInput | UserRecommendYoutubeWhereUniqueInput[]
+    disconnect?: UserRecommendYoutubeWhereUniqueInput | UserRecommendYoutubeWhereUniqueInput[]
+    delete?: UserRecommendYoutubeWhereUniqueInput | UserRecommendYoutubeWhereUniqueInput[]
+    connect?: UserRecommendYoutubeWhereUniqueInput | UserRecommendYoutubeWhereUniqueInput[]
+    update?: UserRecommendYoutubeUpdateWithWhereUniqueWithoutUserInput | UserRecommendYoutubeUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserRecommendYoutubeUpdateManyWithWhereWithoutUserInput | UserRecommendYoutubeUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserRecommendYoutubeScalarWhereInput | UserRecommendYoutubeScalarWhereInput[]
   }
 
   export type UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput = {
@@ -37003,6 +38582,20 @@ export namespace Prisma {
     upsert?: UserYoutubeSettingsUpsertWithoutVideosInput
     connect?: UserYoutubeSettingsWhereUniqueInput
     update?: XOR<XOR<UserYoutubeSettingsUpdateToOneWithWhereWithoutVideosInput, UserYoutubeSettingsUpdateWithoutVideosInput>, UserYoutubeSettingsUncheckedUpdateWithoutVideosInput>
+  }
+
+  export type UserCreateNestedOneWithoutRecommendYoutubesInput = {
+    create?: XOR<UserCreateWithoutRecommendYoutubesInput, UserUncheckedCreateWithoutRecommendYoutubesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecommendYoutubesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutRecommendYoutubesNestedInput = {
+    create?: XOR<UserCreateWithoutRecommendYoutubesInput, UserUncheckedCreateWithoutRecommendYoutubesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecommendYoutubesInput
+    upsert?: UserUpsertWithoutRecommendYoutubesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRecommendYoutubesInput, UserUpdateWithoutRecommendYoutubesInput>, UserUncheckedUpdateWithoutRecommendYoutubesInput>
   }
 
   export type UserCreateNestedOneWithoutPopupSettingsInput = {
@@ -38200,6 +39793,7 @@ export namespace Prisma {
     id?: string
     channelId?: string | null
     displayCount?: number
+    lastFetchedAt?: Date | string | null
     pickupVideo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -38210,6 +39804,7 @@ export namespace Prisma {
     id?: string
     channelId?: string | null
     displayCount?: number
+    lastFetchedAt?: Date | string | null
     pickupVideo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -38219,6 +39814,38 @@ export namespace Prisma {
   export type UserYoutubeSettingsCreateOrConnectWithoutUserInput = {
     where: UserYoutubeSettingsWhereUniqueInput
     create: XOR<UserYoutubeSettingsCreateWithoutUserInput, UserYoutubeSettingsUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserRecommendYoutubeCreateWithoutUserInput = {
+    id?: string
+    url: string
+    thumbnailUrl?: string | null
+    title?: string | null
+    description?: string | null
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserRecommendYoutubeUncheckedCreateWithoutUserInput = {
+    id?: string
+    url: string
+    thumbnailUrl?: string | null
+    title?: string | null
+    description?: string | null
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserRecommendYoutubeCreateOrConnectWithoutUserInput = {
+    where: UserRecommendYoutubeWhereUniqueInput
+    create: XOR<UserRecommendYoutubeCreateWithoutUserInput, UserRecommendYoutubeUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserRecommendYoutubeCreateManyUserInputEnvelope = {
+    data: UserRecommendYoutubeCreateManyUserInput | UserRecommendYoutubeCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserPopupSettingsCreateWithoutUserInput = {
@@ -38601,6 +40228,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     displayCount?: IntFieldUpdateOperationsInput | number
+    lastFetchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pickupVideo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38611,10 +40239,42 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     displayCount?: IntFieldUpdateOperationsInput | number
+    lastFetchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pickupVideo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     videos?: UserYoutubeVideoUncheckedUpdateManyWithoutSettingsNestedInput
+  }
+
+  export type UserRecommendYoutubeUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserRecommendYoutubeWhereUniqueInput
+    update: XOR<UserRecommendYoutubeUpdateWithoutUserInput, UserRecommendYoutubeUncheckedUpdateWithoutUserInput>
+    create: XOR<UserRecommendYoutubeCreateWithoutUserInput, UserRecommendYoutubeUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserRecommendYoutubeUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserRecommendYoutubeWhereUniqueInput
+    data: XOR<UserRecommendYoutubeUpdateWithoutUserInput, UserRecommendYoutubeUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserRecommendYoutubeUpdateManyWithWhereWithoutUserInput = {
+    where: UserRecommendYoutubeScalarWhereInput
+    data: XOR<UserRecommendYoutubeUpdateManyMutationInput, UserRecommendYoutubeUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserRecommendYoutubeScalarWhereInput = {
+    AND?: UserRecommendYoutubeScalarWhereInput | UserRecommendYoutubeScalarWhereInput[]
+    OR?: UserRecommendYoutubeScalarWhereInput[]
+    NOT?: UserRecommendYoutubeScalarWhereInput | UserRecommendYoutubeScalarWhereInput[]
+    id?: StringFilter<"UserRecommendYoutube"> | string
+    url?: StringFilter<"UserRecommendYoutube"> | string
+    thumbnailUrl?: StringNullableFilter<"UserRecommendYoutube"> | string | null
+    title?: StringNullableFilter<"UserRecommendYoutube"> | string | null
+    description?: StringNullableFilter<"UserRecommendYoutube"> | string | null
+    sortOrder?: IntFilter<"UserRecommendYoutube"> | number
+    createdAt?: DateTimeFilter<"UserRecommendYoutube"> | Date | string
+    updatedAt?: DateTimeFilter<"UserRecommendYoutube"> | Date | string
+    userId?: StringFilter<"UserRecommendYoutube"> | string
   }
 
   export type UserPopupSettingsUpsertWithoutUserInput = {
@@ -38802,6 +40462,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
@@ -38838,6 +40499,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -38890,6 +40552,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
@@ -38926,6 +40589,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -38962,6 +40626,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
@@ -38998,6 +40663,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -39050,6 +40716,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
@@ -39086,6 +40753,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -39123,6 +40791,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     author?: AuthorCreateNestedOneWithoutUserInput
@@ -39159,6 +40828,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     author?: AuthorUncheckedCreateNestedOneWithoutUserInput
@@ -39211,6 +40881,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     author?: AuthorUpdateOneWithoutUserNestedInput
@@ -39247,6 +40918,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     author?: AuthorUncheckedUpdateOneWithoutUserNestedInput
@@ -39282,6 +40954,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
@@ -39318,6 +40991,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -39440,6 +41114,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
@@ -39476,6 +41151,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -39594,6 +41270,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
@@ -39630,6 +41307,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -39714,6 +41392,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
@@ -39750,6 +41429,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -39817,6 +41497,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
@@ -39853,6 +41534,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -39905,6 +41587,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
@@ -39941,6 +41624,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -39952,6 +41636,7 @@ export namespace Prisma {
     id?: string
     channelId?: string | null
     displayCount?: number
+    lastFetchedAt?: Date | string | null
     pickupVideo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39962,6 +41647,7 @@ export namespace Prisma {
     id?: string
     channelId?: string | null
     displayCount?: number
+    lastFetchedAt?: Date | string | null
     pickupVideo?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -39988,6 +41674,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     displayCount?: IntFieldUpdateOperationsInput | number
+    lastFetchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pickupVideo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39998,10 +41685,175 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     channelId?: NullableStringFieldUpdateOperationsInput | string | null
     displayCount?: IntFieldUpdateOperationsInput | number
+    lastFetchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     pickupVideo?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserCreateWithoutRecommendYoutubesInput = {
+    id?: string
+    email: string
+    name?: string | null
+    characterName?: string | null
+    subname?: string | null
+    bio?: string | null
+    birthday?: Date | string | null
+    gender?: string | null
+    iconUrl?: string | null
+    bannerUrl?: string | null
+    handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
+    role?: string
+    subscriptionStatus?: string | null
+    emailVerified?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    ogp?: UserOGPCreateNestedOneWithoutUserInput
+    links?: UserLinkCreateNestedManyWithoutUserInput
+    imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
+    imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
+    customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
+    displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
+    notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
+    author?: AuthorCreateNestedOneWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRecommendYoutubesInput = {
+    id?: string
+    email: string
+    name?: string | null
+    characterName?: string | null
+    subname?: string | null
+    bio?: string | null
+    birthday?: Date | string | null
+    gender?: string | null
+    iconUrl?: string | null
+    bannerUrl?: string | null
+    handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
+    role?: string
+    subscriptionStatus?: string | null
+    emailVerified?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    ogp?: UserOGPUncheckedCreateNestedOneWithoutUserInput
+    links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
+    imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
+    imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
+    customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
+    displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
+    notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+    author?: AuthorUncheckedCreateNestedOneWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRecommendYoutubesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRecommendYoutubesInput, UserUncheckedCreateWithoutRecommendYoutubesInput>
+  }
+
+  export type UserUpsertWithoutRecommendYoutubesInput = {
+    update: XOR<UserUpdateWithoutRecommendYoutubesInput, UserUncheckedUpdateWithoutRecommendYoutubesInput>
+    create: XOR<UserCreateWithoutRecommendYoutubesInput, UserUncheckedCreateWithoutRecommendYoutubesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRecommendYoutubesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRecommendYoutubesInput, UserUncheckedUpdateWithoutRecommendYoutubesInput>
+  }
+
+  export type UserUpdateWithoutRecommendYoutubesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    characterName?: NullableStringFieldUpdateOperationsInput | string | null
+    subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    ogp?: UserOGPUpdateOneWithoutUserNestedInput
+    links?: UserLinkUpdateManyWithoutUserNestedInput
+    imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
+    imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
+    customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
+    displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
+    notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
+    author?: AuthorUpdateOneWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRecommendYoutubesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    characterName?: NullableStringFieldUpdateOperationsInput | string | null
+    subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    ogp?: UserOGPUncheckedUpdateOneWithoutUserNestedInput
+    links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
+    imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
+    imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
+    customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
+    displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
+    notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+    author?: AuthorUncheckedUpdateOneWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPopupSettingsInput = {
@@ -40034,6 +41886,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
     author?: AuthorCreateNestedOneWithoutUserInput
@@ -40070,6 +41923,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
     author?: AuthorUncheckedCreateNestedOneWithoutUserInput
@@ -40122,6 +41976,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
     author?: AuthorUpdateOneWithoutUserNestedInput
@@ -40158,6 +42013,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
     author?: AuthorUncheckedUpdateOneWithoutUserNestedInput
@@ -40193,6 +42049,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
@@ -40229,6 +42086,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -40281,6 +42139,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
@@ -40317,6 +42176,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -40353,6 +42213,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
@@ -40389,6 +42250,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -40441,6 +42303,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
@@ -40477,6 +42340,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -40513,6 +42377,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
@@ -40549,6 +42414,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -40601,6 +42467,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
@@ -40637,6 +42504,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -40673,6 +42541,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
@@ -40709,6 +42578,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -40761,6 +42631,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
@@ -40797,6 +42668,7 @@ export namespace Prisma {
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -40834,6 +42706,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
     author?: AuthorCreateNestedOneWithoutUserInput
@@ -40870,6 +42743,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
     author?: AuthorUncheckedCreateNestedOneWithoutUserInput
@@ -40922,6 +42796,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
     author?: AuthorUpdateOneWithoutUserNestedInput
@@ -40958,6 +42833,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
     author?: AuthorUncheckedUpdateOneWithoutUserNestedInput
@@ -41255,6 +43131,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
@@ -41291,6 +43168,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -41387,6 +43265,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
@@ -41423,6 +43302,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -42244,6 +44124,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
@@ -42280,6 +44161,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
     notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -42426,6 +44308,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
@@ -42462,6 +44345,7 @@ export namespace Prisma {
     imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
     notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -42532,6 +44416,17 @@ export namespace Prisma {
     question: string
     answer: string
     sortOrder?: number
+  }
+
+  export type UserRecommendYoutubeCreateManyUserInput = {
+    id?: string
+    url: string
+    thumbnailUrl?: string | null
+    title?: string | null
+    description?: string | null
+    sortOrder?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CommentCreateManyUserInput = {
@@ -42740,6 +44635,39 @@ export namespace Prisma {
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserRecommendYoutubeUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserRecommendYoutubeUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserRecommendYoutubeUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    thumbnailUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CommentUpdateWithoutUserInput = {

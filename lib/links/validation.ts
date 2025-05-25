@@ -28,7 +28,7 @@ export const serviceSchema = z.object({
     .url('有効なURLを入力してください')
     .optional()
     .or(z.literal('')),
-  allowOriginalIcon: z.boolean().default(true),
+  allowOriginalIcon: z.boolean(),
 })
 
 // アイコン作成・更新用スキーマ
@@ -55,7 +55,7 @@ export const userLinkSchema = z.object({
   description: z.string()
     .max(200, '説明は200文字以内で入力してください')
     .optional(),
-  useOriginalIcon: z.boolean().default(false),
+  useOriginalIcon: z.boolean(),
   iconId: z.string().optional(),
 })
 
