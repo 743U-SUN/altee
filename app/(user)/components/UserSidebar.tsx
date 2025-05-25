@@ -68,7 +68,7 @@ export const UserSidebar: React.FC<UserSidebarProps> = ({
   className
 }) => {
   return (
-    <div className={cn("flex flex-col h-full overflow-x-hidden bg-gray-600", className)}>
+    <div className={cn("flex flex-col h-full overflow-x-hidden bg-zinc-800", className)}>
       {/* ヘッダー */}
       <SidebarHeader className="border-b p-4">
         <div className="flex items-center gap-3">
@@ -88,7 +88,7 @@ export const UserSidebar: React.FC<UserSidebarProps> = ({
         <SidebarMenu>
           {menuItems.map((item, index) => (
             <SidebarMenuItem key={index}>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton asChild className=" text-slate-50 hover:bg-neutral-300">
                 <a href={item.href}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
