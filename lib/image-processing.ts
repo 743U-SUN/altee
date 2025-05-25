@@ -86,6 +86,18 @@ export const IMAGE_PRESETS = {
     fit: 'inside' as const,
     withoutEnlargement: true,
     lossless: false
+  },
+  
+  // サイドバー用（500x1000、高品質）縦長
+  userSidebar: {
+    format: 'webp' as const,
+    quality: 85,
+    effort: 4,
+    maxWidth: 500,
+    maxHeight: 1000,
+    fit: 'inside' as const,
+    withoutEnlargement: true,
+    lossless: false
   }
 } as const;
 

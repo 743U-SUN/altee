@@ -43,6 +43,7 @@ model User {
   links               UserLink[]
   imageBanners        UserImageBanner[]
   imageCarousels      UserImageCarousel[]
+  imageSidebars       UserImageSidebar[]
   customQuestions     UserCustomQuestion[]
   youtubeSettings     UserYoutubeSettings?
   popupSettings       UserPopupSettings?
@@ -213,6 +214,20 @@ model UserCustomQuestion {
 }
 
 model UserImageCarousel {
+  id        String  @id @default(uuid())
+  url       String?
+  imgUrl    String
+  alt       String?
+  sortOrder Int     @default(0)
+  
+  // リレーション
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserImageSidebar {
   id        String  @id @default(uuid())
   url       String?
   imgUrl    String

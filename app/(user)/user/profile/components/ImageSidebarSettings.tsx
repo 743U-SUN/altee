@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Upload, X, Images, Loader2, GripVertical, Info, Trash2, Save, Link, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 
-interface BannerImage {
+interface SidebarImage {
   id: string;
   imgUrl: string;
   url?: string | null;
@@ -16,12 +16,12 @@ interface BannerImage {
   sortOrder: number;
 }
 
-interface BannerSettingsProps {
+interface ImageSidebarSettingsProps {
   userId: string;
 }
 
-export function BannerSettings({ userId }: BannerSettingsProps) {
-  const [bannerImages, setBannerImages] = useState<BannerImage[]>([]);
+export function ImageSidebarSettings({ userId }: ImageSidebarSettingsProps) {
+  const [sidebarImages, setSidebarImages] = useState<SidebarImage[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const [isDeletingId, setIsDeletingId] = useState<string | null>(null);
   const [isSavingId, setIsSavingId] = useState<string | null>(null);
@@ -30,26 +30,26 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
   const [tempUrls, setTempUrls] = useState<{ [key: string]: string }>({});
   const [tempAlts, setTempAlts] = useState<{ [key: string]: string }>({});
 
-  // バナー画像を取得
-  const fetchBannerImages = async () => {
+  // サイドバー画像を取得
+  const fetchSidebarImages = async () => {
     try {
-      const response = await fetch(`/api/upload/image-banner?userId=${userId}`);
+      const response = await fetch(`/api/upload/image-sidebar?userId=${userId}`);
       if (!response.ok) throw new Error('画像の取得に失敗しました');
       
       const data = await response.json();
-      setBannerImages(data.images);
+      setSidebarImages(data.images);
       
       // URL・Alt入力欄の初期値を設定
       const urls: { [key: string]: string } = {};
       const alts: { [key: string]: string } = {};
-      data.images.forEach((img: BannerImage) => {
+      data.images.forEach((img: SidebarImage) => {
         urls[img.id] = img.url || '';
         alts[img.id] = img.alt || '';
       });
       setTempUrls(urls);
       setTempAlts(alts);
     } catch (error) {
-      console.error('Banner fetch error:', error);
+      console.error('Sidebar fetch error:', error);
       toast.error('画像の取得に失敗しました');
     } finally {
       setIsLoading(false);
@@ -57,16 +57,16 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
   };
 
   useEffect(() => {
-    fetchBannerImages();
+    fetchSidebarImages();
   }, [userId]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: {
       'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
     },
-    maxSize: 1 * 1024 * 1024, // 1MB
+    maxSize: 2 * 1024 * 1024, // 10MB
     multiple: false,
-    disabled: bannerImages.length >= 3 || isUploading,
+    disabled: sidebarImages.length >= 3 || isUploading,
     onDrop: async (acceptedFiles) => {
       const file = acceptedFiles[0];
       if (!file) return;
@@ -77,9 +77,9 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('userId', userId);
-        formData.append('sortOrder', bannerImages.length.toString());
+        formData.append('sortOrder', sidebarImages.length.toString());
 
-        const response = await fetch('/api/upload/image-banner', {
+        const response = await fetch('/api/upload/image-sidebar', {
           method: 'POST',
           body: formData,
         });
@@ -92,7 +92,7 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
         const result = await response.json();
         
         // 新しい画像を追加
-        const newImage: BannerImage = {
+        const newImage: SidebarImage = {
           id: result.id,
           imgUrl: result.url,
           url: null,
@@ -100,14 +100,14 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
           sortOrder: result.sortOrder
         };
         
-        setBannerImages(prev => [...prev, newImage]);
+        setSidebarImages(prev => [...prev, newImage]);
         setTempUrls(prev => ({ ...prev, [result.id]: '' }));
         setTempAlts(prev => ({ ...prev, [result.id]: file.name.split('.')[0] }));
         
-        toast.success('バナー画像を追加しました');
+        toast.success('サイドバー画像を追加しました');
         
       } catch (error) {
-        console.error('Banner upload error:', error);
+        console.error('Sidebar upload error:', error);
         toast.error(error instanceof Error ? error.message : 'アップロードに失敗しました');
       } finally {
         setIsUploading(false);
@@ -116,7 +116,7 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
     onDropRejected: (fileRejections) => {
       const rejection = fileRejections[0];
       if (rejection.errors[0]?.code === 'file-too-large') {
-        toast.error('ファイルサイズは1MB以下にしてください');
+        toast.error('ファイルサイズは2MB以下にしてください');
       } else if (rejection.errors[0]?.code === 'file-invalid-type') {
         toast.error('画像ファイルのみアップロード可能です');
       } else {
@@ -129,7 +129,7 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
     try {
       setIsDeletingId(imageId);
       
-      const response = await fetch('/api/upload/image-banner', {
+      const response = await fetch('/api/upload/image-sidebar', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
       }
 
       // 画像を削除して並び順を更新
-      setBannerImages(prev => {
+      setSidebarImages(prev => {
         const filtered = prev.filter(img => img.id !== imageId);
         return filtered.map((img, index) => ({
           ...img,
@@ -162,7 +162,7 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
         return newAlts;
       });
       
-      toast.success('バナー画像を削除しました');
+      toast.success('サイドバー画像を削除しました');
     } catch (error) {
       console.error('Delete error:', error);
       toast.error('削除に失敗しました');
@@ -175,7 +175,7 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
     try {
       setIsSavingId(imageId);
       
-      const response = await fetch('/api/upload/image-banner', {
+      const response = await fetch('/api/upload/image-sidebar', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -193,7 +193,7 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
       }
 
       // ローカルのデータを更新
-      setBannerImages(prev =>
+      setSidebarImages(prev =>
         prev.map(img =>
           img.id === imageId ? { 
             ...img, 
@@ -229,7 +229,7 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
       return;
     }
 
-    const newImages = [...bannerImages];
+    const newImages = [...sidebarImages];
     const [draggedItem] = newImages.splice(draggedIndex, 1);
     newImages.splice(dropIndex, 0, draggedItem);
 
@@ -239,12 +239,12 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
       sortOrder: index
     }));
 
-    setBannerImages(updatedImages);
+    setSidebarImages(updatedImages);
     setDraggedIndex(null);
 
     // APIで並び順を更新
     try {
-      const response = await fetch('/api/upload/image-banner', {
+      const response = await fetch('/api/upload/image-sidebar', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -267,7 +267,7 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
       console.error('Sort update error:', error);
       toast.error('並び順の更新に失敗しました');
       // エラー時は元に戻す
-      fetchBannerImages();
+      fetchSidebarImages();
     }
   };
 
@@ -283,12 +283,12 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
     <div className="py-4">
       <div className="mb-4">
         <p className="text-gray-600">
-          プロフィールバナーを設定します。最大3枚まで登録できます。
+          サイドバーに表示する画像を設定します。最大3枚まで登録できます。
         </p>
         <div className="flex items-start gap-2 mt-2 p-3 bg-blue-50 border border-blue-200 rounded-lg">
           <Info className="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5" />
           <div className="text-sm text-blue-700 space-y-1">
-            <p>• アップロードされた画像は自動的にWebP形式に変換され、600×200px以内にリサイズされます</p>
+            <p>• アップロードされた画像は自動的にWebP形式に変換され、500×1000px以内にリサイズされます</p>
             <p>• 各画像にリンクURLと説明文を設定できます</p>
             <p>• ドラッグ&ドロップで並び順を変更できます</p>
           </div>
@@ -298,7 +298,7 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
       <div className="space-y-4">
         {/* 画像一覧 - 統一された縦並びレイアウト */}
         <div className="space-y-4">
-          {bannerImages.map((image, index) => (
+          {sidebarImages.map((image, index) => (
             <div
               key={image.id}
               draggable
@@ -318,10 +318,10 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
                   <div className="relative">
                     <img
                       src={image.imgUrl}
-                      alt={image.alt || `バナー画像 ${index + 1}`}
-                      className="w-48 h-16 object-cover rounded-lg"
+                      alt={image.alt || `サイドバー画像 ${index + 1}`}
+                      className="w-20 h-40 object-cover rounded-lg"
                     />
-                    <div className="absolute top-1 left-1 bg-black/60 text-white text-xs px-1.5 py-0.5 rounded">
+                    <div className="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
                       {index + 1}
                     </div>
                   </div>
@@ -406,7 +406,7 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
           ))}
           
           {/* アップロード領域 */}
-          {bannerImages.length < 3 && (
+          {sidebarImages.length < 3 && (
             <div
               {...getRootProps()}
               className={`w-full p-8 border-2 border-dashed rounded-lg ${
@@ -431,7 +431,7 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
                       {isDragActive ? 'ドロップしてアップロード' : 'クリックまたはドラッグして画像を追加'}
                     </p>
                     <p className="text-xs text-gray-500">
-                      残り{3 - bannerImages.length}枚追加可能
+                      残り{3 - sidebarImages.length}枚追加可能
                     </p>
                   </>
                 )}
@@ -442,8 +442,8 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
 
         {/* 説明テキスト */}
         <div className="space-y-2 text-sm text-gray-500">
-          <p>• 最大3枚まで画像を追加できます（推奨サイズ: 600×200px）</p>
-          <p>• JPG、PNG、GIF、WebP形式に対応（最大1MB）</p>
+          <p>• 最大3枚まで画像を追加できます（推奨サイズ: 500×1000px）</p>
+          <p>• JPG、PNG、GIF、WebP形式に対応（最大2MB）</p>
         </div>
       </div>
     </div>

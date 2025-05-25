@@ -64,7 +64,7 @@ export function CarouselSettings({ userId }: CarouselSettingsProps) {
     accept: {
       'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
     },
-    maxSize: 10 * 1024 * 1024, // 10MB
+    maxSize: 1 * 1024 * 1024, // 1MB
     multiple: false,
     disabled: carouselImages.length >= 3 || isUploading,
     onDrop: async (acceptedFiles) => {
@@ -116,7 +116,7 @@ export function CarouselSettings({ userId }: CarouselSettingsProps) {
     onDropRejected: (fileRejections) => {
       const rejection = fileRejections[0];
       if (rejection.errors[0]?.code === 'file-too-large') {
-        toast.error('ファイルサイズは10MB以下にしてください');
+        toast.error('ファイルサイズは1MB以下にしてください');
       } else if (rejection.errors[0]?.code === 'file-invalid-type') {
         toast.error('画像ファイルのみアップロード可能です');
       } else {
@@ -443,7 +443,7 @@ export function CarouselSettings({ userId }: CarouselSettingsProps) {
         {/* 説明テキスト */}
         <div className="space-y-2 text-sm text-gray-500">
           <p>• 最大3枚まで画像を追加できます（推奨サイズ: 432×768px）</p>
-          <p>• JPG、PNG、GIF、WebP形式に対応（最大10MB）</p>
+          <p>• JPG、PNG、GIF、WebP形式に対応（最大1MB）</p>
         </div>
       </div>
     </div>

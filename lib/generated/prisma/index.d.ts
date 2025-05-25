@@ -74,6 +74,11 @@ export type UserCustomQuestion = $Result.DefaultSelection<Prisma.$UserCustomQues
  */
 export type UserImageCarousel = $Result.DefaultSelection<Prisma.$UserImageCarouselPayload>
 /**
+ * Model UserImageSidebar
+ * 
+ */
+export type UserImageSidebar = $Result.DefaultSelection<Prisma.$UserImageSidebarPayload>
+/**
  * Model UserDisplaySettings
  * 
  */
@@ -421,6 +426,16 @@ export class PrismaClient<
     * ```
     */
   get userImageCarousel(): Prisma.UserImageCarouselDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userImageSidebar`: Exposes CRUD operations for the **UserImageSidebar** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserImageSidebars
+    * const userImageSidebars = await prisma.userImageSidebar.findMany()
+    * ```
+    */
+  get userImageSidebar(): Prisma.UserImageSidebarDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.userDisplaySettings`: Exposes CRUD operations for the **UserDisplaySettings** model.
@@ -983,6 +998,7 @@ export namespace Prisma {
     UserOGP: 'UserOGP',
     UserCustomQuestion: 'UserCustomQuestion',
     UserImageCarousel: 'UserImageCarousel',
+    UserImageSidebar: 'UserImageSidebar',
     UserDisplaySettings: 'UserDisplaySettings',
     LinkService: 'LinkService',
     ServiceIcon: 'ServiceIcon',
@@ -1012,7 +1028,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "notificationSettings" | "userLink" | "userYoutubeSettings" | "userImageBanner" | "userYoutubeVideo" | "userPopupSettings" | "userOGP" | "userCustomQuestion" | "userImageCarousel" | "userDisplaySettings" | "linkService" | "serviceIcon" | "verificationToken" | "author" | "category" | "tag" | "article" | "articleCategory" | "articleTag" | "comment"
+      modelProps: "user" | "account" | "session" | "notificationSettings" | "userLink" | "userYoutubeSettings" | "userImageBanner" | "userYoutubeVideo" | "userPopupSettings" | "userOGP" | "userCustomQuestion" | "userImageCarousel" | "userImageSidebar" | "userDisplaySettings" | "linkService" | "serviceIcon" | "verificationToken" | "author" | "category" | "tag" | "article" | "articleCategory" | "articleTag" | "comment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1901,6 +1917,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserImageCarouselCountArgs<ExtArgs>
             result: $Utils.Optional<UserImageCarouselCountAggregateOutputType> | number
+          }
+        }
+      }
+      UserImageSidebar: {
+        payload: Prisma.$UserImageSidebarPayload<ExtArgs>
+        fields: Prisma.UserImageSidebarFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserImageSidebarFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImageSidebarPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserImageSidebarFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImageSidebarPayload>
+          }
+          findFirst: {
+            args: Prisma.UserImageSidebarFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImageSidebarPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserImageSidebarFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImageSidebarPayload>
+          }
+          findMany: {
+            args: Prisma.UserImageSidebarFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImageSidebarPayload>[]
+          }
+          create: {
+            args: Prisma.UserImageSidebarCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImageSidebarPayload>
+          }
+          createMany: {
+            args: Prisma.UserImageSidebarCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserImageSidebarCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImageSidebarPayload>[]
+          }
+          delete: {
+            args: Prisma.UserImageSidebarDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImageSidebarPayload>
+          }
+          update: {
+            args: Prisma.UserImageSidebarUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImageSidebarPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserImageSidebarDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserImageSidebarUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserImageSidebarUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImageSidebarPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserImageSidebarUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserImageSidebarPayload>
+          }
+          aggregate: {
+            args: Prisma.UserImageSidebarAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserImageSidebar>
+          }
+          groupBy: {
+            args: Prisma.UserImageSidebarGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserImageSidebarGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserImageSidebarCountArgs<ExtArgs>
+            result: $Utils.Optional<UserImageSidebarCountAggregateOutputType> | number
           }
         }
       }
@@ -2814,6 +2904,7 @@ export namespace Prisma {
     userOGP?: UserOGPOmit
     userCustomQuestion?: UserCustomQuestionOmit
     userImageCarousel?: UserImageCarouselOmit
+    userImageSidebar?: UserImageSidebarOmit
     userDisplaySettings?: UserDisplaySettingsOmit
     linkService?: LinkServiceOmit
     serviceIcon?: ServiceIconOmit
@@ -2924,6 +3015,7 @@ export namespace Prisma {
     links: number
     imageBanners: number
     imageCarousels: number
+    imageSidebars: number
     customQuestions: number
     comments: number
   }
@@ -2934,6 +3026,7 @@ export namespace Prisma {
     links?: boolean | UserCountOutputTypeCountLinksArgs
     imageBanners?: boolean | UserCountOutputTypeCountImageBannersArgs
     imageCarousels?: boolean | UserCountOutputTypeCountImageCarouselsArgs
+    imageSidebars?: boolean | UserCountOutputTypeCountImageSidebarsArgs
     customQuestions?: boolean | UserCountOutputTypeCountCustomQuestionsArgs
     comments?: boolean | UserCountOutputTypeCountCommentsArgs
   }
@@ -2982,6 +3075,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountImageCarouselsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UserImageCarouselWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountImageSidebarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserImageSidebarWhereInput
   }
 
   /**
@@ -3615,6 +3715,7 @@ export namespace Prisma {
     links?: boolean | User$linksArgs<ExtArgs>
     imageBanners?: boolean | User$imageBannersArgs<ExtArgs>
     imageCarousels?: boolean | User$imageCarouselsArgs<ExtArgs>
+    imageSidebars?: boolean | User$imageSidebarsArgs<ExtArgs>
     customQuestions?: boolean | User$customQuestionsArgs<ExtArgs>
     youtubeSettings?: boolean | User$youtubeSettingsArgs<ExtArgs>
     popupSettings?: boolean | User$popupSettingsArgs<ExtArgs>
@@ -3702,6 +3803,7 @@ export namespace Prisma {
     links?: boolean | User$linksArgs<ExtArgs>
     imageBanners?: boolean | User$imageBannersArgs<ExtArgs>
     imageCarousels?: boolean | User$imageCarouselsArgs<ExtArgs>
+    imageSidebars?: boolean | User$imageSidebarsArgs<ExtArgs>
     customQuestions?: boolean | User$customQuestionsArgs<ExtArgs>
     youtubeSettings?: boolean | User$youtubeSettingsArgs<ExtArgs>
     popupSettings?: boolean | User$popupSettingsArgs<ExtArgs>
@@ -3723,6 +3825,7 @@ export namespace Prisma {
       links: Prisma.$UserLinkPayload<ExtArgs>[]
       imageBanners: Prisma.$UserImageBannerPayload<ExtArgs>[]
       imageCarousels: Prisma.$UserImageCarouselPayload<ExtArgs>[]
+      imageSidebars: Prisma.$UserImageSidebarPayload<ExtArgs>[]
       customQuestions: Prisma.$UserCustomQuestionPayload<ExtArgs>[]
       youtubeSettings: Prisma.$UserYoutubeSettingsPayload<ExtArgs> | null
       popupSettings: Prisma.$UserPopupSettingsPayload<ExtArgs> | null
@@ -4152,6 +4255,7 @@ export namespace Prisma {
     links<T extends User$linksArgs<ExtArgs> = {}>(args?: Subset<T, User$linksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     imageBanners<T extends User$imageBannersArgs<ExtArgs> = {}>(args?: Subset<T, User$imageBannersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImageBannerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     imageCarousels<T extends User$imageCarouselsArgs<ExtArgs> = {}>(args?: Subset<T, User$imageCarouselsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImageCarouselPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    imageSidebars<T extends User$imageSidebarsArgs<ExtArgs> = {}>(args?: Subset<T, User$imageSidebarsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     customQuestions<T extends User$customQuestionsArgs<ExtArgs> = {}>(args?: Subset<T, User$customQuestionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserCustomQuestionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     youtubeSettings<T extends User$youtubeSettingsArgs<ExtArgs> = {}>(args?: Subset<T, User$youtubeSettingsArgs<ExtArgs>>): Prisma__UserYoutubeSettingsClient<$Result.GetResult<Prisma.$UserYoutubeSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     popupSettings<T extends User$popupSettingsArgs<ExtArgs> = {}>(args?: Subset<T, User$popupSettingsArgs<ExtArgs>>): Prisma__UserPopupSettingsClient<$Result.GetResult<Prisma.$UserPopupSettingsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -4732,6 +4836,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserImageCarouselScalarFieldEnum | UserImageCarouselScalarFieldEnum[]
+  }
+
+  /**
+   * User.imageSidebars
+   */
+  export type User$imageSidebarsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarInclude<ExtArgs> | null
+    where?: UserImageSidebarWhereInput
+    orderBy?: UserImageSidebarOrderByWithRelationInput | UserImageSidebarOrderByWithRelationInput[]
+    cursor?: UserImageSidebarWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserImageSidebarScalarFieldEnum | UserImageSidebarScalarFieldEnum[]
   }
 
   /**
@@ -17164,6 +17292,1111 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserImageCarouselInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UserImageSidebar
+   */
+
+  export type AggregateUserImageSidebar = {
+    _count: UserImageSidebarCountAggregateOutputType | null
+    _avg: UserImageSidebarAvgAggregateOutputType | null
+    _sum: UserImageSidebarSumAggregateOutputType | null
+    _min: UserImageSidebarMinAggregateOutputType | null
+    _max: UserImageSidebarMaxAggregateOutputType | null
+  }
+
+  export type UserImageSidebarAvgAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type UserImageSidebarSumAggregateOutputType = {
+    sortOrder: number | null
+  }
+
+  export type UserImageSidebarMinAggregateOutputType = {
+    id: string | null
+    url: string | null
+    imgUrl: string | null
+    alt: string | null
+    sortOrder: number | null
+    userId: string | null
+  }
+
+  export type UserImageSidebarMaxAggregateOutputType = {
+    id: string | null
+    url: string | null
+    imgUrl: string | null
+    alt: string | null
+    sortOrder: number | null
+    userId: string | null
+  }
+
+  export type UserImageSidebarCountAggregateOutputType = {
+    id: number
+    url: number
+    imgUrl: number
+    alt: number
+    sortOrder: number
+    userId: number
+    _all: number
+  }
+
+
+  export type UserImageSidebarAvgAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type UserImageSidebarSumAggregateInputType = {
+    sortOrder?: true
+  }
+
+  export type UserImageSidebarMinAggregateInputType = {
+    id?: true
+    url?: true
+    imgUrl?: true
+    alt?: true
+    sortOrder?: true
+    userId?: true
+  }
+
+  export type UserImageSidebarMaxAggregateInputType = {
+    id?: true
+    url?: true
+    imgUrl?: true
+    alt?: true
+    sortOrder?: true
+    userId?: true
+  }
+
+  export type UserImageSidebarCountAggregateInputType = {
+    id?: true
+    url?: true
+    imgUrl?: true
+    alt?: true
+    sortOrder?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type UserImageSidebarAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserImageSidebar to aggregate.
+     */
+    where?: UserImageSidebarWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserImageSidebars to fetch.
+     */
+    orderBy?: UserImageSidebarOrderByWithRelationInput | UserImageSidebarOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserImageSidebarWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserImageSidebars from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserImageSidebars.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserImageSidebars
+    **/
+    _count?: true | UserImageSidebarCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserImageSidebarAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserImageSidebarSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserImageSidebarMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserImageSidebarMaxAggregateInputType
+  }
+
+  export type GetUserImageSidebarAggregateType<T extends UserImageSidebarAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserImageSidebar]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserImageSidebar[P]>
+      : GetScalarType<T[P], AggregateUserImageSidebar[P]>
+  }
+
+
+
+
+  export type UserImageSidebarGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserImageSidebarWhereInput
+    orderBy?: UserImageSidebarOrderByWithAggregationInput | UserImageSidebarOrderByWithAggregationInput[]
+    by: UserImageSidebarScalarFieldEnum[] | UserImageSidebarScalarFieldEnum
+    having?: UserImageSidebarScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserImageSidebarCountAggregateInputType | true
+    _avg?: UserImageSidebarAvgAggregateInputType
+    _sum?: UserImageSidebarSumAggregateInputType
+    _min?: UserImageSidebarMinAggregateInputType
+    _max?: UserImageSidebarMaxAggregateInputType
+  }
+
+  export type UserImageSidebarGroupByOutputType = {
+    id: string
+    url: string | null
+    imgUrl: string
+    alt: string | null
+    sortOrder: number
+    userId: string
+    _count: UserImageSidebarCountAggregateOutputType | null
+    _avg: UserImageSidebarAvgAggregateOutputType | null
+    _sum: UserImageSidebarSumAggregateOutputType | null
+    _min: UserImageSidebarMinAggregateOutputType | null
+    _max: UserImageSidebarMaxAggregateOutputType | null
+  }
+
+  type GetUserImageSidebarGroupByPayload<T extends UserImageSidebarGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserImageSidebarGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserImageSidebarGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserImageSidebarGroupByOutputType[P]>
+            : GetScalarType<T[P], UserImageSidebarGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserImageSidebarSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    url?: boolean
+    imgUrl?: boolean
+    alt?: boolean
+    sortOrder?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userImageSidebar"]>
+
+  export type UserImageSidebarSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    url?: boolean
+    imgUrl?: boolean
+    alt?: boolean
+    sortOrder?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userImageSidebar"]>
+
+  export type UserImageSidebarSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    url?: boolean
+    imgUrl?: boolean
+    alt?: boolean
+    sortOrder?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userImageSidebar"]>
+
+  export type UserImageSidebarSelectScalar = {
+    id?: boolean
+    url?: boolean
+    imgUrl?: boolean
+    alt?: boolean
+    sortOrder?: boolean
+    userId?: boolean
+  }
+
+  export type UserImageSidebarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "url" | "imgUrl" | "alt" | "sortOrder" | "userId", ExtArgs["result"]["userImageSidebar"]>
+  export type UserImageSidebarInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserImageSidebarIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserImageSidebarIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserImageSidebarPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserImageSidebar"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      url: string | null
+      imgUrl: string
+      alt: string | null
+      sortOrder: number
+      userId: string
+    }, ExtArgs["result"]["userImageSidebar"]>
+    composites: {}
+  }
+
+  type UserImageSidebarGetPayload<S extends boolean | null | undefined | UserImageSidebarDefaultArgs> = $Result.GetResult<Prisma.$UserImageSidebarPayload, S>
+
+  type UserImageSidebarCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserImageSidebarFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserImageSidebarCountAggregateInputType | true
+    }
+
+  export interface UserImageSidebarDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserImageSidebar'], meta: { name: 'UserImageSidebar' } }
+    /**
+     * Find zero or one UserImageSidebar that matches the filter.
+     * @param {UserImageSidebarFindUniqueArgs} args - Arguments to find a UserImageSidebar
+     * @example
+     * // Get one UserImageSidebar
+     * const userImageSidebar = await prisma.userImageSidebar.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserImageSidebarFindUniqueArgs>(args: SelectSubset<T, UserImageSidebarFindUniqueArgs<ExtArgs>>): Prisma__UserImageSidebarClient<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserImageSidebar that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserImageSidebarFindUniqueOrThrowArgs} args - Arguments to find a UserImageSidebar
+     * @example
+     * // Get one UserImageSidebar
+     * const userImageSidebar = await prisma.userImageSidebar.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserImageSidebarFindUniqueOrThrowArgs>(args: SelectSubset<T, UserImageSidebarFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserImageSidebarClient<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserImageSidebar that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageSidebarFindFirstArgs} args - Arguments to find a UserImageSidebar
+     * @example
+     * // Get one UserImageSidebar
+     * const userImageSidebar = await prisma.userImageSidebar.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserImageSidebarFindFirstArgs>(args?: SelectSubset<T, UserImageSidebarFindFirstArgs<ExtArgs>>): Prisma__UserImageSidebarClient<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserImageSidebar that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageSidebarFindFirstOrThrowArgs} args - Arguments to find a UserImageSidebar
+     * @example
+     * // Get one UserImageSidebar
+     * const userImageSidebar = await prisma.userImageSidebar.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserImageSidebarFindFirstOrThrowArgs>(args?: SelectSubset<T, UserImageSidebarFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserImageSidebarClient<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserImageSidebars that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageSidebarFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserImageSidebars
+     * const userImageSidebars = await prisma.userImageSidebar.findMany()
+     * 
+     * // Get first 10 UserImageSidebars
+     * const userImageSidebars = await prisma.userImageSidebar.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userImageSidebarWithIdOnly = await prisma.userImageSidebar.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserImageSidebarFindManyArgs>(args?: SelectSubset<T, UserImageSidebarFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserImageSidebar.
+     * @param {UserImageSidebarCreateArgs} args - Arguments to create a UserImageSidebar.
+     * @example
+     * // Create one UserImageSidebar
+     * const UserImageSidebar = await prisma.userImageSidebar.create({
+     *   data: {
+     *     // ... data to create a UserImageSidebar
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserImageSidebarCreateArgs>(args: SelectSubset<T, UserImageSidebarCreateArgs<ExtArgs>>): Prisma__UserImageSidebarClient<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserImageSidebars.
+     * @param {UserImageSidebarCreateManyArgs} args - Arguments to create many UserImageSidebars.
+     * @example
+     * // Create many UserImageSidebars
+     * const userImageSidebar = await prisma.userImageSidebar.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserImageSidebarCreateManyArgs>(args?: SelectSubset<T, UserImageSidebarCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserImageSidebars and returns the data saved in the database.
+     * @param {UserImageSidebarCreateManyAndReturnArgs} args - Arguments to create many UserImageSidebars.
+     * @example
+     * // Create many UserImageSidebars
+     * const userImageSidebar = await prisma.userImageSidebar.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserImageSidebars and only return the `id`
+     * const userImageSidebarWithIdOnly = await prisma.userImageSidebar.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserImageSidebarCreateManyAndReturnArgs>(args?: SelectSubset<T, UserImageSidebarCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserImageSidebar.
+     * @param {UserImageSidebarDeleteArgs} args - Arguments to delete one UserImageSidebar.
+     * @example
+     * // Delete one UserImageSidebar
+     * const UserImageSidebar = await prisma.userImageSidebar.delete({
+     *   where: {
+     *     // ... filter to delete one UserImageSidebar
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserImageSidebarDeleteArgs>(args: SelectSubset<T, UserImageSidebarDeleteArgs<ExtArgs>>): Prisma__UserImageSidebarClient<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserImageSidebar.
+     * @param {UserImageSidebarUpdateArgs} args - Arguments to update one UserImageSidebar.
+     * @example
+     * // Update one UserImageSidebar
+     * const userImageSidebar = await prisma.userImageSidebar.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserImageSidebarUpdateArgs>(args: SelectSubset<T, UserImageSidebarUpdateArgs<ExtArgs>>): Prisma__UserImageSidebarClient<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserImageSidebars.
+     * @param {UserImageSidebarDeleteManyArgs} args - Arguments to filter UserImageSidebars to delete.
+     * @example
+     * // Delete a few UserImageSidebars
+     * const { count } = await prisma.userImageSidebar.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserImageSidebarDeleteManyArgs>(args?: SelectSubset<T, UserImageSidebarDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserImageSidebars.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageSidebarUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserImageSidebars
+     * const userImageSidebar = await prisma.userImageSidebar.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserImageSidebarUpdateManyArgs>(args: SelectSubset<T, UserImageSidebarUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserImageSidebars and returns the data updated in the database.
+     * @param {UserImageSidebarUpdateManyAndReturnArgs} args - Arguments to update many UserImageSidebars.
+     * @example
+     * // Update many UserImageSidebars
+     * const userImageSidebar = await prisma.userImageSidebar.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserImageSidebars and only return the `id`
+     * const userImageSidebarWithIdOnly = await prisma.userImageSidebar.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserImageSidebarUpdateManyAndReturnArgs>(args: SelectSubset<T, UserImageSidebarUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserImageSidebar.
+     * @param {UserImageSidebarUpsertArgs} args - Arguments to update or create a UserImageSidebar.
+     * @example
+     * // Update or create a UserImageSidebar
+     * const userImageSidebar = await prisma.userImageSidebar.upsert({
+     *   create: {
+     *     // ... data to create a UserImageSidebar
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserImageSidebar we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserImageSidebarUpsertArgs>(args: SelectSubset<T, UserImageSidebarUpsertArgs<ExtArgs>>): Prisma__UserImageSidebarClient<$Result.GetResult<Prisma.$UserImageSidebarPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserImageSidebars.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageSidebarCountArgs} args - Arguments to filter UserImageSidebars to count.
+     * @example
+     * // Count the number of UserImageSidebars
+     * const count = await prisma.userImageSidebar.count({
+     *   where: {
+     *     // ... the filter for the UserImageSidebars we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserImageSidebarCountArgs>(
+      args?: Subset<T, UserImageSidebarCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserImageSidebarCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserImageSidebar.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageSidebarAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserImageSidebarAggregateArgs>(args: Subset<T, UserImageSidebarAggregateArgs>): Prisma.PrismaPromise<GetUserImageSidebarAggregateType<T>>
+
+    /**
+     * Group by UserImageSidebar.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserImageSidebarGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserImageSidebarGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserImageSidebarGroupByArgs['orderBy'] }
+        : { orderBy?: UserImageSidebarGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserImageSidebarGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserImageSidebarGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserImageSidebar model
+   */
+  readonly fields: UserImageSidebarFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserImageSidebar.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserImageSidebarClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserImageSidebar model
+   */
+  interface UserImageSidebarFieldRefs {
+    readonly id: FieldRef<"UserImageSidebar", 'String'>
+    readonly url: FieldRef<"UserImageSidebar", 'String'>
+    readonly imgUrl: FieldRef<"UserImageSidebar", 'String'>
+    readonly alt: FieldRef<"UserImageSidebar", 'String'>
+    readonly sortOrder: FieldRef<"UserImageSidebar", 'Int'>
+    readonly userId: FieldRef<"UserImageSidebar", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserImageSidebar findUnique
+   */
+  export type UserImageSidebarFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarInclude<ExtArgs> | null
+    /**
+     * Filter, which UserImageSidebar to fetch.
+     */
+    where: UserImageSidebarWhereUniqueInput
+  }
+
+  /**
+   * UserImageSidebar findUniqueOrThrow
+   */
+  export type UserImageSidebarFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarInclude<ExtArgs> | null
+    /**
+     * Filter, which UserImageSidebar to fetch.
+     */
+    where: UserImageSidebarWhereUniqueInput
+  }
+
+  /**
+   * UserImageSidebar findFirst
+   */
+  export type UserImageSidebarFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarInclude<ExtArgs> | null
+    /**
+     * Filter, which UserImageSidebar to fetch.
+     */
+    where?: UserImageSidebarWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserImageSidebars to fetch.
+     */
+    orderBy?: UserImageSidebarOrderByWithRelationInput | UserImageSidebarOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserImageSidebars.
+     */
+    cursor?: UserImageSidebarWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserImageSidebars from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserImageSidebars.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserImageSidebars.
+     */
+    distinct?: UserImageSidebarScalarFieldEnum | UserImageSidebarScalarFieldEnum[]
+  }
+
+  /**
+   * UserImageSidebar findFirstOrThrow
+   */
+  export type UserImageSidebarFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarInclude<ExtArgs> | null
+    /**
+     * Filter, which UserImageSidebar to fetch.
+     */
+    where?: UserImageSidebarWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserImageSidebars to fetch.
+     */
+    orderBy?: UserImageSidebarOrderByWithRelationInput | UserImageSidebarOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserImageSidebars.
+     */
+    cursor?: UserImageSidebarWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserImageSidebars from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserImageSidebars.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserImageSidebars.
+     */
+    distinct?: UserImageSidebarScalarFieldEnum | UserImageSidebarScalarFieldEnum[]
+  }
+
+  /**
+   * UserImageSidebar findMany
+   */
+  export type UserImageSidebarFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarInclude<ExtArgs> | null
+    /**
+     * Filter, which UserImageSidebars to fetch.
+     */
+    where?: UserImageSidebarWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserImageSidebars to fetch.
+     */
+    orderBy?: UserImageSidebarOrderByWithRelationInput | UserImageSidebarOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserImageSidebars.
+     */
+    cursor?: UserImageSidebarWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserImageSidebars from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserImageSidebars.
+     */
+    skip?: number
+    distinct?: UserImageSidebarScalarFieldEnum | UserImageSidebarScalarFieldEnum[]
+  }
+
+  /**
+   * UserImageSidebar create
+   */
+  export type UserImageSidebarCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserImageSidebar.
+     */
+    data: XOR<UserImageSidebarCreateInput, UserImageSidebarUncheckedCreateInput>
+  }
+
+  /**
+   * UserImageSidebar createMany
+   */
+  export type UserImageSidebarCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserImageSidebars.
+     */
+    data: UserImageSidebarCreateManyInput | UserImageSidebarCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserImageSidebar createManyAndReturn
+   */
+  export type UserImageSidebarCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserImageSidebars.
+     */
+    data: UserImageSidebarCreateManyInput | UserImageSidebarCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserImageSidebar update
+   */
+  export type UserImageSidebarUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserImageSidebar.
+     */
+    data: XOR<UserImageSidebarUpdateInput, UserImageSidebarUncheckedUpdateInput>
+    /**
+     * Choose, which UserImageSidebar to update.
+     */
+    where: UserImageSidebarWhereUniqueInput
+  }
+
+  /**
+   * UserImageSidebar updateMany
+   */
+  export type UserImageSidebarUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserImageSidebars.
+     */
+    data: XOR<UserImageSidebarUpdateManyMutationInput, UserImageSidebarUncheckedUpdateManyInput>
+    /**
+     * Filter which UserImageSidebars to update
+     */
+    where?: UserImageSidebarWhereInput
+    /**
+     * Limit how many UserImageSidebars to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserImageSidebar updateManyAndReturn
+   */
+  export type UserImageSidebarUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * The data used to update UserImageSidebars.
+     */
+    data: XOR<UserImageSidebarUpdateManyMutationInput, UserImageSidebarUncheckedUpdateManyInput>
+    /**
+     * Filter which UserImageSidebars to update
+     */
+    where?: UserImageSidebarWhereInput
+    /**
+     * Limit how many UserImageSidebars to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserImageSidebar upsert
+   */
+  export type UserImageSidebarUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserImageSidebar to update in case it exists.
+     */
+    where: UserImageSidebarWhereUniqueInput
+    /**
+     * In case the UserImageSidebar found by the `where` argument doesn't exist, create a new UserImageSidebar with this data.
+     */
+    create: XOR<UserImageSidebarCreateInput, UserImageSidebarUncheckedCreateInput>
+    /**
+     * In case the UserImageSidebar was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserImageSidebarUpdateInput, UserImageSidebarUncheckedUpdateInput>
+  }
+
+  /**
+   * UserImageSidebar delete
+   */
+  export type UserImageSidebarDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarInclude<ExtArgs> | null
+    /**
+     * Filter which UserImageSidebar to delete.
+     */
+    where: UserImageSidebarWhereUniqueInput
+  }
+
+  /**
+   * UserImageSidebar deleteMany
+   */
+  export type UserImageSidebarDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserImageSidebars to delete
+     */
+    where?: UserImageSidebarWhereInput
+    /**
+     * Limit how many UserImageSidebars to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserImageSidebar without action
+   */
+  export type UserImageSidebarDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserImageSidebar
+     */
+    select?: UserImageSidebarSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserImageSidebar
+     */
+    omit?: UserImageSidebarOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserImageSidebarInclude<ExtArgs> | null
   }
 
 
@@ -29720,6 +30953,18 @@ export namespace Prisma {
   export type UserImageCarouselScalarFieldEnum = (typeof UserImageCarouselScalarFieldEnum)[keyof typeof UserImageCarouselScalarFieldEnum]
 
 
+  export const UserImageSidebarScalarFieldEnum: {
+    id: 'id',
+    url: 'url',
+    imgUrl: 'imgUrl',
+    alt: 'alt',
+    sortOrder: 'sortOrder',
+    userId: 'userId'
+  };
+
+  export type UserImageSidebarScalarFieldEnum = (typeof UserImageSidebarScalarFieldEnum)[keyof typeof UserImageSidebarScalarFieldEnum]
+
+
   export const UserDisplaySettingsScalarFieldEnum: {
     id: 'id',
     displayYoutube: 'displayYoutube',
@@ -30032,6 +31277,7 @@ export namespace Prisma {
     links?: UserLinkListRelationFilter
     imageBanners?: UserImageBannerListRelationFilter
     imageCarousels?: UserImageCarouselListRelationFilter
+    imageSidebars?: UserImageSidebarListRelationFilter
     customQuestions?: UserCustomQuestionListRelationFilter
     youtubeSettings?: XOR<UserYoutubeSettingsNullableScalarRelationFilter, UserYoutubeSettingsWhereInput> | null
     popupSettings?: XOR<UserPopupSettingsNullableScalarRelationFilter, UserPopupSettingsWhereInput> | null
@@ -30068,6 +31314,7 @@ export namespace Prisma {
     links?: UserLinkOrderByRelationAggregateInput
     imageBanners?: UserImageBannerOrderByRelationAggregateInput
     imageCarousels?: UserImageCarouselOrderByRelationAggregateInput
+    imageSidebars?: UserImageSidebarOrderByRelationAggregateInput
     customQuestions?: UserCustomQuestionOrderByRelationAggregateInput
     youtubeSettings?: UserYoutubeSettingsOrderByWithRelationInput
     popupSettings?: UserPopupSettingsOrderByWithRelationInput
@@ -30107,6 +31354,7 @@ export namespace Prisma {
     links?: UserLinkListRelationFilter
     imageBanners?: UserImageBannerListRelationFilter
     imageCarousels?: UserImageCarouselListRelationFilter
+    imageSidebars?: UserImageSidebarListRelationFilter
     customQuestions?: UserCustomQuestionListRelationFilter
     youtubeSettings?: XOR<UserYoutubeSettingsNullableScalarRelationFilter, UserYoutubeSettingsWhereInput> | null
     popupSettings?: XOR<UserPopupSettingsNullableScalarRelationFilter, UserPopupSettingsWhereInput> | null
@@ -30937,6 +32185,68 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"UserImageCarousel"> | string
   }
 
+  export type UserImageSidebarWhereInput = {
+    AND?: UserImageSidebarWhereInput | UserImageSidebarWhereInput[]
+    OR?: UserImageSidebarWhereInput[]
+    NOT?: UserImageSidebarWhereInput | UserImageSidebarWhereInput[]
+    id?: StringFilter<"UserImageSidebar"> | string
+    url?: StringNullableFilter<"UserImageSidebar"> | string | null
+    imgUrl?: StringFilter<"UserImageSidebar"> | string
+    alt?: StringNullableFilter<"UserImageSidebar"> | string | null
+    sortOrder?: IntFilter<"UserImageSidebar"> | number
+    userId?: StringFilter<"UserImageSidebar"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserImageSidebarOrderByWithRelationInput = {
+    id?: SortOrder
+    url?: SortOrderInput | SortOrder
+    imgUrl?: SortOrder
+    alt?: SortOrderInput | SortOrder
+    sortOrder?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserImageSidebarWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UserImageSidebarWhereInput | UserImageSidebarWhereInput[]
+    OR?: UserImageSidebarWhereInput[]
+    NOT?: UserImageSidebarWhereInput | UserImageSidebarWhereInput[]
+    url?: StringNullableFilter<"UserImageSidebar"> | string | null
+    imgUrl?: StringFilter<"UserImageSidebar"> | string
+    alt?: StringNullableFilter<"UserImageSidebar"> | string | null
+    sortOrder?: IntFilter<"UserImageSidebar"> | number
+    userId?: StringFilter<"UserImageSidebar"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type UserImageSidebarOrderByWithAggregationInput = {
+    id?: SortOrder
+    url?: SortOrderInput | SortOrder
+    imgUrl?: SortOrder
+    alt?: SortOrderInput | SortOrder
+    sortOrder?: SortOrder
+    userId?: SortOrder
+    _count?: UserImageSidebarCountOrderByAggregateInput
+    _avg?: UserImageSidebarAvgOrderByAggregateInput
+    _max?: UserImageSidebarMaxOrderByAggregateInput
+    _min?: UserImageSidebarMinOrderByAggregateInput
+    _sum?: UserImageSidebarSumOrderByAggregateInput
+  }
+
+  export type UserImageSidebarScalarWhereWithAggregatesInput = {
+    AND?: UserImageSidebarScalarWhereWithAggregatesInput | UserImageSidebarScalarWhereWithAggregatesInput[]
+    OR?: UserImageSidebarScalarWhereWithAggregatesInput[]
+    NOT?: UserImageSidebarScalarWhereWithAggregatesInput | UserImageSidebarScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserImageSidebar"> | string
+    url?: StringNullableWithAggregatesFilter<"UserImageSidebar"> | string | null
+    imgUrl?: StringWithAggregatesFilter<"UserImageSidebar"> | string
+    alt?: StringNullableWithAggregatesFilter<"UserImageSidebar"> | string | null
+    sortOrder?: IntWithAggregatesFilter<"UserImageSidebar"> | number
+    userId?: StringWithAggregatesFilter<"UserImageSidebar"> | string
+  }
+
   export type UserDisplaySettingsWhereInput = {
     AND?: UserDisplaySettingsWhereInput | UserDisplaySettingsWhereInput[]
     OR?: UserDisplaySettingsWhereInput[]
@@ -31734,6 +33044,7 @@ export namespace Prisma {
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -31770,6 +33081,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -31806,6 +33118,7 @@ export namespace Prisma {
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -31842,6 +33155,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -32715,6 +34029,68 @@ export namespace Prisma {
   }
 
   export type UserImageCarouselUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imgUrl?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserImageSidebarCreateInput = {
+    id?: string
+    url?: string | null
+    imgUrl: string
+    alt?: string | null
+    sortOrder?: number
+    user: UserCreateNestedOneWithoutImageSidebarsInput
+  }
+
+  export type UserImageSidebarUncheckedCreateInput = {
+    id?: string
+    url?: string | null
+    imgUrl: string
+    alt?: string | null
+    sortOrder?: number
+    userId: string
+  }
+
+  export type UserImageSidebarUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imgUrl?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    user?: UserUpdateOneRequiredWithoutImageSidebarsNestedInput
+  }
+
+  export type UserImageSidebarUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imgUrl?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserImageSidebarCreateManyInput = {
+    id?: string
+    url?: string | null
+    imgUrl: string
+    alt?: string | null
+    sortOrder?: number
+    userId: string
+  }
+
+  export type UserImageSidebarUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imgUrl?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserImageSidebarUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: NullableStringFieldUpdateOperationsInput | string | null
     imgUrl?: StringFieldUpdateOperationsInput | string
@@ -33644,6 +35020,12 @@ export namespace Prisma {
     none?: UserImageCarouselWhereInput
   }
 
+  export type UserImageSidebarListRelationFilter = {
+    every?: UserImageSidebarWhereInput
+    some?: UserImageSidebarWhereInput
+    none?: UserImageSidebarWhereInput
+  }
+
   export type UserCustomQuestionListRelationFilter = {
     every?: UserCustomQuestionWhereInput
     some?: UserCustomQuestionWhereInput
@@ -33703,6 +35085,10 @@ export namespace Prisma {
   }
 
   export type UserImageCarouselOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserImageSidebarOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -34339,6 +35725,41 @@ export namespace Prisma {
     sortOrder?: SortOrder
   }
 
+  export type UserImageSidebarCountOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    imgUrl?: SortOrder
+    alt?: SortOrder
+    sortOrder?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserImageSidebarAvgOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
+  export type UserImageSidebarMaxOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    imgUrl?: SortOrder
+    alt?: SortOrder
+    sortOrder?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserImageSidebarMinOrderByAggregateInput = {
+    id?: SortOrder
+    url?: SortOrder
+    imgUrl?: SortOrder
+    alt?: SortOrder
+    sortOrder?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type UserImageSidebarSumOrderByAggregateInput = {
+    sortOrder?: SortOrder
+  }
+
   export type UserDisplaySettingsCountOrderByAggregateInput = {
     id?: SortOrder
     displayYoutube?: SortOrder
@@ -34891,6 +36312,13 @@ export namespace Prisma {
     connect?: UserImageCarouselWhereUniqueInput | UserImageCarouselWhereUniqueInput[]
   }
 
+  export type UserImageSidebarCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserImageSidebarCreateWithoutUserInput, UserImageSidebarUncheckedCreateWithoutUserInput> | UserImageSidebarCreateWithoutUserInput[] | UserImageSidebarUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserImageSidebarCreateOrConnectWithoutUserInput | UserImageSidebarCreateOrConnectWithoutUserInput[]
+    createMany?: UserImageSidebarCreateManyUserInputEnvelope
+    connect?: UserImageSidebarWhereUniqueInput | UserImageSidebarWhereUniqueInput[]
+  }
+
   export type UserCustomQuestionCreateNestedManyWithoutUserInput = {
     create?: XOR<UserCustomQuestionCreateWithoutUserInput, UserCustomQuestionUncheckedCreateWithoutUserInput> | UserCustomQuestionCreateWithoutUserInput[] | UserCustomQuestionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserCustomQuestionCreateOrConnectWithoutUserInput | UserCustomQuestionCreateOrConnectWithoutUserInput[]
@@ -34974,6 +36402,13 @@ export namespace Prisma {
     connectOrCreate?: UserImageCarouselCreateOrConnectWithoutUserInput | UserImageCarouselCreateOrConnectWithoutUserInput[]
     createMany?: UserImageCarouselCreateManyUserInputEnvelope
     connect?: UserImageCarouselWhereUniqueInput | UserImageCarouselWhereUniqueInput[]
+  }
+
+  export type UserImageSidebarUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserImageSidebarCreateWithoutUserInput, UserImageSidebarUncheckedCreateWithoutUserInput> | UserImageSidebarCreateWithoutUserInput[] | UserImageSidebarUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserImageSidebarCreateOrConnectWithoutUserInput | UserImageSidebarCreateOrConnectWithoutUserInput[]
+    createMany?: UserImageSidebarCreateManyUserInputEnvelope
+    connect?: UserImageSidebarWhereUniqueInput | UserImageSidebarWhereUniqueInput[]
   }
 
   export type UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput = {
@@ -35126,6 +36561,20 @@ export namespace Prisma {
     update?: UserImageCarouselUpdateWithWhereUniqueWithoutUserInput | UserImageCarouselUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserImageCarouselUpdateManyWithWhereWithoutUserInput | UserImageCarouselUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UserImageCarouselScalarWhereInput | UserImageCarouselScalarWhereInput[]
+  }
+
+  export type UserImageSidebarUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserImageSidebarCreateWithoutUserInput, UserImageSidebarUncheckedCreateWithoutUserInput> | UserImageSidebarCreateWithoutUserInput[] | UserImageSidebarUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserImageSidebarCreateOrConnectWithoutUserInput | UserImageSidebarCreateOrConnectWithoutUserInput[]
+    upsert?: UserImageSidebarUpsertWithWhereUniqueWithoutUserInput | UserImageSidebarUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserImageSidebarCreateManyUserInputEnvelope
+    set?: UserImageSidebarWhereUniqueInput | UserImageSidebarWhereUniqueInput[]
+    disconnect?: UserImageSidebarWhereUniqueInput | UserImageSidebarWhereUniqueInput[]
+    delete?: UserImageSidebarWhereUniqueInput | UserImageSidebarWhereUniqueInput[]
+    connect?: UserImageSidebarWhereUniqueInput | UserImageSidebarWhereUniqueInput[]
+    update?: UserImageSidebarUpdateWithWhereUniqueWithoutUserInput | UserImageSidebarUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserImageSidebarUpdateManyWithWhereWithoutUserInput | UserImageSidebarUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserImageSidebarScalarWhereInput | UserImageSidebarScalarWhereInput[]
   }
 
   export type UserCustomQuestionUpdateManyWithoutUserNestedInput = {
@@ -35284,6 +36733,20 @@ export namespace Prisma {
     update?: UserImageCarouselUpdateWithWhereUniqueWithoutUserInput | UserImageCarouselUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UserImageCarouselUpdateManyWithWhereWithoutUserInput | UserImageCarouselUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UserImageCarouselScalarWhereInput | UserImageCarouselScalarWhereInput[]
+  }
+
+  export type UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserImageSidebarCreateWithoutUserInput, UserImageSidebarUncheckedCreateWithoutUserInput> | UserImageSidebarCreateWithoutUserInput[] | UserImageSidebarUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserImageSidebarCreateOrConnectWithoutUserInput | UserImageSidebarCreateOrConnectWithoutUserInput[]
+    upsert?: UserImageSidebarUpsertWithWhereUniqueWithoutUserInput | UserImageSidebarUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserImageSidebarCreateManyUserInputEnvelope
+    set?: UserImageSidebarWhereUniqueInput | UserImageSidebarWhereUniqueInput[]
+    disconnect?: UserImageSidebarWhereUniqueInput | UserImageSidebarWhereUniqueInput[]
+    delete?: UserImageSidebarWhereUniqueInput | UserImageSidebarWhereUniqueInput[]
+    connect?: UserImageSidebarWhereUniqueInput | UserImageSidebarWhereUniqueInput[]
+    update?: UserImageSidebarUpdateWithWhereUniqueWithoutUserInput | UserImageSidebarUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserImageSidebarUpdateManyWithWhereWithoutUserInput | UserImageSidebarUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserImageSidebarScalarWhereInput | UserImageSidebarScalarWhereInput[]
   }
 
   export type UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput = {
@@ -35596,6 +37059,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutImageCarouselsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutImageCarouselsInput, UserUpdateWithoutImageCarouselsInput>, UserUncheckedUpdateWithoutImageCarouselsInput>
+  }
+
+  export type UserCreateNestedOneWithoutImageSidebarsInput = {
+    create?: XOR<UserCreateWithoutImageSidebarsInput, UserUncheckedCreateWithoutImageSidebarsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutImageSidebarsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutImageSidebarsNestedInput = {
+    create?: XOR<UserCreateWithoutImageSidebarsInput, UserUncheckedCreateWithoutImageSidebarsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutImageSidebarsInput
+    upsert?: UserUpsertWithoutImageSidebarsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutImageSidebarsInput, UserUpdateWithoutImageSidebarsInput>, UserUncheckedUpdateWithoutImageSidebarsInput>
   }
 
   export type UserCreateNestedOneWithoutDisplaySettingsInput = {
@@ -36669,6 +38146,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserImageSidebarCreateWithoutUserInput = {
+    id?: string
+    url?: string | null
+    imgUrl: string
+    alt?: string | null
+    sortOrder?: number
+  }
+
+  export type UserImageSidebarUncheckedCreateWithoutUserInput = {
+    id?: string
+    url?: string | null
+    imgUrl: string
+    alt?: string | null
+    sortOrder?: number
+  }
+
+  export type UserImageSidebarCreateOrConnectWithoutUserInput = {
+    where: UserImageSidebarWhereUniqueInput
+    create: XOR<UserImageSidebarCreateWithoutUserInput, UserImageSidebarUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserImageSidebarCreateManyUserInputEnvelope = {
+    data: UserImageSidebarCreateManyUserInput | UserImageSidebarCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCustomQuestionCreateWithoutUserInput = {
     id?: string
     question: string
@@ -37028,6 +38531,34 @@ export namespace Prisma {
     userId?: StringFilter<"UserImageCarousel"> | string
   }
 
+  export type UserImageSidebarUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserImageSidebarWhereUniqueInput
+    update: XOR<UserImageSidebarUpdateWithoutUserInput, UserImageSidebarUncheckedUpdateWithoutUserInput>
+    create: XOR<UserImageSidebarCreateWithoutUserInput, UserImageSidebarUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserImageSidebarUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserImageSidebarWhereUniqueInput
+    data: XOR<UserImageSidebarUpdateWithoutUserInput, UserImageSidebarUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserImageSidebarUpdateManyWithWhereWithoutUserInput = {
+    where: UserImageSidebarScalarWhereInput
+    data: XOR<UserImageSidebarUpdateManyMutationInput, UserImageSidebarUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserImageSidebarScalarWhereInput = {
+    AND?: UserImageSidebarScalarWhereInput | UserImageSidebarScalarWhereInput[]
+    OR?: UserImageSidebarScalarWhereInput[]
+    NOT?: UserImageSidebarScalarWhereInput | UserImageSidebarScalarWhereInput[]
+    id?: StringFilter<"UserImageSidebar"> | string
+    url?: StringNullableFilter<"UserImageSidebar"> | string | null
+    imgUrl?: StringFilter<"UserImageSidebar"> | string
+    alt?: StringNullableFilter<"UserImageSidebar"> | string | null
+    sortOrder?: IntFilter<"UserImageSidebar"> | number
+    userId?: StringFilter<"UserImageSidebar"> | string
+  }
+
   export type UserCustomQuestionUpsertWithWhereUniqueWithoutUserInput = {
     where: UserCustomQuestionWhereUniqueInput
     update: XOR<UserCustomQuestionUpdateWithoutUserInput, UserCustomQuestionUncheckedUpdateWithoutUserInput>
@@ -37268,6 +38799,7 @@ export namespace Prisma {
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -37303,6 +38835,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -37354,6 +38887,7 @@ export namespace Prisma {
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -37389,6 +38923,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -37424,6 +38959,7 @@ export namespace Prisma {
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -37459,6 +38995,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -37510,6 +39047,7 @@ export namespace Prisma {
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -37545,6 +39083,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -37581,6 +39120,7 @@ export namespace Prisma {
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -37616,6 +39156,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -37667,6 +39208,7 @@ export namespace Prisma {
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -37702,6 +39244,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -37736,6 +39279,7 @@ export namespace Prisma {
     ogp?: UserOGPCreateNestedOneWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -37771,6 +39315,7 @@ export namespace Prisma {
     ogp?: UserOGPUncheckedCreateNestedOneWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -37892,6 +39437,7 @@ export namespace Prisma {
     ogp?: UserOGPUpdateOneWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -37927,6 +39473,7 @@ export namespace Prisma {
     ogp?: UserOGPUncheckedUpdateOneWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -38045,6 +39592,7 @@ export namespace Prisma {
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
@@ -38080,6 +39628,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
@@ -38163,6 +39712,7 @@ export namespace Prisma {
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
@@ -38198,6 +39748,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -38263,6 +39814,7 @@ export namespace Prisma {
     ogp?: UserOGPCreateNestedOneWithoutUserInput
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -38298,6 +39850,7 @@ export namespace Prisma {
     ogp?: UserOGPUncheckedCreateNestedOneWithoutUserInput
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -38349,6 +39902,7 @@ export namespace Prisma {
     ogp?: UserOGPUpdateOneWithoutUserNestedInput
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -38384,6 +39938,7 @@ export namespace Prisma {
     ogp?: UserOGPUncheckedUpdateOneWithoutUserNestedInput
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -38476,6 +40031,7 @@ export namespace Prisma {
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
@@ -38511,6 +40067,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
@@ -38562,6 +40119,7 @@ export namespace Prisma {
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
@@ -38597,6 +40155,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -38631,6 +40190,7 @@ export namespace Prisma {
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -38666,6 +40226,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -38717,6 +40278,7 @@ export namespace Prisma {
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -38752,6 +40314,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -38788,6 +40351,7 @@ export namespace Prisma {
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
@@ -38823,6 +40387,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
     displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
@@ -38874,6 +40439,7 @@ export namespace Prisma {
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
@@ -38909,6 +40475,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
     displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -38943,6 +40510,7 @@ export namespace Prisma {
     ogp?: UserOGPCreateNestedOneWithoutUserInput
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -38978,6 +40546,7 @@ export namespace Prisma {
     ogp?: UserOGPUncheckedCreateNestedOneWithoutUserInput
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -39029,6 +40598,7 @@ export namespace Prisma {
     ogp?: UserOGPUpdateOneWithoutUserNestedInput
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -39064,6 +40634,167 @@ export namespace Prisma {
     ogp?: UserOGPUncheckedUpdateOneWithoutUserNestedInput
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
+    customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
+    displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
+    notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+    author?: AuthorUncheckedUpdateOneWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutImageSidebarsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    characterName?: string | null
+    subname?: string | null
+    bio?: string | null
+    birthday?: Date | string | null
+    gender?: string | null
+    iconUrl?: string | null
+    bannerUrl?: string | null
+    handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
+    role?: string
+    subscriptionStatus?: string | null
+    emailVerified?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    ogp?: UserOGPCreateNestedOneWithoutUserInput
+    links?: UserLinkCreateNestedManyWithoutUserInput
+    imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
+    imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
+    displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
+    notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
+    author?: AuthorCreateNestedOneWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutImageSidebarsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    characterName?: string | null
+    subname?: string | null
+    bio?: string | null
+    birthday?: Date | string | null
+    gender?: string | null
+    iconUrl?: string | null
+    bannerUrl?: string | null
+    handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
+    role?: string
+    subscriptionStatus?: string | null
+    emailVerified?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    ogp?: UserOGPUncheckedCreateNestedOneWithoutUserInput
+    links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
+    imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
+    imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
+    displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
+    notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+    author?: AuthorUncheckedCreateNestedOneWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutImageSidebarsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutImageSidebarsInput, UserUncheckedCreateWithoutImageSidebarsInput>
+  }
+
+  export type UserUpsertWithoutImageSidebarsInput = {
+    update: XOR<UserUpdateWithoutImageSidebarsInput, UserUncheckedUpdateWithoutImageSidebarsInput>
+    create: XOR<UserCreateWithoutImageSidebarsInput, UserUncheckedCreateWithoutImageSidebarsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutImageSidebarsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutImageSidebarsInput, UserUncheckedUpdateWithoutImageSidebarsInput>
+  }
+
+  export type UserUpdateWithoutImageSidebarsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    characterName?: NullableStringFieldUpdateOperationsInput | string | null
+    subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    ogp?: UserOGPUpdateOneWithoutUserNestedInput
+    links?: UserLinkUpdateManyWithoutUserNestedInput
+    imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
+    imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
+    displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
+    notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
+    author?: AuthorUpdateOneWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutImageSidebarsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    characterName?: NullableStringFieldUpdateOperationsInput | string | null
+    subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    ogp?: UserOGPUncheckedUpdateOneWithoutUserNestedInput
+    links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
+    imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
+    imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -39100,6 +40831,7 @@ export namespace Prisma {
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -39135,6 +40867,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -39186,6 +40919,7 @@ export namespace Prisma {
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -39221,6 +40955,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -39517,6 +41252,7 @@ export namespace Prisma {
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -39552,6 +41288,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -39647,6 +41384,7 @@ export namespace Prisma {
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -39682,6 +41420,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -40502,6 +42241,7 @@ export namespace Prisma {
     links?: UserLinkCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
@@ -40537,6 +42277,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
     imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
     imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
     customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
     youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
     popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
@@ -40682,6 +42423,7 @@ export namespace Prisma {
     links?: UserLinkUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
@@ -40717,6 +42459,7 @@ export namespace Prisma {
     links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
     imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
     imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
     customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
     youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
     popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
@@ -40769,6 +42512,14 @@ export namespace Prisma {
   }
 
   export type UserImageCarouselCreateManyUserInput = {
+    id?: string
+    url?: string | null
+    imgUrl: string
+    alt?: string | null
+    sortOrder?: number
+  }
+
+  export type UserImageSidebarCreateManyUserInput = {
     id?: string
     url?: string | null
     imgUrl: string
@@ -40939,6 +42690,30 @@ export namespace Prisma {
   }
 
   export type UserImageCarouselUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imgUrl?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserImageSidebarUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imgUrl?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserImageSidebarUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    imgUrl?: StringFieldUpdateOperationsInput | string
+    alt?: NullableStringFieldUpdateOperationsInput | string | null
+    sortOrder?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type UserImageSidebarUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     url?: NullableStringFieldUpdateOperationsInput | string | null
     imgUrl?: StringFieldUpdateOperationsInput | string

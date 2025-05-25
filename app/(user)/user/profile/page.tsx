@@ -8,6 +8,7 @@ import { BannerSettings } from "./components/BannerSettings"
 import { CarouselSettings } from "./components/CarouselSettings"
 import { BackgroundSettings } from "./components/BackgroundSettings"
 import { CustomQuestion } from "./components/CustomQuestion"
+import { ImageSidebarSettings } from "./components/ImageSidebarSettings"
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from "react"
 
@@ -128,6 +129,21 @@ export default function ProfilePage() {
           <AccordionContent>
             {session?.user?.id && (
               <CarouselSettings 
+                userId={session.user.id}
+              />
+            )}
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="sidebar" className="border rounded-lg px-6">
+          <AccordionTrigger className="hover:no-underline">
+            <div className="flex items-center gap-2">
+              <span className="text-lg font-medium">サイドバーイメージ</span>
+            </div>
+          </AccordionTrigger>
+          <AccordionContent>
+            {session?.user?.id && (
+              <ImageSidebarSettings 
                 userId={session.user.id}
               />
             )}
