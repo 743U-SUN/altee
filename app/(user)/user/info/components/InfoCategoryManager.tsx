@@ -178,10 +178,10 @@ function SortableItem({
         <Accordion 
           type="single" 
           collapsible 
-          className="w-full border border-gray-200 rounded-sm px-0 py-2 pr-2"
+          className="w-full border border-gray-200 rounded-sm px-0 py-2"
         >
           <AccordionItem value="questions" className="border-0">
-            <AccordionTrigger className="hover:no-underline py-2 px-0">
+            <AccordionTrigger className="hover:no-underline py-2 px-0 pr-2">
               <div className="flex items-center gap-2 px-4">
                 <span className="text-sm font-medium text-gray-700">
                   Q&A管理 ({category.questions.length}個)

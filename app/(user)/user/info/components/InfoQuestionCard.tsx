@@ -181,9 +181,9 @@ export function InfoQuestionCard({ category, userId, onUpdateQuestions }: InfoQu
   return (
     <div className="space-y-3">
       {/* Q&A一覧 */}
-      <Accordion type="single" collapsible className="w-full space-y-3 border-b-1">
+      <Accordion type="single" collapsible className="w-full space-y-0 border-b-1">
         {category.questions.map((item, index) => (
-          <AccordionItem key={item.id} value={item.id} className="border border-gray-200 border-x-0">
+          <AccordionItem key={item.id} value={item.id} className="border border-gray-200 border-x-0 border-b-0">
             <div className="relative">
               <AccordionTrigger className="hover:no-underline w-full px-4 py-4 pr-24 [&[data-state=open]>svg]:rotate-180">
                 <div className="flex items-center space-x-2 text-left min-w-0 flex-1">
