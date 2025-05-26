@@ -41,17 +41,15 @@ export default function HandlePage() {
   }, [handle]);
 
   return (
-    <div className="@container h-full -m-4">
-      <div className="flex flex-col @[768px]:flex-row h-full">
-        {/* Primary Component - 固定サイドバー */}
-        <div className="w-full @[768px]:w-[400px] @[768px]:h-full @[768px]:overflow-hidden flex-shrink-0">
-          <div className="h-auto @[768px]:h-full @[768px]:sticky @[768px]:top-0">
-            <Primary />
-          </div>
+    <div className="@container -m-4">
+      <div className="flex flex-col @[768px]:flex-row @[768px]:items-start gap-4">
+        {/* Primary Component - 768px以上ではsticky */}
+        <div className="w-full h-[calc(100vh-11rem)] @[768px]:h-[calc(100vh-5rem)] @[768px]:w-[400px] @[768px]:sticky @[768px]:top-0 flex-shrink-0">
+          <Primary />
         </div>
         
         {/* Secondary Component - メインコンテンツ */}
-        <div className="flex-1 h-auto @[768px]:h-full @[768px]:overflow-y-auto">
+        <div className="flex-1">
           <Secondary />
         </div>
       </div>

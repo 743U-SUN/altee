@@ -86,7 +86,7 @@ export default function HandleClientLayout({
             <Gift className="h-5 w-5 text-muted-foreground" />
           </div>
         </header>
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-auto">
           <div className="flex flex-col gap-4 bg-background rounded-b-xl py-4 px-4 h-full">
             {children}
           </div>

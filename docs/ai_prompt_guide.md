@@ -1,15 +1,12 @@
-今回はapp/(handle)/[handle]/page.tsxとapp/(handle)/[handle]/components/HandleClientLayout.tsxでのレイアウトについて修正してもらいたい。
+今回はapp/(handle)/[handle]/components/primary.tsxの作成の準備をしていく。
+このコンポーネントは、app/(handle)/[handle]/page.tsxで表示するコンポーネントで、ユーザー個別ページのトップに表示される予定のコンポーネントです。
 
-        <div className="flex-1 overflow-auto">
-          <div className="flex flex-col gap-4 bg-background rounded-b-xl py-4 px-4 h-full">
-            {children}
-          </div>
-        </div>
+まずはどのような要素を配置するかを考えていく。
+・左上にバナーのカルーセル（Prisma:UserImageBanner）
+・中央にUserの画像を表示。2枚以上の画像が登録されている場合は、画像の横にボタンで画像切り替えできるように。(Prisma:UserImageCarousel)カルーセルの予定だったけど、ボタン切り替えにしよう。1つの場合はボタン表示無しで。
 
-この部分でpage.tsxを読み込み、primary componentとsecondary componentを表示していると思います。
+とりあえず今のところこんなもんかな。
 
-現在はPrimary componentとsecondary componentは親のコンテナが768px以上のときには横並び、767px以下の場合には縦並びになるようになっています。
+この場合、primaryBanner.tsxとprimaryImages.tsxというコンポーネントを作って読み込めばいいかな？コンポーネントはapp/(handle)/[handle]/componentsに置く感じで。
 
-768px以上の横並びのときに、primaryは固定しセカンダリだけスクロールされるようにしたいです。現在はセカンダリと同じ高さまでプライマリの高さも伸びてしまう。サイドバー的な感じでプライマリは固定、セカンダリだけ動くというような感じにしたいのだが、できるだろうか。
-
-FileSystemを用いて修正してください。    
+どうかな？ここまでの計画の感想を聞かせて。勝手に実装とかはまだしないでね。
