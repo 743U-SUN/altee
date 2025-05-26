@@ -16,7 +16,7 @@ export default function InfoPage() {
   }
 
   return (
-    <div className="container mx-auto py-8 px-4 max-w-5xl">
+    <div className="container mx-auto py-8 px-0 md:px-4 max-w-5xl">
       <h1 className="text-3xl font-bold mb-8">インフォ設定</h1>
       <InfoCategoryManager userId={session.user.id} />
     </div>

@@ -12,7 +12,7 @@ export default function ArticleLayout({
       sidebarWidth="320px"
       sidebar={<UserSidebar />}
       mobileFooter={<UserMobileFooterNav />}
-    >
+      >
       {children}
     </UserClientLayout>
   );
