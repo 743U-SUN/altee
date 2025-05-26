@@ -1,9 +1,10 @@
 "use client"
 
 import * as React from "react"
-import { BookOpen, Book, GraduationCap, Utensils, Settings, MonitorPlay, Info } from "lucide-react"
+import { BookOpen, Book, GraduationCap, Utensils, Settings, MonitorPlay, Info, User } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useParams } from "next/navigation"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -40,6 +41,15 @@ const handleNavItemsBase = [
   },
 ];
 
+// User型定義
+type User = {
+  id: string;
+  name?: string | null;
+  characterName?: string | null;
+  iconUrl?: string | null;
+  handle?: string | null;
+};
+
 const userData = {
   name: "username",
   email: "user@example.com",
@@ -55,7 +65,7 @@ function MobileSheetContent({ children }: { children: React.ReactNode }) {
   )
 }
 
-export function HandleSidebarLayout({ children }: { children: React.ReactNode }) {
+export function HandleSidebarLayout({ children, user }: { children: React.ReactNode; user?: User }) {
   const pathname = usePathname()
   const params = useParams()
   const { isMobile, openMobile, setOpenMobile } = useSidebar()
@@ -110,14 +120,19 @@ export function HandleSidebarLayout({ children }: { children: React.ReactNode })
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
-                <Link href="/#">
-                  <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                    <BookOpen className="size-4" />
-                  </div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">記事セクション</span>
-                    <span className="truncate text-xs">コンテンツ</span>
-                  </div>
+                <Link href={`/${handle}`}>
+                  <Avatar className="h-8 w-8 rounded-lg">
+                    <AvatarImage 
+                      src={user?.iconUrl || undefined} 
+                      alt={user?.characterName || user?.name || 'User'}
+                      className="object-cover"
+                    />
+                    <AvatarFallback className="rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                      {user?.characterName ? user.characterName.charAt(0).toUpperCase() : 
+                       user?.name ? user.name.charAt(0).toUpperCase() : 
+                       <User className="size-4" />}
+                    </AvatarFallback>
+                  </Avatar>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

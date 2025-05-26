@@ -51,7 +51,7 @@ export default function HandleClientLayout({
       }
       className="bg-[var(--bg-color)] p-2"
     >
-      <HandleSidebarLayout>
+      <HandleSidebarLayout user={user}>
         {sidebar}
       </HandleSidebarLayout>
       <SidebarInset className="rounded-xl shadow-sm flex flex-col h-[calc(100vh-1rem)]">
@@ -69,8 +69,7 @@ export default function HandleClientLayout({
                 <Avatar className="h-8 w-8 rounded-md">
                   <AvatarImage src={user.iconUrl || undefined} alt={user.characterName || user.name || 'User'} />
                   <AvatarFallback className="rounded-md">
-                    {user.characterName ? user.characterName.charAt(0).toUpperCase() : 
-                     user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                    {user.characterName ? user.characterName.charAt(0).toUpperCase() : 'NoName'}
                   </AvatarFallback>
                 </Avatar>
                 <span className="text-sm font-medium line-clamp-1">
@@ -87,7 +86,7 @@ export default function HandleClientLayout({
             <Gift className="h-5 w-5 text-muted-foreground" />
           </div>
         </header>
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-hidden">
           <div className="flex flex-col gap-4 bg-background rounded-b-xl py-4 px-4 h-full">
             {children}
           </div>

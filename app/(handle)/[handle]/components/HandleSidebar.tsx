@@ -51,13 +51,15 @@ export const HandleSidebar: React.FC<HandleSidebarProps> = ({
               const imageElement = (
                 <div 
                   key={image.id}
-                  className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-200"
+                  className="relative w-full rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-200 flex justify-center"
                 >
                   <OptimizedImage
                     src={image.imgUrl}
                     alt={image.alt || 'サイドバー画像'}
-                    fill
-                    className="object-cover hover:scale-105 transition-transform duration-200"
+                    width={320}
+                    height={0}
+                    style={{ height: 'auto' }}
+                    className="max-w-full h-auto object-contain hover:scale-105 transition-transform duration-200"
                     sizes="(max-width: 320px) 100vw, 320px"
                     onError={() => {
                       console.error('画像の読み込みに失敗:', image.imgUrl);
