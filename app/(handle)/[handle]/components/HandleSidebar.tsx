@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { 
   FileTextIcon, 
   UserIcon,
@@ -20,83 +19,75 @@ import {
   SidebarMenu,
   SidebarMenuButton,
 } from "@/components/ui/sidebar"
+import Image from 'next/image';
+import Link from 'next/link';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+
+// UserImageSidebarの型定義
+type UserImageSidebar = {
+  id: string;
+  url?: string | null;
+  imgUrl: string;
+  alt?: string | null;
+  sortOrder: number;
+};
 
 interface HandleSidebarProps {
   className?: string;
+  imageSidebars?: UserImageSidebar[];
 }
 
-// メニュー項目
-const menuItems = [
-  {
-    title: "ダッシュボードTOP",
-    icon: LayoutDashboard,
-    href: "app/[handle]/videos",
-  },
-  {
-    title: "プロフィール設定",
-    icon: UserIcon,
-    href: "/[handle]/profile",
-  },
-  {
-    title: "リンク設定",
-    icon: LinkIcon,
-    href: "/[handle]/links",
-  },
-  {
-    title: "Youtube設定",
-    icon: YoutubeIcon,
-    href: "/[handle]/youtube",
-  },
-  {
-    title: "インフォ設定",
-    icon: InfoIcon,
-    href: "/[handle]/info",
-  },
-  {
-    title: "デバイス設定",
-    icon: MonitorIcon,
-    href: "/[handle]/device",
-  },
-  {
-    title: "アカウント設定",
-    icon: Settings,
-    href: "/[handle]/account",
-  },
-];
-
 export const HandleSidebar: React.FC<HandleSidebarProps> = ({
-  className
+  className,
+  imageSidebars = []
 }) => {
   return (
     <div className={cn("flex flex-col h-full overflow-x-hidden bg-gray-600", className)}>
-      {/* ヘッダー */}
-      <SidebarHeader className="border-b p-4">
-        <div className="flex items-center gap-3">
-          <Avatar className="bg-slate-200">
-            <AvatarImage src="/vercel.svg" alt="Handle" />
-            <AvatarFallback>
-              <FileTextIcon className="h-5 w-5" />
-            </AvatarFallback>
-          </Avatar>
-          <div className="text-foreground text-base font-medium">
-            Handle
-          </div>
-        </div>
-      </SidebarHeader>
-
       <SidebarContent className="flex-1 overflow-y-auto p-4">
-        <SidebarMenu>
-          {menuItems.map((item, index) => (
-            <SidebarMenuItem key={index}>
-              <SidebarMenuButton asChild>
-                <a href={item.href}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
+        {/* サイドバー画像を上から順番に表示 */}
+        {imageSidebars.length > 0 && (
+          <div className="space-y-3">
+            {imageSidebars.map((image) => {
+              const imageElement = (
+                <div 
+                  key={image.id}
+                  className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-200"
+                >
+                  <OptimizedImage
+                    src={image.imgUrl}
+                    alt={image.alt || 'サイドバー画像'}
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-200"
+                    sizes="(max-width: 320px) 100vw, 320px"
+                    onError={() => {
+                      console.error('画像の読み込みに失敗:', image.imgUrl);
+                    }}
+                    onLoad={() => {
+                      console.log('画像の読み込み成功:', image.imgUrl);
+                    }}
+                  />
+                </div>
+              );
+
+              // URLが設定されている場合はリンクとして表示
+              if (image.url) {
+                return (
+                  <Link 
+                    key={image.id}
+                    href={image.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block cursor-pointer"
+                  >
+                    {imageElement}
+                  </Link>
+                );
+              }
+
+              return imageElement;
+            })}
+          </div>
+        )}
       </SidebarContent>
     </div>
   );

@@ -2,47 +2,43 @@
 
 import { usePathname } from "next/navigation"
 import { HandleSidebarLayout } from "./HandleSidebarLayout"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import Link from "next/link"
+import { Mail, Bell, Gift } from "lucide-react"
+
+type User = {
+  id: string;
+  name?: string | null;
+  characterName?: string | null;
+  iconUrl?: string | null;
+  handle?: string | null;
+};
 
 export default function HandleClientLayout({
   children,
   sidebarWidth = "360px",
   sidebar,
   mobileFooter,
+  user,
 }: {
   children: React.ReactNode;
   sidebarWidth?: string;
   sidebar?: React.ReactNode;
   mobileFooter?: React.ReactNode;
+  user?: User;
 }) {
   const pathname = usePathname()
   
-  // パスに基づいてページ名を取得
-  const getPageName = () => {
-    if (pathname.includes("/blog")) {
-      return "ブログ"
-    } else if (pathname.includes("/law")) {
-      return "法律"
-    } else if (pathname.includes("/cooking")) {
-      return "料理"
-    } else if (pathname.includes("/settings")) {
-      return "設定"
-    } else {
-      return "Dashboard"
-    }
+  // pathnameから[handle]を抽出
+  const getHandle = () => {
+    const pathSegments = pathname.split('/').filter(segment => segment)
+    return pathSegments[0] || ''
   }
   
   return (
@@ -65,17 +61,31 @@ export default function HandleClientLayout({
             orientation="vertical"
             className="mr-2 data-[orientation=vertical]:h-4"
           />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href="/[handle]">Handle</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{getPageName()}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+          
+          {/* ユーザー情報表示 */}
+          <div className="flex items-center gap-2 flex-1">
+            {user && (
+              <Link href={`/${getHandle()}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <Avatar className="h-8 w-8 rounded-md">
+                  <AvatarImage src={user.iconUrl || undefined} alt={user.characterName || user.name || 'User'} />
+                  <AvatarFallback className="rounded-md">
+                    {user.characterName ? user.characterName.charAt(0).toUpperCase() : 
+                     user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-sm font-medium line-clamp-1">
+                  {user.characterName || user.name || 'Unknown User'}
+                </span>
+              </Link>
+            )}
+          </div>
+          
+          {/* アイコングループ */}
+          <div className="flex items-center gap-2">
+            <Mail className="h-5 w-5 text-muted-foreground" />
+            <Bell className="h-5 w-5 text-muted-foreground" />
+            <Gift className="h-5 w-5 text-muted-foreground" />
+          </div>
         </header>
         <div className="flex-1 overflow-auto">
           <div className="flex flex-col gap-4 bg-background rounded-b-xl py-4 px-4 h-full">
