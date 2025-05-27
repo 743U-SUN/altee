@@ -33,6 +33,7 @@ const DISPLAY_COUNT_OPTIONS = [
   { value: '4', label: '4件' },
   { value: '6', label: '6件' },
   { value: '8', label: '8件' },
+  { value: '9', label: '9件' },  
   { value: '10', label: '10件' },
   { value: '12', label: '12件' },
   { value: '15', label: '15件' },

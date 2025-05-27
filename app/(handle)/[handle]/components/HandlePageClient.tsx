@@ -44,9 +44,9 @@ export default function HandlePageClient({ handle, userData }: HandlePageClientP
 
   return (
     <div className="@container -m-4">
-      <div className="flex flex-col @[768px]:flex-row @[768px]:items-start gap-4">
+      <div className="flex flex-col @[824px]:flex-row @[824px]:items-start gap-4">
         {/* Primary Component - 768px以上ではsticky */}
-        <div className="w-full h-[calc(100vh-11rem)] @[768px]:h-[calc(100vh-5rem)] @[768px]:w-[400px] @[768px]:sticky @[768px]:top-0 flex-shrink-0">
+        <div className="w-full h-[calc(100vh-11rem)] @[824px]:h-[calc(100vh-5rem)] @[824px]:w-[400px] @[824px]:sticky @[824px]:top-0 flex-shrink-0">
           <Primary />
         </div>
         

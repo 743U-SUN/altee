@@ -16,7 +16,7 @@ export default function SecondaryQuestions({ questions }: SecondaryQuestionsProp
         {sortedQuestions.map((question) => (
           <div key={question.id} className="space-y-2">
             <p className="font-medium text-sm">Q. {question.question}</p>
-            <p className="text-sm text-muted-foreground">A. {question.answer}</p>
+            <p className="text-sm text-muted-foreground truncate">A. {question.answer}</p>
           </div>
         ))}
       </div>
