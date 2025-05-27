@@ -47,7 +47,7 @@ export const HandleSidebar: React.FC<HandleSidebarProps> = ({
         {/* サイドバー画像を上から順番に表示 */}
         {imageSidebars.length > 0 && (
           <div className="space-y-3">
-            {imageSidebars.map((image) => {
+            {imageSidebars.map((image, index) => {
               const imageElement = (
                 <div 
                   key={image.id}
@@ -61,6 +61,7 @@ export const HandleSidebar: React.FC<HandleSidebarProps> = ({
                     style={{ height: 'auto' }}
                     className="max-w-full h-auto object-contain hover:scale-105 transition-transform duration-200"
                     sizes="(max-width: 320px) 100vw, 320px"
+                    priority={index === 0} // 最初の画像にpriorityを設定
                     onError={() => {
                       console.error('画像の読み込みに失敗:', image.imgUrl);
                     }}

@@ -10,7 +10,7 @@ interface Params {
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     // 認証チェック
@@ -19,7 +19,7 @@ export async function PATCH(
       return NextResponse.json({ error: '権限がありません' }, { status: 403 })
     }
 
-    const { iconId } = params
+    const { iconId } = await params
     const body = await request.json()
     
     const icon = await IconOperations.updateIcon(iconId, body)
@@ -45,7 +45,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     // 認証チェック
@@ -54,7 +54,7 @@ export async function DELETE(
       return NextResponse.json({ error: '権限がありません' }, { status: 403 })
     }
 
-    const { iconId } = params
+    const { iconId } = await params
     
     await IconOperations.deleteIcon(iconId)
 

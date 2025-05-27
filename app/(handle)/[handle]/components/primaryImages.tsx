@@ -80,7 +80,7 @@ export default function PrimaryImages({ handle }: PrimaryImagesProps) {
             src={currentImage.imgUrl}
             alt={currentImage.alt || 'ユーザー画像'}
             fill
-            className={`object-contain rounded-lg ${
+            className={`object-cover rounded-lg ${
               currentImage.url ? 'cursor-pointer hover:scale-105 transition-transform duration-300' : ''
             }`}
             onClick={() => handleImageClick(currentImage)}
@@ -102,7 +102,7 @@ export default function PrimaryImages({ handle }: PrimaryImagesProps) {
             src={currentImage.imgUrl}
             alt={currentImage.alt || `ユーザー画像 ${currentIndex + 1}`}
             fill
-            className={`object-contain rounded-lg transition-opacity duration-300 ${
+            className={`object-cover rounded-lg transition-opacity duration-300 ${
               currentImage.url ? 'cursor-pointer hover:scale-105 transition-transform duration-300' : ''
             }`}
             onClick={() => handleImageClick(currentImage)}

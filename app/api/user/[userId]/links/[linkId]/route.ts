@@ -11,7 +11,7 @@ interface Params {
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     // 認証チェック
@@ -20,7 +20,7 @@ export async function PATCH(
       return NextResponse.json({ error: '認証が必要です' }, { status: 401 })
     }
 
-    const { userId, linkId } = params
+    const { userId, linkId } = await params
 
     // 自分のデータのみ更新可能
     if (session.user.id !== userId) {
@@ -58,7 +58,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     // 認証チェック
@@ -67,7 +67,7 @@ export async function DELETE(
       return NextResponse.json({ error: '認証が必要です' }, { status: 401 })
     }
 
-    const { userId, linkId } = params
+    const { userId, linkId } = await params
 
     // 自分のデータのみ削除可能
     if (session.user.id !== userId) {

@@ -19,7 +19,7 @@ const reorderSchema = z.object({
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     // 認証チェック
@@ -28,7 +28,7 @@ export async function PATCH(
       return NextResponse.json({ error: '認証が必要です' }, { status: 401 })
     }
 
-    const { userId } = params
+    const { userId } = await params
 
     // 自分のデータのみ更新可能
     if (session.user.id !== userId) {

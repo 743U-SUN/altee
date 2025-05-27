@@ -13,7 +13,7 @@ interface Params {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     // 認証チェック
@@ -22,7 +22,7 @@ export async function GET(
       return NextResponse.json({ error: '認証が必要です' }, { status: 401 })
     }
 
-    const { userId } = params
+    const { userId } = await params
 
     // 自分のデータのみアクセス可能（管理者は除く）
     if (session.user.id !== userId && session.user.role !== 'admin') {
@@ -58,7 +58,7 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     // 認証チェック
@@ -67,7 +67,7 @@ export async function POST(
       return NextResponse.json({ error: '認証が必要です' }, { status: 401 })
     }
 
-    const { userId } = params
+    const { userId } = await params
 
     // 自分のデータのみ作成可能
     if (session.user.id !== userId) {

@@ -10,7 +10,7 @@ interface Params {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     // 認証チェック
@@ -19,7 +19,7 @@ export async function GET(
       return NextResponse.json({ error: '権限がありません' }, { status: 403 })
     }
 
-    const { serviceId } = params
+    const { serviceId } = await params
     
     const service = await LinkServiceOperations.getServiceById(serviceId)
 
@@ -53,7 +53,7 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     // 認証チェック
@@ -62,7 +62,7 @@ export async function PATCH(
       return NextResponse.json({ error: '権限がありません' }, { status: 403 })
     }
 
-    const { serviceId } = params
+    const { serviceId } = await params
     const body = await request.json()
     
     const service = await LinkServiceOperations.updateService(serviceId, body)
@@ -88,7 +88,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     // 認証チェック
@@ -97,7 +97,7 @@ export async function DELETE(
       return NextResponse.json({ error: '権限がありません' }, { status: 403 })
     }
 
-    const { serviceId } = params
+    const { serviceId } = await params
     
     await LinkServiceOperations.deleteService(serviceId)
 

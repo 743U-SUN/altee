@@ -10,7 +10,7 @@ interface Params {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: Promise<Params> }
 ) {
   try {
     // 認証チェック
@@ -19,7 +19,7 @@ export async function GET(
       return NextResponse.json({ error: '権限がありません' }, { status: 403 })
     }
 
-    const { serviceId } = params
+    const { serviceId } = await params
     
     const icons = await IconOperations.getIconsByService(serviceId)
 

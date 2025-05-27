@@ -1,11 +1,38 @@
-1. app/(handle)/[handle]/components/primary.tsxを適切なレイアウトに分けよう。
-とりあえずheader（bannerを表示する場所）とmain（UserImageを表示する場所）を縦に配置する。headerは全体の24%で、残りをmainとしよう。（あとで調節するかも。）
+shadcn/uiとTailwindCSSv4を使っています。
 
-2. primaryBannerは、shadcn/uiのカルーセル機能を使ってオートプレイを導入する。バナーは横3:縦1の割合になるようにユーザーにはアップロードしてもらう予定。縦幅を基準に、横幅は自動的に決めればどの端末にも入ると思う。横がはみ出ちゃうようなら、横ははみ出ないように3:1をキープして。
+今回はapp/(handle)/[handle]/page.tsxのapp/(handle)/[handle]/components/secondary.tsxの中身を作っていく計画を立てていく。
 
-3. primaryImagesは、ユーザーにアップロードしてもらった横9:縦16の縦長の画像を配置する。1つの場合は中央寄せで配置。2つ以上の場合は画像の右に垂直方向に1,2,3と番号のボタンを配置。押すと画像が切り替わるように。768px以下の場合はモバイル用のフッターナビゲーションが出現するので、その分のスペースは確保して、残りの高さで横9:縦16をキープするようにすればはみ出さないと思う。もしはみ出すようならはみ出さないように縮小して表示する。
+まず、secondaryに表示するものとしては
+1. 名前を表示する(secondaryName.tsx)
+2. ひとことメッセージを表示する(secondaryDiscription.tsx)
+3. 一問一答を表示する(secondaryQuestions.tsx)
+4. SNSLink集(secondaryLinks.tsx)
+5. Youtube動画(secondaryYoutube.tsx)
 
-このような計画を考えたがどうだろうか。
+まずはsecondary.tsxにそれぞれのコンポーネントを表示するためのレイアウトを考えていく。secondary.tsxにの中にカードを作り、その中に1,2,3を入れる。
 
-クロードにはまず、この計画を評価してもらいたい。
-また、この計画を参考にクロードが実装しやすいように必要であれば再度計画を立て直してもらいたい。そして、計画が完成したらFileSystemを用いて実装を開始してください。
+1.2.3は、同じカード内に表示したい。上からName, discription, question.
+
+Name: 横長のカード内にの上にSubName, 下にCharacterName を配置。
+
+discription: カード内に自己紹介文を入れる。
+
+question: 左に質問,右に答えのまとまりを親のコンテナが768px以上の場合は2列で表示して、親のコンテナが768pxより小さくなったら1列になるようにする。コンテナクエリを利用して作ってみよう。
+
+1.2.3のまとまりの下にSNSLink集を配置。
+SNSリンク集は大きなカードに入れるのではなく、それぞれを横長のカードとして表示。
+それぞれのカードは左にSNSIcon,右に二行でSNSTitle, SNSDescriptionを配置。カードはそれぞれLinkを貼り押せるようにする。
+親コンテナが768px以上なら3列にし、768px以下なら2列にし、600px以下なら1列にしようと考えている。
+
+SNSLink集の下にはYoutubeの動画を配置。
+Youtubeの動画も大きなカードに入れるのではなく、それぞれのカードを並べる形にする。
+上にサムネイル、下にタイトルというシンプルなもの。親コンテナが1024px以上なら4列768px以上なら3列,768pxより小さければ2列にする。一番下にもっと見るボタンを配置し、それぞれのユーザーのvideosページに飛ぶようにする。
+
+使うデータはPrismaSchemaを参照する。
+画像を扱う場合はdocs/image-handling-guide.mdを参照する。
+
+Prismaで関係ありそうなモデル
+・User
+・UserLink
+・UserYoutubeSettings
+
