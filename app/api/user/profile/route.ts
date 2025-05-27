@@ -3,6 +3,7 @@ import { z } from "zod"
 import { auth } from "@/auth"
 import { prisma } from "@/lib/prisma"
 import { sanitizeDisplayName, containsDangerousPatterns } from "@/lib/security/sanitize"
+import { validateRichTextCharacters, hasConsecutiveSymbols, sanitizeRichTextInput } from "@/lib/validation/textValidation"
 
 // サーバーサイドのサニタイゼーション関数（名前用）
 const sanitizeNameInput = (input: string): string => {
@@ -12,16 +13,6 @@ const sanitizeNameInput = (input: string): string => {
     .replace(/[^\p{L}\p{N}\s\-_。、！？]/gu, '') // 許可された文字のみ残す
     .replace(/\s+/g, ' ') // 連続した空白を単一の空白に
     .slice(0, 50) // 長さ制限を強制
-}
-
-// サーバーサイドのサニタイゼーション関数（bio用）
-const sanitizeBioInput = (input: string): string => {
-  return input
-    .trim() // 前後の空白を削除
-    .replace(/[<>]/g, '') // HTMLタグ文字を削除
-    .replace(/[^\p{L}\p{N}\s\-_。、！？\n]/gu, '') // 許可された文字のみ残す（改行許可）
-    .replace(/\n{3,}/g, '\n\n') // 連続した改行を2つまでに制限
-    .slice(0, 1000) // 長さ制限を強制
 }
 
 // サーバーサイドバリデーションスキーマ（より厳密）
@@ -53,13 +44,16 @@ const profileUpdateSchema = z.object({
   bio: z
     .string()
     .max(1000, "自己紹介文は1000文字以内で入力してください")
-    .regex(/^[^\<\>]*$/, "不正な文字が含まれています")
-    .regex(/^(?!.*<script).*$/i, "スクリプトタグは使用できません")
-    .regex(/^(?!.*javascript:).*$/i, "JavaScriptコードは使用できません")
-    .regex(/^(?!.*data:).*$/i, "データURLは使用できません")
-    .regex(/^(?!.*vbscript:).*$/i, "VBScriptは使用できません")
+    .regex(/^[^\<\>]*$/s, "不正な文字が含まれています")
+    .regex(/^(?!.*<script).*$/is, "スクリプトタグは使用できません")
+    .regex(/^(?!.*javascript:).*$/is, "JavaScriptコードは使用できません")
+    .regex(/^(?!.*data:).*$/is, "データURLは使用できません")
+    .regex(/^(?!.*vbscript:).*$/is, "VBScriptは使用できません")
     .refine((val) => !containsDangerousPatterns(val), "危険なパターンが検出されました")
-    .transform(sanitizeBioInput)
+    // カスタム文字チェック関数を使用（クライアントと同じアプローチ）
+    .refine((val) => validateRichTextCharacters(val), "使用できない文字が含まれています。日本語文字、英数字、記号（: , \" / ? ! @ # $ % & * ( ) + = [ ] { } | \\ ` ~ など）が使用可能です")
+    .refine((val) => !hasConsecutiveSymbols(val, 5), "記号を5つ以上連続して使用することはできません")
+    .transform(sanitizeRichTextInput)
     .optional(),
 })
 
@@ -137,8 +131,8 @@ export async function PUT(request: Request) {
     
     const data = validationResult.data
     
-    // 空のオブジェクトを送信された場合の対策
-    if (!data.characterName && !data.subname && !data.bio) {
+    // 空のオブジェクトを送信された場合の対策（空文字列の更新は許可）
+    if (data.characterName === undefined && data.subname === undefined && data.bio === undefined) {
       return NextResponse.json(
         { error: "更新するデータがありません" },
         { status: 400 }

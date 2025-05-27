@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { sanitizeDisplayName, containsDangerousPatterns } from "@/lib/security/sanitize"
+import { validateRichTextCharacters, validateBasicTextCharacters, hasConsecutiveSymbols } from "@/lib/validation/textValidation"
 
 /**
  * 共通のバリデーションスキーマとルール
@@ -73,19 +74,36 @@ export const passwordSchema = z
   .max(128, "パスワードは128文字以内で入力してください")
   .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "英大文字、英小文字、数字をそれぞれ含む必要があります")
 
-// テキストエリア用（自己紹介文など）
+// テキストエリア用（自己紹介文など） - 厳しいバリデーション（従来版）
 export const textAreaSchema = z
   .string()
   .max(1000, "1000文字以内で入力してください")
-  .regex(/^[^\<\>]*$/, "不正な文字が含まれています")
-  .regex(/^(?!.*<script).*$/i, "スクリプトタグは使用できません")
+  .regex(/^[^\<\>]*$/s, "不正な文字が含まれています")
+  .regex(/^(?!.*<script).*$/is, "スクリプトタグは使用できません")
   // テキストエリアでは改行も含めてより柔軟に（完全Unicode対応）
+  // 半角の?や!も追加
   .regex(
-    /^[\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FAF\uF900-\uFAFF\u{20000}-\u{2EBEF}a-zA-Z0-9\s\-_・。、！？\n\r]*$/u,
+    /^[\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FAF\uF900-\uFAFF\u{20000}-\u{2EBEF}a-zA-Z0-9\s\-_・。、！？!?\n\r]*$/u,
     "すべての日本語文字、英数字、基本的な記号、改行のみ使用可能です"
   )
   .refine((val: string) => !containsDangerousPatterns(val), "危険なパターンが検出されました")
-  .refine((val: string) => !/[\-_・。、！？]{5,}/.test(val), "記号を5つ以上連続して使用することはできません")
+  .refine((val: string) => !/[\-_・。、！？!?]{5,}/.test(val), "記号を5つ以上連続して使用することはできません")
+  .transform((text: string) => text.trim())
+  .optional()
+
+// 自己紹介文用のより柔軟なスキーマ（カスタム関数ベース）
+export const bioTextAreaSchema = z
+  .string()
+  .max(1000, "1000文字以内で入力してください")
+  .regex(/^[^\<\>]*$/s, "不正な文字が含まれています")
+  .regex(/^(?!.*<script).*$/is, "スクリプトタグは使用できません")
+  .regex(/^(?!.*javascript:).*$/is, "JavaScriptコードは使用できません")
+  .regex(/^(?!.*data:).*$/is, "データURLは使用できません")
+  .regex(/^(?!.*vbscript:).*$/is, "VBScriptは使用できません")
+  .refine((val: string) => !containsDangerousPatterns(val), "危険なパターンが検出されました")
+  // カスタム文字チェック関数を使用（より柔軟で保守しやすい）
+  .refine((val: string) => validateRichTextCharacters(val), "使用できない文字が含まれています。日本語文字、英数字、記号（: , \" / ? ! @ # $ % & * ( ) + = [ ] { } | \\ ` ~ など）が使用可能です")
+  .refine((val: string) => !hasConsecutiveSymbols(val, 5), "記号を5つ以上連続して使用することはできません")
   .transform((text: string) => text.trim())
   .optional()
 
@@ -136,9 +154,9 @@ export const userProfileSchema = z.object({
   handle: handleSchema.optional(),
 })
 
-// Bio専用のスキーマ
+// Bio専用のスキーマ（より柔軟なバリデーション）
 export const bioOnlySchema = z.object({
-  bio: textAreaSchema,
+  bio: bioTextAreaSchema,
 })
 
 export const contactFormSchema = z.object({
@@ -176,3 +194,38 @@ export const formConfigs = {
 } as const
 
 export type FormConfigType = keyof typeof formConfigs
+
+// 質問・回答用スキーマ（改行なしの基本テキスト）
+export const questionSchema = z
+  .string()
+  .min(1, "質問を入力してください")
+  .max(20, "質問は20文字以内で入力してください")
+  .regex(/^[^\<\>]*$/, "不正な文字が含まれています")
+  .regex(/^(?!.*<script).*$/i, "スクリプトタグは使用できません")
+  .regex(/^(?!.*javascript:).*$/i, "JavaScriptコードは使用できません")
+  .regex(/^(?!.*data:).*$/i, "データURLは使用できません")
+  .regex(/^(?!.*vbscript:).*$/i, "VBScriptは使用できません")
+  .refine((val: string) => !containsDangerousPatterns(val), "危険なパターンが検出されました")
+  .refine((val: string) => validateBasicTextCharacters(val), "使用できない文字が含まれています。日本語文字、英数字、記号が使用可能です（改行は使用できません）")
+  .refine((val: string) => !hasConsecutiveSymbols(val, 3), "記号を3つ以上連続して使用することはできません")
+  .transform((text: string) => text.trim())
+
+export const answerSchema = z
+  .string()
+  .min(1, "回答を入力してください")
+  .max(50, "回答は50文字以内で入力してください")
+  .regex(/^[^\<\>]*$/, "不正な文字が含まれています")
+  .regex(/^(?!.*<script).*$/i, "スクリプトタグは使用できません")
+  .regex(/^(?!.*javascript:).*$/i, "JavaScriptコードは使用できません")
+  .regex(/^(?!.*data:).*$/i, "データURLは使用できません")
+  .regex(/^(?!.*vbscript:).*$/i, "VBScriptは使用できません")
+  .refine((val: string) => !containsDangerousPatterns(val), "危険なパターンが検出されました")
+  .refine((val: string) => validateBasicTextCharacters(val), "使用できない文字が含まれています。日本語文字、英数字、記号が使用可能です（改行は使用できません）")
+  .refine((val: string) => !hasConsecutiveSymbols(val, 3), "記号を3つ以上連続して使用することはできません")
+  .transform((text: string) => text.trim())
+
+// Q&A用のコンバインスキーマ
+export const qaSchema = z.object({
+  question: questionSchema,
+  answer: answerSchema,
+})

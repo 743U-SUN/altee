@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Plus, Loader2, GripVertical, Info, Trash2, Save, MessageCircleQuestion, MessageSquare } from 'lucide-react';
 import { toast } from 'sonner';
+import { questionSchema, answerSchema } from '@/lib/validation/schemas';
 
 interface CustomQuestionItem {
   id: string;
@@ -153,24 +154,23 @@ export function CustomQuestion({ userId }: CustomQuestionProps) {
 
   // Q&Aデータを保存
   const handleSaveData = async (questionId: string) => {
-    const question = tempQuestions[questionId]?.trim();
-    const answer = tempAnswers[questionId]?.trim();
+    const question = tempQuestions[questionId]?.trim() || '';
+    const answer = tempAnswers[questionId]?.trim() || '';
 
-    // バリデーション
-    if (!question) {
-      toast.error('質問を入力してください');
+    // 新しいスキーマでバリデーション
+    try {
+      questionSchema.parse(question);
+    } catch (error: any) {
+      const errorMessage = error.errors?.[0]?.message || '質問の入力内容に問題があります';
+      toast.error(errorMessage);
       return;
     }
-    if (!answer) {
-      toast.error('回答を入力してください');
-      return;
-    }
-    if (question.length > 20) {
-      toast.error('質問は20文字以内で入力してください');
-      return;
-    }
-    if (answer.length > 50) {
-      toast.error('回答は50文字以内で入力してください');
+
+    try {
+      answerSchema.parse(answer);
+    } catch (error: any) {
+      const errorMessage = error.errors?.[0]?.message || '回答の入力内容に問題があります';
+      toast.error(errorMessage);
       return;
     }
 
@@ -291,8 +291,8 @@ export function CustomQuestion({ userId }: CustomQuestionProps) {
           <Info className="h-4 w-4 text-blue-600 flex-shrink-0 mt-0.5" />
           <div className="text-sm text-blue-700 space-y-1">
             <p>• 質問は最大20文字、回答は最大50文字まで入力できます</p>
+            <p>• 日本語文字、英数字、記号（: , " / ? ! @ # $ % & * ( ) + = [ ] { } | \ ` ~ など）が使用可能です</p>
             <p>• ドラッグ&ドロップで並び順を変更できます</p>
-            <p>• 空の質問・回答は保存できません</p>
           </div>
         </div>
       </div>
@@ -425,6 +425,7 @@ export function CustomQuestion({ userId }: CustomQuestionProps) {
         {/* 説明テキスト */}
         <div className="space-y-2 text-sm text-gray-500">
           <p>• 質問は20文字以内、回答は50文字以内で入力してください</p>
+          <p>• 日本語文字、英数字、記号（: , " / ? ! @ # $ % & * ( ) + = [ ] { } | \ ` ~ など）が使用可能です</p>
           <p>• プロフィールページで訪問者に表示されます</p>
           <p>• 並び順はドラッグ&ドロップで自由に変更できます</p>
         </div>
