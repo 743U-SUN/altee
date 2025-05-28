@@ -4,9 +4,9 @@ import HandlePageClient from "./components/HandlePageClient";
 import { UserProfileData } from "./types";
 
 interface HandlePageProps {
-  params: {
+  params: Promise<{
     handle: string;
-  };
+  }>;
 }
 
 // ユーザーデータを取得する関数
@@ -61,11 +61,12 @@ async function getUserData(handle: string): Promise<UserProfileData | null> {
 }
 
 export default async function HandlePage({ params }: HandlePageProps) {
-  const userData = await getUserData(params.handle);
+  const { handle } = await params;
+  const userData = await getUserData(handle);
 
   if (!userData) {
     notFound();
   }
 
-  return <HandlePageClient handle={params.handle} userData={userData} />;
+  return <HandlePageClient handle={handle} userData={userData} />;
 }

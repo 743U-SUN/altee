@@ -49,16 +49,23 @@ export default function PrimaryBanner({ handle }: PrimaryBannerProps) {
       setCurrentIndex((prevIndex) => 
         prevIndex === banners.length - 1 ? 0 : prevIndex + 1
       );
-    }, 6000); // 5秒間隔で切り替え
+    }, 6000); // 6秒間隔で切り替え
 
     return () => clearInterval(interval);
   }, [banners.length]);
 
   if (loading) {
     return (
-      <div className="w-[64%] h-full flex items-center">
-        <div className="w-full rounded-lg bg-gray-100 animate-pulse" style={{ aspectRatio: '3/1' }}>
-          <div className="w-full h-full bg-gray-200 rounded-lg" />
+      <div className="w-full h-full p-4">
+        <div className="h-full flex items-start justify-start">
+          {/* 3:1の比率を保つスケルトンローダー */}
+          <div 
+            className="relative bg-gray-200 rounded-lg animate-pulse"
+            style={{ 
+              height: '80%',
+              aspectRatio: '3/1'
+            }}
+          />
         </div>
       </div>
     );
@@ -75,94 +82,110 @@ export default function PrimaryBanner({ handle }: PrimaryBannerProps) {
   };
 
   return (
-    <div className="w-[64%] pl-4 h-full flex items-center">
-      {/* バナー画像 */}
-      <div 
-        className="w-full relative rounded-lg overflow-hidden"
-        style={{ aspectRatio: '3/1' }}
-      >
-        {banners.map((banner, index) => (
-          <div
-            key={banner.id}
-            className={`absolute inset-0 transition-opacity duration-500 ${
-              index === currentIndex ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <OptimizedImage
-              src={banner.imgUrl}
-              alt={banner.alt || `バナー ${index + 1}`}
-              fill
-              className={`object-cover rounded-lg ${
-                banner.url ? 'cursor-pointer hover:scale-105 transition-transform duration-300' : ''
+    <div className="w-full h-full p-4">
+      {/* 高さと幅の両方の制約を考慮して3:1の比率を保つ */}
+      <div className="h-full flex items-start justify-start">
+        <div 
+          className="relative rounded-lg overflow-hidden"
+          style={{ 
+            // 高さは親要素の80%を最大とする
+            height: '80%',
+            // アスペクト比3:1を保つ
+            aspectRatio: '3/1',
+            // 幅は親要素の80%を最大とする
+            maxWidth: '80%'
+          }}
+        >
+          {/* カルーセル画像 */}
+          {banners.map((banner, index) => (
+            <div
+              key={banner.id}
+              className={`absolute inset-0 transition-opacity duration-500 ${
+                index === currentIndex ? 'opacity-100' : 'opacity-0'
               }`}
-              onClick={() => handleBannerClick(banner)}
-              priority={index === 0}
-              sizes="(max-width: 768px) 100vw, 400px"
-            />
-          </div>
-        ))}
-        {/* インディケーター（複数のバナーがある場合のみ表示） */}
-        {banners.length > 1 && (
-          <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2">
-            <div className="flex space-x-2">
-              {banners.map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-2 h-2 rounded-full transition-colors duration-200 ${
-                    index === currentIndex ? 'bg-white' : 'bg-white/50'
-                  }`}
-                  onClick={() => setCurrentIndex(index)}
-                />
-              ))}
+            >
+              <OptimizedImage
+                src={banner.imgUrl}
+                alt={banner.alt || `バナー ${index + 1}`}
+                fill
+                className={`object-cover ${
+                  banner.url ? 'cursor-pointer hover:scale-105 transition-transform duration-300' : ''
+                }`}
+                onClick={() => handleBannerClick(banner)}
+                priority={index === 0}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
+              />
             </div>
-          </div>
-        )}
+          ))}
+          
+          {/* インディケーター（複数のバナーがある場合のみ表示） */}
+          {banners.length > 1 && (
+            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 z-10">
+              <div className="flex space-x-2 bg-black/20 px-2 py-1 rounded-full">
+                {banners.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                      index === currentIndex 
+                        ? 'bg-white w-6' 
+                        : 'bg-white/50 hover:bg-white/70'
+                    }`}
+                    onClick={() => setCurrentIndex(index)}
+                    aria-label={`バナー ${index + 1} に移動`}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
-        {/* 前後の矢印（複数のバナーがある場合のみ表示） */}
-        {banners.length > 1 && (
-          <>
-            <button
-              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full transition-colors duration-200"
-              onClick={() => 
-                setCurrentIndex(currentIndex === 0 ? banners.length - 1 : currentIndex - 1)
-              }
-            >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+          {/* 前後の矢印（複数のバナーがある場合のみ表示） */}
+          {banners.length > 1 && (
+            <>
+              <button
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-all duration-200 z-10"
+                onClick={() => 
+                  setCurrentIndex(currentIndex === 0 ? banners.length - 1 : currentIndex - 1)
+                }
+                aria-label="前のバナー"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-            <button
-              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full transition-colors duration-200"
-              onClick={() => 
-                setCurrentIndex(currentIndex === banners.length - 1 ? 0 : currentIndex + 1)
-              }
-            >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+              </button>
+              <button
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/30 hover:bg-black/50 text-white p-2 rounded-full transition-all duration-200 z-10"
+                onClick={() => 
+                  setCurrentIndex(currentIndex === banners.length - 1 ? 0 : currentIndex + 1)
+                }
+                aria-label="次のバナー"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-          </>
-        )}
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
