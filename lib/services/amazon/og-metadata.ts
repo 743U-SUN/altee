@@ -3,7 +3,7 @@
  * PA-APIを使用せず、OGメタデータとページ情報から商品情報を取得
  */
 
-import { extractASIN, normalizeAmazonUrl, detectCategoryFromTitle } from '@/lib/utils/amazon';
+import { extractASIN, normalizeAmazonUrl, detectCategoryFromTitle, expandShortenedUrl } from '@/lib/utils/amazon';
 import type { OGProductInfo } from '@/types/device';
 
 /**
@@ -150,11 +150,20 @@ function extractPriceFromHTML(html: string): string | undefined {
  * @returns 商品情報
  */
 export async function fetchProductFromAmazonUrl(url: string): Promise<OGProductInfo> {
+  console.log('fetchProductFromAmazonUrl called with:', url);
+  
+  // 最初に短縮URLを展開
+  const expandedUrl = await expandShortenedUrl(url);
+  console.log('Expanded URL:', expandedUrl);
+  
   // URLを正規化
-  const normalizedUrl = normalizeAmazonUrl(url);
+  const normalizedUrl = await normalizeAmazonUrl(expandedUrl);
+  console.log('Normalized URL:', normalizedUrl);
   
   // ASINを抽出
-  const asin = extractASIN(normalizedUrl);
+  const asin = await extractASIN(expandedUrl);
+  console.log('Extracted ASIN:', asin);
+  
   if (!asin) {
     throw new Error('有効なAmazon商品URLではありません');
   }

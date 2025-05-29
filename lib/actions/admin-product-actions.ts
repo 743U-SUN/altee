@@ -5,6 +5,7 @@ import { db } from "@/lib/prisma";
 import { Prisma, Product } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { fetchProductFromPAAPI } from "@/lib/services/amazon/pa-api";
+import { fetchProductFromAmazonUrl } from "@/lib/services/amazon/og-metadata";
 import { extractASIN } from "@/lib/utils/amazon/url-parser";
 
 /**
@@ -61,8 +62,14 @@ export async function getAdminProducts(
       db.product.count({ where }),
     ]);
 
+    // Decimal型をstring型に変換
+    const serializedProducts = products.map(product => ({
+      ...product,
+      price: product.price ? product.price.toString() : null,
+    }));
+
     return {
-      products,
+      products: serializedProducts,
       total,
       pages: Math.ceil(total / limit),
       currentPage: page,
@@ -103,7 +110,13 @@ export async function getAdminProduct(productId: string) {
       throw new Error("Product not found");
     }
 
-    return product;
+    // Decimal型をstring型に変換
+    const serializedProduct = {
+      ...product,
+      price: product.price ? product.price.toString() : null,
+    };
+
+    return serializedProduct;
   } catch (error) {
     console.error("Error fetching admin product:", error);
     throw error;
@@ -111,21 +124,51 @@ export async function getAdminProduct(productId: string) {
 }
 
 /**
- * Amazon URLから商品情報を取得（PA-API使用）
+ * Amazon URLから商品情報を取得（PA-API優先、OGメタデータフォールバック）
  */
 export async function fetchProductFromAmazon(amazonUrl: string) {
   try {
     await checkAdminAuth();
 
-    const asin = extractASIN(amazonUrl);
+    const asin = await extractASIN(amazonUrl);
     if (!asin) {
       throw new Error("Invalid Amazon URL: ASIN not found");
     }
 
-    // PA-APIから商品情報を取得
-    const productData = await fetchProductFromPAAPI(asin);
-    
-    return productData;
+    // まずPA-APIで試行
+    try {
+      console.log('Trying PA-API for ASIN:', asin);
+      const productData = await fetchProductFromPAAPI(asin);
+      
+      // PA-API成功時はデータを変換して返す
+      return {
+        title: productData.title,
+        description: productData.description || '',
+        imageUrl: productData.imageUrl || '/images/no-image.svg',
+        asin: asin,
+        amazonUrl: `https://www.amazon.co.jp/dp/${asin}`,
+        source: 'PA-API',
+      };
+    } catch (paApiError) {
+      console.log('PA-API failed, falling back to OG metadata:', paApiError.message);
+      
+      // PA-API失敗時はOGメタデータでフォールバック
+      try {
+        const ogData = await fetchProductFromAmazonUrl(amazonUrl);
+        
+        return {
+          title: ogData.title,
+          description: ogData.description || '',
+          imageUrl: ogData.imageUrl,
+          asin: ogData.asin,
+          amazonUrl: `https://www.amazon.co.jp/dp/${ogData.asin}`,
+          source: 'OG-metadata',
+        };
+      } catch (ogError) {
+        console.error('Both PA-API and OG metadata failed:', ogError);
+        throw new Error(`商品情報の取得に失敗しました: PA-APIエラー (${paApiError.message}), OGメタデータエラー (${ogError.message})`);
+      }
+    }
   } catch (error) {
     console.error("Error fetching product from Amazon:", error);
     throw error;
@@ -171,8 +214,14 @@ export async function createProduct(data: {
       },
     });
 
+    // Decimal型をstring型に変換
+    const serializedProduct = {
+      ...product,
+      price: product.price ? product.price.toString() : null,
+    };
+
     revalidatePath("/admin/devices");
-    return product;
+    return serializedProduct;
   } catch (error) {
     console.error("Error creating product:", error);
     throw error;
@@ -204,9 +253,15 @@ export async function updateProduct(
       },
     });
 
+    // Decimal型をstring型に変換
+    const serializedProduct = {
+      ...product,
+      price: product.price ? product.price.toString() : null,
+    };
+
     revalidatePath("/admin/devices");
     revalidatePath(`/admin/devices/${productId}`);
-    return product;
+    return serializedProduct;
   } catch (error) {
     console.error("Error updating product:", error);
     throw error;
@@ -278,9 +333,15 @@ export async function refreshProductFromAmazon(productId: string) {
       },
     });
 
+    // Decimal型をstring型に変換
+    const serializedProduct = {
+      ...updatedProduct,
+      price: updatedProduct.price ? updatedProduct.price.toString() : null,
+    };
+
     revalidatePath("/admin/devices");
     revalidatePath(`/admin/devices/${productId}`);
-    return updatedProduct;
+    return serializedProduct;
   } catch (error) {
     console.error("Error refreshing product from Amazon:", error);
     throw error;

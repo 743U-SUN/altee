@@ -243,7 +243,7 @@ export async function fetchMultipleProductsFromPAAPI(
  * @returns 商品情報
  */
 export async function fetchProductFromUrlWithPAAPI(url: string): Promise<ProductAPIData> {
-  const asin = extractASIN(url);
+  const asin = await extractASIN(url);
   if (!asin) {
     throw new Error('Invalid Amazon product URL');
   }

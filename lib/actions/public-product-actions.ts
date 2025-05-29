@@ -5,6 +5,23 @@ import type { Product, DeviceCategory } from "@/lib/generated/prisma";
 import { unstable_cache } from "next/cache";
 
 /**
+ * ProductオブジェクトのDecimal型をstring型に変換するユーティリティ関数
+ */
+function serializeProduct<T extends { price?: any }>(product: T): T {
+  return {
+    ...product,
+    price: product.price ? product.price.toString() : null,
+  } as T;
+}
+
+/**
+ * Product配列のDecimal型を変換
+ */
+function serializeProducts<T extends { price?: any }[]>(products: T): T {
+  return products.map(serializeProduct) as T;
+}
+
+/**
  * 公開商品一覧の取得（キャッシュ付き）
  */
 export const getPublicProducts = unstable_cache(
@@ -51,7 +68,7 @@ export const getPublicProducts = unstable_cache(
       ]);
 
       return {
-        products,
+        products: serializeProducts(products),
         total,
         pages: Math.ceil(total / limit),
         currentPage: page,
@@ -122,7 +139,7 @@ export const getPopularProducts = unstable_cache(
         take: limit,
       });
 
-      return products;
+      return serializeProducts(products);
     } catch (error) {
       console.error("Error fetching popular products:", error);
       return [];
@@ -193,7 +210,7 @@ export const getPublicProduct = unstable_cache(
         },
       });
 
-      return product;
+      return product ? serializeProduct(product) : null;
     } catch (error) {
       console.error("Error fetching public product:", error);
       return null;

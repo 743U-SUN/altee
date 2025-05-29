@@ -8,7 +8,7 @@ import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
 import type { CustomProductData } from '@/types/device';
-import { fetchProductInfo, extractAttributes } from '@/lib/services/amazon';
+import { fetchProductFromAmazonUrl, extractAttributes } from '@/lib/services/amazon';
 import { extractASIN, addAssociateIdToUrl, detectCategoryFromTitle } from '@/lib/utils/amazon';
 import { 
   createDeviceFromProductSchema, 
@@ -55,7 +55,16 @@ export async function getUserDevices(userId?: string) {
     orderBy: { createdAt: 'desc' },
   });
 
-  return devices;
+  // Decimal型をstring型に変換してClient Componentで使用可能にする
+  const serializedDevices = devices.map(device => ({
+    ...device,
+    product: device.product ? {
+      ...device.product,
+      price: device.product.price ? device.product.price.toString() : null,
+    } : null,
+  }));
+
+  return serializedDevices;
 }
 
 
@@ -211,8 +220,12 @@ export async function previewProductFromUrl(amazonUrl: string) {
       return { success: false, error: '認証が必要です' };
     }
 
+    console.log('Original URL:', amazonUrl);
+
     // ASINを抽出
-    const asin = extractASIN(amazonUrl);
+    const asin = await extractASIN(amazonUrl);
+    console.log('Extracted ASIN:', asin);
+    
     if (!asin) {
       return { success: false, error: '有効なAmazon商品URLではありません' };
     }
@@ -221,7 +234,9 @@ export async function previewProductFromUrl(amazonUrl: string) {
     const existingCheck = await checkExistingProductByAsin(asin);
 
     // 商品情報を取得
-    const productInfo = await fetchProductInfo(amazonUrl);
+    console.log('Fetching product info for URL:', amazonUrl);
+    const productInfo = await fetchProductFromAmazonUrl(amazonUrl);
+    console.log('Product info retrieved:', { title: productInfo.title, asin: productInfo.asin });
     
     // カテゴリーを検出
     const detectedCategory = detectCategoryFromTitle(productInfo.title);
@@ -235,7 +250,8 @@ export async function previewProductFromUrl(amazonUrl: string) {
     };
   } catch (error) {
     console.error('previewProductFromUrl error:', error);
-    return { success: false, error: '商品情報の取得に失敗しました' };
+    const errorMessage = error instanceof Error ? error.message : '商品情報の取得に失敗しました';
+    return { success: false, error: errorMessage };
   }
 }
 
@@ -267,7 +283,7 @@ export async function addDeviceFromUrl(data: {
     const validated = createDeviceFromUrlSchema.parse(data);
 
     // ASINを抽出
-    const asin = extractASIN(validated.amazonUrl);
+    const asin = await extractASIN(validated.amazonUrl);
     if (!asin) {
       return { success: false, error: '有効なAmazon商品URLではありません' };
     }
@@ -322,7 +338,7 @@ export async function addDeviceFromUrl(data: {
     // 既に上で取得済み
 
     // 商品情報を取得
-    const productInfo = await fetchProductInfo(validated.amazonUrl);
+    const productInfo = await fetchProductFromAmazonUrl(validated.amazonUrl);
     
     // カテゴリーを決定
     const category = validated.category || detectCategoryFromTitle(productInfo.title);
@@ -483,5 +499,11 @@ export async function getOfficialProducts(category?: string) {
     orderBy: { createdAt: 'desc' },
   });
 
-  return products;
+  // Decimal型をstring型に変換してClient Componentで使用可能にする
+  const serializedProducts = products.map(product => ({
+    ...product,
+    price: product.price ? product.price.toString() : null,
+  }));
+
+  return serializedProducts;
 }

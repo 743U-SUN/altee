@@ -99,14 +99,28 @@ export function AddDeviceForm() {
 
   // URLプレビューと重複チェック
   const handleUrlPreview = useCallback(async (url: string) => {
-    if (!url || !url.includes('amazon')) {
+    console.log('handleUrlPreview called with:', url);
+    
+    // Amazon URLの判定を短縮URLにも対応
+    const isAmazonUrl = url && (
+      url.includes('amazon.co.jp') ||
+      url.includes('amazon.com') ||
+      url.includes('amazon.jp') ||
+      url.includes('amzn.to') ||
+      url.includes('amzn.asia')
+    );
+    
+    if (!isAmazonUrl) {
+      console.log('Not an Amazon URL, clearing preview');
       setPreviewData(null);
       return;
     }
 
     setIsPreviewing(true);
     try {
+      console.log('Starting preview request...');
       const result = await previewProductFromUrl(url);
+      console.log('Preview result:', result);
       
       // resultがundefinedまたはnullの場合のチェックを追加
       if (!result) {
@@ -121,20 +135,24 @@ export function AddDeviceForm() {
       }
       
       if (result.success) {
+        console.log('Preview successful, setting data');
         setPreviewData(result);
         
         // カテゴリーを自動設定
         if (result.detectedCategory && !urlForm.getValues('category')) {
+          console.log('Auto-setting category:', result.detectedCategory);
           urlForm.setValue('category', result.detectedCategory);
         }
 
         // 重複警告の表示判定
         if (result.duplicateInfo?.userExistingDevice) {
+          console.log('User already has this device');
           setShowDuplicateWarning(true);
         } else {
           setShowDuplicateWarning(false);
         }
       } else {
+        console.log('Preview failed:', result.error);
         setPreviewData(null);
         if (result.error !== '有効なAmazon商品URLではありません') {
           toast({
@@ -356,7 +374,7 @@ export function AddDeviceForm() {
                   <FormLabel>Amazon商品URL</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="https://www.amazon.co.jp/dp/..."
+                      placeholder="https://www.amazon.co.jp/dp/... または https://amzn.to/..."
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
@@ -365,7 +383,7 @@ export function AddDeviceForm() {
                     />
                   </FormControl>
                   <FormDescription>
-                    Amazon.co.jpの商品ページURLを入力してください
+                    Amazon商品ページのURLを入力してください。短縮URL（amzn.to）にも対応しています。
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

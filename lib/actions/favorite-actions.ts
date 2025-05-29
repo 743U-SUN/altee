@@ -110,10 +110,27 @@ export async function getUserFavorites() {
       }
     })
 
-    // 表示用にフォーマット
+    // 表示用にフォーマット（Decimal型を変換）
     const formattedFavorites = favorites.map(fav => ({
       ...fav,
-      product: formatPublicProductForDisplay(fav.product)
+      product: {
+        ...formatPublicProductForDisplay(fav.product),
+        // 元のProductデータも保持しつつ、Decimal型を変換
+        id: fav.product.id,
+        price: fav.product.price ? fav.product.price.toString() : null,
+        name: fav.product.name,
+        asin: fav.product.asin,
+        amazonUrl: fav.product.amazonUrl,
+        adminAffiliateUrl: fav.product.adminAffiliateUrl,
+        imageUrl: fav.product.imageUrl,
+        isActive: fav.product.isActive,
+        createdAt: fav.product.createdAt,
+        updatedAt: fav.product.updatedAt,
+        categoryId: fav.product.categoryId,
+        attributes: fav.product.attributes,
+        category: fav.product.category,
+        _count: fav.product._count
+      }
     }))
 
     return { success: true, data: formattedFavorites }

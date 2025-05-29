@@ -111,9 +111,27 @@ export function AddProductDialog({
         asin: data.asin,
       });
       
-      toast.success("商品情報を取得しました");
+      // データソースに応じたメッセージを表示
+      if (data.source === 'PA-API') {
+        toast.success("商品情報をPA-APIから取得しました");
+      } else if (data.source === 'OG-metadata') {
+        toast.success("商品情報を取得しました（PA-APIが利用できないためOGメタデータを使用）", {
+          duration: 5000, // 少し長めに表示
+        });
+      } else {
+        toast.success("商品情報を取得しました");
+      }
     } catch (error) {
-      toast.error("商品情報の取得に失敗しました");
+      const errorMessage = error instanceof Error ? error.message : '商品情報の取得に失敗しました';
+      
+      if (errorMessage.includes('PA-APIエラー') && errorMessage.includes('OGメタデータエラー')) {
+        toast.error('商品情報を取得できませんでした。AmazonのURLを確認してください。');
+      } else if (errorMessage.includes('Invalid Amazon URL')) {
+        toast.error('有効なAmazon URLを入力してください。短縮URL（amzn.to）も対応しています。');
+      } else {
+        toast.error(errorMessage);
+      }
+      
       console.error(error);
     } finally {
       setIsFetching(false);
@@ -306,7 +324,8 @@ export function AddProductDialog({
             {!fetchedData && (
               <Alert>
                 <AlertDescription>
-                  Amazon URLを入力して「取得」ボタンをクリックすると、PA-APIから商品情報を自動で取得します。
+                  Amazon URLを入力して「取得」ボタンをクリックすると、商品情報を自動で取得します。
+                  短縮URL（amzn.to）にも対応しています。
                 </AlertDescription>
               </Alert>
             )}
