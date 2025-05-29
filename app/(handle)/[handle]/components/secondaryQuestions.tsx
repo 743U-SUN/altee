@@ -11,7 +11,7 @@ export default function SecondaryQuestions({ questions }: SecondaryQuestionsProp
   const sortedQuestions = [...questions].sort((a, b) => a.sortOrder - b.sortOrder);
 
   return (
-    <div className="w-full @container">
+    <div className="w-full bg-gray-50 rounded-md p-6 @container">
       <div className="grid gap-4 @lg:grid-cols-2 @lg:gap-6">
         {sortedQuestions.map((question) => (
           <div key={question.id} className="space-y-2">

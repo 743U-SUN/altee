@@ -1,4 +1,4 @@
-# デバイス管理システム設計書（最新版）
+# デバイス管理システム実装ガイド
 
 ## 1. プロジェクト概要
 
@@ -11,752 +11,387 @@
 - コミュニティでの情報共有
 - **アフィリエイト収益の適切な分配**（管理者・ユーザー双方）
 
-## 2. 対象デバイスカテゴリ
+## 2. 実装済み機能（Phase 1-9）
 
-**Phase 1（初期実装）**:
-- マウス
-- キーボード
+### Phase 1: データベース設計
+✅ Prismaスキーマの実装
+- DeviceCategory: デバイスカテゴリ管理
+- Product: 管理者が厳選した公式商品リスト
+- UserDevice: ユーザーの所持デバイス管理
+- UserFavorite: お気に入り機能
+- User.amazonAssociateId: ユーザーのアソシエイトID
 
-**Phase 2（将来拡張）**:
-- ヘッドセット・イヤホン
-- マイク
-- モニター
-- キャプチャーボード
-- Stream Deck等配信ツール
-- チェア・デスク
+### Phase 2: OGメタデータ取得サービス
+✅ Amazon関連サービスの実装
+- ユーザー用: OGメタデータ取得（PA-API不使用）
+- 管理者用: PA-API連携
+- ユーティリティ: URL解析、ASIN抽出、アフィリエイトID管理
 
-## 3. 商品属性定義
+### Phase 3: 基本的なUserDevice CRUD機能
+✅ ユーザーのデバイス管理機能
+- APIルート（GET/POST/PUT/DELETE）
+- ユーザーダッシュボード
+- プロフィールページでのデバイス表示
+- 公式商品/カスタム商品の両対応
 
-### マウス属性
-- DPI（数値範囲、例：400-25600）
-- 重量（g）
-- サイズ（幅×奥行×高さ mm）
-- ポーリングレート（Hz：125/500/1000/8000）
-- 接続方式（有線/無線/両対応）
-- センサータイプ（光学/レーザー/PixArt PMW3389など）
-- ボタン数（3-20個）
-- プログラマブルボタン数
-- オンボードメモリ（有無）
-- ワイヤレス充電対応（有無）
-- 形状（左右対称/右手用/左手用/エルゴノミクス）
+### Phase 4: 公式商品管理（管理者機能）
+✅ 管理者用デバイス管理機能
+- 管理者ダッシュボード（/admin/devices）
+- 商品CRUD機能（追加・編集・削除）
+- PA-APIを使用した商品情報取得・更新
+- バッチ更新処理（全商品の一括更新）
+- カテゴリフィルタリング・検索機能
+- 利用者数表示・利用者一覧
 
-### キーボード属性
-- キーレイアウト（フルサイズ/テンキーレス/60%/65%/75%/80%）
-- キー配列（日本語/英語/ISO）
-- サイズ（幅×奥行×高さ mm）
-- 重量（g）
-- ポーリングレート（Hz）
-- スイッチタイプ（メカニカル/磁気/光学/静電容量）
-- キーストローク（mm）
-- アクチュエーションポイント（mm）
-- Rapid Trigger対応（有無）
-- Rapid Trigger最小値（mm）
-- 接続方式（有線/無線/両対応）
+### Phase 5: Amazon URL追加機能の改善
+✅ 重複チェック機能
+- ASINベースの重複確認
+- 公式商品が存在する場合の自動切り替え
+- ユーザーが既に所持している商品の検出
+- リアルタイムプレビュー機能
+✅ 商品情報の定期更新
+- 更新频度の管理（1週間ごと）
+- APIエンドポイント経由の手動更新
+- 更新統計情報の表示
+- レート制限対策
 
-## 4. データベース設計（Prisma スキーマ）
+### Phase 6: 統一表示UI実装
+✅ デバイスの統一表示
+- 公式商品とカスタム商品の統一UI
+- UnifiedDeviceCardコンポーネント
+- コンパクトモードと詳細モード
+✅ デバイス属性の詳細表示
+- カテゴリ別属性のグループ化
+- アイコン付き属性表示
+- 日本語ラベル対応
+✅ 比較機能
+- 複数デバイスの選択機能
+- 属性の並列比較テーブル
+- 最大5個までの比較対応
 
-```prisma
-// === カテゴリ管理 ===
-model Category {
-  id          Int       @id @default(autoincrement())
-  name        String    // "マウス", "キーボード"
-  slug        String    @unique // "mouse", "keyboard"
-  description String?
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-  
-  // リレーション
-  products    Product[]
-  
-  @@map("categories")
-}
+### Phase 7: 商品一覧ページ（公開版）
+✅ 公開デバイスカタログ
+- 未認証ユーザーも閲覧可能
+- キャッシュ機能付き（5分～1時間）
+- レスポンシブデザイン
+✅ カテゴリ別フィルタリング
+- サイドバーフィルタ
+- URLパラメータでの状態管理
+- カテゴリ別統計表示
+✅ 商品比較機能
+- 統一表示UIを活用
+- 複数選択・比較テーブル
+✅ 人気商品表示
+- 使用者数ベースのランキング
+- ランキングバッジ付き
 
-// === 管理者が厳選した公式商品リスト ===
-model Product {
-  id                   Int      @id @default(autoincrement())
-  name                 String   // "Logicool G Pro X Superlight"
-  description          String?
-  categoryId           Int      @map("category_id")
-  amazonUrl            String   @map("amazon_url")           // 元のAmazonURL
-  adminAffiliateUrl    String   @map("admin_affiliate_url")  // 管理者のアソシエイトID付きURL
-  asin                 String   @unique                      // 重複チェック用ASIN
-  imageUrl             String   @map("image_url")
-  price                Decimal? @db.Decimal(10, 2)           // 参考価格
-  attributes           Json?                                  // カテゴリ別属性（JSON形式）
-  isActive             Boolean  @default(true) @map("is_active") // 公開/非公開
-  createdAt            DateTime @default(now()) @map("created_at")
-  updatedAt            DateTime @updatedAt @map("updated_at")
-  
-  // リレーション
-  category     Category       @relation(fields: [categoryId], references: [id])
-  userDevices  UserDevice[]
-  userFavorites UserFavorite[]
-  
-  @@map("products")
-}
+### Phase 8: 昇格機能・管理者ダッシュボード
+✅ 昇格候補の管理画面
+- ASIN別にグループ化
+- 複数ユーザー使用商品のみ表示
+- 既存公式商品との重複チェック
+✅ 昇格処理フロー
+- カスタム商品から公式商品への変換
+- 関連UserDeviceの自動更新
+- PA-APIでの詳細情報取得
+✅ 統計ダッシュボード
+- カテゴリ別分布
+- 昇格率表示
+- カスタム商品数統計
 
-// === ユーザーの所持デバイス管理 ===
-model UserDevice {
-  id                  Int      @id @default(autoincrement())
-  userId              String   @map("user_id")
-  
-  // 公式商品 OR カスタム商品のどちらか一方のみ設定
-  productId           Int?     @map("product_id")           // 公式リストから選択した場合
-  customProductData   Json?    @map("custom_product_data")  // ユーザー独自追加の場合
-  
-  deviceType          DeviceType @map("device_type")        // 'OFFICIAL' | 'CUSTOM'
-  note                String?                               // ユーザーのメモ
-  createdAt           DateTime @default(now()) @map("created_at")
-  
-  // リレーション
-  user                User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product             Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
-  
-  @@map("user_devices")
-}
+### Phase 9: お気に入り機能
+✅ お気に入り管理
+- 商品カードにお気に入りボタン追加
+- お気に入り一覧ページ（`/user/favorites`）
+- お気に入りからの一括比較機能
+- 複数選択・一括削除機能
+✅ 統計表示
+- お気に入り総数
+- カテゴリ別分布グラフ
+✅ 認証連携
+- ログインユーザーのみ使用可能
+- 未ログイン時はボタン非表示
 
-// === お気に入り機能 ===
-model UserFavorite {
-  id        Int      @id @default(autoincrement())
-  userId    String   @map("user_id")
-  productId Int      @map("product_id")
-  createdAt DateTime @default(now()) @map("created_at")
-  
-  // リレーション
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  
-  @@unique([userId, productId])
-  @@map("user_favorites")
-}
+## 3. 実装済みファイル一覧
 
-// === Enum定義 ===
-enum DeviceType {
-  OFFICIAL  // 公式リストから選択
-  CUSTOM    // ユーザー独自追加
-}
+### データベース関連
+- **prisma/schema.prisma**: デバイス管理用モデルを追加
+  - DeviceCategory, Product, UserDevice, UserFavorite
+  - User.amazonAssociateId フィールド追加
+- **prisma/seed-device.ts**: 初期データ投入スクリプト
+  - カテゴリ（マウス、キーボード）とサンプル商品データ
 
-// === 既存のUserモデルに追加 ===
-model User {
-  // ... 既存のフィールド
-  
-  // デバイス管理用の追加フィールド
-  amazonAssociateId String? @map("amazon_associate_id")  // ユーザーのアソシエイトID
-  
-  // リレーション
-  userDevices   UserDevice[]
-  userFavorites UserFavorite[]
-}
-```
+### 型定義
+- **types/device/index.ts**: デバイス管理システムの型定義
+  - CustomProductData: カスタム商品データ構造
+  - DisplayDevice: 表示用統一インターフェース
+  - MouseAttributes/KeyboardAttributes: カテゴリ別属性
 
-### カスタム商品データ（JSON）の構造例
+### Amazon関連サービス（lib/services/amazon/）
+- **og-metadata.ts**: ユーザー用OGメタデータ取得
+  - fetchProductFromAmazonUrl(): 商品情報取得
+  - extractAttributes(): 属性自動抽出
+- **pa-api.ts**: 管理者用PA-API連携
+  - fetchProductFromPAAPI(): 詳細商品情報取得
+  - AWS署名バージョン4実装
 
+### ユーティリティ（lib/utils/amazon/）
+- **url-parser.ts**: URL解析とASIN抽出
+- **affiliate.ts**: アフィリエイトID管理
+
+### バリデーション
+- **lib/validation/device-validation.ts**: Zodスキーマ定義
+  - 各種フォームバリデーション
+  - APIリクエスト検証
+
+### サーバーアクション
+- **lib/actions/device-actions.ts**: デバイス関連のCRUD操作
+  - getUserDevices(): デバイス一覧取得
+  - addDeviceFromProduct/Url(): デバイス追加
+  - updateDevice/deleteDevice(): 更新・削除
+
+### APIルート（app/api/devices/）
+- **route.ts**: GET（一覧）、POST（作成）
+- **[deviceId]/route.ts**: GET（詳細）、PUT（更新）、DELETE（削除）
+
+### ユーザーダッシュボード（app/(user)/user/devices/）
+- **page.tsx**: デバイス管理メインページ
+- **components/DeviceList.tsx**: デバイス一覧表示
+- **components/DeviceCard.tsx**: デバイスカード
+- **components/AddDeviceForm.tsx**: デバイス追加フォーム
+- **components/EditDeviceModal.tsx**: 編集モーダル
+- **components/DeleteDeviceDialog.tsx**: 削除確認
+
+### プロフィールページ
+- **app/(handle)/[handle]/device/page.tsx**: 公開デバイス表示
+
+### 管理者ダッシュボード（app/(admin)/admin/devices/）
+- **page.tsx**: 商品一覧ページ
+- **[productId]/page.tsx**: 商品編集ページ
+- **components/ProductListHeader.tsx**: 検索・フィルタ・アクション
+- **components/ProductList.tsx**: 商品一覧グリッド
+- **components/ProductCard.tsx**: 商品カード
+- **components/AddProductDialog.tsx**: 商品追加ダイアログ
+- **components/ProductEditForm.tsx**: 商品編集フォーム
+- **components/ProductListSkeleton.tsx**: ローディング表示
+
+### 共有コンポーネント（components/devices/）
+- **DeviceIcon.tsx**: カテゴリアイコン表示
+- **DeviceBadge.tsx**: 公式/カスタムバッジ
+- **DeviceAttributes.tsx**: 属性表示コンポーネント
+- **DeviceDetails.tsx**: デバイス詳細表示
+- **UnifiedDeviceCard.tsx**: 統一デバイスカード
+- **DeviceComparison.tsx**: デバイス比較コンポーネント
+- **FavoriteButton.tsx**: お気に入りボタン
+
+### サーバーアクション（追加分）
+- **lib/actions/admin-product-actions.ts**: 管理者用商品管理アクション
+- **lib/actions/device-actions.ts**: デバイス管理アクション（重複チェック機能追加）
+  - checkExistingProductByAsin(): ASINベースの重複チェック
+  - previewProductFromUrl(): URLプレビュー機能
+  - addDeviceFromUrl(): 重複チェック付き追加
+- **lib/actions/scheduled-update-actions.ts**: 定期更新アクション
+  - runScheduledUpdate(): 定期更新実行
+  - getUpdateStatistics(): 更新統計情報
+- **lib/actions/public-product-actions.ts**: 公開版商品取得アクション
+  - getPublicProducts(): 商品一覧取得（キャッシュ付き）
+  - getPublicCategories(): カテゴリ一覧取得
+  - getPopularProducts(): 人気商品取得
+  - getCategoryStatistics(): カテゴリ別統計
+  - formatPublicProductForDisplay(): 表示用フォーマット
+- **lib/actions/promotion-actions.ts**: 昇格処理アクション
+  - getCustomProductStatistics(): カスタム商品統計
+  - promoteCustomProduct(): 商品昇格処理
+  - getCategoryStatistics(): カテゴリ統計
+- **lib/actions/favorite-actions.ts**: お気に入り操作アクション
+  - toggleFavorite(): お気に入り追加/削除
+  - getUserFavorites(): ユーザーのお気に入り取得
+  - getFavoriteStatus(): お気に入り状態取得
+  - removeMultipleFavorites(): 一括削除
+
+### APIルート（追加分）
+- **app/api/admin/scheduled-update/route.ts**: 定期更新API
+
+### ユーザーダッシュボードの改善
+- **AddDeviceForm.tsx**: 重複チェック機能付きフォーム
+- **DeviceList.tsx**: 統一表示UI・比較機能対応
+- **ProductUpdateStatus.tsx**: 更新状況表示コンポーネント
+
+### 公開プロフィールページの改善
+- **[handle]/device/page.tsx**: 統一表示UI対応、タブ表示
+
+### 公開デバイスカタログ（app/(device)/device/）
+- **layout.tsx**: デバイスカタログ用レイアウト
+- **page.tsx**: メインページ（ヒーローセクション、人気商品、カテゴリ概要）
+- **[category]/page.tsx**: カテゴリ別リダイレクト
+- **components/ProductGrid.tsx**: 商品グリッド表示（お気に入り機能付き）
+- **components/ProductFilters.tsx**: フィルタコンポーネント
+- **components/CategoryOverview.tsx**: カテゴリ概要カード
+- **components/PopularProducts.tsx**: 人気商品表示
+- **components/ProductGridSkeleton.tsx**: ローディング表示
+
+### 昇格機能（app/(admin)/admin/devices/promotion/）
+- **page.tsx**: 昇格候補一覧ページ
+- **components/admin/promotion/PromotionCandidateCard.tsx**: 候補表示カード
+- **components/admin/promotion/PromotionStats.tsx**: 統計表示
+
+### お気に入り機能（app/(user)/user/favorites/）
+- **page.tsx**: お気に入り一覧ページ
+- **components/FavoriteList.tsx**: お気に入り一覧コンポーネント
+- **components/FavoriteStats.tsx**: 統計表示コンポーネント
+
+### ドキュメント
+- **docs/device-manager-guide.md**: フェーズ別実装ガイド（本ドキュメント）
+- **docs/scheduled-update-guide.md**: 定期更新設定ガイド
+- **docs/public-device-catalog-guide.md**: 公開デバイスカタログ設定ガイド
+- **docs/phase8-implementation-report.md**: Phase 8実装レポート
+- **docs/phase8-9-implementation-report.md**: Phase 8&9実装レポート
+
+## 4. 技術仕様
+
+### カスタム商品データ構造（UserDevice.customProductData）
 ```typescript
 interface CustomProductData {
-  title: string;                    // "ASUS ROG Keris Wireless"
-  description?: string;
-  imageUrl: string;                 // OGメタデータから取得
-  amazonUrl: string;                // 元のURL
+  title: string;                    // 商品名
+  description?: string;             // 商品説明
+  imageUrl: string;                 // OGメタデータから取得した画像
+  amazonUrl: string;                // 元のAmazonURL
   userAffiliateUrl?: string;        // ユーザーのアソシエイトID付きURL
-  asin: string;                     // 重複チェック用
+  asin: string;                     // Amazon商品識別子
   category: string;                 // "mouse", "keyboard"
-  attributes?: Record<string, any>; // {"dpi_max": 16000, "weight": 79, ...}
+  attributes?: Record<string, any>; // カテゴリ別属性
   addedByUserId: string;            // 追加したユーザーID
   potentialForPromotion: boolean;   // 昇格候補フラグ
   createdAt: string;                // ISO文字列
 }
 ```
 
-## 5. システムフロー設計
-
-### A. 公式商品からの追加フロー
-
-```mermaid
-graph TD
-    A[商品一覧ページ] --> B[公式商品を選択]
-    B --> C[マイデバイスに追加]
-    C --> D[UserDevice作成<br/>deviceType: OFFICIAL<br/>productId: 設定]
-    D --> E[管理者のアフィリエイトリンクで表示]
+### 環境変数設定
+```env
+# Amazon PA-API設定（管理者用）
+AMAZON_ACCESS_KEY=your-access-key
+AMAZON_SECRET_KEY=your-secret-key
+ADMIN_AMAZON_ASSOCIATE_ID=your-admin-associate-id-22
 ```
 
-### B. ユーザー独自追加フロー
+## 5. 未実装機能（Phase 10以降）
 
-```mermaid
-graph TD
-    A[ダッシュボード] --> B[Amazon URL入力]
-    B --> C[ASIN抽出]
-    C --> D[OGメタデータ取得]
-    D --> E[CustomProductData作成]
-    E --> F[UserDevice作成<br/>deviceType: CUSTOM]
-    F --> G[ユーザーのアフィリエイトリンクで表示]
+### Phase 10: ユーザープロフィール改善 🚧 **実装予定**
+**目的**: プロフィールページをより魅力的にし、SNS共有を促進
+
+**実装内容**:
+1. **プロフィール強化**
+   - デバイスセットアップのビジュアル表示
+   - 総額表示（オプション）
+   - デバイス遍歴タイムライン
+   
+2. **SNS共有機能**
+   - OGP画像の動的生成
+   - 共有用URLの生成
+   - X(Twitter)、Discord向け最適化
+   
+3. **エクスポート機能**
+   - セットアップリストのPDF出力
+   - 画像としてダウンロード
+
+**必要な実装ファイル**:
+- `app/(handle)/[handle]/device/setup/page.tsx` - ビジュアルセットアップ表示
+- `app/api/og/device-setup/route.tsx` - OGP画像生成
+- `lib/utils/device-export.ts` - エクスポート処理
+
+## 6. 技術アーキテクチャ
+
+### 商品情報取得の仕組み
+- **管理者**: PA-API使用（実装済み: lib/services/amazon/pa-api.ts）
+- **ユーザー**: OGメタデータ取得（実装済み: lib/services/amazon/og-metadata.ts）
+- **公開版**: キャッシュ付きデータ取得（lib/actions/public-product-actions.ts）
+
+## 7. 公開デバイスカタログの特徴
+
+### アクセスURL
+- メインページ: `/device`
+- カテゴリ別: `/device?category=mouse`
+- 検索: `/device?search=キーワード`
+
+### キャッシュ戦略
+- 商品一覧: 5分間
+- カテゴリ一覧: 1時間
+- 人気商品: 10分間
+- unstable_cacheを使用した最適化
+
+### ユーザー体験
+- 未認証ユーザーも利用可能
+- レスポンシブデザイン
+- 人気商品ランキング表示
+- 使用者数の可視化
+
+## 8. ディレクトリ構造
+
+### ディレクトリ構造
+```
+app/
+├── (admin)/admin/        # 管理者用ダッシュボード
+│   └── devices/          # デバイス管理
+│       └── promotion/    # 昇格候補管理
+├── (user)/user/          # ユーザー用ダッシュボード
+│   ├── devices/          # デバイス管理
+│   └── favorites/        # お気に入り管理
+├── (handle)/[handle]/    # プロフィールページ
+│   └── device/           # デバイス表示
+├── (device)/             # 公開デバイスカタログ
+│   └── device/           # カタログページ
+└── api/
+    ├── devices/          # デバイスAPI
+    └── admin/
+        └── scheduled-update/ # 定期更新API
+
+lib/
+├── services/amazon/      # Amazon関連サービス
+├── utils/amazon/         # Amazonユーティリティ
+├── actions/              # サーバーアクション
+└── validation/           # バリデーション
+
+components/
+├── devices/              # デバイス関連共有コンポーネント
+└── admin/
+    └── promotion/        # 昇格機能関連コンポーネント
+
+types/
+└── device/               # デバイス関連型定義
 ```
 
-### C. 昇格機能フロー
+## 9. 昇格機能の仕様
 
-```mermaid
-graph TD
-    A[管理者画面] --> B[カテゴリ別昇格候補表示]
-    B --> C[ASIN別グループ化]
-    C --> D{公式リストに同じASINが存在?}
-    D -->|Yes| E[昇格候補から除外]
-    D -->|No| F[昇格候補リストに追加]
-    F --> G[人気順ソート<br/>追加ユーザー数順]
-    G --> H[商品を選択して昇格]
-    H --> I[Product作成]
-    I --> J[関連ユーザーに通知<br/>オプション]
-```
-
-## 6. 商品情報取得戦略
-
-### 管理者・ユーザーの棲み分け方式
-
-**管理者**: Amazon PA-API利用（厳選商品のみ）
-- 公式商品リストの作成・更新にPA-API使用
-- 週1回の定期価格・在庫状況更新
-- 1秒1回制限内での安全な運用
-
-**ユーザー**: OGメタデータ + 軽量スクレイピング方式
-- PA-API規約違反リスク回避
-- 即座に追加可能でUX向上
-- ユーザー自身のアフィリエイト収益確保
-
-### 管理者用PA-API実装
+### 昇格候補の取得ロジック
+1. カスタム商品をASIN別にグループ化
+2. 既存の公式商品と重複するASINを除外
+3. 追加ユーザー数でソート
+4. 管理者が選択して公式商品に昇格
 
 ```typescript
-// lib/amazon-pa-api.ts - 管理者専用
-interface ProductAPIData {
-  title: string;
-  price?: number;
-  imageUrl?: string;
-  description?: string;
-  availability?: string;
-}
-
-export async function fetchProductFromPAAPI(asin: string): Promise<ProductAPIData> {
-  const params = {
-    'Service': 'ProductAdvertisingAPI',
-    'Operation': 'GetItems',
-    'Resources': [
-      'Images.Primary.Large',
-      'ItemInfo.Title',
-      'ItemInfo.Features',
-      'Offers.Listings.Price',
-      'Offers.Listings.Availability'
-    ],
-    'ItemIds': [asin],
-    'PartnerTag': process.env.AMAZON_ASSOCIATE_ID,
-    'PartnerType': 'Associates',
-    'Marketplace': 'www.amazon.co.jp'
-  };
-
-  const signature = generateAWSSignature(params);
-  
-  const response = await fetch('https://webservices.amazon.co.jp/paapi5/getitems', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'X-Amz-Target': 'com.amazon.paapi5.v1.ProductAdvertisingAPIv1.GetItems',
-      'Authorization': signature
-    },
-    body: JSON.stringify(params)
-  });
-
-  const data = await response.json();
-  const item = data.ItemsResult?.Items?.[0];
-  
-  return {
-    title: item?.ItemInfo?.Title?.DisplayValue || '',
-    price: item?.Offers?.Listings?.[0]?.Price?.Amount,
-    imageUrl: item?.Images?.Primary?.Large?.URL,
-    description: item?.ItemInfo?.Features?.DisplayValues?.join(', '),
-    availability: item?.Offers?.Listings?.[0]?.Availability?.Message
-  };
-}
+// 昇格時の処理フロー
+// 1. CustomProductDataからProductレコードを作成
+// 2. 関連するUserDeviceのdeviceTypeをOFFICIALに変更
+// 3. productIdを設定し、customProductDataをnullに
 ```
 
-### 定期更新バッチ処理
+## 10. マイグレーション手順
 
-```typescript
-// app/api/admin/batch-update-products/route.ts
-export async function POST(request: Request) {
-  const isAdmin = await verifyAdminAuth(request);
-  if (!isAdmin) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  const products = await prisma.product.findMany({
-    where: { isActive: true },
-    select: { id: true, asin: true, name: true }
-  });
-
-  const updateResults = [];
-  
-  for (const product of products) {
-    try {
-      const apiData = await fetchProductFromPAAPI(product.asin);
-      
-      await prisma.product.update({
-        where: { id: product.id },
-        data: {
-          price: apiData.price,
-          imageUrl: apiData.imageUrl,
-          description: apiData.description,
-          updatedAt: new Date()
-        }
-      });
-      
-      updateResults.push({ id: product.id, status: 'success' });
-      
-      // PA-API制限対応（1秒1回）
-      await new Promise(resolve => setTimeout(resolve, 1100));
-      
-    } catch (error) {
-      updateResults.push({ id: product.id, status: 'error', error: error.message });
-    }
-  }
-
-  return NextResponse.json({ results: updateResults });
-}
-```
-
-### ユーザー用OGメタデータ取得
-
-```typescript
-// lib/og-metadata.ts - ユーザー用
-interface OGProductInfo {
-  title: string;
-  description?: string;
-  imageUrl: string;
-  price?: string;
-  asin: string;
-}
-
-export async function fetchProductFromAmazonUrl(url: string): Promise<OGProductInfo> {
-  // 1. ASIN抽出
-  const asin = extractASIN(url);
-  
-  // 2. OGメタデータ取得
-  const ogData = await fetchOGMetadata(url);
-  
-  // 3. 軽量スクレイピング（価格等）
-  const additionalData = await lightScraping(url);
-  
-  return {
-    title: ogData.title || 'Amazon商品',
-    description: ogData.description,
-    imageUrl: ogData.image,
-    price: additionalData.price,
-    asin
-  };
-};
-```
-
-## 7. UI設計・UX方針
-
-### 統一表示のためのデータ変換
-
-```typescript
-// 表示用の統一インターフェース
-interface DisplayDevice {
-  id: string;
-  title: string;
-  description?: string;
-  imageUrl: string;
-  affiliateUrl: string;    // 表示用リンク（管理者 or ユーザー）
-  category: string;
-  attributes: Record<string, any>;
-  sourceType: 'official' | 'custom';  // バッジ表示用
-  note?: string;
-}
-
-// 変換関数
-const formatUserDevices = (userDevices: UserDevice[]): DisplayDevice[] => {
-  return userDevices.map(device => {
-    if (device.deviceType === 'OFFICIAL' && device.product) {
-      return {
-        id: `official-${device.id}`,
-        title: device.product.name,
-        description: device.product.description,
-        imageUrl: device.product.imageUrl,
-        affiliateUrl: device.product.adminAffiliateUrl,  // 管理者収益
-        category: device.product.category.name,
-        attributes: device.product.attributes as Record<string, any>,
-        sourceType: 'official',
-        note: device.note
-      };
-    } else {
-      const customData = device.customProductData as CustomProductData;
-      return {
-        id: `custom-${device.id}`,
-        title: customData.title,
-        description: customData.description,
-        imageUrl: customData.imageUrl,
-        affiliateUrl: customData.userAffiliateUrl || customData.amazonUrl,  // ユーザー収益
-        category: customData.category,
-        attributes: customData.attributes || {},
-        sourceType: 'custom',
-        note: device.note
-      };
-    }
-  });
-};
-```
-
-### ページ構成
-
-**商品一覧ページ（公開）**:
-- 左サイドバー: カテゴリ選択（マウス・キーボード等）
-- 上部フィルタ: カテゴリ特有のフィルタ（DPI範囲・レイアウト等）
-- メインエリア: テーブル形式での商品比較表示
-- 検索バー: キーワード検索
-- 認証状態による表示切り替え:
-  - 未認証: 閲覧のみ
-  - 認証済み: 「マイデバイスに追加」「お気に入り」ボタン表示
-
-**ユーザーダッシュボード（認証済み）**:
-- デバイス管理タブ: 保有デバイス一覧・追加・編集
-- お気に入りタブ: 気になる商品一覧
-- 商品追加タブ: Amazon URL入力・カテゴリ選択
-
-**管理者画面**:
-- 商品管理: 公式商品の追加・編集・削除
-- 昇格候補: ユーザー追加商品の確認・昇格処理
-- カテゴリ管理: 新規カテゴリ追加
-
-## 8. 実装優先度
-
-**Phase 1**: データベース設計 + Prismaスキーマ実装
-**Phase 2**: OGメタデータ取得サービス実装
-**Phase 3**: 基本的なUserDevice CRUD機能
-**Phase 4**: 公式商品管理（管理者機能）
-**Phase 5**: Amazon URL追加機能（重複チェック含む）
-**Phase 6**: 統一表示UI実装
-**Phase 7**: 商品一覧ページ（公開版）
-**Phase 8**: 昇格機能・管理者ダッシュボード
-**Phase 9**: お気に入り機能
-**Phase 10**: ユーザープロフィール表示
-
-## 9. 重複チェック機能
-
-### ASIN抽出・チェック
-```typescript
-// ASIN抽出関数
-const extractASIN = (url: string): string | null => {
-  const asinRegex = /\/(?:dp|gp\/product)\/([A-Z0-9]{10})/;
-  const match = url.match(asinRegex);
-  return match ? match[1] : null;
-};
-
-// 重複チェック関数（昇格機能用）
-const checkDuplicateProduct = async (asin: string): Promise<Product | null> => {
-  return await prisma.product.findUnique({
-    where: { asin },
-    include: { category: true }
-  });
-};
-```
-
-### ユーザー追加時の実装（重複チェックなし）
-```typescript
-// ユーザー独自追加フロー（自由追加）
-const addCustomDevice = async (userId: string, amazonUrl: string, userAssociateId?: string) => {
-  // 1. ASIN抽出
-  const asin = extractASIN(amazonUrl);
-  
-  // 2. OGメタデータ取得
-  const productData = await fetchProductFromAmazonUrl(amazonUrl);
-  
-  // 3. ユーザーのアフィリエイトURL生成
-  const userAffiliateUrl = userAssociateId 
-    ? addAssociateIdToUrl(amazonUrl, userAssociateId)
-    : amazonUrl;
-  
-  // 4. UserDeviceに保存（重複に関係なく自由に追加）
-  await prisma.userDevice.create({
-    data: {
-      userId: userId,
-      productId: null,  // 公式商品ではない
-      deviceType: 'CUSTOM',
-      customProductData: {
-        title: productData.title,
-        description: productData.description,
-        imageUrl: productData.imageUrl,
-        amazonUrl: amazonUrl,
-        userAffiliateUrl: userAffiliateUrl,
-        asin: asin,
-        category: await detectCategory(productData.title),
-        attributes: await extractAttributes(productData),
-        addedByUserId: userId,
-        potentialForPromotion: false,
-        createdAt: new Date().toISOString()
-      }
-    }
-  });
-};
-```
-
-### 昇格候補取得（公式商品と重複するASINを除外）
-```typescript
-const getPromotionCandidates = async (categoryId: number) => {
-  // 1. ユーザーが追加したカスタム商品を取得
-  const customDevices = await prisma.userDevice.findMany({
-    where: {
-      deviceType: 'CUSTOM',
-      customProductData: {
-        path: ['category'],
-        equals: getCategorySlug(categoryId)
-      }
-    }
-  });
-  
-  // 2. ASIN別にグループ化
-  const asinGroups = new Map<string, any[]>();
-  
-  customDevices.forEach(device => {
-    const customData = device.customProductData as CustomProductData;
-    
-    if (customData.asin) {
-      if (!asinGroups.has(customData.asin)) {
-        asinGroups.set(customData.asin, []);
-      }
-      asinGroups.get(customData.asin)!.push({
-        ...device,
-        customData
-      });
-    }
-  });
-  
-  // 3. 既存の公式商品のASINを取得
-  const officialASINs = await prisma.product.findMany({
-    where: { categoryId: categoryId },
-    select: { asin: true }
-  }).then(products => 
-    products.map(p => p.asin).filter(Boolean)
-  );
-  
-  // 4. 公式商品と重複するASINを除外した昇格候補を返す
-  const candidates = [];
-  for (const [asin, devices] of asinGroups) {
-    if (!officialASINs.includes(asin)) {
-      // 公式リストにない商品のみ昇格候補に追加
-      candidates.push({
-        asin,
-        title: devices[0].customData.title,
-        imageUrl: devices[0].customData.imageUrl,
-        userCount: devices.length,  // 何人が追加しているか
-        devices
-      });
-    }
-  }
-  
-  return candidates.sort((a, b) => b.userCount - a.userCount);  // 人気順ソート
-};
-```
-
-
-## 10. セキュリティ・認証
-
-- **商品一覧**: 未認証ユーザーも閲覧可能
-- **デバイス管理**: 認証済みユーザーのみ
-- **管理者機能**: 管理者権限必須
-- **CSRF対策**: Next.jsの標準機能を利用
-- **XSS対策**: OGメタデータのサニタイズ必須
-
-## 11. パフォーマンス考慮事項
-
-- **画像最適化**: Next.js Image コンポーネント活用
-- **キャッシュ戦略**: OGメタデータの適切なキャッシュ
-- **ページネーション**: 商品一覧の適切な分割
-- **インデックス**: ASIN、category_id、user_id に適切なインデックス
-
-## 13. 商品一括追加機能
-
-### Prisma Seed機能（初期データ投入）
-
-```typescript
-// prisma/seed.ts
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
-
-async function main() {
-  console.log('Start seeding...');
-
-  // カテゴリー作成
-  const mouseCategory = await prisma.category.upsert({
-    where: { slug: 'mouse' },
-    update: {},
-    create: {
-      name: 'マウス',
-      slug: 'mouse',
-      description: 'ゲーミングマウス・一般マウス'
-    }
-  });
-
-  const keyboardCategory = await prisma.category.upsert({
-    where: { slug: 'keyboard' },
-    update: {},
-    create: {
-      name: 'キーボード',
-      slug: 'keyboard',
-      description: 'ゲーミングキーボード・一般キーボード'
-    }
-  });
-
-  // 商品データ準備
-  const productsData = [
-    {
-      name: 'Logicool G Pro X Superlight',
-      categoryId: mouseCategory.id,
-      amazonUrl: 'https://amazon.co.jp/dp/B08NWQ8JRF',
-      asin: 'B08NWQ8JRF',
-      adminAffiliateUrl: 'https://amazon.co.jp/dp/B08NWQ8JRF?tag=your-associate-id',
-      imageUrl: 'https://m.media-amazon.com/images/I/...',
-      price: 16280,
-      attributes: {
-        dpi_max: 25600,
-        weight: 63,
-        connection_type: 'wireless',
-        sensor_type: 'HERO 25K',
-        buttons: 5
-      }
-    },
-    {
-      name: 'Razer DeathAdder V3',
-      categoryId: mouseCategory.id,
-      amazonUrl: 'https://amazon.co.jp/dp/B0B87XXXXX',
-      asin: 'B0B87XXXXX',
-      adminAffiliateUrl: 'https://amazon.co.jp/dp/B0B87XXXXX?tag=your-associate-id',
-      imageUrl: 'https://m.media-amazon.com/images/I/...',
-      price: 8980,
-      attributes: {
-        dpi_max: 30000,
-        weight: 59,
-        connection_type: 'wired',
-        sensor_type: 'Focus Pro 30K',
-        buttons: 5
-      }
-    }
-    // ... その他の商品データ
-  ];
-
-  // createManyで一括作成
-  const result = await prisma.product.createMany({
-    data: productsData,
-    skipDuplicates: true  // 重複をスキップ
-  });
-
-  console.log(`Created ${result.count} products`);
-  console.log('Seeding finished.');
-}
-
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
-```
-
-**package.json 設定**:
-```json
-{
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
-  },
-  "scripts": {
-    "db:seed": "prisma db seed",
-    "db:reset": "prisma migrate reset"
-  }
-}
-```
-
-**実行コマンド**:
 ```bash
-# 初期データ投入
-npm run db:seed
+# 1. マイグレーションファイル生成
+npx prisma migrate dev --name add_device_management
 
-# DBリセット＆シード
-npm run db:reset
+# 2. 初期データ投入
+npx tsx prisma/seed-device.ts
 ```
 
-### CSV一括インポート機能
+## 11. 今後の拡張可能性（Phase 10以降）
 
-```typescript
-// app/api/admin/import-products/route.ts
-import Papa from 'papaparse';
-import { addAssociateIdToUrl } from '@/lib/amazon-utils';
-
-export async function POST(request: Request) {
-  const isAdmin = await verifyAdminAuth(request);
-  if (!isAdmin) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  const formData = await request.formData();
-  const file = formData.get('file') as File;
-  
-  if (!file) {
-    return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
-  }
-
-  const csvText = await file.text();
-  
-  const { data, errors } = Papa.parse(csvText, {
-    header: true,
-    skipEmptyLines: true,
-    dynamicTyping: true
-  });
-
-  if (errors.length > 0) {
-    return NextResponse.json({ 
-      error: 'CSV parse errors', 
-      details: errors 
-    }, { status: 400 });
-  }
-
-  // バリデーション
-  const validProducts = data.filter(row => 
-    row.name && row.asin && row.amazonUrl && row.categoryId
-  );
-
-  // 管理者アフィリエイトリンク付与
-  const productsToCreate = validProducts.map(product => ({
-    ...product,
-    adminAffiliateUrl: addAssociateIdToUrl(
-      product.amazonUrl, 
-      process.env.ADMIN_AMAZON_ASSOCIATE_ID
-    ),
-    createdAt: new Date(),
-    updatedAt: new Date()
-  }));
-
-  // 一括作成
-  const result = await prisma.product.createMany({
-    data: productsToCreate,
-    skipDuplicates: true
-  });
-
-  return NextResponse.json({ 
-    message: `${result.count} products imported successfully`,
-    total: validProducts.length,
-    skipped: validProducts.length - result.count
-  });
-}
-```
-
-**CSVフォーマット例**:
-```csv
-name,asin,amazonUrl,categoryId,price,attributes
-"Logicool G Pro X Superlight","B08NWQ8JRF","https://amazon.co.jp/dp/B08NWQ8JRF",1,16280,"{""dpi_max"": 25600, ""weight"": 63}"
-"Razer DeathAdder V3","B0B87XXXXX","https://amazon.co.jp/dp/B0B87XXXXX",1,8980,"{""dpi_max"": 30000, ""weight"": 59}"
-```
-
-## 14. 今後の拡張可能性
-
-- **カテゴリ追加**: ヘッドセット、マイク等への対応
-- **商品比較機能**: 複数商品の詳細比較
-
----
+- カテゴリ追加（ヘッドセット、マイク等）
+- 商品レビュー機能
+- ユーザー間でのセットアップ共有
+- 商品価格トラッキング
+- より詳細な属性フィルタリング
+- 価格変動通知（お気に入り商品）
+- 在庫復活通知
+- お気に入りのエクスポート機能

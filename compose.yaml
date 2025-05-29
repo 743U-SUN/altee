@@ -25,6 +25,8 @@ services:
     # ホットリロードを有効にする
     stdin_open: true
     tty: true
+    # 開発環境でPrismaクライアントを生成してからサーバーを起動
+    command: sh -c "npx prisma generate && npm run dev"
   
   nginx:
     build:

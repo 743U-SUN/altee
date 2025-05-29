@@ -8,7 +8,8 @@ import {
   UserIcon,
   LinkIcon,
   Settings,
-  LayoutDashboard
+  LayoutDashboard,
+  Package
 } from "lucide-react"
 import {
   SidebarContent,
@@ -33,6 +34,11 @@ const menuItems = [
     title: "Users",
     icon: UserIcon,
     href: "/admin/users",
+  },
+  {
+    title: "デバイス管理",
+    icon: Package,
+    href: "/admin/devices",
   },
   {
     title: "リンク設定",

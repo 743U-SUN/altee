@@ -3,7 +3,7 @@
  * - アプリケーション全体で1つのインスタンスだけを使用する
  * - パフォーマンスと接続管理のためのベストプラクティス
  */
-import { PrismaClient } from '../lib/generated/prisma';
+import { PrismaClient } from '@/lib/generated/prisma';
 // グローバル変数用の型定義
 declare global {
   var prisma: PrismaClient | undefined;
@@ -12,3 +12,6 @@ declare global {
 export const prisma = global.prisma || new PrismaClient();
 // 開発環境でのホットリロード対策（本番環境では実行されない）
 if (process.env.NODE_ENV !== 'production') global.prisma = prisma;
+
+// db は prisma のエイリアス
+export const db = prisma;

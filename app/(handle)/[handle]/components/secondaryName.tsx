@@ -11,7 +11,7 @@ export default function SecondaryName({ characterName, subname }: SecondaryNameP
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full  bg-gray-50 rounded-md p-6">
       <div className="border-b pb-4">
         {subname && (
           <p className="text-sm text-muted-foreground mb-1">{subname}</p>

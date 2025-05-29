@@ -6,7 +6,7 @@ interface SecondaryDescriptionProps {
 
 export default function SecondaryDescription({ description }: SecondaryDescriptionProps) {
   return (
-    <div className="w-full">
+    <div className="w-full bg-gray-100 p-6 rounded-md">
       <p className="text-base leading-relaxed whitespace-pre-wrap">
         {description}
       </p>

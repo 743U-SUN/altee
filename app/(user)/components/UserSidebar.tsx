@@ -11,7 +11,8 @@ import {
   InfoIcon,
   MonitorIcon,
   Settings,
-  LayoutDashboard
+  LayoutDashboard,
+  Heart
 } from "lucide-react"
 import {
   SidebarContent,
@@ -56,6 +57,11 @@ const menuItems = [
     title: "デバイス設定",
     icon: MonitorIcon,
     href: "/user/device",
+  },
+  {
+    title: "お気に入り",
+    icon: Heart,
+    href: "/user/favorites",
   },
   {
     title: "アカウント設定",

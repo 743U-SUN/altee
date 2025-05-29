@@ -98,7 +98,7 @@ export function AdminSidebarLayout({ children }: { children: React.ReactNode }) 
       collapsible="icon"
       className="overflow-hidden *:data-[sidebar=sidebar]:flex-row"
     >
-      {/* ファーストサイドバー - 記事専用のアイコンとナビゲーション */}
+      {/* ファーストサイドバー - Admin専用のアイコンとナビゲーション */}
       <Sidebar
         collapsible="none"
         className="w-[calc(var(--sidebar-width-icon)+1px)]! border-r"
@@ -151,7 +151,7 @@ export function AdminSidebarLayout({ children }: { children: React.ReactNode }) 
         </SidebarFooter>
       </Sidebar>
 
-      {/* セカンドサイドバー - 記事用のサイドバー */}
+      {/* セカンドサイドバー - Admin用のサイドバー */}
       <Sidebar collapsible="none" className="hidden flex-1 md:flex overflow-x-hidden">
         {children}
       </Sidebar>
