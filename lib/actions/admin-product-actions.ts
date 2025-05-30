@@ -2,7 +2,7 @@
 
 import { auth } from "@/auth";
 import { db } from "@/lib/prisma";
-import { Prisma, Product } from "@prisma/client";
+import { Prisma, Product } from "@/lib/generated/prisma";
 import { revalidatePath } from "next/cache";
 import { fetchProductFromPAAPI } from "@/lib/services/amazon/pa-api";
 import { fetchProductFromAmazonUrl } from "@/lib/services/amazon/og-metadata";
@@ -35,12 +35,12 @@ export async function getAdminProducts(
     const where: Prisma.ProductWhereInput = {};
 
     if (categoryId) {
-      where.categoryId = categoryId;
+      where.categoryId = parseInt(categoryId);
     }
 
     if (searchQuery) {
       where.OR = [
-        { title: { contains: searchQuery, mode: "insensitive" } },
+        { name: { contains: searchQuery, mode: "insensitive" } },
         { description: { contains: searchQuery, mode: "insensitive" } },
         { asin: { contains: searchQuery, mode: "insensitive" } },
       ];
@@ -88,22 +88,22 @@ export async function getAdminProduct(productId: string) {
     await checkAdminAuth();
 
     const product = await db.product.findUnique({
-      where: { id: productId },
-      include: {
-        category: true,
-        userDevices: {
-          include: {
-            user: {
-              select: {
-                id: true,
-                handle: true,
-                name: true,
-                image: true,
-              },
-            },
-          },
-        },
-      },
+    where: { id: parseInt(productId) },
+    include: {
+    category: true,
+    userDevices: {
+    include: {
+    user: {
+    select: {
+    id: true,
+    handle: true,
+    name: true,
+    iconUrl: true,
+    },
+    },
+    },
+    },
+    },
     });
 
     if (!product) {
@@ -142,15 +142,15 @@ export async function fetchProductFromAmazon(amazonUrl: string) {
       
       // PA-API成功時はデータを変換して返す
       return {
-        title: productData.title,
-        description: productData.description || '',
-        imageUrl: productData.imageUrl || '/images/no-image.svg',
-        asin: asin,
-        amazonUrl: `https://www.amazon.co.jp/dp/${asin}`,
-        source: 'PA-API',
+      title: productData.title,
+      description: productData.description || '',
+      imageUrl: productData.imageUrl || '/images/no-image.svg',
+      asin: asin,
+      amazonUrl: `https://www.amazon.co.jp/dp/${asin}`,
+      source: 'PA-API',
       };
     } catch (paApiError) {
-      console.log('PA-API failed, falling back to OG metadata:', paApiError.message);
+      console.log('PA-API failed, falling back to OG metadata:', (paApiError as Error).message);
       
       // PA-API失敗時はOGメタデータでフォールバック
       try {
@@ -166,7 +166,7 @@ export async function fetchProductFromAmazon(amazonUrl: string) {
         };
       } catch (ogError) {
         console.error('Both PA-API and OG metadata failed:', ogError);
-        throw new Error(`商品情報の取得に失敗しました: PA-APIエラー (${paApiError.message}), OGメタデータエラー (${ogError.message})`);
+        throw new Error(`商品情報の取得に失敗しました: PA-APIエラー (${(paApiError as Error).message}), OGメタデータエラー (${(ogError as Error).message})`);
       }
     }
   } catch (error) {
@@ -201,11 +201,12 @@ export async function createProduct(data: {
 
     const product = await db.product.create({
       data: {
-        categoryId: data.categoryId,
-        title: data.title,
+        categoryId: parseInt(data.categoryId),
+        name: data.title,  // titleをnameにマッピング
         description: data.description,
         imageUrl: data.imageUrl,
         amazonUrl: data.amazonUrl,
+        adminAffiliateUrl: data.amazonUrl, // 管理者用URLも設定
         asin: data.asin,
         attributes: data.attributes || {},
       },
@@ -234,8 +235,8 @@ export async function createProduct(data: {
 export async function updateProduct(
   productId: string,
   data: {
-    categoryId?: string;
-    title?: string;
+    categoryId?: number;
+    name?: string;
     description?: string;
     imageUrl?: string;
     amazonUrl?: string;
@@ -246,7 +247,7 @@ export async function updateProduct(
     await checkAdminAuth();
 
     const product = await db.product.update({
-      where: { id: productId },
+      where: { id: parseInt(productId) },
       data,
       include: {
         category: true,
@@ -275,9 +276,9 @@ export async function deleteProduct(productId: string) {
   try {
     await checkAdminAuth();
 
-    // 関連するuserDevicesのチェック
+    // 関連するUserDeviceのチェック
     const relatedDevices = await db.userDevice.count({
-      where: { productId },
+      where: { productId: parseInt(productId) },
     });
 
     if (relatedDevices > 0) {
@@ -287,7 +288,7 @@ export async function deleteProduct(productId: string) {
     }
 
     await db.product.delete({
-      where: { id: productId },
+      where: { id: parseInt(productId) },
     });
 
     revalidatePath("/admin/devices");
@@ -306,7 +307,7 @@ export async function refreshProductFromAmazon(productId: string) {
     await checkAdminAuth();
 
     const product = await db.product.findUnique({
-      where: { id: productId },
+      where: { id: parseInt(productId) },
     });
 
     if (!product) {
@@ -318,15 +319,12 @@ export async function refreshProductFromAmazon(productId: string) {
 
     // 商品情報を更新
     const updatedProduct = await db.product.update({
-      where: { id: productId },
+      where: { id: parseInt(productId) },
       data: {
-        title: updatedData.title,
+        name: updatedData.title,
         description: updatedData.description,
         imageUrl: updatedData.imageUrl,
-        attributes: {
-          ...(product.attributes as Record<string, any>),
-          ...updatedData.attributes,
-        },
+        attributes: product.attributes as any,
       },
       include: {
         category: true,
@@ -364,12 +362,12 @@ export async function batchUpdateProducts() {
 
     for (const product of products) {
       try {
-        await refreshProductFromAmazon(product.id);
+        await refreshProductFromAmazon(product.id.toString());
         results.success++;
       } catch (error) {
         results.failed++;
         results.errors.push({
-          productId: product.id,
+          productId: product.id.toString(),
           error: error instanceof Error ? error.message : "Unknown error",
         });
       }
@@ -403,5 +401,174 @@ export async function getDeviceCategories() {
   } catch (error) {
     console.error("Error fetching device categories:", error);
     throw error;
+  }
+}
+
+/**
+ * カテゴリに関連する属性を取得
+ */
+export async function getAttributesByCategory(categorySlug: string) {
+  try {
+    const attributes = await db.productAttribute.findMany({
+      where: {
+        OR: [
+          { category: categorySlug },
+          { category: null }, // 全カテゴリ共通の属性
+        ],
+        isActive: true,
+      },
+      orderBy: [
+        { type: 'asc' },
+        { name: 'asc' },
+      ],
+    });
+
+    return attributes;
+  } catch (error) {
+    console.error("Error fetching attributes by category:", error);
+    return [];
+  }
+}
+
+/**
+ * 商品データをCSV形式でエクスポート
+ */
+export async function exportProductsAsCSV(categoryId?: string) {
+  try {
+    await checkAdminAuth();
+
+    const where: Prisma.ProductWhereInput = categoryId
+      ? { categoryId: parseInt(categoryId) }
+      : {};
+
+    const products = await db.product.findMany({
+      where,
+      include: {
+        category: true,
+        manufacturer: true,
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    // CSVユーティリティをインポート
+    const { exportProductsToCSV } = await import('@/lib/utils/csv/product-csv');
+    
+    const csv = await exportProductsToCSV(products);
+    return { success: true, csv };
+  } catch (error) {
+    console.error("Error exporting products:", error);
+    return { success: false, error: "CSVエクスポートに失敗しました" };
+  }
+}
+
+/**
+ * CSVファイルから商品データをインポート
+ */
+export async function importProductsFromCSV(csvContent: string) {
+  try {
+    await checkAdminAuth();
+
+    // CSVユーティリティをインポート
+    const { parseProductsFromCSV } = await import('@/lib/utils/csv/product-csv');
+    
+    const { valid, errors } = await parseProductsFromCSV(csvContent);
+
+    if (errors.length > 0) {
+      return { 
+        success: false, 
+        errors,
+        message: `${errors.length}件のエラーが発生しました` 
+      };
+    }
+
+    // カテゴリとメーカーのマッピングを事前に取得
+    const categories = await db.deviceCategory.findMany();
+    const manufacturers = await db.productAttribute.findMany({
+      where: { type: 'MANUFACTURER' },
+    });
+
+    const categoryMap = new Map(categories.map(c => [c.slug, c.id]));
+    const manufacturerMap = new Map(manufacturers.map(m => [m.name.toLowerCase(), m.id]));
+
+    // 商品を一括作成
+    const createdProducts = [];
+    const importErrors: Array<{ row: number; error: string }> = [];
+
+    for (let i = 0; i < valid.length; i++) {
+      const productData = valid[i];
+      
+      try {
+        // カテゴリIDを取得
+        const categoryId = categoryMap.get(productData.category);
+        if (!categoryId) {
+          importErrors.push({ 
+            row: i + 2, 
+            error: `カテゴリ '${productData.category}' が見つかりません` 
+          });
+          continue;
+        }
+
+        // メーカーIDを取得（オプション）
+        let manufacturerId = null;
+        if (productData.manufacturer) {
+          manufacturerId = manufacturerMap.get(productData.manufacturer.toLowerCase());
+        }
+
+        // 既存のASINチェック
+        const existing = await db.product.findUnique({
+          where: { asin: productData.asin },
+        });
+
+        if (existing) {
+          importErrors.push({ 
+            row: i + 2, 
+            error: `ASIN '${productData.asin}' は既に登録されています` 
+          });
+          continue;
+        }
+
+        // 商品作成
+        const product = await db.product.create({
+          data: {
+            name: productData.name,
+            description: productData.description,
+            categoryId,
+            manufacturerId,
+            amazonUrl: productData.amazonUrl,
+            adminAffiliateUrl: productData.amazonUrl, // 後でアフィリエイトIDを付加
+            asin: productData.asin,
+            imageUrl: productData.imageUrl,
+            price: productData.price,
+            attributes: productData.attributes,
+            isActive: productData.isActive,
+          },
+        });
+
+        createdProducts.push(product);
+      } catch (error) {
+        importErrors.push({ 
+          row: i + 2, 
+          error: error instanceof Error ? error.message : '商品の作成に失敗しました' 
+        });
+      }
+    }
+
+    revalidatePath("/admin/devices");
+
+    return {
+      success: true,
+      created: createdProducts.length,
+      errors: importErrors,
+      message: `${createdProducts.length}件の商品を作成しました${
+        importErrors.length > 0 ? `（${importErrors.length}件のエラー）` : ''
+      }`,
+    };
+  } catch (error) {
+    console.error("Error importing products:", error);
+    return { 
+      success: false, 
+      error: "CSVインポートに失敗しました",
+      errors: []
+    };
   }
 }

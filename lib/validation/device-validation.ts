@@ -35,6 +35,7 @@ export const createDeviceFromUrlSchema = z.object({
   category: z.enum(['mouse', 'keyboard']).optional(),
   userAssociateId: z.string().max(20).optional(),
   note: z.string().max(1000).optional(),
+  customTitle: z.string().max(200).optional(),
 });
 
 // デバイス更新
@@ -52,7 +53,7 @@ export type DeviceType = z.infer<typeof deviceTypeSchema>;
 
 // フォームスキーマ（クライアントサイド用）
 export const addDeviceFromProductFormSchema = z.object({
-  productId: z.string().transform(Number).pipe(z.number().int().positive()),
+  productId: z.string().min(1, '商品を選択してください').transform(Number).pipe(z.number().int().positive()),
   note: z.string().max(1000).optional(),
 });
 
@@ -69,8 +70,12 @@ export const addDeviceFromUrlFormSchema = z.object({
     },
     { message: '有効なAmazon URLを入力してください' }
   ),
-  category: deviceCategorySchema.optional(),
+  category: z.string().refine(
+    (value) => value === 'auto' || ['mouse', 'keyboard'].includes(value),
+    { message: '有効なカテゴリを選択してください' }
+  ).transform(value => value === 'auto' ? undefined : value as 'mouse' | 'keyboard').optional(),
   note: z.string().max(1000, 'メモは1000文字以内で入力してください').optional(),
+  customTitle: z.string().max(200, 'デバイス名は200文字以内で入力してください').optional(),
 });
 
 export const editDeviceFormSchema = z.object({

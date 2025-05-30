@@ -7,3 +7,4 @@ export * from './DeviceCard';
 export * from './AddDeviceForm';
 export * from './EditDeviceModal';
 export * from './DeleteDeviceDialog';
+export * from './ProductSelectModal';

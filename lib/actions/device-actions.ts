@@ -15,7 +15,7 @@ import {
   createDeviceFromUrlSchema,
   updateDeviceSchema 
 } from '@/lib/validation/device-validation';
-import type { Product, DeviceCategory } from '@prisma/client';
+import type { Product, DeviceCategory } from '@/lib/generated/prisma';
 
 /**
  * ユーザーのデバイス一覧を取得
@@ -164,7 +164,7 @@ export async function checkExistingProductByAsin(asin: string) {
             id: true,
             handle: true,
             name: true,
-            image: true,
+            iconUrl: true,
           },
         },
       },
@@ -262,6 +262,7 @@ export async function addDeviceFromUrl(data: {
   amazonUrl: string;
   category?: string;
   note?: string;
+  customTitle?: string;
   forceAdd?: boolean; // 重複があっても強制的に追加するかどうか
 }) {
   try {
@@ -353,7 +354,7 @@ export async function addDeviceFromUrl(data: {
 
     // カスタム商品データを作成
     const customProductData: CustomProductData = {
-      title: productInfo.title,
+      title: validated.customTitle || productInfo.title, // カスタムタイトルがあれば使用
       description: productInfo.description,
       imageUrl: productInfo.imageUrl,
       amazonUrl: validated.amazonUrl,
@@ -371,7 +372,7 @@ export async function addDeviceFromUrl(data: {
       data: {
         userId: user.id,
         deviceType: 'CUSTOM',
-        customProductData,
+        customProductData: customProductData as any,
         note: validated.note,
       },
     });
@@ -489,12 +490,15 @@ export async function deleteDevice(deviceId: number) {
  * 公式商品一覧を取得
  */
 export async function getOfficialProducts(category?: string) {
-  const where = category ? { category: { slug: category }, isActive: true } : { isActive: true };
+  const where = category && category !== 'all' 
+    ? { category: { slug: category }, isActive: true } 
+    : { isActive: true };
   
   const products = await prisma.product.findMany({
     where,
     include: {
       category: true,
+      manufacturer: true,
     },
     orderBy: { createdAt: 'desc' },
   });

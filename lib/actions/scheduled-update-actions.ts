@@ -53,7 +53,7 @@ export async function getProductsNeedingUpdate(
 export async function updateOfficialProductInfo(productId: string) {
   try {
     const product = await db.product.findUnique({
-      where: { id: productId },
+      where: { id: parseInt(productId) },
     });
 
     if (!product) {
@@ -65,15 +65,12 @@ export async function updateOfficialProductInfo(productId: string) {
 
     // 商品情報を更新
     const updatedProduct = await db.product.update({
-      where: { id: productId },
+      where: { id: parseInt(productId) },
       data: {
-        title: updatedData.title,
+        name: updatedData.title,
         description: updatedData.description,
         imageUrl: updatedData.imageUrl,
-        attributes: {
-          ...(product.attributes as Record<string, any>),
-          ...updatedData.attributes,
-        },
+        attributes: product.attributes as any,
         updatedAt: new Date(), // 明示的に更新日時を設定
       },
     });
@@ -97,14 +94,14 @@ export async function updateOfficialProductInfo(productId: string) {
 export async function updateCustomDeviceInfo(deviceId: string) {
   try {
     const device = await db.userDevice.findUnique({
-      where: { id: deviceId },
+      where: { id: parseInt(deviceId) },
     });
 
     if (!device || device.deviceType !== "CUSTOM") {
       throw new Error("Custom device not found");
     }
 
-    const customData = device.customProductData as CustomProductData;
+    const customData = device.customProductData as unknown as CustomProductData;
     if (!customData?.amazonUrl) {
       throw new Error("No Amazon URL found");
     }
@@ -123,9 +120,9 @@ export async function updateCustomDeviceInfo(deviceId: string) {
 
     // デバイス情報を更新
     const updatedDevice = await db.userDevice.update({
-      where: { id: deviceId },
+      where: { id: parseInt(deviceId) },
       data: {
-        customProductData: updatedCustomData,
+        customProductData: updatedCustomData as any,
         updatedAt: new Date(),
       },
     });
@@ -170,13 +167,13 @@ export async function runScheduledUpdate() {
 
     // 公式商品の更新
     for (const product of officialProducts) {
-      const result = await updateOfficialProductInfo(product.id);
+      const result = await updateOfficialProductInfo(product.id.toString());
       if (result.success) {
         results.official.success++;
       } else {
         results.official.failed++;
         results.official.errors.push({
-          id: product.id,
+          id: product.id.toString(),
           error: result.error || "Unknown error",
         });
       }
@@ -187,13 +184,13 @@ export async function runScheduledUpdate() {
 
     // カスタム商品の更新
     for (const device of customDevices) {
-      const result = await updateCustomDeviceInfo(device.id);
+      const result = await updateCustomDeviceInfo(device.id.toString());
       if (result.success) {
         results.custom.success++;
       } else {
         results.custom.failed++;
         results.custom.errors.push({
-          id: device.id,
+          id: device.id.toString(),
           error: result.error || "Unknown error",
         });
       }

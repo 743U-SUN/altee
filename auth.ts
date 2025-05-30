@@ -94,3 +94,6 @@ export const {
   signIn,
   signOut
 } = NextAuth(authConfig);
+
+// 後方互換性のためのエクスポート
+export { authConfig as authOptions };

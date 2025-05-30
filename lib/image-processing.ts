@@ -98,6 +98,18 @@ export const IMAGE_PRESETS = {
     fit: 'inside' as const,
     withoutEnlargement: true,
     lossless: false
+  },
+  
+  // ロゴ用（200x200、高品質）正方形
+  logo: {
+    format: 'webp' as const,
+    quality: 90,
+    effort: 5,
+    maxWidth: 200,
+    maxHeight: 200,
+    fit: 'inside' as const,
+    withoutEnlargement: true,
+    lossless: false
   }
 } as const;
 

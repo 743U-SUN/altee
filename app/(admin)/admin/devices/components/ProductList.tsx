@@ -1,6 +1,6 @@
 "use client";
 
-import { Product, DeviceCategory } from "@prisma/client";
+import { Product, DeviceCategory } from "@/lib/generated/prisma";
 import { ProductCard } from "./ProductCard";
 import { Pagination } from "@/components/ui/pagination";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -9,7 +9,7 @@ interface ProductListProps {
   products: (Product & {
     category: DeviceCategory;
     _count: {
-      UserDevice: number;
+      userDevices: number;
     };
   })[];
   totalPages: number;

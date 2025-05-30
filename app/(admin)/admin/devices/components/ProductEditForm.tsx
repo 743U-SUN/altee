@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Product, DeviceCategory, UserDevice, User } from "@prisma/client";
+import { Product, DeviceCategory, UserDevice, User } from "@/lib/generated/prisma";
 import Image from "next/image";
 import {
   Form,
@@ -41,12 +41,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 interface ProductEditFormProps {
   product: Product & {
     category: DeviceCategory;
-    UserDevice: (UserDevice & {
+    userDevices: (UserDevice & {
       user: {
         id: string;
         handle: string | null;
         name: string | null;
-        image: string | null;
+        iconUrl: string | null;
       };
     })[];
   };
@@ -55,7 +55,7 @@ interface ProductEditFormProps {
 
 const formSchema = z.object({
   categoryId: z.string().min(1, "カテゴリを選択してください"),
-  title: z.string().min(1, "商品名を入力してください"),
+  name: z.string().min(1, "商品名を入力してください"),
   description: z.string().optional(),
   imageUrl: z.string().url("有効な画像URLを入力してください"),
   amazonUrl: z.string().url("有効なAmazon URLを入力してください"),
@@ -71,8 +71,8 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      categoryId: product.categoryId,
-      title: product.title,
+      categoryId: product.categoryId.toString(),
+      name: product.name,
       description: product.description || "",
       imageUrl: product.imageUrl,
       amazonUrl: product.amazonUrl,
@@ -82,7 +82,10 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
   const onSubmit = async (values: FormValues) => {
     setIsLoading(true);
     try {
-      await updateProduct(product.id, values);
+      await updateProduct(product.id.toString(), {
+        ...values,
+        categoryId: parseInt(values.categoryId), // 文字列を数値に変換
+      });
       toast.success("商品情報を更新しました");
       router.refresh();
     } catch (error) {
@@ -96,9 +99,9 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
   const handleRefresh = async () => {
     setIsRefreshing(true);
     try {
-      const updatedProduct = await refreshProductFromAmazon(product.id);
+      const updatedProduct = await refreshProductFromAmazon(product.id.toString());
       // フォームを更新されたデータで再設定
-      form.setValue("title", updatedProduct.title);
+      form.setValue("name", updatedProduct.name);
       form.setValue("description", updatedProduct.description || "");
       form.setValue("imageUrl", updatedProduct.imageUrl);
       toast.success("PA-APIから最新情報を取得しました");
@@ -140,7 +143,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
                         </FormControl>
                         <SelectContent>
                           {categories.map((category) => (
-                            <SelectItem key={category.id} value={category.id}>
+                            <SelectItem key={category.id} value={category.id.toString()}>
                               <div className="flex items-center gap-2">
                                 <DeviceIcon category={category.slug} className="h-4 w-4" />
                                 {category.name}
@@ -157,7 +160,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
                 {/* 商品名 */}
                 <FormField
                   control={form.control}
-                  name="title"
+                  name="name"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>商品名</FormLabel>
@@ -286,7 +289,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
             <div className="aspect-square relative overflow-hidden rounded-lg bg-muted">
               <Image
                 src={product.imageUrl}
-                alt={product.title}
+                alt={product.name || '商品画像'}
                 fill
                 className="object-contain"
                 sizes="(max-width: 768px) 100vw, 33vw"
@@ -303,7 +306,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
                 <span className="text-sm text-muted-foreground">利用者数</span>
                 <div className="flex items-center gap-1">
                   <Users className="h-4 w-4" />
-                  <span className="font-medium">{product.UserDevice.length}</span>
+                  <span className="font-medium">{product.userDevices.length}</span>
                 </div>
               </div>
 
@@ -336,17 +339,17 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
         </Card>
 
         {/* 利用者一覧 */}
-        {product.UserDevice.length > 0 && (
+        {product.userDevices.length > 0 && (
           <Card>
             <CardHeader>
               <CardTitle>この商品を使用しているユーザー</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {product.UserDevice.map((device) => (
+                {product.userDevices.map((device) => (
                   <div key={device.id} className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={device.user.image || undefined} />
+                      <AvatarImage src={device.user.iconUrl || undefined} />
                       <AvatarFallback>
                         {device.user.name?.[0] || device.user.handle?.[0] || "U"}
                       </AvatarFallback>

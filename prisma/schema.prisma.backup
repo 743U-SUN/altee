@@ -1,0 +1,620 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String               @id @default(uuid())
+  email               String               @unique
+  name                String?
+  characterName       String?
+  subname             String?
+  bio                 String?              @db.Text
+  birthday            DateTime?
+  gender              String?
+  iconUrl             String?
+  bannerUrl           String?
+  handle              String?              @unique
+  handleChangeCount   Int                  @default(0)     @map("handle_change_count")
+  handleChangeTokens  Int                  @default(1)     @map("handle_change_tokens")
+  isPremiumUser       Boolean              @default(false) @map("is_premium_user")
+  role                String               @default("user")
+  subscriptionStatus  String?              @map("subscription_status")
+  emailVerified       DateTime?
+  isActive            Boolean              @default(true)
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  
+  // デバイス管理用フィールド
+  amazonAssociateId   String?              @map("amazon_associate_id")
+  
+  // リレーション
+  accounts            Account[]
+  sessions            Session[]
+  ogp                 UserOGP?
+  links               UserLink[]
+  imageBanners        UserImageBanner[]
+  imageCarousels      UserImageCarousel[]
+  imageSidebars       UserImageSidebar[]
+  customQuestions     UserCustomQuestion[]
+  infoCategories      UserInfoCategory[]
+  youtubeSettings     UserYoutubeSettings?
+  recommendYoutubes   UserRecommendYoutube[]
+  popupSettings       UserPopupSettings?
+  displaySettings     UserDisplaySettings?
+  notificationSettings NotificationSettings?
+  author              Author?
+  comments            Comment[]
+  userDevices         UserDevice[]
+  userFavorites       UserFavorite[]
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model NotificationSettings {
+  id                String   @id @default(uuid())
+  pushNotifications Boolean  @default(false)
+  
+  // リレーション
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserLink {
+  id                String       @id @default(uuid())
+  url               String
+  title             String?
+  description       String?
+  sortOrder         Int          @default(0)
+  isActive          Boolean      @default(true)
+  useOriginalIcon   Boolean      @default(false)
+  originalIconUrl   String?
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  
+  // リレーション
+  userId            String
+  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serviceId         String
+  service           LinkService  @relation(fields: [serviceId], references: [id])
+  iconId            String?
+  icon              ServiceIcon? @relation(fields: [iconId], references: [id])
+  
+  @@index([userId])
+  @@index([serviceId])
+  @@index([iconId])
+}
+
+model UserYoutubeSettings {
+  id            String              @id @default(uuid())
+  channelId     String?
+  displayCount  Int                 @default(8)
+  lastFetchedAt DateTime?
+  pickupVideo   String?
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+  
+  // リレーション
+  userId        String              @unique
+  user          User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  videos        UserYoutubeVideo[]
+  
+  @@index([userId])
+}
+
+model UserImageBanner {
+  id        String  @id @default(uuid())
+  url       String?
+  imgUrl    String
+  alt       String?
+  sortOrder Int     @default(0)
+  
+  // リレーション
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserYoutubeVideo {
+  id            String             @id @default(uuid())
+  url           String
+  thumbnailUrl  String?
+  title         String?
+  description   String?
+  publishedAt   DateTime?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  
+  // リレーション
+  settingsId    String
+  settings      UserYoutubeSettings @relation(fields: [settingsId], references: [id], onDelete: Cascade)
+  
+  @@index([settingsId])
+}
+
+model UserRecommendYoutube {
+  id            String   @id @default(uuid())
+  url           String
+  thumbnailUrl  String?
+  title         String?
+  description   String?
+  sortOrder     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // リレーション
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserPopupSettings {
+  id                String    @id @default(uuid())
+  bellTitle         String?
+  bellText          String?
+  bellImageUrl      String?
+  bellUrl           String?
+  bellLastUpdated   DateTime?
+  emailTitle        String?
+  emailText         String?
+  popup1ImageUrl    String?
+  popup1Url         String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // リレーション
+  userId            String    @unique
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserOGP {
+  id          String  @id @default(uuid())
+  imgUrl      String?
+  title       String?
+  description String?
+  
+  // リレーション
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserCustomQuestion {
+  id        String  @id @default(uuid())
+  question  String
+  answer    String
+  sortOrder Int     @default(0)
+  
+  // リレーション
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserInfoCategory {
+  id        String  @id @default(uuid())
+  name      String  // カテゴリ名（例：「イラスト依頼について」）
+  sortOrder Int     @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // リレーション
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  questions UserInfoQuestion[]
+  
+  @@index([userId])
+}
+
+model UserInfoQuestion {
+  id         String  @id @default(uuid())
+  question   String  // 質問内容（最大30文字）
+  answer     String  @db.Text // 回答内容（最大1000文字）
+  sortOrder  Int     @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  
+  // リレーション
+  categoryId String
+  category   UserInfoCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  @@index([categoryId])
+}
+
+model UserImageCarousel {
+  id        String  @id @default(uuid())
+  url       String?
+  imgUrl    String
+  alt       String?
+  sortOrder Int     @default(0)
+  
+  // リレーション
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserImageSidebar {
+  id        String  @id @default(uuid())
+  url       String?
+  imgUrl    String
+  alt       String?
+  sortOrder Int     @default(0)
+  
+  // リレーション
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model UserDisplaySettings {
+  id                String  @id @default(uuid())
+  displayYoutube    Boolean @default(true)
+  displayDevice     Boolean @default(true)
+  displayFaq        Boolean @default(true)
+  displayPopup1     Boolean @default(true)
+  displayPopupBell  Boolean @default(true)
+  displayPopupEmail Boolean @default(true)
+  displayUserList   Boolean @default(true)
+  displayOwnPage    Boolean @default(true)
+  
+  // リレーション
+  userId            String  @unique
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model LinkService {
+  id                 String        @id @default(uuid())
+  name               String
+  slug               String        @unique
+  description        String?
+  baseUrl            String?
+  allowOriginalIcon  Boolean       @default(true)
+  isActive           Boolean       @default(true)
+  sortOrder          Int           @default(0)
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  
+  // リレーション
+  icons              ServiceIcon[]
+  links              UserLink[]
+}
+
+model ServiceIcon {
+  id            String      @id @default(uuid())
+  name          String
+  fileName      String
+  filePath      String
+  style         IconStyle
+  colorScheme   IconColor
+  description   String?
+  isActive      Boolean     @default(true)
+  sortOrder     Int         @default(0)
+  uploadedBy    String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  // リレーション
+  serviceId     String
+  service       LinkService @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  links         UserLink[]
+  
+  @@index([serviceId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Author {
+  id           String    @id @default(uuid())
+  bio          String?
+  profileImage String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  // リレーション
+  userId       String    @unique
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  articles     Article[]
+  
+  @@index([userId])
+}
+
+model Category {
+  id           String    @id @default(uuid())
+  name         String
+  slug         String    @unique
+  description  String?
+  parentId     String?
+  parent       Category? @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children     Category[] @relation("CategoryToCategory")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  // リレーション
+  articles     ArticleCategory[]
+  
+  @@index([parentId])
+}
+
+model Tag {
+  id           String    @id @default(uuid())
+  name         String
+  slug         String    @unique
+  description  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  // リレーション
+  articles     ArticleTag[]
+}
+
+model Article {
+  id           String    @id @default(uuid())
+  title        String
+  slug         String    @unique
+  content      String    @db.Text
+  excerpt      String?
+  featuredImage String?
+  status       ArticleStatus @default(DRAFT)
+  viewCount    Int       @default(0)
+  publishedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  // リレーション
+  authorId     String
+  author       Author    @relation(fields: [authorId], references: [id])
+  categories   ArticleCategory[]
+  tags         ArticleTag[]
+  comments     Comment[]
+  
+  @@index([authorId])
+  @@index([slug])
+  @@index([publishedAt])
+}
+
+model ArticleCategory {
+  articleId    String
+  categoryId   String
+  
+  // リレーション
+  article      Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  category     Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  
+  @@id([articleId, categoryId])
+  @@index([articleId])
+  @@index([categoryId])
+}
+
+model ArticleTag {
+  articleId    String
+  tagId        String
+  
+  // リレーション
+  article      Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag          Tag       @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  
+  @@id([articleId, tagId])
+  @@index([articleId])
+  @@index([tagId])
+}
+
+model Comment {
+  id           String    @id @default(uuid())
+  content      String
+  parentId     String?
+  parent       Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  children     Comment[] @relation("CommentToComment")
+  isApproved   Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  // リレーション
+  articleId    String
+  article      Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  userId       String?
+  user         User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([articleId])
+  @@index([userId])
+  @@index([parentId])
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum IconStyle {
+  FILLED
+  OUTLINE
+  MINIMAL
+  GRADIENT
+  THREE_D
+}
+
+enum IconColor {
+  ORIGINAL
+  MONOCHROME
+  WHITE
+  BLACK
+  CUSTOM
+}
+
+// === デバイス管理用モデル ===
+
+// デバイスカテゴリ管理
+model DeviceCategory {
+  id          Int       @id @default(autoincrement())
+  name        String    // "マウス", "キーボード"
+  slug        String    @unique // "mouse", "keyboard"
+  description String?
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  
+  // リレーション
+  products    Product[]
+  
+  @@map("device_categories")
+}
+
+// 管理者が厳選した公式商品リスト
+model Product {
+  id                   Int      @id @default(autoincrement())
+  name                 String   // "Logicool G Pro X Superlight"
+  description          String?  @db.Text
+  categoryId           Int      @map("category_id")
+  manufacturerId       Int?     @map("manufacturer_id")      // メーカー属性への参照
+  amazonUrl            String   @map("amazon_url")           // 元のAmazonURL
+  adminAffiliateUrl    String   @map("admin_affiliate_url")  // 管理者のアソシエイトID付きURL
+  asin                 String   @unique                      // 重複チェック用ASIN
+  imageUrl             String   @map("image_url")
+  price                Decimal? @db.Decimal(10, 2)           // 参考価格
+  attributes           Json?                                  // カテゴリ別属性（JSON形式）
+  isActive             Boolean  @default(true) @map("is_active") // 公開/非公開
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+  
+  // リレーション
+  category     DeviceCategory @relation(fields: [categoryId], references: [id])
+  manufacturer ProductAttribute? @relation(fields: [manufacturerId], references: [id])
+  userDevices  UserDevice[]
+  userFavorites UserFavorite[]
+  
+  @@index([categoryId])
+  @@index([manufacturerId])
+  @@index([asin])
+  @@map("products")
+}
+
+// ユーザーの所持デバイス管理
+model UserDevice {
+  id                  Int      @id @default(autoincrement())
+  userId              String   @map("user_id")
+  
+  // 公式商品 OR カスタム商品のどちらか一方のみ設定
+  productId           Int?     @map("product_id")           // 公式リストから選択した場合
+  customProductData   Json?    @map("custom_product_data")  // ユーザー独自追加の場合
+  
+  deviceType          DeviceType @map("device_type")        // 'OFFICIAL' | 'CUSTOM'
+  note                String?    @db.Text                    // ユーザーのメモ
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
+  
+  // リレーション
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product             Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([productId])
+  @@map("user_devices")
+}
+
+// お気に入り機能
+model UserFavorite {
+  id        Int      @id @default(autoincrement())
+  userId    String   @map("user_id")
+  productId Int      @map("product_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  
+  // リレーション
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, productId])
+  @@index([userId])
+  @@index([productId])
+  @@map("user_favorites")
+}
+
+// 商品属性管理（メーカー、シリーズ、モデルなど）
+model ProductAttribute {
+  id          Int       @id @default(autoincrement())
+  name        String    // "Logicool", "G Pro シリーズ", "RTX 3080"
+  slug        String    @unique // "logicool", "g-pro-series", "rtx-3080"
+  type        AttributeType // MANUFACTURER, SERIES, MODEL
+  category    String?   // "mouse", "keyboard" (どのカテゴリで使用可能か)
+  description String?
+  logoUrl     String?   @map("logo_url") // メーカーロゴなど
+  website     String?   // 公式サイト
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  
+  // リレーション
+  products    Product[]
+  
+  @@index([type])
+  @@index([category])
+  @@map("product_attributes")
+}
+
+// Enum定義
+enum AttributeType {
+  MANUFACTURER  // Logicool, Razer, Apple
+  SERIES       // G Pro, DeathAdder, Magic
+  MODEL        // 具体的な型番
+}
+
+enum DeviceType {
+  OFFICIAL  // 公式リストから選択
+  CUSTOM    // ユーザー独自追加
+}

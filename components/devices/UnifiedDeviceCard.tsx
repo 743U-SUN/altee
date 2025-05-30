@@ -135,7 +135,7 @@ export function UnifiedDeviceCard({
           >
             <Image
               src={imageError ? '/images/no-image.svg' : device.imageUrl}
-              alt={device.title}
+              alt={device.title || 'デバイス画像'}
               fill
               className="object-contain p-4"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -211,7 +211,7 @@ export function UnifiedDeviceCard({
           "flex flex-wrap gap-2",
           finalCompact && "pt-3"
         )}>
-          {showDetailsProp && (
+          {showDetailsProp && device.sourceType === 'official' && (
             <Dialog open={showDetails} onOpenChange={setShowDetails}>
             <DialogTrigger asChild>
               <Button variant="outline" size="sm" className="flex-1">
@@ -232,8 +232,9 @@ export function UnifiedDeviceCard({
                 <div className="aspect-video relative overflow-hidden rounded-lg bg-muted">
                   <Image
                     src={imageError ? '/images/no-image.svg' : device.imageUrl}
-                    alt={device.title}
+                    alt={device.title || 'デバイス画像'}
                     fill
+                    sizes="(max-width: 768px) 100vw, 600px" // sizes prop を追加
                     className="object-contain p-8"
                     onError={handleImageError}
                     onLoad={handleImageLoad}

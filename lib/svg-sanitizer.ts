@@ -327,7 +327,11 @@ export function sanitizeSvg(svgContent: string): SvgSanitizeResult {
     });
     
     // 10. 基本的なSVG構造の検証
-    if (!sanitized.trim().startsWith('<svg') || !sanitized.includes('</svg>')) {
+    const trimmedSanitized = sanitized.trim();
+    const hasSvgStart = /<svg[\s>]/i.test(trimmedSanitized);
+    const hasSvgEnd = /<\/svg\s*>/i.test(trimmedSanitized);
+    
+    if (!hasSvgStart || !hasSvgEnd) {
       throw new Error('Invalid SVG structure');
     }
     

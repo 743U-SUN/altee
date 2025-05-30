@@ -154,6 +154,16 @@ export type Comment = $Result.DefaultSelection<Prisma.$CommentPayload>
  */
 export type DeviceCategory = $Result.DefaultSelection<Prisma.$DeviceCategoryPayload>
 /**
+ * Model Manufacturer
+ * 
+ */
+export type Manufacturer = $Result.DefaultSelection<Prisma.$ManufacturerPayload>
+/**
+ * Model Series
+ * 
+ */
+export type Series = $Result.DefaultSelection<Prisma.$SeriesPayload>
+/**
  * Model Product
  * 
  */
@@ -168,6 +178,16 @@ export type UserDevice = $Result.DefaultSelection<Prisma.$UserDevicePayload>
  * 
  */
 export type UserFavorite = $Result.DefaultSelection<Prisma.$UserFavoritePayload>
+/**
+ * Model MouseAttributes
+ * 
+ */
+export type MouseAttributes = $Result.DefaultSelection<Prisma.$MouseAttributesPayload>
+/**
+ * Model KeyboardAttributes
+ * 
+ */
+export type KeyboardAttributes = $Result.DefaultSelection<Prisma.$KeyboardAttributesPayload>
 
 /**
  * Enums
@@ -204,6 +224,36 @@ export const IconColor: {
 export type IconColor = (typeof IconColor)[keyof typeof IconColor]
 
 
+export const ConnectionType: {
+  WIRED: 'WIRED',
+  WIRELESS: 'WIRELESS',
+  BOTH: 'BOTH'
+};
+
+export type ConnectionType = (typeof ConnectionType)[keyof typeof ConnectionType]
+
+
+export const KeyboardLayout: {
+  FULL: 'FULL',
+  TKL: 'TKL',
+  SIXTY: 'SIXTY',
+  SIXTYFIVE: 'SIXTYFIVE',
+  SEVENTYFIVE: 'SEVENTYFIVE'
+};
+
+export type KeyboardLayout = (typeof KeyboardLayout)[keyof typeof KeyboardLayout]
+
+
+export const SwitchType: {
+  MECHANICAL: 'MECHANICAL',
+  OPTICAL: 'OPTICAL',
+  MAGNETIC: 'MAGNETIC',
+  MEMBRANE: 'MEMBRANE'
+};
+
+export type SwitchType = (typeof SwitchType)[keyof typeof SwitchType]
+
+
 export const DeviceType: {
   OFFICIAL: 'OFFICIAL',
   CUSTOM: 'CUSTOM'
@@ -224,6 +274,18 @@ export const IconStyle: typeof $Enums.IconStyle
 export type IconColor = $Enums.IconColor
 
 export const IconColor: typeof $Enums.IconColor
+
+export type ConnectionType = $Enums.ConnectionType
+
+export const ConnectionType: typeof $Enums.ConnectionType
+
+export type KeyboardLayout = $Enums.KeyboardLayout
+
+export const KeyboardLayout: typeof $Enums.KeyboardLayout
+
+export type SwitchType = $Enums.SwitchType
+
+export const SwitchType: typeof $Enums.SwitchType
 
 export type DeviceType = $Enums.DeviceType
 
@@ -635,6 +697,26 @@ export class PrismaClient<
   get deviceCategory(): Prisma.DeviceCategoryDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.manufacturer`: Exposes CRUD operations for the **Manufacturer** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Manufacturers
+    * const manufacturers = await prisma.manufacturer.findMany()
+    * ```
+    */
+  get manufacturer(): Prisma.ManufacturerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.series`: Exposes CRUD operations for the **Series** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Series
+    * const series = await prisma.series.findMany()
+    * ```
+    */
+  get series(): Prisma.SeriesDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.product`: Exposes CRUD operations for the **Product** model.
     * Example usage:
     * ```ts
@@ -663,6 +745,26 @@ export class PrismaClient<
     * ```
     */
   get userFavorite(): Prisma.UserFavoriteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.mouseAttributes`: Exposes CRUD operations for the **MouseAttributes** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MouseAttributes
+    * const mouseAttributes = await prisma.mouseAttributes.findMany()
+    * ```
+    */
+  get mouseAttributes(): Prisma.MouseAttributesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.keyboardAttributes`: Exposes CRUD operations for the **KeyboardAttributes** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KeyboardAttributes
+    * const keyboardAttributes = await prisma.keyboardAttributes.findMany()
+    * ```
+    */
+  get keyboardAttributes(): Prisma.KeyboardAttributesDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1131,9 +1233,13 @@ export namespace Prisma {
     ArticleTag: 'ArticleTag',
     Comment: 'Comment',
     DeviceCategory: 'DeviceCategory',
+    Manufacturer: 'Manufacturer',
+    Series: 'Series',
     Product: 'Product',
     UserDevice: 'UserDevice',
-    UserFavorite: 'UserFavorite'
+    UserFavorite: 'UserFavorite',
+    MouseAttributes: 'MouseAttributes',
+    KeyboardAttributes: 'KeyboardAttributes'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1152,7 +1258,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "notificationSettings" | "userLink" | "userYoutubeSettings" | "userImageBanner" | "userYoutubeVideo" | "userRecommendYoutube" | "userPopupSettings" | "userOGP" | "userCustomQuestion" | "userInfoCategory" | "userInfoQuestion" | "userImageCarousel" | "userImageSidebar" | "userDisplaySettings" | "linkService" | "serviceIcon" | "verificationToken" | "author" | "category" | "tag" | "article" | "articleCategory" | "articleTag" | "comment" | "deviceCategory" | "product" | "userDevice" | "userFavorite"
+      modelProps: "user" | "account" | "session" | "notificationSettings" | "userLink" | "userYoutubeSettings" | "userImageBanner" | "userYoutubeVideo" | "userRecommendYoutube" | "userPopupSettings" | "userOGP" | "userCustomQuestion" | "userInfoCategory" | "userInfoQuestion" | "userImageCarousel" | "userImageSidebar" | "userDisplaySettings" | "linkService" | "serviceIcon" | "verificationToken" | "author" | "category" | "tag" | "article" | "articleCategory" | "articleTag" | "comment" | "deviceCategory" | "manufacturer" | "series" | "product" | "userDevice" | "userFavorite" | "mouseAttributes" | "keyboardAttributes"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3228,6 +3334,154 @@ export namespace Prisma {
           }
         }
       }
+      Manufacturer: {
+        payload: Prisma.$ManufacturerPayload<ExtArgs>
+        fields: Prisma.ManufacturerFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ManufacturerFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ManufacturerFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>
+          }
+          findFirst: {
+            args: Prisma.ManufacturerFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ManufacturerFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>
+          }
+          findMany: {
+            args: Prisma.ManufacturerFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>[]
+          }
+          create: {
+            args: Prisma.ManufacturerCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>
+          }
+          createMany: {
+            args: Prisma.ManufacturerCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ManufacturerCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>[]
+          }
+          delete: {
+            args: Prisma.ManufacturerDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>
+          }
+          update: {
+            args: Prisma.ManufacturerUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>
+          }
+          deleteMany: {
+            args: Prisma.ManufacturerDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ManufacturerUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ManufacturerUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>[]
+          }
+          upsert: {
+            args: Prisma.ManufacturerUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ManufacturerPayload>
+          }
+          aggregate: {
+            args: Prisma.ManufacturerAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateManufacturer>
+          }
+          groupBy: {
+            args: Prisma.ManufacturerGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ManufacturerGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ManufacturerCountArgs<ExtArgs>
+            result: $Utils.Optional<ManufacturerCountAggregateOutputType> | number
+          }
+        }
+      }
+      Series: {
+        payload: Prisma.$SeriesPayload<ExtArgs>
+        fields: Prisma.SeriesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SeriesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeriesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SeriesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeriesPayload>
+          }
+          findFirst: {
+            args: Prisma.SeriesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeriesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SeriesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeriesPayload>
+          }
+          findMany: {
+            args: Prisma.SeriesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeriesPayload>[]
+          }
+          create: {
+            args: Prisma.SeriesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeriesPayload>
+          }
+          createMany: {
+            args: Prisma.SeriesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SeriesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeriesPayload>[]
+          }
+          delete: {
+            args: Prisma.SeriesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeriesPayload>
+          }
+          update: {
+            args: Prisma.SeriesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeriesPayload>
+          }
+          deleteMany: {
+            args: Prisma.SeriesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SeriesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SeriesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeriesPayload>[]
+          }
+          upsert: {
+            args: Prisma.SeriesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeriesPayload>
+          }
+          aggregate: {
+            args: Prisma.SeriesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSeries>
+          }
+          groupBy: {
+            args: Prisma.SeriesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SeriesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SeriesCountArgs<ExtArgs>
+            result: $Utils.Optional<SeriesCountAggregateOutputType> | number
+          }
+        }
+      }
       Product: {
         payload: Prisma.$ProductPayload<ExtArgs>
         fields: Prisma.ProductFieldRefs
@@ -3450,6 +3704,154 @@ export namespace Prisma {
           }
         }
       }
+      MouseAttributes: {
+        payload: Prisma.$MouseAttributesPayload<ExtArgs>
+        fields: Prisma.MouseAttributesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MouseAttributesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MouseAttributesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MouseAttributesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MouseAttributesPayload>
+          }
+          findFirst: {
+            args: Prisma.MouseAttributesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MouseAttributesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MouseAttributesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MouseAttributesPayload>
+          }
+          findMany: {
+            args: Prisma.MouseAttributesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MouseAttributesPayload>[]
+          }
+          create: {
+            args: Prisma.MouseAttributesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MouseAttributesPayload>
+          }
+          createMany: {
+            args: Prisma.MouseAttributesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MouseAttributesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MouseAttributesPayload>[]
+          }
+          delete: {
+            args: Prisma.MouseAttributesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MouseAttributesPayload>
+          }
+          update: {
+            args: Prisma.MouseAttributesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MouseAttributesPayload>
+          }
+          deleteMany: {
+            args: Prisma.MouseAttributesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MouseAttributesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MouseAttributesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MouseAttributesPayload>[]
+          }
+          upsert: {
+            args: Prisma.MouseAttributesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MouseAttributesPayload>
+          }
+          aggregate: {
+            args: Prisma.MouseAttributesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMouseAttributes>
+          }
+          groupBy: {
+            args: Prisma.MouseAttributesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MouseAttributesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MouseAttributesCountArgs<ExtArgs>
+            result: $Utils.Optional<MouseAttributesCountAggregateOutputType> | number
+          }
+        }
+      }
+      KeyboardAttributes: {
+        payload: Prisma.$KeyboardAttributesPayload<ExtArgs>
+        fields: Prisma.KeyboardAttributesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.KeyboardAttributesFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyboardAttributesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.KeyboardAttributesFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyboardAttributesPayload>
+          }
+          findFirst: {
+            args: Prisma.KeyboardAttributesFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyboardAttributesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.KeyboardAttributesFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyboardAttributesPayload>
+          }
+          findMany: {
+            args: Prisma.KeyboardAttributesFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyboardAttributesPayload>[]
+          }
+          create: {
+            args: Prisma.KeyboardAttributesCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyboardAttributesPayload>
+          }
+          createMany: {
+            args: Prisma.KeyboardAttributesCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.KeyboardAttributesCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyboardAttributesPayload>[]
+          }
+          delete: {
+            args: Prisma.KeyboardAttributesDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyboardAttributesPayload>
+          }
+          update: {
+            args: Prisma.KeyboardAttributesUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyboardAttributesPayload>
+          }
+          deleteMany: {
+            args: Prisma.KeyboardAttributesDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.KeyboardAttributesUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.KeyboardAttributesUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyboardAttributesPayload>[]
+          }
+          upsert: {
+            args: Prisma.KeyboardAttributesUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KeyboardAttributesPayload>
+          }
+          aggregate: {
+            args: Prisma.KeyboardAttributesAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKeyboardAttributes>
+          }
+          groupBy: {
+            args: Prisma.KeyboardAttributesGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KeyboardAttributesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.KeyboardAttributesCountArgs<ExtArgs>
+            result: $Utils.Optional<KeyboardAttributesCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3562,9 +3964,13 @@ export namespace Prisma {
     articleTag?: ArticleTagOmit
     comment?: CommentOmit
     deviceCategory?: DeviceCategoryOmit
+    manufacturer?: ManufacturerOmit
+    series?: SeriesOmit
     product?: ProductOmit
     userDevice?: UserDeviceOmit
     userFavorite?: UserFavoriteOmit
+    mouseAttributes?: MouseAttributesOmit
+    keyboardAttributes?: KeyboardAttributesOmit
   }
 
   /* Types for Logging */
@@ -4126,6 +4532,77 @@ export namespace Prisma {
    * DeviceCategoryCountOutputType without action
    */
   export type DeviceCategoryCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductWhereInput
+  }
+
+
+  /**
+   * Count Type ManufacturerCountOutputType
+   */
+
+  export type ManufacturerCountOutputType = {
+    products: number
+    series: number
+  }
+
+  export type ManufacturerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    products?: boolean | ManufacturerCountOutputTypeCountProductsArgs
+    series?: boolean | ManufacturerCountOutputTypeCountSeriesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ManufacturerCountOutputType without action
+   */
+  export type ManufacturerCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManufacturerCountOutputType
+     */
+    select?: ManufacturerCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ManufacturerCountOutputType without action
+   */
+  export type ManufacturerCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProductWhereInput
+  }
+
+  /**
+   * ManufacturerCountOutputType without action
+   */
+  export type ManufacturerCountOutputTypeCountSeriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SeriesWhereInput
+  }
+
+
+  /**
+   * Count Type SeriesCountOutputType
+   */
+
+  export type SeriesCountOutputType = {
+    products: number
+  }
+
+  export type SeriesCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    products?: boolean | SeriesCountOutputTypeCountProductsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SeriesCountOutputType without action
+   */
+  export type SeriesCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeriesCountOutputType
+     */
+    select?: SeriesCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SeriesCountOutputType without action
+   */
+  export type SeriesCountOutputTypeCountProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ProductWhereInput
   }
 
@@ -36204,6 +36681,2355 @@ export namespace Prisma {
 
 
   /**
+   * Model Manufacturer
+   */
+
+  export type AggregateManufacturer = {
+    _count: ManufacturerCountAggregateOutputType | null
+    _avg: ManufacturerAvgAggregateOutputType | null
+    _sum: ManufacturerSumAggregateOutputType | null
+    _min: ManufacturerMinAggregateOutputType | null
+    _max: ManufacturerMaxAggregateOutputType | null
+  }
+
+  export type ManufacturerAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ManufacturerSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type ManufacturerMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    slug: string | null
+    description: string | null
+    logoUrl: string | null
+    website: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ManufacturerMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    slug: string | null
+    description: string | null
+    logoUrl: string | null
+    website: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ManufacturerCountAggregateOutputType = {
+    id: number
+    name: number
+    slug: number
+    description: number
+    logoUrl: number
+    website: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ManufacturerAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type ManufacturerSumAggregateInputType = {
+    id?: true
+  }
+
+  export type ManufacturerMinAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    description?: true
+    logoUrl?: true
+    website?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ManufacturerMaxAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    description?: true
+    logoUrl?: true
+    website?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ManufacturerCountAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    description?: true
+    logoUrl?: true
+    website?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ManufacturerAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Manufacturer to aggregate.
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Manufacturers to fetch.
+     */
+    orderBy?: ManufacturerOrderByWithRelationInput | ManufacturerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ManufacturerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Manufacturers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Manufacturers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Manufacturers
+    **/
+    _count?: true | ManufacturerCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ManufacturerAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ManufacturerSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ManufacturerMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ManufacturerMaxAggregateInputType
+  }
+
+  export type GetManufacturerAggregateType<T extends ManufacturerAggregateArgs> = {
+        [P in keyof T & keyof AggregateManufacturer]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateManufacturer[P]>
+      : GetScalarType<T[P], AggregateManufacturer[P]>
+  }
+
+
+
+
+  export type ManufacturerGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ManufacturerWhereInput
+    orderBy?: ManufacturerOrderByWithAggregationInput | ManufacturerOrderByWithAggregationInput[]
+    by: ManufacturerScalarFieldEnum[] | ManufacturerScalarFieldEnum
+    having?: ManufacturerScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ManufacturerCountAggregateInputType | true
+    _avg?: ManufacturerAvgAggregateInputType
+    _sum?: ManufacturerSumAggregateInputType
+    _min?: ManufacturerMinAggregateInputType
+    _max?: ManufacturerMaxAggregateInputType
+  }
+
+  export type ManufacturerGroupByOutputType = {
+    id: number
+    name: string
+    slug: string
+    description: string | null
+    logoUrl: string | null
+    website: string | null
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: ManufacturerCountAggregateOutputType | null
+    _avg: ManufacturerAvgAggregateOutputType | null
+    _sum: ManufacturerSumAggregateOutputType | null
+    _min: ManufacturerMinAggregateOutputType | null
+    _max: ManufacturerMaxAggregateOutputType | null
+  }
+
+  type GetManufacturerGroupByPayload<T extends ManufacturerGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ManufacturerGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ManufacturerGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ManufacturerGroupByOutputType[P]>
+            : GetScalarType<T[P], ManufacturerGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ManufacturerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    description?: boolean
+    logoUrl?: boolean
+    website?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    products?: boolean | Manufacturer$productsArgs<ExtArgs>
+    series?: boolean | Manufacturer$seriesArgs<ExtArgs>
+    _count?: boolean | ManufacturerCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["manufacturer"]>
+
+  export type ManufacturerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    description?: boolean
+    logoUrl?: boolean
+    website?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["manufacturer"]>
+
+  export type ManufacturerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    description?: boolean
+    logoUrl?: boolean
+    website?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["manufacturer"]>
+
+  export type ManufacturerSelectScalar = {
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    description?: boolean
+    logoUrl?: boolean
+    website?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ManufacturerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "logoUrl" | "website" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["manufacturer"]>
+  export type ManufacturerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    products?: boolean | Manufacturer$productsArgs<ExtArgs>
+    series?: boolean | Manufacturer$seriesArgs<ExtArgs>
+    _count?: boolean | ManufacturerCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ManufacturerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ManufacturerIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $ManufacturerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Manufacturer"
+    objects: {
+      products: Prisma.$ProductPayload<ExtArgs>[]
+      series: Prisma.$SeriesPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      slug: string
+      description: string | null
+      logoUrl: string | null
+      website: string | null
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["manufacturer"]>
+    composites: {}
+  }
+
+  type ManufacturerGetPayload<S extends boolean | null | undefined | ManufacturerDefaultArgs> = $Result.GetResult<Prisma.$ManufacturerPayload, S>
+
+  type ManufacturerCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ManufacturerFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ManufacturerCountAggregateInputType | true
+    }
+
+  export interface ManufacturerDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Manufacturer'], meta: { name: 'Manufacturer' } }
+    /**
+     * Find zero or one Manufacturer that matches the filter.
+     * @param {ManufacturerFindUniqueArgs} args - Arguments to find a Manufacturer
+     * @example
+     * // Get one Manufacturer
+     * const manufacturer = await prisma.manufacturer.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ManufacturerFindUniqueArgs>(args: SelectSubset<T, ManufacturerFindUniqueArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Manufacturer that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ManufacturerFindUniqueOrThrowArgs} args - Arguments to find a Manufacturer
+     * @example
+     * // Get one Manufacturer
+     * const manufacturer = await prisma.manufacturer.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ManufacturerFindUniqueOrThrowArgs>(args: SelectSubset<T, ManufacturerFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Manufacturer that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerFindFirstArgs} args - Arguments to find a Manufacturer
+     * @example
+     * // Get one Manufacturer
+     * const manufacturer = await prisma.manufacturer.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ManufacturerFindFirstArgs>(args?: SelectSubset<T, ManufacturerFindFirstArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Manufacturer that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerFindFirstOrThrowArgs} args - Arguments to find a Manufacturer
+     * @example
+     * // Get one Manufacturer
+     * const manufacturer = await prisma.manufacturer.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ManufacturerFindFirstOrThrowArgs>(args?: SelectSubset<T, ManufacturerFindFirstOrThrowArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Manufacturers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Manufacturers
+     * const manufacturers = await prisma.manufacturer.findMany()
+     * 
+     * // Get first 10 Manufacturers
+     * const manufacturers = await prisma.manufacturer.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const manufacturerWithIdOnly = await prisma.manufacturer.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ManufacturerFindManyArgs>(args?: SelectSubset<T, ManufacturerFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Manufacturer.
+     * @param {ManufacturerCreateArgs} args - Arguments to create a Manufacturer.
+     * @example
+     * // Create one Manufacturer
+     * const Manufacturer = await prisma.manufacturer.create({
+     *   data: {
+     *     // ... data to create a Manufacturer
+     *   }
+     * })
+     * 
+     */
+    create<T extends ManufacturerCreateArgs>(args: SelectSubset<T, ManufacturerCreateArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Manufacturers.
+     * @param {ManufacturerCreateManyArgs} args - Arguments to create many Manufacturers.
+     * @example
+     * // Create many Manufacturers
+     * const manufacturer = await prisma.manufacturer.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ManufacturerCreateManyArgs>(args?: SelectSubset<T, ManufacturerCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Manufacturers and returns the data saved in the database.
+     * @param {ManufacturerCreateManyAndReturnArgs} args - Arguments to create many Manufacturers.
+     * @example
+     * // Create many Manufacturers
+     * const manufacturer = await prisma.manufacturer.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Manufacturers and only return the `id`
+     * const manufacturerWithIdOnly = await prisma.manufacturer.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ManufacturerCreateManyAndReturnArgs>(args?: SelectSubset<T, ManufacturerCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Manufacturer.
+     * @param {ManufacturerDeleteArgs} args - Arguments to delete one Manufacturer.
+     * @example
+     * // Delete one Manufacturer
+     * const Manufacturer = await prisma.manufacturer.delete({
+     *   where: {
+     *     // ... filter to delete one Manufacturer
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ManufacturerDeleteArgs>(args: SelectSubset<T, ManufacturerDeleteArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Manufacturer.
+     * @param {ManufacturerUpdateArgs} args - Arguments to update one Manufacturer.
+     * @example
+     * // Update one Manufacturer
+     * const manufacturer = await prisma.manufacturer.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ManufacturerUpdateArgs>(args: SelectSubset<T, ManufacturerUpdateArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Manufacturers.
+     * @param {ManufacturerDeleteManyArgs} args - Arguments to filter Manufacturers to delete.
+     * @example
+     * // Delete a few Manufacturers
+     * const { count } = await prisma.manufacturer.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ManufacturerDeleteManyArgs>(args?: SelectSubset<T, ManufacturerDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Manufacturers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Manufacturers
+     * const manufacturer = await prisma.manufacturer.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ManufacturerUpdateManyArgs>(args: SelectSubset<T, ManufacturerUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Manufacturers and returns the data updated in the database.
+     * @param {ManufacturerUpdateManyAndReturnArgs} args - Arguments to update many Manufacturers.
+     * @example
+     * // Update many Manufacturers
+     * const manufacturer = await prisma.manufacturer.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Manufacturers and only return the `id`
+     * const manufacturerWithIdOnly = await prisma.manufacturer.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ManufacturerUpdateManyAndReturnArgs>(args: SelectSubset<T, ManufacturerUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Manufacturer.
+     * @param {ManufacturerUpsertArgs} args - Arguments to update or create a Manufacturer.
+     * @example
+     * // Update or create a Manufacturer
+     * const manufacturer = await prisma.manufacturer.upsert({
+     *   create: {
+     *     // ... data to create a Manufacturer
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Manufacturer we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ManufacturerUpsertArgs>(args: SelectSubset<T, ManufacturerUpsertArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Manufacturers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerCountArgs} args - Arguments to filter Manufacturers to count.
+     * @example
+     * // Count the number of Manufacturers
+     * const count = await prisma.manufacturer.count({
+     *   where: {
+     *     // ... the filter for the Manufacturers we want to count
+     *   }
+     * })
+    **/
+    count<T extends ManufacturerCountArgs>(
+      args?: Subset<T, ManufacturerCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ManufacturerCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Manufacturer.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ManufacturerAggregateArgs>(args: Subset<T, ManufacturerAggregateArgs>): Prisma.PrismaPromise<GetManufacturerAggregateType<T>>
+
+    /**
+     * Group by Manufacturer.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ManufacturerGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ManufacturerGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ManufacturerGroupByArgs['orderBy'] }
+        : { orderBy?: ManufacturerGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ManufacturerGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetManufacturerGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Manufacturer model
+   */
+  readonly fields: ManufacturerFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Manufacturer.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ManufacturerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    products<T extends Manufacturer$productsArgs<ExtArgs> = {}>(args?: Subset<T, Manufacturer$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    series<T extends Manufacturer$seriesArgs<ExtArgs> = {}>(args?: Subset<T, Manufacturer$seriesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Manufacturer model
+   */
+  interface ManufacturerFieldRefs {
+    readonly id: FieldRef<"Manufacturer", 'Int'>
+    readonly name: FieldRef<"Manufacturer", 'String'>
+    readonly slug: FieldRef<"Manufacturer", 'String'>
+    readonly description: FieldRef<"Manufacturer", 'String'>
+    readonly logoUrl: FieldRef<"Manufacturer", 'String'>
+    readonly website: FieldRef<"Manufacturer", 'String'>
+    readonly isActive: FieldRef<"Manufacturer", 'Boolean'>
+    readonly createdAt: FieldRef<"Manufacturer", 'DateTime'>
+    readonly updatedAt: FieldRef<"Manufacturer", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Manufacturer findUnique
+   */
+  export type ManufacturerFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * Filter, which Manufacturer to fetch.
+     */
+    where: ManufacturerWhereUniqueInput
+  }
+
+  /**
+   * Manufacturer findUniqueOrThrow
+   */
+  export type ManufacturerFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * Filter, which Manufacturer to fetch.
+     */
+    where: ManufacturerWhereUniqueInput
+  }
+
+  /**
+   * Manufacturer findFirst
+   */
+  export type ManufacturerFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * Filter, which Manufacturer to fetch.
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Manufacturers to fetch.
+     */
+    orderBy?: ManufacturerOrderByWithRelationInput | ManufacturerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Manufacturers.
+     */
+    cursor?: ManufacturerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Manufacturers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Manufacturers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Manufacturers.
+     */
+    distinct?: ManufacturerScalarFieldEnum | ManufacturerScalarFieldEnum[]
+  }
+
+  /**
+   * Manufacturer findFirstOrThrow
+   */
+  export type ManufacturerFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * Filter, which Manufacturer to fetch.
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Manufacturers to fetch.
+     */
+    orderBy?: ManufacturerOrderByWithRelationInput | ManufacturerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Manufacturers.
+     */
+    cursor?: ManufacturerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Manufacturers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Manufacturers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Manufacturers.
+     */
+    distinct?: ManufacturerScalarFieldEnum | ManufacturerScalarFieldEnum[]
+  }
+
+  /**
+   * Manufacturer findMany
+   */
+  export type ManufacturerFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * Filter, which Manufacturers to fetch.
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Manufacturers to fetch.
+     */
+    orderBy?: ManufacturerOrderByWithRelationInput | ManufacturerOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Manufacturers.
+     */
+    cursor?: ManufacturerWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Manufacturers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Manufacturers.
+     */
+    skip?: number
+    distinct?: ManufacturerScalarFieldEnum | ManufacturerScalarFieldEnum[]
+  }
+
+  /**
+   * Manufacturer create
+   */
+  export type ManufacturerCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Manufacturer.
+     */
+    data: XOR<ManufacturerCreateInput, ManufacturerUncheckedCreateInput>
+  }
+
+  /**
+   * Manufacturer createMany
+   */
+  export type ManufacturerCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Manufacturers.
+     */
+    data: ManufacturerCreateManyInput | ManufacturerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Manufacturer createManyAndReturn
+   */
+  export type ManufacturerCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * The data used to create many Manufacturers.
+     */
+    data: ManufacturerCreateManyInput | ManufacturerCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Manufacturer update
+   */
+  export type ManufacturerUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Manufacturer.
+     */
+    data: XOR<ManufacturerUpdateInput, ManufacturerUncheckedUpdateInput>
+    /**
+     * Choose, which Manufacturer to update.
+     */
+    where: ManufacturerWhereUniqueInput
+  }
+
+  /**
+   * Manufacturer updateMany
+   */
+  export type ManufacturerUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Manufacturers.
+     */
+    data: XOR<ManufacturerUpdateManyMutationInput, ManufacturerUncheckedUpdateManyInput>
+    /**
+     * Filter which Manufacturers to update
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * Limit how many Manufacturers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Manufacturer updateManyAndReturn
+   */
+  export type ManufacturerUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * The data used to update Manufacturers.
+     */
+    data: XOR<ManufacturerUpdateManyMutationInput, ManufacturerUncheckedUpdateManyInput>
+    /**
+     * Filter which Manufacturers to update
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * Limit how many Manufacturers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Manufacturer upsert
+   */
+  export type ManufacturerUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Manufacturer to update in case it exists.
+     */
+    where: ManufacturerWhereUniqueInput
+    /**
+     * In case the Manufacturer found by the `where` argument doesn't exist, create a new Manufacturer with this data.
+     */
+    create: XOR<ManufacturerCreateInput, ManufacturerUncheckedCreateInput>
+    /**
+     * In case the Manufacturer was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ManufacturerUpdateInput, ManufacturerUncheckedUpdateInput>
+  }
+
+  /**
+   * Manufacturer delete
+   */
+  export type ManufacturerDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    /**
+     * Filter which Manufacturer to delete.
+     */
+    where: ManufacturerWhereUniqueInput
+  }
+
+  /**
+   * Manufacturer deleteMany
+   */
+  export type ManufacturerDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Manufacturers to delete
+     */
+    where?: ManufacturerWhereInput
+    /**
+     * Limit how many Manufacturers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Manufacturer.products
+   */
+  export type Manufacturer$productsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    where?: ProductWhereInput
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    cursor?: ProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
+  }
+
+  /**
+   * Manufacturer.series
+   */
+  export type Manufacturer$seriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesInclude<ExtArgs> | null
+    where?: SeriesWhereInput
+    orderBy?: SeriesOrderByWithRelationInput | SeriesOrderByWithRelationInput[]
+    cursor?: SeriesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SeriesScalarFieldEnum | SeriesScalarFieldEnum[]
+  }
+
+  /**
+   * Manufacturer without action
+   */
+  export type ManufacturerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Series
+   */
+
+  export type AggregateSeries = {
+    _count: SeriesCountAggregateOutputType | null
+    _avg: SeriesAvgAggregateOutputType | null
+    _sum: SeriesSumAggregateOutputType | null
+    _min: SeriesMinAggregateOutputType | null
+    _max: SeriesMaxAggregateOutputType | null
+  }
+
+  export type SeriesAvgAggregateOutputType = {
+    id: number | null
+    manufacturerId: number | null
+  }
+
+  export type SeriesSumAggregateOutputType = {
+    id: number | null
+    manufacturerId: number | null
+  }
+
+  export type SeriesMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    slug: string | null
+    description: string | null
+    manufacturerId: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SeriesMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    slug: string | null
+    description: string | null
+    manufacturerId: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type SeriesCountAggregateOutputType = {
+    id: number
+    name: number
+    slug: number
+    description: number
+    manufacturerId: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type SeriesAvgAggregateInputType = {
+    id?: true
+    manufacturerId?: true
+  }
+
+  export type SeriesSumAggregateInputType = {
+    id?: true
+    manufacturerId?: true
+  }
+
+  export type SeriesMinAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    description?: true
+    manufacturerId?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SeriesMaxAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    description?: true
+    manufacturerId?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type SeriesCountAggregateInputType = {
+    id?: true
+    name?: true
+    slug?: true
+    description?: true
+    manufacturerId?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type SeriesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Series to aggregate.
+     */
+    where?: SeriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Series to fetch.
+     */
+    orderBy?: SeriesOrderByWithRelationInput | SeriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SeriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Series from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Series.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Series
+    **/
+    _count?: true | SeriesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SeriesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SeriesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SeriesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SeriesMaxAggregateInputType
+  }
+
+  export type GetSeriesAggregateType<T extends SeriesAggregateArgs> = {
+        [P in keyof T & keyof AggregateSeries]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSeries[P]>
+      : GetScalarType<T[P], AggregateSeries[P]>
+  }
+
+
+
+
+  export type SeriesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SeriesWhereInput
+    orderBy?: SeriesOrderByWithAggregationInput | SeriesOrderByWithAggregationInput[]
+    by: SeriesScalarFieldEnum[] | SeriesScalarFieldEnum
+    having?: SeriesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SeriesCountAggregateInputType | true
+    _avg?: SeriesAvgAggregateInputType
+    _sum?: SeriesSumAggregateInputType
+    _min?: SeriesMinAggregateInputType
+    _max?: SeriesMaxAggregateInputType
+  }
+
+  export type SeriesGroupByOutputType = {
+    id: number
+    name: string
+    slug: string
+    description: string | null
+    manufacturerId: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: SeriesCountAggregateOutputType | null
+    _avg: SeriesAvgAggregateOutputType | null
+    _sum: SeriesSumAggregateOutputType | null
+    _min: SeriesMinAggregateOutputType | null
+    _max: SeriesMaxAggregateOutputType | null
+  }
+
+  type GetSeriesGroupByPayload<T extends SeriesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SeriesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SeriesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SeriesGroupByOutputType[P]>
+            : GetScalarType<T[P], SeriesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SeriesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    description?: boolean
+    manufacturerId?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    manufacturer?: boolean | ManufacturerDefaultArgs<ExtArgs>
+    products?: boolean | Series$productsArgs<ExtArgs>
+    _count?: boolean | SeriesCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["series"]>
+
+  export type SeriesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    description?: boolean
+    manufacturerId?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    manufacturer?: boolean | ManufacturerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["series"]>
+
+  export type SeriesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    description?: boolean
+    manufacturerId?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    manufacturer?: boolean | ManufacturerDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["series"]>
+
+  export type SeriesSelectScalar = {
+    id?: boolean
+    name?: boolean
+    slug?: boolean
+    description?: boolean
+    manufacturerId?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type SeriesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "slug" | "description" | "manufacturerId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["series"]>
+  export type SeriesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    manufacturer?: boolean | ManufacturerDefaultArgs<ExtArgs>
+    products?: boolean | Series$productsArgs<ExtArgs>
+    _count?: boolean | SeriesCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type SeriesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    manufacturer?: boolean | ManufacturerDefaultArgs<ExtArgs>
+  }
+  export type SeriesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    manufacturer?: boolean | ManufacturerDefaultArgs<ExtArgs>
+  }
+
+  export type $SeriesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Series"
+    objects: {
+      manufacturer: Prisma.$ManufacturerPayload<ExtArgs>
+      products: Prisma.$ProductPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      slug: string
+      description: string | null
+      manufacturerId: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["series"]>
+    composites: {}
+  }
+
+  type SeriesGetPayload<S extends boolean | null | undefined | SeriesDefaultArgs> = $Result.GetResult<Prisma.$SeriesPayload, S>
+
+  type SeriesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SeriesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SeriesCountAggregateInputType | true
+    }
+
+  export interface SeriesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Series'], meta: { name: 'Series' } }
+    /**
+     * Find zero or one Series that matches the filter.
+     * @param {SeriesFindUniqueArgs} args - Arguments to find a Series
+     * @example
+     * // Get one Series
+     * const series = await prisma.series.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SeriesFindUniqueArgs>(args: SelectSubset<T, SeriesFindUniqueArgs<ExtArgs>>): Prisma__SeriesClient<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Series that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SeriesFindUniqueOrThrowArgs} args - Arguments to find a Series
+     * @example
+     * // Get one Series
+     * const series = await prisma.series.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SeriesFindUniqueOrThrowArgs>(args: SelectSubset<T, SeriesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SeriesClient<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Series that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeriesFindFirstArgs} args - Arguments to find a Series
+     * @example
+     * // Get one Series
+     * const series = await prisma.series.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SeriesFindFirstArgs>(args?: SelectSubset<T, SeriesFindFirstArgs<ExtArgs>>): Prisma__SeriesClient<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Series that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeriesFindFirstOrThrowArgs} args - Arguments to find a Series
+     * @example
+     * // Get one Series
+     * const series = await prisma.series.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SeriesFindFirstOrThrowArgs>(args?: SelectSubset<T, SeriesFindFirstOrThrowArgs<ExtArgs>>): Prisma__SeriesClient<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Series that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeriesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Series
+     * const series = await prisma.series.findMany()
+     * 
+     * // Get first 10 Series
+     * const series = await prisma.series.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const seriesWithIdOnly = await prisma.series.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SeriesFindManyArgs>(args?: SelectSubset<T, SeriesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Series.
+     * @param {SeriesCreateArgs} args - Arguments to create a Series.
+     * @example
+     * // Create one Series
+     * const Series = await prisma.series.create({
+     *   data: {
+     *     // ... data to create a Series
+     *   }
+     * })
+     * 
+     */
+    create<T extends SeriesCreateArgs>(args: SelectSubset<T, SeriesCreateArgs<ExtArgs>>): Prisma__SeriesClient<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Series.
+     * @param {SeriesCreateManyArgs} args - Arguments to create many Series.
+     * @example
+     * // Create many Series
+     * const series = await prisma.series.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SeriesCreateManyArgs>(args?: SelectSubset<T, SeriesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Series and returns the data saved in the database.
+     * @param {SeriesCreateManyAndReturnArgs} args - Arguments to create many Series.
+     * @example
+     * // Create many Series
+     * const series = await prisma.series.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Series and only return the `id`
+     * const seriesWithIdOnly = await prisma.series.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SeriesCreateManyAndReturnArgs>(args?: SelectSubset<T, SeriesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Series.
+     * @param {SeriesDeleteArgs} args - Arguments to delete one Series.
+     * @example
+     * // Delete one Series
+     * const Series = await prisma.series.delete({
+     *   where: {
+     *     // ... filter to delete one Series
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SeriesDeleteArgs>(args: SelectSubset<T, SeriesDeleteArgs<ExtArgs>>): Prisma__SeriesClient<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Series.
+     * @param {SeriesUpdateArgs} args - Arguments to update one Series.
+     * @example
+     * // Update one Series
+     * const series = await prisma.series.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SeriesUpdateArgs>(args: SelectSubset<T, SeriesUpdateArgs<ExtArgs>>): Prisma__SeriesClient<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Series.
+     * @param {SeriesDeleteManyArgs} args - Arguments to filter Series to delete.
+     * @example
+     * // Delete a few Series
+     * const { count } = await prisma.series.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SeriesDeleteManyArgs>(args?: SelectSubset<T, SeriesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Series.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeriesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Series
+     * const series = await prisma.series.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SeriesUpdateManyArgs>(args: SelectSubset<T, SeriesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Series and returns the data updated in the database.
+     * @param {SeriesUpdateManyAndReturnArgs} args - Arguments to update many Series.
+     * @example
+     * // Update many Series
+     * const series = await prisma.series.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Series and only return the `id`
+     * const seriesWithIdOnly = await prisma.series.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SeriesUpdateManyAndReturnArgs>(args: SelectSubset<T, SeriesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Series.
+     * @param {SeriesUpsertArgs} args - Arguments to update or create a Series.
+     * @example
+     * // Update or create a Series
+     * const series = await prisma.series.upsert({
+     *   create: {
+     *     // ... data to create a Series
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Series we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SeriesUpsertArgs>(args: SelectSubset<T, SeriesUpsertArgs<ExtArgs>>): Prisma__SeriesClient<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Series.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeriesCountArgs} args - Arguments to filter Series to count.
+     * @example
+     * // Count the number of Series
+     * const count = await prisma.series.count({
+     *   where: {
+     *     // ... the filter for the Series we want to count
+     *   }
+     * })
+    **/
+    count<T extends SeriesCountArgs>(
+      args?: Subset<T, SeriesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SeriesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Series.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeriesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SeriesAggregateArgs>(args: Subset<T, SeriesAggregateArgs>): Prisma.PrismaPromise<GetSeriesAggregateType<T>>
+
+    /**
+     * Group by Series.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SeriesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SeriesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SeriesGroupByArgs['orderBy'] }
+        : { orderBy?: SeriesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SeriesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSeriesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Series model
+   */
+  readonly fields: SeriesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Series.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SeriesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    manufacturer<T extends ManufacturerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ManufacturerDefaultArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    products<T extends Series$productsArgs<ExtArgs> = {}>(args?: Subset<T, Series$productsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Series model
+   */
+  interface SeriesFieldRefs {
+    readonly id: FieldRef<"Series", 'Int'>
+    readonly name: FieldRef<"Series", 'String'>
+    readonly slug: FieldRef<"Series", 'String'>
+    readonly description: FieldRef<"Series", 'String'>
+    readonly manufacturerId: FieldRef<"Series", 'Int'>
+    readonly isActive: FieldRef<"Series", 'Boolean'>
+    readonly createdAt: FieldRef<"Series", 'DateTime'>
+    readonly updatedAt: FieldRef<"Series", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Series findUnique
+   */
+  export type SeriesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesInclude<ExtArgs> | null
+    /**
+     * Filter, which Series to fetch.
+     */
+    where: SeriesWhereUniqueInput
+  }
+
+  /**
+   * Series findUniqueOrThrow
+   */
+  export type SeriesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesInclude<ExtArgs> | null
+    /**
+     * Filter, which Series to fetch.
+     */
+    where: SeriesWhereUniqueInput
+  }
+
+  /**
+   * Series findFirst
+   */
+  export type SeriesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesInclude<ExtArgs> | null
+    /**
+     * Filter, which Series to fetch.
+     */
+    where?: SeriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Series to fetch.
+     */
+    orderBy?: SeriesOrderByWithRelationInput | SeriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Series.
+     */
+    cursor?: SeriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Series from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Series.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Series.
+     */
+    distinct?: SeriesScalarFieldEnum | SeriesScalarFieldEnum[]
+  }
+
+  /**
+   * Series findFirstOrThrow
+   */
+  export type SeriesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesInclude<ExtArgs> | null
+    /**
+     * Filter, which Series to fetch.
+     */
+    where?: SeriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Series to fetch.
+     */
+    orderBy?: SeriesOrderByWithRelationInput | SeriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Series.
+     */
+    cursor?: SeriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Series from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Series.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Series.
+     */
+    distinct?: SeriesScalarFieldEnum | SeriesScalarFieldEnum[]
+  }
+
+  /**
+   * Series findMany
+   */
+  export type SeriesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesInclude<ExtArgs> | null
+    /**
+     * Filter, which Series to fetch.
+     */
+    where?: SeriesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Series to fetch.
+     */
+    orderBy?: SeriesOrderByWithRelationInput | SeriesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Series.
+     */
+    cursor?: SeriesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Series from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Series.
+     */
+    skip?: number
+    distinct?: SeriesScalarFieldEnum | SeriesScalarFieldEnum[]
+  }
+
+  /**
+   * Series create
+   */
+  export type SeriesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Series.
+     */
+    data: XOR<SeriesCreateInput, SeriesUncheckedCreateInput>
+  }
+
+  /**
+   * Series createMany
+   */
+  export type SeriesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Series.
+     */
+    data: SeriesCreateManyInput | SeriesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Series createManyAndReturn
+   */
+  export type SeriesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * The data used to create many Series.
+     */
+    data: SeriesCreateManyInput | SeriesCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Series update
+   */
+  export type SeriesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Series.
+     */
+    data: XOR<SeriesUpdateInput, SeriesUncheckedUpdateInput>
+    /**
+     * Choose, which Series to update.
+     */
+    where: SeriesWhereUniqueInput
+  }
+
+  /**
+   * Series updateMany
+   */
+  export type SeriesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Series.
+     */
+    data: XOR<SeriesUpdateManyMutationInput, SeriesUncheckedUpdateManyInput>
+    /**
+     * Filter which Series to update
+     */
+    where?: SeriesWhereInput
+    /**
+     * Limit how many Series to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Series updateManyAndReturn
+   */
+  export type SeriesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * The data used to update Series.
+     */
+    data: XOR<SeriesUpdateManyMutationInput, SeriesUncheckedUpdateManyInput>
+    /**
+     * Filter which Series to update
+     */
+    where?: SeriesWhereInput
+    /**
+     * Limit how many Series to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Series upsert
+   */
+  export type SeriesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Series to update in case it exists.
+     */
+    where: SeriesWhereUniqueInput
+    /**
+     * In case the Series found by the `where` argument doesn't exist, create a new Series with this data.
+     */
+    create: XOR<SeriesCreateInput, SeriesUncheckedCreateInput>
+    /**
+     * In case the Series was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SeriesUpdateInput, SeriesUncheckedUpdateInput>
+  }
+
+  /**
+   * Series delete
+   */
+  export type SeriesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesInclude<ExtArgs> | null
+    /**
+     * Filter which Series to delete.
+     */
+    where: SeriesWhereUniqueInput
+  }
+
+  /**
+   * Series deleteMany
+   */
+  export type SeriesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Series to delete
+     */
+    where?: SeriesWhereInput
+    /**
+     * Limit how many Series to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Series.products
+   */
+  export type Series$productsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Product
+     */
+    select?: ProductSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Product
+     */
+    omit?: ProductOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProductInclude<ExtArgs> | null
+    where?: ProductWhereInput
+    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    cursor?: ProductWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
+  }
+
+  /**
+   * Series without action
+   */
+  export type SeriesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Product
    */
 
@@ -36218,12 +39044,16 @@ export namespace Prisma {
   export type ProductAvgAggregateOutputType = {
     id: number | null
     categoryId: number | null
+    manufacturerId: number | null
+    seriesId: number | null
     price: Decimal | null
   }
 
   export type ProductSumAggregateOutputType = {
     id: number | null
     categoryId: number | null
+    manufacturerId: number | null
+    seriesId: number | null
     price: Decimal | null
   }
 
@@ -36232,6 +39062,8 @@ export namespace Prisma {
     name: string | null
     description: string | null
     categoryId: number | null
+    manufacturerId: number | null
+    seriesId: number | null
     amazonUrl: string | null
     adminAffiliateUrl: string | null
     asin: string | null
@@ -36247,6 +39079,8 @@ export namespace Prisma {
     name: string | null
     description: string | null
     categoryId: number | null
+    manufacturerId: number | null
+    seriesId: number | null
     amazonUrl: string | null
     adminAffiliateUrl: string | null
     asin: string | null
@@ -36262,12 +39096,13 @@ export namespace Prisma {
     name: number
     description: number
     categoryId: number
+    manufacturerId: number
+    seriesId: number
     amazonUrl: number
     adminAffiliateUrl: number
     asin: number
     imageUrl: number
     price: number
-    attributes: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -36278,12 +39113,16 @@ export namespace Prisma {
   export type ProductAvgAggregateInputType = {
     id?: true
     categoryId?: true
+    manufacturerId?: true
+    seriesId?: true
     price?: true
   }
 
   export type ProductSumAggregateInputType = {
     id?: true
     categoryId?: true
+    manufacturerId?: true
+    seriesId?: true
     price?: true
   }
 
@@ -36292,6 +39131,8 @@ export namespace Prisma {
     name?: true
     description?: true
     categoryId?: true
+    manufacturerId?: true
+    seriesId?: true
     amazonUrl?: true
     adminAffiliateUrl?: true
     asin?: true
@@ -36307,6 +39148,8 @@ export namespace Prisma {
     name?: true
     description?: true
     categoryId?: true
+    manufacturerId?: true
+    seriesId?: true
     amazonUrl?: true
     adminAffiliateUrl?: true
     asin?: true
@@ -36322,12 +39165,13 @@ export namespace Prisma {
     name?: true
     description?: true
     categoryId?: true
+    manufacturerId?: true
+    seriesId?: true
     amazonUrl?: true
     adminAffiliateUrl?: true
     asin?: true
     imageUrl?: true
     price?: true
-    attributes?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -36425,12 +39269,13 @@ export namespace Prisma {
     name: string
     description: string | null
     categoryId: number
+    manufacturerId: number | null
+    seriesId: number | null
     amazonUrl: string
     adminAffiliateUrl: string
     asin: string
     imageUrl: string
     price: Decimal | null
-    attributes: JsonValue | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -36460,18 +39305,23 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     categoryId?: boolean
+    manufacturerId?: boolean
+    seriesId?: boolean
     amazonUrl?: boolean
     adminAffiliateUrl?: boolean
     asin?: boolean
     imageUrl?: boolean
     price?: boolean
-    attributes?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     category?: boolean | DeviceCategoryDefaultArgs<ExtArgs>
+    manufacturer?: boolean | Product$manufacturerArgs<ExtArgs>
+    series?: boolean | Product$seriesArgs<ExtArgs>
     userDevices?: boolean | Product$userDevicesArgs<ExtArgs>
     userFavorites?: boolean | Product$userFavoritesArgs<ExtArgs>
+    mouseAttributes?: boolean | Product$mouseAttributesArgs<ExtArgs>
+    keyboardAttributes?: boolean | Product$keyboardAttributesArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
@@ -36480,16 +39330,19 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     categoryId?: boolean
+    manufacturerId?: boolean
+    seriesId?: boolean
     amazonUrl?: boolean
     adminAffiliateUrl?: boolean
     asin?: boolean
     imageUrl?: boolean
     price?: boolean
-    attributes?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     category?: boolean | DeviceCategoryDefaultArgs<ExtArgs>
+    manufacturer?: boolean | Product$manufacturerArgs<ExtArgs>
+    series?: boolean | Product$seriesArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
   export type ProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -36497,16 +39350,19 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     categoryId?: boolean
+    manufacturerId?: boolean
+    seriesId?: boolean
     amazonUrl?: boolean
     adminAffiliateUrl?: boolean
     asin?: boolean
     imageUrl?: boolean
     price?: boolean
-    attributes?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     category?: boolean | DeviceCategoryDefaultArgs<ExtArgs>
+    manufacturer?: boolean | Product$manufacturerArgs<ExtArgs>
+    series?: boolean | Product$seriesArgs<ExtArgs>
   }, ExtArgs["result"]["product"]>
 
   export type ProductSelectScalar = {
@@ -36514,49 +39370,63 @@ export namespace Prisma {
     name?: boolean
     description?: boolean
     categoryId?: boolean
+    manufacturerId?: boolean
+    seriesId?: boolean
     amazonUrl?: boolean
     adminAffiliateUrl?: boolean
     asin?: boolean
     imageUrl?: boolean
     price?: boolean
-    attributes?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "categoryId" | "amazonUrl" | "adminAffiliateUrl" | "asin" | "imageUrl" | "price" | "attributes" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "categoryId" | "manufacturerId" | "seriesId" | "amazonUrl" | "adminAffiliateUrl" | "asin" | "imageUrl" | "price" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
   export type ProductInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | DeviceCategoryDefaultArgs<ExtArgs>
+    manufacturer?: boolean | Product$manufacturerArgs<ExtArgs>
+    series?: boolean | Product$seriesArgs<ExtArgs>
     userDevices?: boolean | Product$userDevicesArgs<ExtArgs>
     userFavorites?: boolean | Product$userFavoritesArgs<ExtArgs>
+    mouseAttributes?: boolean | Product$mouseAttributesArgs<ExtArgs>
+    keyboardAttributes?: boolean | Product$keyboardAttributesArgs<ExtArgs>
     _count?: boolean | ProductCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProductIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | DeviceCategoryDefaultArgs<ExtArgs>
+    manufacturer?: boolean | Product$manufacturerArgs<ExtArgs>
+    series?: boolean | Product$seriesArgs<ExtArgs>
   }
   export type ProductIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | DeviceCategoryDefaultArgs<ExtArgs>
+    manufacturer?: boolean | Product$manufacturerArgs<ExtArgs>
+    series?: boolean | Product$seriesArgs<ExtArgs>
   }
 
   export type $ProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Product"
     objects: {
       category: Prisma.$DeviceCategoryPayload<ExtArgs>
+      manufacturer: Prisma.$ManufacturerPayload<ExtArgs> | null
+      series: Prisma.$SeriesPayload<ExtArgs> | null
       userDevices: Prisma.$UserDevicePayload<ExtArgs>[]
       userFavorites: Prisma.$UserFavoritePayload<ExtArgs>[]
+      mouseAttributes: Prisma.$MouseAttributesPayload<ExtArgs> | null
+      keyboardAttributes: Prisma.$KeyboardAttributesPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
       description: string | null
       categoryId: number
+      manufacturerId: number | null
+      seriesId: number | null
       amazonUrl: string
       adminAffiliateUrl: string
       asin: string
       imageUrl: string
       price: Prisma.Decimal | null
-      attributes: Prisma.JsonValue | null
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -36955,8 +39825,12 @@ export namespace Prisma {
   export interface Prisma__ProductClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     category<T extends DeviceCategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DeviceCategoryDefaultArgs<ExtArgs>>): Prisma__DeviceCategoryClient<$Result.GetResult<Prisma.$DeviceCategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    manufacturer<T extends Product$manufacturerArgs<ExtArgs> = {}>(args?: Subset<T, Product$manufacturerArgs<ExtArgs>>): Prisma__ManufacturerClient<$Result.GetResult<Prisma.$ManufacturerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    series<T extends Product$seriesArgs<ExtArgs> = {}>(args?: Subset<T, Product$seriesArgs<ExtArgs>>): Prisma__SeriesClient<$Result.GetResult<Prisma.$SeriesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     userDevices<T extends Product$userDevicesArgs<ExtArgs> = {}>(args?: Subset<T, Product$userDevicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     userFavorites<T extends Product$userFavoritesArgs<ExtArgs> = {}>(args?: Subset<T, Product$userFavoritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mouseAttributes<T extends Product$mouseAttributesArgs<ExtArgs> = {}>(args?: Subset<T, Product$mouseAttributesArgs<ExtArgs>>): Prisma__MouseAttributesClient<$Result.GetResult<Prisma.$MouseAttributesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    keyboardAttributes<T extends Product$keyboardAttributesArgs<ExtArgs> = {}>(args?: Subset<T, Product$keyboardAttributesArgs<ExtArgs>>): Prisma__KeyboardAttributesClient<$Result.GetResult<Prisma.$KeyboardAttributesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -36990,12 +39864,13 @@ export namespace Prisma {
     readonly name: FieldRef<"Product", 'String'>
     readonly description: FieldRef<"Product", 'String'>
     readonly categoryId: FieldRef<"Product", 'Int'>
+    readonly manufacturerId: FieldRef<"Product", 'Int'>
+    readonly seriesId: FieldRef<"Product", 'Int'>
     readonly amazonUrl: FieldRef<"Product", 'String'>
     readonly adminAffiliateUrl: FieldRef<"Product", 'String'>
     readonly asin: FieldRef<"Product", 'String'>
     readonly imageUrl: FieldRef<"Product", 'String'>
     readonly price: FieldRef<"Product", 'Decimal'>
-    readonly attributes: FieldRef<"Product", 'Json'>
     readonly isActive: FieldRef<"Product", 'Boolean'>
     readonly createdAt: FieldRef<"Product", 'DateTime'>
     readonly updatedAt: FieldRef<"Product", 'DateTime'>
@@ -37395,6 +40270,44 @@ export namespace Prisma {
   }
 
   /**
+   * Product.manufacturer
+   */
+  export type Product$manufacturerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manufacturer
+     */
+    select?: ManufacturerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manufacturer
+     */
+    omit?: ManufacturerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManufacturerInclude<ExtArgs> | null
+    where?: ManufacturerWhereInput
+  }
+
+  /**
+   * Product.series
+   */
+  export type Product$seriesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Series
+     */
+    select?: SeriesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Series
+     */
+    omit?: SeriesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeriesInclude<ExtArgs> | null
+    where?: SeriesWhereInput
+  }
+
+  /**
    * Product.userDevices
    */
   export type Product$userDevicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -37440,6 +40353,44 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UserFavoriteScalarFieldEnum | UserFavoriteScalarFieldEnum[]
+  }
+
+  /**
+   * Product.mouseAttributes
+   */
+  export type Product$mouseAttributesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesInclude<ExtArgs> | null
+    where?: MouseAttributesWhereInput
+  }
+
+  /**
+   * Product.keyboardAttributes
+   */
+  export type Product$keyboardAttributesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesInclude<ExtArgs> | null
+    where?: KeyboardAttributesWhereInput
   }
 
   /**
@@ -39711,6 +42662,2464 @@ export namespace Prisma {
 
 
   /**
+   * Model MouseAttributes
+   */
+
+  export type AggregateMouseAttributes = {
+    _count: MouseAttributesCountAggregateOutputType | null
+    _avg: MouseAttributesAvgAggregateOutputType | null
+    _sum: MouseAttributesSumAggregateOutputType | null
+    _min: MouseAttributesMinAggregateOutputType | null
+    _max: MouseAttributesMaxAggregateOutputType | null
+  }
+
+  export type MouseAttributesAvgAggregateOutputType = {
+    productId: number | null
+    dpiMin: number | null
+    dpiMax: number | null
+    weight: number | null
+    length: number | null
+    width: number | null
+    height: number | null
+    buttons: number | null
+    pollingRate: number | null
+    batteryLife: number | null
+  }
+
+  export type MouseAttributesSumAggregateOutputType = {
+    productId: number | null
+    dpiMin: number | null
+    dpiMax: number | null
+    weight: number | null
+    length: number | null
+    width: number | null
+    height: number | null
+    buttons: number | null
+    pollingRate: number | null
+    batteryLife: number | null
+  }
+
+  export type MouseAttributesMinAggregateOutputType = {
+    productId: number | null
+    dpiMin: number | null
+    dpiMax: number | null
+    weight: number | null
+    length: number | null
+    width: number | null
+    height: number | null
+    buttons: number | null
+    connectionType: $Enums.ConnectionType | null
+    pollingRate: number | null
+    batteryLife: number | null
+    sensor: string | null
+    rgb: boolean | null
+    software: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MouseAttributesMaxAggregateOutputType = {
+    productId: number | null
+    dpiMin: number | null
+    dpiMax: number | null
+    weight: number | null
+    length: number | null
+    width: number | null
+    height: number | null
+    buttons: number | null
+    connectionType: $Enums.ConnectionType | null
+    pollingRate: number | null
+    batteryLife: number | null
+    sensor: string | null
+    rgb: boolean | null
+    software: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MouseAttributesCountAggregateOutputType = {
+    productId: number
+    dpiMin: number
+    dpiMax: number
+    weight: number
+    length: number
+    width: number
+    height: number
+    buttons: number
+    connectionType: number
+    pollingRate: number
+    batteryLife: number
+    sensor: number
+    rgb: number
+    software: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MouseAttributesAvgAggregateInputType = {
+    productId?: true
+    dpiMin?: true
+    dpiMax?: true
+    weight?: true
+    length?: true
+    width?: true
+    height?: true
+    buttons?: true
+    pollingRate?: true
+    batteryLife?: true
+  }
+
+  export type MouseAttributesSumAggregateInputType = {
+    productId?: true
+    dpiMin?: true
+    dpiMax?: true
+    weight?: true
+    length?: true
+    width?: true
+    height?: true
+    buttons?: true
+    pollingRate?: true
+    batteryLife?: true
+  }
+
+  export type MouseAttributesMinAggregateInputType = {
+    productId?: true
+    dpiMin?: true
+    dpiMax?: true
+    weight?: true
+    length?: true
+    width?: true
+    height?: true
+    buttons?: true
+    connectionType?: true
+    pollingRate?: true
+    batteryLife?: true
+    sensor?: true
+    rgb?: true
+    software?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MouseAttributesMaxAggregateInputType = {
+    productId?: true
+    dpiMin?: true
+    dpiMax?: true
+    weight?: true
+    length?: true
+    width?: true
+    height?: true
+    buttons?: true
+    connectionType?: true
+    pollingRate?: true
+    batteryLife?: true
+    sensor?: true
+    rgb?: true
+    software?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MouseAttributesCountAggregateInputType = {
+    productId?: true
+    dpiMin?: true
+    dpiMax?: true
+    weight?: true
+    length?: true
+    width?: true
+    height?: true
+    buttons?: true
+    connectionType?: true
+    pollingRate?: true
+    batteryLife?: true
+    sensor?: true
+    rgb?: true
+    software?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MouseAttributesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MouseAttributes to aggregate.
+     */
+    where?: MouseAttributesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MouseAttributes to fetch.
+     */
+    orderBy?: MouseAttributesOrderByWithRelationInput | MouseAttributesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MouseAttributesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MouseAttributes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MouseAttributes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MouseAttributes
+    **/
+    _count?: true | MouseAttributesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MouseAttributesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MouseAttributesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MouseAttributesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MouseAttributesMaxAggregateInputType
+  }
+
+  export type GetMouseAttributesAggregateType<T extends MouseAttributesAggregateArgs> = {
+        [P in keyof T & keyof AggregateMouseAttributes]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMouseAttributes[P]>
+      : GetScalarType<T[P], AggregateMouseAttributes[P]>
+  }
+
+
+
+
+  export type MouseAttributesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MouseAttributesWhereInput
+    orderBy?: MouseAttributesOrderByWithAggregationInput | MouseAttributesOrderByWithAggregationInput[]
+    by: MouseAttributesScalarFieldEnum[] | MouseAttributesScalarFieldEnum
+    having?: MouseAttributesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MouseAttributesCountAggregateInputType | true
+    _avg?: MouseAttributesAvgAggregateInputType
+    _sum?: MouseAttributesSumAggregateInputType
+    _min?: MouseAttributesMinAggregateInputType
+    _max?: MouseAttributesMaxAggregateInputType
+  }
+
+  export type MouseAttributesGroupByOutputType = {
+    productId: number
+    dpiMin: number | null
+    dpiMax: number | null
+    weight: number | null
+    length: number | null
+    width: number | null
+    height: number | null
+    buttons: number | null
+    connectionType: $Enums.ConnectionType | null
+    pollingRate: number | null
+    batteryLife: number | null
+    sensor: string | null
+    rgb: boolean
+    software: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: MouseAttributesCountAggregateOutputType | null
+    _avg: MouseAttributesAvgAggregateOutputType | null
+    _sum: MouseAttributesSumAggregateOutputType | null
+    _min: MouseAttributesMinAggregateOutputType | null
+    _max: MouseAttributesMaxAggregateOutputType | null
+  }
+
+  type GetMouseAttributesGroupByPayload<T extends MouseAttributesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MouseAttributesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MouseAttributesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MouseAttributesGroupByOutputType[P]>
+            : GetScalarType<T[P], MouseAttributesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MouseAttributesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    productId?: boolean
+    dpiMin?: boolean
+    dpiMax?: boolean
+    weight?: boolean
+    length?: boolean
+    width?: boolean
+    height?: boolean
+    buttons?: boolean
+    connectionType?: boolean
+    pollingRate?: boolean
+    batteryLife?: boolean
+    sensor?: boolean
+    rgb?: boolean
+    software?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mouseAttributes"]>
+
+  export type MouseAttributesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    productId?: boolean
+    dpiMin?: boolean
+    dpiMax?: boolean
+    weight?: boolean
+    length?: boolean
+    width?: boolean
+    height?: boolean
+    buttons?: boolean
+    connectionType?: boolean
+    pollingRate?: boolean
+    batteryLife?: boolean
+    sensor?: boolean
+    rgb?: boolean
+    software?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mouseAttributes"]>
+
+  export type MouseAttributesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    productId?: boolean
+    dpiMin?: boolean
+    dpiMax?: boolean
+    weight?: boolean
+    length?: boolean
+    width?: boolean
+    height?: boolean
+    buttons?: boolean
+    connectionType?: boolean
+    pollingRate?: boolean
+    batteryLife?: boolean
+    sensor?: boolean
+    rgb?: boolean
+    software?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["mouseAttributes"]>
+
+  export type MouseAttributesSelectScalar = {
+    productId?: boolean
+    dpiMin?: boolean
+    dpiMax?: boolean
+    weight?: boolean
+    length?: boolean
+    width?: boolean
+    height?: boolean
+    buttons?: boolean
+    connectionType?: boolean
+    pollingRate?: boolean
+    batteryLife?: boolean
+    sensor?: boolean
+    rgb?: boolean
+    software?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MouseAttributesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"productId" | "dpiMin" | "dpiMax" | "weight" | "length" | "width" | "height" | "buttons" | "connectionType" | "pollingRate" | "batteryLife" | "sensor" | "rgb" | "software" | "createdAt" | "updatedAt", ExtArgs["result"]["mouseAttributes"]>
+  export type MouseAttributesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type MouseAttributesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type MouseAttributesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+
+  export type $MouseAttributesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MouseAttributes"
+    objects: {
+      product: Prisma.$ProductPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      productId: number
+      dpiMin: number | null
+      dpiMax: number | null
+      weight: number | null
+      length: number | null
+      width: number | null
+      height: number | null
+      buttons: number | null
+      connectionType: $Enums.ConnectionType | null
+      pollingRate: number | null
+      batteryLife: number | null
+      sensor: string | null
+      rgb: boolean
+      software: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["mouseAttributes"]>
+    composites: {}
+  }
+
+  type MouseAttributesGetPayload<S extends boolean | null | undefined | MouseAttributesDefaultArgs> = $Result.GetResult<Prisma.$MouseAttributesPayload, S>
+
+  type MouseAttributesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MouseAttributesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MouseAttributesCountAggregateInputType | true
+    }
+
+  export interface MouseAttributesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MouseAttributes'], meta: { name: 'MouseAttributes' } }
+    /**
+     * Find zero or one MouseAttributes that matches the filter.
+     * @param {MouseAttributesFindUniqueArgs} args - Arguments to find a MouseAttributes
+     * @example
+     * // Get one MouseAttributes
+     * const mouseAttributes = await prisma.mouseAttributes.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MouseAttributesFindUniqueArgs>(args: SelectSubset<T, MouseAttributesFindUniqueArgs<ExtArgs>>): Prisma__MouseAttributesClient<$Result.GetResult<Prisma.$MouseAttributesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MouseAttributes that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MouseAttributesFindUniqueOrThrowArgs} args - Arguments to find a MouseAttributes
+     * @example
+     * // Get one MouseAttributes
+     * const mouseAttributes = await prisma.mouseAttributes.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MouseAttributesFindUniqueOrThrowArgs>(args: SelectSubset<T, MouseAttributesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MouseAttributesClient<$Result.GetResult<Prisma.$MouseAttributesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MouseAttributes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MouseAttributesFindFirstArgs} args - Arguments to find a MouseAttributes
+     * @example
+     * // Get one MouseAttributes
+     * const mouseAttributes = await prisma.mouseAttributes.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MouseAttributesFindFirstArgs>(args?: SelectSubset<T, MouseAttributesFindFirstArgs<ExtArgs>>): Prisma__MouseAttributesClient<$Result.GetResult<Prisma.$MouseAttributesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MouseAttributes that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MouseAttributesFindFirstOrThrowArgs} args - Arguments to find a MouseAttributes
+     * @example
+     * // Get one MouseAttributes
+     * const mouseAttributes = await prisma.mouseAttributes.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MouseAttributesFindFirstOrThrowArgs>(args?: SelectSubset<T, MouseAttributesFindFirstOrThrowArgs<ExtArgs>>): Prisma__MouseAttributesClient<$Result.GetResult<Prisma.$MouseAttributesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MouseAttributes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MouseAttributesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MouseAttributes
+     * const mouseAttributes = await prisma.mouseAttributes.findMany()
+     * 
+     * // Get first 10 MouseAttributes
+     * const mouseAttributes = await prisma.mouseAttributes.findMany({ take: 10 })
+     * 
+     * // Only select the `productId`
+     * const mouseAttributesWithProductIdOnly = await prisma.mouseAttributes.findMany({ select: { productId: true } })
+     * 
+     */
+    findMany<T extends MouseAttributesFindManyArgs>(args?: SelectSubset<T, MouseAttributesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MouseAttributesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MouseAttributes.
+     * @param {MouseAttributesCreateArgs} args - Arguments to create a MouseAttributes.
+     * @example
+     * // Create one MouseAttributes
+     * const MouseAttributes = await prisma.mouseAttributes.create({
+     *   data: {
+     *     // ... data to create a MouseAttributes
+     *   }
+     * })
+     * 
+     */
+    create<T extends MouseAttributesCreateArgs>(args: SelectSubset<T, MouseAttributesCreateArgs<ExtArgs>>): Prisma__MouseAttributesClient<$Result.GetResult<Prisma.$MouseAttributesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MouseAttributes.
+     * @param {MouseAttributesCreateManyArgs} args - Arguments to create many MouseAttributes.
+     * @example
+     * // Create many MouseAttributes
+     * const mouseAttributes = await prisma.mouseAttributes.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MouseAttributesCreateManyArgs>(args?: SelectSubset<T, MouseAttributesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MouseAttributes and returns the data saved in the database.
+     * @param {MouseAttributesCreateManyAndReturnArgs} args - Arguments to create many MouseAttributes.
+     * @example
+     * // Create many MouseAttributes
+     * const mouseAttributes = await prisma.mouseAttributes.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MouseAttributes and only return the `productId`
+     * const mouseAttributesWithProductIdOnly = await prisma.mouseAttributes.createManyAndReturn({
+     *   select: { productId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MouseAttributesCreateManyAndReturnArgs>(args?: SelectSubset<T, MouseAttributesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MouseAttributesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MouseAttributes.
+     * @param {MouseAttributesDeleteArgs} args - Arguments to delete one MouseAttributes.
+     * @example
+     * // Delete one MouseAttributes
+     * const MouseAttributes = await prisma.mouseAttributes.delete({
+     *   where: {
+     *     // ... filter to delete one MouseAttributes
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MouseAttributesDeleteArgs>(args: SelectSubset<T, MouseAttributesDeleteArgs<ExtArgs>>): Prisma__MouseAttributesClient<$Result.GetResult<Prisma.$MouseAttributesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MouseAttributes.
+     * @param {MouseAttributesUpdateArgs} args - Arguments to update one MouseAttributes.
+     * @example
+     * // Update one MouseAttributes
+     * const mouseAttributes = await prisma.mouseAttributes.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MouseAttributesUpdateArgs>(args: SelectSubset<T, MouseAttributesUpdateArgs<ExtArgs>>): Prisma__MouseAttributesClient<$Result.GetResult<Prisma.$MouseAttributesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MouseAttributes.
+     * @param {MouseAttributesDeleteManyArgs} args - Arguments to filter MouseAttributes to delete.
+     * @example
+     * // Delete a few MouseAttributes
+     * const { count } = await prisma.mouseAttributes.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MouseAttributesDeleteManyArgs>(args?: SelectSubset<T, MouseAttributesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MouseAttributes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MouseAttributesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MouseAttributes
+     * const mouseAttributes = await prisma.mouseAttributes.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MouseAttributesUpdateManyArgs>(args: SelectSubset<T, MouseAttributesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MouseAttributes and returns the data updated in the database.
+     * @param {MouseAttributesUpdateManyAndReturnArgs} args - Arguments to update many MouseAttributes.
+     * @example
+     * // Update many MouseAttributes
+     * const mouseAttributes = await prisma.mouseAttributes.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MouseAttributes and only return the `productId`
+     * const mouseAttributesWithProductIdOnly = await prisma.mouseAttributes.updateManyAndReturn({
+     *   select: { productId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MouseAttributesUpdateManyAndReturnArgs>(args: SelectSubset<T, MouseAttributesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MouseAttributesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MouseAttributes.
+     * @param {MouseAttributesUpsertArgs} args - Arguments to update or create a MouseAttributes.
+     * @example
+     * // Update or create a MouseAttributes
+     * const mouseAttributes = await prisma.mouseAttributes.upsert({
+     *   create: {
+     *     // ... data to create a MouseAttributes
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MouseAttributes we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MouseAttributesUpsertArgs>(args: SelectSubset<T, MouseAttributesUpsertArgs<ExtArgs>>): Prisma__MouseAttributesClient<$Result.GetResult<Prisma.$MouseAttributesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MouseAttributes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MouseAttributesCountArgs} args - Arguments to filter MouseAttributes to count.
+     * @example
+     * // Count the number of MouseAttributes
+     * const count = await prisma.mouseAttributes.count({
+     *   where: {
+     *     // ... the filter for the MouseAttributes we want to count
+     *   }
+     * })
+    **/
+    count<T extends MouseAttributesCountArgs>(
+      args?: Subset<T, MouseAttributesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MouseAttributesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MouseAttributes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MouseAttributesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MouseAttributesAggregateArgs>(args: Subset<T, MouseAttributesAggregateArgs>): Prisma.PrismaPromise<GetMouseAttributesAggregateType<T>>
+
+    /**
+     * Group by MouseAttributes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MouseAttributesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MouseAttributesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MouseAttributesGroupByArgs['orderBy'] }
+        : { orderBy?: MouseAttributesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MouseAttributesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMouseAttributesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MouseAttributes model
+   */
+  readonly fields: MouseAttributesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MouseAttributes.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MouseAttributesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MouseAttributes model
+   */
+  interface MouseAttributesFieldRefs {
+    readonly productId: FieldRef<"MouseAttributes", 'Int'>
+    readonly dpiMin: FieldRef<"MouseAttributes", 'Int'>
+    readonly dpiMax: FieldRef<"MouseAttributes", 'Int'>
+    readonly weight: FieldRef<"MouseAttributes", 'Int'>
+    readonly length: FieldRef<"MouseAttributes", 'Float'>
+    readonly width: FieldRef<"MouseAttributes", 'Float'>
+    readonly height: FieldRef<"MouseAttributes", 'Float'>
+    readonly buttons: FieldRef<"MouseAttributes", 'Int'>
+    readonly connectionType: FieldRef<"MouseAttributes", 'ConnectionType'>
+    readonly pollingRate: FieldRef<"MouseAttributes", 'Int'>
+    readonly batteryLife: FieldRef<"MouseAttributes", 'Int'>
+    readonly sensor: FieldRef<"MouseAttributes", 'String'>
+    readonly rgb: FieldRef<"MouseAttributes", 'Boolean'>
+    readonly software: FieldRef<"MouseAttributes", 'String'>
+    readonly createdAt: FieldRef<"MouseAttributes", 'DateTime'>
+    readonly updatedAt: FieldRef<"MouseAttributes", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MouseAttributes findUnique
+   */
+  export type MouseAttributesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesInclude<ExtArgs> | null
+    /**
+     * Filter, which MouseAttributes to fetch.
+     */
+    where: MouseAttributesWhereUniqueInput
+  }
+
+  /**
+   * MouseAttributes findUniqueOrThrow
+   */
+  export type MouseAttributesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesInclude<ExtArgs> | null
+    /**
+     * Filter, which MouseAttributes to fetch.
+     */
+    where: MouseAttributesWhereUniqueInput
+  }
+
+  /**
+   * MouseAttributes findFirst
+   */
+  export type MouseAttributesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesInclude<ExtArgs> | null
+    /**
+     * Filter, which MouseAttributes to fetch.
+     */
+    where?: MouseAttributesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MouseAttributes to fetch.
+     */
+    orderBy?: MouseAttributesOrderByWithRelationInput | MouseAttributesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MouseAttributes.
+     */
+    cursor?: MouseAttributesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MouseAttributes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MouseAttributes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MouseAttributes.
+     */
+    distinct?: MouseAttributesScalarFieldEnum | MouseAttributesScalarFieldEnum[]
+  }
+
+  /**
+   * MouseAttributes findFirstOrThrow
+   */
+  export type MouseAttributesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesInclude<ExtArgs> | null
+    /**
+     * Filter, which MouseAttributes to fetch.
+     */
+    where?: MouseAttributesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MouseAttributes to fetch.
+     */
+    orderBy?: MouseAttributesOrderByWithRelationInput | MouseAttributesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MouseAttributes.
+     */
+    cursor?: MouseAttributesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MouseAttributes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MouseAttributes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MouseAttributes.
+     */
+    distinct?: MouseAttributesScalarFieldEnum | MouseAttributesScalarFieldEnum[]
+  }
+
+  /**
+   * MouseAttributes findMany
+   */
+  export type MouseAttributesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesInclude<ExtArgs> | null
+    /**
+     * Filter, which MouseAttributes to fetch.
+     */
+    where?: MouseAttributesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MouseAttributes to fetch.
+     */
+    orderBy?: MouseAttributesOrderByWithRelationInput | MouseAttributesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MouseAttributes.
+     */
+    cursor?: MouseAttributesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MouseAttributes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MouseAttributes.
+     */
+    skip?: number
+    distinct?: MouseAttributesScalarFieldEnum | MouseAttributesScalarFieldEnum[]
+  }
+
+  /**
+   * MouseAttributes create
+   */
+  export type MouseAttributesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MouseAttributes.
+     */
+    data: XOR<MouseAttributesCreateInput, MouseAttributesUncheckedCreateInput>
+  }
+
+  /**
+   * MouseAttributes createMany
+   */
+  export type MouseAttributesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MouseAttributes.
+     */
+    data: MouseAttributesCreateManyInput | MouseAttributesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MouseAttributes createManyAndReturn
+   */
+  export type MouseAttributesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * The data used to create many MouseAttributes.
+     */
+    data: MouseAttributesCreateManyInput | MouseAttributesCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MouseAttributes update
+   */
+  export type MouseAttributesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MouseAttributes.
+     */
+    data: XOR<MouseAttributesUpdateInput, MouseAttributesUncheckedUpdateInput>
+    /**
+     * Choose, which MouseAttributes to update.
+     */
+    where: MouseAttributesWhereUniqueInput
+  }
+
+  /**
+   * MouseAttributes updateMany
+   */
+  export type MouseAttributesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MouseAttributes.
+     */
+    data: XOR<MouseAttributesUpdateManyMutationInput, MouseAttributesUncheckedUpdateManyInput>
+    /**
+     * Filter which MouseAttributes to update
+     */
+    where?: MouseAttributesWhereInput
+    /**
+     * Limit how many MouseAttributes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MouseAttributes updateManyAndReturn
+   */
+  export type MouseAttributesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * The data used to update MouseAttributes.
+     */
+    data: XOR<MouseAttributesUpdateManyMutationInput, MouseAttributesUncheckedUpdateManyInput>
+    /**
+     * Filter which MouseAttributes to update
+     */
+    where?: MouseAttributesWhereInput
+    /**
+     * Limit how many MouseAttributes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * MouseAttributes upsert
+   */
+  export type MouseAttributesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MouseAttributes to update in case it exists.
+     */
+    where: MouseAttributesWhereUniqueInput
+    /**
+     * In case the MouseAttributes found by the `where` argument doesn't exist, create a new MouseAttributes with this data.
+     */
+    create: XOR<MouseAttributesCreateInput, MouseAttributesUncheckedCreateInput>
+    /**
+     * In case the MouseAttributes was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MouseAttributesUpdateInput, MouseAttributesUncheckedUpdateInput>
+  }
+
+  /**
+   * MouseAttributes delete
+   */
+  export type MouseAttributesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesInclude<ExtArgs> | null
+    /**
+     * Filter which MouseAttributes to delete.
+     */
+    where: MouseAttributesWhereUniqueInput
+  }
+
+  /**
+   * MouseAttributes deleteMany
+   */
+  export type MouseAttributesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MouseAttributes to delete
+     */
+    where?: MouseAttributesWhereInput
+    /**
+     * Limit how many MouseAttributes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MouseAttributes without action
+   */
+  export type MouseAttributesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MouseAttributes
+     */
+    select?: MouseAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MouseAttributes
+     */
+    omit?: MouseAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MouseAttributesInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model KeyboardAttributes
+   */
+
+  export type AggregateKeyboardAttributes = {
+    _count: KeyboardAttributesCountAggregateOutputType | null
+    _avg: KeyboardAttributesAvgAggregateOutputType | null
+    _sum: KeyboardAttributesSumAggregateOutputType | null
+    _min: KeyboardAttributesMinAggregateOutputType | null
+    _max: KeyboardAttributesMaxAggregateOutputType | null
+  }
+
+  export type KeyboardAttributesAvgAggregateOutputType = {
+    productId: number | null
+    actuationPoint: number | null
+  }
+
+  export type KeyboardAttributesSumAggregateOutputType = {
+    productId: number | null
+    actuationPoint: number | null
+  }
+
+  export type KeyboardAttributesMinAggregateOutputType = {
+    productId: number | null
+    layout: $Enums.KeyboardLayout | null
+    switchType: $Enums.SwitchType | null
+    actuationPoint: number | null
+    connectionType: $Enums.ConnectionType | null
+    rapidTrigger: boolean | null
+    rgb: boolean | null
+    software: string | null
+    keycaps: string | null
+    hotSwap: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type KeyboardAttributesMaxAggregateOutputType = {
+    productId: number | null
+    layout: $Enums.KeyboardLayout | null
+    switchType: $Enums.SwitchType | null
+    actuationPoint: number | null
+    connectionType: $Enums.ConnectionType | null
+    rapidTrigger: boolean | null
+    rgb: boolean | null
+    software: string | null
+    keycaps: string | null
+    hotSwap: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type KeyboardAttributesCountAggregateOutputType = {
+    productId: number
+    layout: number
+    switchType: number
+    actuationPoint: number
+    connectionType: number
+    rapidTrigger: number
+    rgb: number
+    software: number
+    keycaps: number
+    hotSwap: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type KeyboardAttributesAvgAggregateInputType = {
+    productId?: true
+    actuationPoint?: true
+  }
+
+  export type KeyboardAttributesSumAggregateInputType = {
+    productId?: true
+    actuationPoint?: true
+  }
+
+  export type KeyboardAttributesMinAggregateInputType = {
+    productId?: true
+    layout?: true
+    switchType?: true
+    actuationPoint?: true
+    connectionType?: true
+    rapidTrigger?: true
+    rgb?: true
+    software?: true
+    keycaps?: true
+    hotSwap?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type KeyboardAttributesMaxAggregateInputType = {
+    productId?: true
+    layout?: true
+    switchType?: true
+    actuationPoint?: true
+    connectionType?: true
+    rapidTrigger?: true
+    rgb?: true
+    software?: true
+    keycaps?: true
+    hotSwap?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type KeyboardAttributesCountAggregateInputType = {
+    productId?: true
+    layout?: true
+    switchType?: true
+    actuationPoint?: true
+    connectionType?: true
+    rapidTrigger?: true
+    rgb?: true
+    software?: true
+    keycaps?: true
+    hotSwap?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type KeyboardAttributesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KeyboardAttributes to aggregate.
+     */
+    where?: KeyboardAttributesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KeyboardAttributes to fetch.
+     */
+    orderBy?: KeyboardAttributesOrderByWithRelationInput | KeyboardAttributesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: KeyboardAttributesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KeyboardAttributes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KeyboardAttributes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned KeyboardAttributes
+    **/
+    _count?: true | KeyboardAttributesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KeyboardAttributesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KeyboardAttributesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KeyboardAttributesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KeyboardAttributesMaxAggregateInputType
+  }
+
+  export type GetKeyboardAttributesAggregateType<T extends KeyboardAttributesAggregateArgs> = {
+        [P in keyof T & keyof AggregateKeyboardAttributes]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKeyboardAttributes[P]>
+      : GetScalarType<T[P], AggregateKeyboardAttributes[P]>
+  }
+
+
+
+
+  export type KeyboardAttributesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KeyboardAttributesWhereInput
+    orderBy?: KeyboardAttributesOrderByWithAggregationInput | KeyboardAttributesOrderByWithAggregationInput[]
+    by: KeyboardAttributesScalarFieldEnum[] | KeyboardAttributesScalarFieldEnum
+    having?: KeyboardAttributesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KeyboardAttributesCountAggregateInputType | true
+    _avg?: KeyboardAttributesAvgAggregateInputType
+    _sum?: KeyboardAttributesSumAggregateInputType
+    _min?: KeyboardAttributesMinAggregateInputType
+    _max?: KeyboardAttributesMaxAggregateInputType
+  }
+
+  export type KeyboardAttributesGroupByOutputType = {
+    productId: number
+    layout: $Enums.KeyboardLayout | null
+    switchType: $Enums.SwitchType | null
+    actuationPoint: number | null
+    connectionType: $Enums.ConnectionType | null
+    rapidTrigger: boolean
+    rgb: boolean
+    software: string | null
+    keycaps: string | null
+    hotSwap: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: KeyboardAttributesCountAggregateOutputType | null
+    _avg: KeyboardAttributesAvgAggregateOutputType | null
+    _sum: KeyboardAttributesSumAggregateOutputType | null
+    _min: KeyboardAttributesMinAggregateOutputType | null
+    _max: KeyboardAttributesMaxAggregateOutputType | null
+  }
+
+  type GetKeyboardAttributesGroupByPayload<T extends KeyboardAttributesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KeyboardAttributesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KeyboardAttributesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KeyboardAttributesGroupByOutputType[P]>
+            : GetScalarType<T[P], KeyboardAttributesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type KeyboardAttributesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    productId?: boolean
+    layout?: boolean
+    switchType?: boolean
+    actuationPoint?: boolean
+    connectionType?: boolean
+    rapidTrigger?: boolean
+    rgb?: boolean
+    software?: boolean
+    keycaps?: boolean
+    hotSwap?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["keyboardAttributes"]>
+
+  export type KeyboardAttributesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    productId?: boolean
+    layout?: boolean
+    switchType?: boolean
+    actuationPoint?: boolean
+    connectionType?: boolean
+    rapidTrigger?: boolean
+    rgb?: boolean
+    software?: boolean
+    keycaps?: boolean
+    hotSwap?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["keyboardAttributes"]>
+
+  export type KeyboardAttributesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    productId?: boolean
+    layout?: boolean
+    switchType?: boolean
+    actuationPoint?: boolean
+    connectionType?: boolean
+    rapidTrigger?: boolean
+    rgb?: boolean
+    software?: boolean
+    keycaps?: boolean
+    hotSwap?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["keyboardAttributes"]>
+
+  export type KeyboardAttributesSelectScalar = {
+    productId?: boolean
+    layout?: boolean
+    switchType?: boolean
+    actuationPoint?: boolean
+    connectionType?: boolean
+    rapidTrigger?: boolean
+    rgb?: boolean
+    software?: boolean
+    keycaps?: boolean
+    hotSwap?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type KeyboardAttributesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"productId" | "layout" | "switchType" | "actuationPoint" | "connectionType" | "rapidTrigger" | "rgb" | "software" | "keycaps" | "hotSwap" | "createdAt" | "updatedAt", ExtArgs["result"]["keyboardAttributes"]>
+  export type KeyboardAttributesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type KeyboardAttributesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+  export type KeyboardAttributesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    product?: boolean | ProductDefaultArgs<ExtArgs>
+  }
+
+  export type $KeyboardAttributesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "KeyboardAttributes"
+    objects: {
+      product: Prisma.$ProductPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      productId: number
+      layout: $Enums.KeyboardLayout | null
+      switchType: $Enums.SwitchType | null
+      actuationPoint: number | null
+      connectionType: $Enums.ConnectionType | null
+      rapidTrigger: boolean
+      rgb: boolean
+      software: string | null
+      keycaps: string | null
+      hotSwap: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["keyboardAttributes"]>
+    composites: {}
+  }
+
+  type KeyboardAttributesGetPayload<S extends boolean | null | undefined | KeyboardAttributesDefaultArgs> = $Result.GetResult<Prisma.$KeyboardAttributesPayload, S>
+
+  type KeyboardAttributesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<KeyboardAttributesFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KeyboardAttributesCountAggregateInputType | true
+    }
+
+  export interface KeyboardAttributesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['KeyboardAttributes'], meta: { name: 'KeyboardAttributes' } }
+    /**
+     * Find zero or one KeyboardAttributes that matches the filter.
+     * @param {KeyboardAttributesFindUniqueArgs} args - Arguments to find a KeyboardAttributes
+     * @example
+     * // Get one KeyboardAttributes
+     * const keyboardAttributes = await prisma.keyboardAttributes.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends KeyboardAttributesFindUniqueArgs>(args: SelectSubset<T, KeyboardAttributesFindUniqueArgs<ExtArgs>>): Prisma__KeyboardAttributesClient<$Result.GetResult<Prisma.$KeyboardAttributesPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KeyboardAttributes that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {KeyboardAttributesFindUniqueOrThrowArgs} args - Arguments to find a KeyboardAttributes
+     * @example
+     * // Get one KeyboardAttributes
+     * const keyboardAttributes = await prisma.keyboardAttributes.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends KeyboardAttributesFindUniqueOrThrowArgs>(args: SelectSubset<T, KeyboardAttributesFindUniqueOrThrowArgs<ExtArgs>>): Prisma__KeyboardAttributesClient<$Result.GetResult<Prisma.$KeyboardAttributesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KeyboardAttributes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyboardAttributesFindFirstArgs} args - Arguments to find a KeyboardAttributes
+     * @example
+     * // Get one KeyboardAttributes
+     * const keyboardAttributes = await prisma.keyboardAttributes.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends KeyboardAttributesFindFirstArgs>(args?: SelectSubset<T, KeyboardAttributesFindFirstArgs<ExtArgs>>): Prisma__KeyboardAttributesClient<$Result.GetResult<Prisma.$KeyboardAttributesPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KeyboardAttributes that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyboardAttributesFindFirstOrThrowArgs} args - Arguments to find a KeyboardAttributes
+     * @example
+     * // Get one KeyboardAttributes
+     * const keyboardAttributes = await prisma.keyboardAttributes.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends KeyboardAttributesFindFirstOrThrowArgs>(args?: SelectSubset<T, KeyboardAttributesFindFirstOrThrowArgs<ExtArgs>>): Prisma__KeyboardAttributesClient<$Result.GetResult<Prisma.$KeyboardAttributesPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KeyboardAttributes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyboardAttributesFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KeyboardAttributes
+     * const keyboardAttributes = await prisma.keyboardAttributes.findMany()
+     * 
+     * // Get first 10 KeyboardAttributes
+     * const keyboardAttributes = await prisma.keyboardAttributes.findMany({ take: 10 })
+     * 
+     * // Only select the `productId`
+     * const keyboardAttributesWithProductIdOnly = await prisma.keyboardAttributes.findMany({ select: { productId: true } })
+     * 
+     */
+    findMany<T extends KeyboardAttributesFindManyArgs>(args?: SelectSubset<T, KeyboardAttributesFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeyboardAttributesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KeyboardAttributes.
+     * @param {KeyboardAttributesCreateArgs} args - Arguments to create a KeyboardAttributes.
+     * @example
+     * // Create one KeyboardAttributes
+     * const KeyboardAttributes = await prisma.keyboardAttributes.create({
+     *   data: {
+     *     // ... data to create a KeyboardAttributes
+     *   }
+     * })
+     * 
+     */
+    create<T extends KeyboardAttributesCreateArgs>(args: SelectSubset<T, KeyboardAttributesCreateArgs<ExtArgs>>): Prisma__KeyboardAttributesClient<$Result.GetResult<Prisma.$KeyboardAttributesPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KeyboardAttributes.
+     * @param {KeyboardAttributesCreateManyArgs} args - Arguments to create many KeyboardAttributes.
+     * @example
+     * // Create many KeyboardAttributes
+     * const keyboardAttributes = await prisma.keyboardAttributes.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends KeyboardAttributesCreateManyArgs>(args?: SelectSubset<T, KeyboardAttributesCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KeyboardAttributes and returns the data saved in the database.
+     * @param {KeyboardAttributesCreateManyAndReturnArgs} args - Arguments to create many KeyboardAttributes.
+     * @example
+     * // Create many KeyboardAttributes
+     * const keyboardAttributes = await prisma.keyboardAttributes.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KeyboardAttributes and only return the `productId`
+     * const keyboardAttributesWithProductIdOnly = await prisma.keyboardAttributes.createManyAndReturn({
+     *   select: { productId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends KeyboardAttributesCreateManyAndReturnArgs>(args?: SelectSubset<T, KeyboardAttributesCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeyboardAttributesPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KeyboardAttributes.
+     * @param {KeyboardAttributesDeleteArgs} args - Arguments to delete one KeyboardAttributes.
+     * @example
+     * // Delete one KeyboardAttributes
+     * const KeyboardAttributes = await prisma.keyboardAttributes.delete({
+     *   where: {
+     *     // ... filter to delete one KeyboardAttributes
+     *   }
+     * })
+     * 
+     */
+    delete<T extends KeyboardAttributesDeleteArgs>(args: SelectSubset<T, KeyboardAttributesDeleteArgs<ExtArgs>>): Prisma__KeyboardAttributesClient<$Result.GetResult<Prisma.$KeyboardAttributesPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KeyboardAttributes.
+     * @param {KeyboardAttributesUpdateArgs} args - Arguments to update one KeyboardAttributes.
+     * @example
+     * // Update one KeyboardAttributes
+     * const keyboardAttributes = await prisma.keyboardAttributes.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends KeyboardAttributesUpdateArgs>(args: SelectSubset<T, KeyboardAttributesUpdateArgs<ExtArgs>>): Prisma__KeyboardAttributesClient<$Result.GetResult<Prisma.$KeyboardAttributesPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KeyboardAttributes.
+     * @param {KeyboardAttributesDeleteManyArgs} args - Arguments to filter KeyboardAttributes to delete.
+     * @example
+     * // Delete a few KeyboardAttributes
+     * const { count } = await prisma.keyboardAttributes.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends KeyboardAttributesDeleteManyArgs>(args?: SelectSubset<T, KeyboardAttributesDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KeyboardAttributes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyboardAttributesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KeyboardAttributes
+     * const keyboardAttributes = await prisma.keyboardAttributes.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends KeyboardAttributesUpdateManyArgs>(args: SelectSubset<T, KeyboardAttributesUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KeyboardAttributes and returns the data updated in the database.
+     * @param {KeyboardAttributesUpdateManyAndReturnArgs} args - Arguments to update many KeyboardAttributes.
+     * @example
+     * // Update many KeyboardAttributes
+     * const keyboardAttributes = await prisma.keyboardAttributes.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KeyboardAttributes and only return the `productId`
+     * const keyboardAttributesWithProductIdOnly = await prisma.keyboardAttributes.updateManyAndReturn({
+     *   select: { productId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends KeyboardAttributesUpdateManyAndReturnArgs>(args: SelectSubset<T, KeyboardAttributesUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KeyboardAttributesPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KeyboardAttributes.
+     * @param {KeyboardAttributesUpsertArgs} args - Arguments to update or create a KeyboardAttributes.
+     * @example
+     * // Update or create a KeyboardAttributes
+     * const keyboardAttributes = await prisma.keyboardAttributes.upsert({
+     *   create: {
+     *     // ... data to create a KeyboardAttributes
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KeyboardAttributes we want to update
+     *   }
+     * })
+     */
+    upsert<T extends KeyboardAttributesUpsertArgs>(args: SelectSubset<T, KeyboardAttributesUpsertArgs<ExtArgs>>): Prisma__KeyboardAttributesClient<$Result.GetResult<Prisma.$KeyboardAttributesPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KeyboardAttributes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyboardAttributesCountArgs} args - Arguments to filter KeyboardAttributes to count.
+     * @example
+     * // Count the number of KeyboardAttributes
+     * const count = await prisma.keyboardAttributes.count({
+     *   where: {
+     *     // ... the filter for the KeyboardAttributes we want to count
+     *   }
+     * })
+    **/
+    count<T extends KeyboardAttributesCountArgs>(
+      args?: Subset<T, KeyboardAttributesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KeyboardAttributesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KeyboardAttributes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyboardAttributesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KeyboardAttributesAggregateArgs>(args: Subset<T, KeyboardAttributesAggregateArgs>): Prisma.PrismaPromise<GetKeyboardAttributesAggregateType<T>>
+
+    /**
+     * Group by KeyboardAttributes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KeyboardAttributesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends KeyboardAttributesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: KeyboardAttributesGroupByArgs['orderBy'] }
+        : { orderBy?: KeyboardAttributesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, KeyboardAttributesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKeyboardAttributesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the KeyboardAttributes model
+   */
+  readonly fields: KeyboardAttributesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for KeyboardAttributes.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__KeyboardAttributesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    product<T extends ProductDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductDefaultArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the KeyboardAttributes model
+   */
+  interface KeyboardAttributesFieldRefs {
+    readonly productId: FieldRef<"KeyboardAttributes", 'Int'>
+    readonly layout: FieldRef<"KeyboardAttributes", 'KeyboardLayout'>
+    readonly switchType: FieldRef<"KeyboardAttributes", 'SwitchType'>
+    readonly actuationPoint: FieldRef<"KeyboardAttributes", 'Float'>
+    readonly connectionType: FieldRef<"KeyboardAttributes", 'ConnectionType'>
+    readonly rapidTrigger: FieldRef<"KeyboardAttributes", 'Boolean'>
+    readonly rgb: FieldRef<"KeyboardAttributes", 'Boolean'>
+    readonly software: FieldRef<"KeyboardAttributes", 'String'>
+    readonly keycaps: FieldRef<"KeyboardAttributes", 'String'>
+    readonly hotSwap: FieldRef<"KeyboardAttributes", 'Boolean'>
+    readonly createdAt: FieldRef<"KeyboardAttributes", 'DateTime'>
+    readonly updatedAt: FieldRef<"KeyboardAttributes", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * KeyboardAttributes findUnique
+   */
+  export type KeyboardAttributesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesInclude<ExtArgs> | null
+    /**
+     * Filter, which KeyboardAttributes to fetch.
+     */
+    where: KeyboardAttributesWhereUniqueInput
+  }
+
+  /**
+   * KeyboardAttributes findUniqueOrThrow
+   */
+  export type KeyboardAttributesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesInclude<ExtArgs> | null
+    /**
+     * Filter, which KeyboardAttributes to fetch.
+     */
+    where: KeyboardAttributesWhereUniqueInput
+  }
+
+  /**
+   * KeyboardAttributes findFirst
+   */
+  export type KeyboardAttributesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesInclude<ExtArgs> | null
+    /**
+     * Filter, which KeyboardAttributes to fetch.
+     */
+    where?: KeyboardAttributesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KeyboardAttributes to fetch.
+     */
+    orderBy?: KeyboardAttributesOrderByWithRelationInput | KeyboardAttributesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KeyboardAttributes.
+     */
+    cursor?: KeyboardAttributesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KeyboardAttributes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KeyboardAttributes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KeyboardAttributes.
+     */
+    distinct?: KeyboardAttributesScalarFieldEnum | KeyboardAttributesScalarFieldEnum[]
+  }
+
+  /**
+   * KeyboardAttributes findFirstOrThrow
+   */
+  export type KeyboardAttributesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesInclude<ExtArgs> | null
+    /**
+     * Filter, which KeyboardAttributes to fetch.
+     */
+    where?: KeyboardAttributesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KeyboardAttributes to fetch.
+     */
+    orderBy?: KeyboardAttributesOrderByWithRelationInput | KeyboardAttributesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KeyboardAttributes.
+     */
+    cursor?: KeyboardAttributesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KeyboardAttributes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KeyboardAttributes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KeyboardAttributes.
+     */
+    distinct?: KeyboardAttributesScalarFieldEnum | KeyboardAttributesScalarFieldEnum[]
+  }
+
+  /**
+   * KeyboardAttributes findMany
+   */
+  export type KeyboardAttributesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesInclude<ExtArgs> | null
+    /**
+     * Filter, which KeyboardAttributes to fetch.
+     */
+    where?: KeyboardAttributesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KeyboardAttributes to fetch.
+     */
+    orderBy?: KeyboardAttributesOrderByWithRelationInput | KeyboardAttributesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing KeyboardAttributes.
+     */
+    cursor?: KeyboardAttributesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KeyboardAttributes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KeyboardAttributes.
+     */
+    skip?: number
+    distinct?: KeyboardAttributesScalarFieldEnum | KeyboardAttributesScalarFieldEnum[]
+  }
+
+  /**
+   * KeyboardAttributes create
+   */
+  export type KeyboardAttributesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a KeyboardAttributes.
+     */
+    data: XOR<KeyboardAttributesCreateInput, KeyboardAttributesUncheckedCreateInput>
+  }
+
+  /**
+   * KeyboardAttributes createMany
+   */
+  export type KeyboardAttributesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many KeyboardAttributes.
+     */
+    data: KeyboardAttributesCreateManyInput | KeyboardAttributesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * KeyboardAttributes createManyAndReturn
+   */
+  export type KeyboardAttributesCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * The data used to create many KeyboardAttributes.
+     */
+    data: KeyboardAttributesCreateManyInput | KeyboardAttributesCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KeyboardAttributes update
+   */
+  export type KeyboardAttributesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a KeyboardAttributes.
+     */
+    data: XOR<KeyboardAttributesUpdateInput, KeyboardAttributesUncheckedUpdateInput>
+    /**
+     * Choose, which KeyboardAttributes to update.
+     */
+    where: KeyboardAttributesWhereUniqueInput
+  }
+
+  /**
+   * KeyboardAttributes updateMany
+   */
+  export type KeyboardAttributesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update KeyboardAttributes.
+     */
+    data: XOR<KeyboardAttributesUpdateManyMutationInput, KeyboardAttributesUncheckedUpdateManyInput>
+    /**
+     * Filter which KeyboardAttributes to update
+     */
+    where?: KeyboardAttributesWhereInput
+    /**
+     * Limit how many KeyboardAttributes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * KeyboardAttributes updateManyAndReturn
+   */
+  export type KeyboardAttributesUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * The data used to update KeyboardAttributes.
+     */
+    data: XOR<KeyboardAttributesUpdateManyMutationInput, KeyboardAttributesUncheckedUpdateManyInput>
+    /**
+     * Filter which KeyboardAttributes to update
+     */
+    where?: KeyboardAttributesWhereInput
+    /**
+     * Limit how many KeyboardAttributes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KeyboardAttributes upsert
+   */
+  export type KeyboardAttributesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the KeyboardAttributes to update in case it exists.
+     */
+    where: KeyboardAttributesWhereUniqueInput
+    /**
+     * In case the KeyboardAttributes found by the `where` argument doesn't exist, create a new KeyboardAttributes with this data.
+     */
+    create: XOR<KeyboardAttributesCreateInput, KeyboardAttributesUncheckedCreateInput>
+    /**
+     * In case the KeyboardAttributes was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<KeyboardAttributesUpdateInput, KeyboardAttributesUncheckedUpdateInput>
+  }
+
+  /**
+   * KeyboardAttributes delete
+   */
+  export type KeyboardAttributesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesInclude<ExtArgs> | null
+    /**
+     * Filter which KeyboardAttributes to delete.
+     */
+    where: KeyboardAttributesWhereUniqueInput
+  }
+
+  /**
+   * KeyboardAttributes deleteMany
+   */
+  export type KeyboardAttributesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KeyboardAttributes to delete
+     */
+    where?: KeyboardAttributesWhereInput
+    /**
+     * Limit how many KeyboardAttributes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * KeyboardAttributes without action
+   */
+  export type KeyboardAttributesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KeyboardAttributes
+     */
+    select?: KeyboardAttributesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KeyboardAttributes
+     */
+    omit?: KeyboardAttributesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KeyboardAttributesInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -40110,17 +45519,47 @@ export namespace Prisma {
   export type DeviceCategoryScalarFieldEnum = (typeof DeviceCategoryScalarFieldEnum)[keyof typeof DeviceCategoryScalarFieldEnum]
 
 
+  export const ManufacturerScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    slug: 'slug',
+    description: 'description',
+    logoUrl: 'logoUrl',
+    website: 'website',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ManufacturerScalarFieldEnum = (typeof ManufacturerScalarFieldEnum)[keyof typeof ManufacturerScalarFieldEnum]
+
+
+  export const SeriesScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    slug: 'slug',
+    description: 'description',
+    manufacturerId: 'manufacturerId',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type SeriesScalarFieldEnum = (typeof SeriesScalarFieldEnum)[keyof typeof SeriesScalarFieldEnum]
+
+
   export const ProductScalarFieldEnum: {
     id: 'id',
     name: 'name',
     description: 'description',
     categoryId: 'categoryId',
+    manufacturerId: 'manufacturerId',
+    seriesId: 'seriesId',
     amazonUrl: 'amazonUrl',
     adminAffiliateUrl: 'adminAffiliateUrl',
     asin: 'asin',
     imageUrl: 'imageUrl',
     price: 'price',
-    attributes: 'attributes',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -40151,6 +45590,46 @@ export namespace Prisma {
   };
 
   export type UserFavoriteScalarFieldEnum = (typeof UserFavoriteScalarFieldEnum)[keyof typeof UserFavoriteScalarFieldEnum]
+
+
+  export const MouseAttributesScalarFieldEnum: {
+    productId: 'productId',
+    dpiMin: 'dpiMin',
+    dpiMax: 'dpiMax',
+    weight: 'weight',
+    length: 'length',
+    width: 'width',
+    height: 'height',
+    buttons: 'buttons',
+    connectionType: 'connectionType',
+    pollingRate: 'pollingRate',
+    batteryLife: 'batteryLife',
+    sensor: 'sensor',
+    rgb: 'rgb',
+    software: 'software',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MouseAttributesScalarFieldEnum = (typeof MouseAttributesScalarFieldEnum)[keyof typeof MouseAttributesScalarFieldEnum]
+
+
+  export const KeyboardAttributesScalarFieldEnum: {
+    productId: 'productId',
+    layout: 'layout',
+    switchType: 'switchType',
+    actuationPoint: 'actuationPoint',
+    connectionType: 'connectionType',
+    rapidTrigger: 'rapidTrigger',
+    rgb: 'rgb',
+    software: 'software',
+    keycaps: 'keycaps',
+    hotSwap: 'hotSwap',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type KeyboardAttributesScalarFieldEnum = (typeof KeyboardAttributesScalarFieldEnum)[keyof typeof KeyboardAttributesScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -40343,6 +45822,48 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ConnectionType'
+   */
+  export type EnumConnectionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConnectionType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ConnectionType[]'
+   */
+  export type ListEnumConnectionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ConnectionType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'KeyboardLayout'
+   */
+  export type EnumKeyboardLayoutFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KeyboardLayout'>
+    
+
+
+  /**
+   * Reference to a field of type 'KeyboardLayout[]'
+   */
+  export type ListEnumKeyboardLayoutFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'KeyboardLayout[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'SwitchType'
+   */
+  export type EnumSwitchTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SwitchType'>
+    
+
+
+  /**
+   * Reference to a field of type 'SwitchType[]'
+   */
+  export type ListEnumSwitchTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SwitchType[]'>
     
   /**
    * Deep Input Types
@@ -42412,6 +47933,161 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"DeviceCategory"> | Date | string
   }
 
+  export type ManufacturerWhereInput = {
+    AND?: ManufacturerWhereInput | ManufacturerWhereInput[]
+    OR?: ManufacturerWhereInput[]
+    NOT?: ManufacturerWhereInput | ManufacturerWhereInput[]
+    id?: IntFilter<"Manufacturer"> | number
+    name?: StringFilter<"Manufacturer"> | string
+    slug?: StringFilter<"Manufacturer"> | string
+    description?: StringNullableFilter<"Manufacturer"> | string | null
+    logoUrl?: StringNullableFilter<"Manufacturer"> | string | null
+    website?: StringNullableFilter<"Manufacturer"> | string | null
+    isActive?: BoolFilter<"Manufacturer"> | boolean
+    createdAt?: DateTimeFilter<"Manufacturer"> | Date | string
+    updatedAt?: DateTimeFilter<"Manufacturer"> | Date | string
+    products?: ProductListRelationFilter
+    series?: SeriesListRelationFilter
+  }
+
+  export type ManufacturerOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrderInput | SortOrder
+    logoUrl?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    products?: ProductOrderByRelationAggregateInput
+    series?: SeriesOrderByRelationAggregateInput
+  }
+
+  export type ManufacturerWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    name?: string
+    slug?: string
+    AND?: ManufacturerWhereInput | ManufacturerWhereInput[]
+    OR?: ManufacturerWhereInput[]
+    NOT?: ManufacturerWhereInput | ManufacturerWhereInput[]
+    description?: StringNullableFilter<"Manufacturer"> | string | null
+    logoUrl?: StringNullableFilter<"Manufacturer"> | string | null
+    website?: StringNullableFilter<"Manufacturer"> | string | null
+    isActive?: BoolFilter<"Manufacturer"> | boolean
+    createdAt?: DateTimeFilter<"Manufacturer"> | Date | string
+    updatedAt?: DateTimeFilter<"Manufacturer"> | Date | string
+    products?: ProductListRelationFilter
+    series?: SeriesListRelationFilter
+  }, "id" | "name" | "slug">
+
+  export type ManufacturerOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrderInput | SortOrder
+    logoUrl?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ManufacturerCountOrderByAggregateInput
+    _avg?: ManufacturerAvgOrderByAggregateInput
+    _max?: ManufacturerMaxOrderByAggregateInput
+    _min?: ManufacturerMinOrderByAggregateInput
+    _sum?: ManufacturerSumOrderByAggregateInput
+  }
+
+  export type ManufacturerScalarWhereWithAggregatesInput = {
+    AND?: ManufacturerScalarWhereWithAggregatesInput | ManufacturerScalarWhereWithAggregatesInput[]
+    OR?: ManufacturerScalarWhereWithAggregatesInput[]
+    NOT?: ManufacturerScalarWhereWithAggregatesInput | ManufacturerScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Manufacturer"> | number
+    name?: StringWithAggregatesFilter<"Manufacturer"> | string
+    slug?: StringWithAggregatesFilter<"Manufacturer"> | string
+    description?: StringNullableWithAggregatesFilter<"Manufacturer"> | string | null
+    logoUrl?: StringNullableWithAggregatesFilter<"Manufacturer"> | string | null
+    website?: StringNullableWithAggregatesFilter<"Manufacturer"> | string | null
+    isActive?: BoolWithAggregatesFilter<"Manufacturer"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Manufacturer"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Manufacturer"> | Date | string
+  }
+
+  export type SeriesWhereInput = {
+    AND?: SeriesWhereInput | SeriesWhereInput[]
+    OR?: SeriesWhereInput[]
+    NOT?: SeriesWhereInput | SeriesWhereInput[]
+    id?: IntFilter<"Series"> | number
+    name?: StringFilter<"Series"> | string
+    slug?: StringFilter<"Series"> | string
+    description?: StringNullableFilter<"Series"> | string | null
+    manufacturerId?: IntFilter<"Series"> | number
+    isActive?: BoolFilter<"Series"> | boolean
+    createdAt?: DateTimeFilter<"Series"> | Date | string
+    updatedAt?: DateTimeFilter<"Series"> | Date | string
+    manufacturer?: XOR<ManufacturerScalarRelationFilter, ManufacturerWhereInput>
+    products?: ProductListRelationFilter
+  }
+
+  export type SeriesOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrderInput | SortOrder
+    manufacturerId?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    manufacturer?: ManufacturerOrderByWithRelationInput
+    products?: ProductOrderByRelationAggregateInput
+  }
+
+  export type SeriesWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    slug?: string
+    AND?: SeriesWhereInput | SeriesWhereInput[]
+    OR?: SeriesWhereInput[]
+    NOT?: SeriesWhereInput | SeriesWhereInput[]
+    name?: StringFilter<"Series"> | string
+    description?: StringNullableFilter<"Series"> | string | null
+    manufacturerId?: IntFilter<"Series"> | number
+    isActive?: BoolFilter<"Series"> | boolean
+    createdAt?: DateTimeFilter<"Series"> | Date | string
+    updatedAt?: DateTimeFilter<"Series"> | Date | string
+    manufacturer?: XOR<ManufacturerScalarRelationFilter, ManufacturerWhereInput>
+    products?: ProductListRelationFilter
+  }, "id" | "slug">
+
+  export type SeriesOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrderInput | SortOrder
+    manufacturerId?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: SeriesCountOrderByAggregateInput
+    _avg?: SeriesAvgOrderByAggregateInput
+    _max?: SeriesMaxOrderByAggregateInput
+    _min?: SeriesMinOrderByAggregateInput
+    _sum?: SeriesSumOrderByAggregateInput
+  }
+
+  export type SeriesScalarWhereWithAggregatesInput = {
+    AND?: SeriesScalarWhereWithAggregatesInput | SeriesScalarWhereWithAggregatesInput[]
+    OR?: SeriesScalarWhereWithAggregatesInput[]
+    NOT?: SeriesScalarWhereWithAggregatesInput | SeriesScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Series"> | number
+    name?: StringWithAggregatesFilter<"Series"> | string
+    slug?: StringWithAggregatesFilter<"Series"> | string
+    description?: StringNullableWithAggregatesFilter<"Series"> | string | null
+    manufacturerId?: IntWithAggregatesFilter<"Series"> | number
+    isActive?: BoolWithAggregatesFilter<"Series"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Series"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Series"> | Date | string
+  }
+
   export type ProductWhereInput = {
     AND?: ProductWhereInput | ProductWhereInput[]
     OR?: ProductWhereInput[]
@@ -42420,18 +48096,23 @@ export namespace Prisma {
     name?: StringFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
     categoryId?: IntFilter<"Product"> | number
+    manufacturerId?: IntNullableFilter<"Product"> | number | null
+    seriesId?: IntNullableFilter<"Product"> | number | null
     amazonUrl?: StringFilter<"Product"> | string
     adminAffiliateUrl?: StringFilter<"Product"> | string
     asin?: StringFilter<"Product"> | string
     imageUrl?: StringFilter<"Product"> | string
     price?: DecimalNullableFilter<"Product"> | Decimal | DecimalJsLike | number | string | null
-    attributes?: JsonNullableFilter<"Product">
     isActive?: BoolFilter<"Product"> | boolean
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
     category?: XOR<DeviceCategoryScalarRelationFilter, DeviceCategoryWhereInput>
+    manufacturer?: XOR<ManufacturerNullableScalarRelationFilter, ManufacturerWhereInput> | null
+    series?: XOR<SeriesNullableScalarRelationFilter, SeriesWhereInput> | null
     userDevices?: UserDeviceListRelationFilter
     userFavorites?: UserFavoriteListRelationFilter
+    mouseAttributes?: XOR<MouseAttributesNullableScalarRelationFilter, MouseAttributesWhereInput> | null
+    keyboardAttributes?: XOR<KeyboardAttributesNullableScalarRelationFilter, KeyboardAttributesWhereInput> | null
   }
 
   export type ProductOrderByWithRelationInput = {
@@ -42439,18 +48120,23 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     categoryId?: SortOrder
+    manufacturerId?: SortOrderInput | SortOrder
+    seriesId?: SortOrderInput | SortOrder
     amazonUrl?: SortOrder
     adminAffiliateUrl?: SortOrder
     asin?: SortOrder
     imageUrl?: SortOrder
     price?: SortOrderInput | SortOrder
-    attributes?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     category?: DeviceCategoryOrderByWithRelationInput
+    manufacturer?: ManufacturerOrderByWithRelationInput
+    series?: SeriesOrderByWithRelationInput
     userDevices?: UserDeviceOrderByRelationAggregateInput
     userFavorites?: UserFavoriteOrderByRelationAggregateInput
+    mouseAttributes?: MouseAttributesOrderByWithRelationInput
+    keyboardAttributes?: KeyboardAttributesOrderByWithRelationInput
   }
 
   export type ProductWhereUniqueInput = Prisma.AtLeast<{
@@ -42462,17 +48148,22 @@ export namespace Prisma {
     name?: StringFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
     categoryId?: IntFilter<"Product"> | number
+    manufacturerId?: IntNullableFilter<"Product"> | number | null
+    seriesId?: IntNullableFilter<"Product"> | number | null
     amazonUrl?: StringFilter<"Product"> | string
     adminAffiliateUrl?: StringFilter<"Product"> | string
     imageUrl?: StringFilter<"Product"> | string
     price?: DecimalNullableFilter<"Product"> | Decimal | DecimalJsLike | number | string | null
-    attributes?: JsonNullableFilter<"Product">
     isActive?: BoolFilter<"Product"> | boolean
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
     category?: XOR<DeviceCategoryScalarRelationFilter, DeviceCategoryWhereInput>
+    manufacturer?: XOR<ManufacturerNullableScalarRelationFilter, ManufacturerWhereInput> | null
+    series?: XOR<SeriesNullableScalarRelationFilter, SeriesWhereInput> | null
     userDevices?: UserDeviceListRelationFilter
     userFavorites?: UserFavoriteListRelationFilter
+    mouseAttributes?: XOR<MouseAttributesNullableScalarRelationFilter, MouseAttributesWhereInput> | null
+    keyboardAttributes?: XOR<KeyboardAttributesNullableScalarRelationFilter, KeyboardAttributesWhereInput> | null
   }, "id" | "asin">
 
   export type ProductOrderByWithAggregationInput = {
@@ -42480,12 +48171,13 @@ export namespace Prisma {
     name?: SortOrder
     description?: SortOrderInput | SortOrder
     categoryId?: SortOrder
+    manufacturerId?: SortOrderInput | SortOrder
+    seriesId?: SortOrderInput | SortOrder
     amazonUrl?: SortOrder
     adminAffiliateUrl?: SortOrder
     asin?: SortOrder
     imageUrl?: SortOrder
     price?: SortOrderInput | SortOrder
-    attributes?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -42504,12 +48196,13 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Product"> | string
     description?: StringNullableWithAggregatesFilter<"Product"> | string | null
     categoryId?: IntWithAggregatesFilter<"Product"> | number
+    manufacturerId?: IntNullableWithAggregatesFilter<"Product"> | number | null
+    seriesId?: IntNullableWithAggregatesFilter<"Product"> | number | null
     amazonUrl?: StringWithAggregatesFilter<"Product"> | string
     adminAffiliateUrl?: StringWithAggregatesFilter<"Product"> | string
     asin?: StringWithAggregatesFilter<"Product"> | string
     imageUrl?: StringWithAggregatesFilter<"Product"> | string
     price?: DecimalNullableWithAggregatesFilter<"Product"> | Decimal | DecimalJsLike | number | string | null
-    attributes?: JsonNullableWithAggregatesFilter<"Product">
     isActive?: BoolWithAggregatesFilter<"Product"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
@@ -42644,6 +48337,210 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"UserFavorite"> | string
     productId?: IntWithAggregatesFilter<"UserFavorite"> | number
     createdAt?: DateTimeWithAggregatesFilter<"UserFavorite"> | Date | string
+  }
+
+  export type MouseAttributesWhereInput = {
+    AND?: MouseAttributesWhereInput | MouseAttributesWhereInput[]
+    OR?: MouseAttributesWhereInput[]
+    NOT?: MouseAttributesWhereInput | MouseAttributesWhereInput[]
+    productId?: IntFilter<"MouseAttributes"> | number
+    dpiMin?: IntNullableFilter<"MouseAttributes"> | number | null
+    dpiMax?: IntNullableFilter<"MouseAttributes"> | number | null
+    weight?: IntNullableFilter<"MouseAttributes"> | number | null
+    length?: FloatNullableFilter<"MouseAttributes"> | number | null
+    width?: FloatNullableFilter<"MouseAttributes"> | number | null
+    height?: FloatNullableFilter<"MouseAttributes"> | number | null
+    buttons?: IntNullableFilter<"MouseAttributes"> | number | null
+    connectionType?: EnumConnectionTypeNullableFilter<"MouseAttributes"> | $Enums.ConnectionType | null
+    pollingRate?: IntNullableFilter<"MouseAttributes"> | number | null
+    batteryLife?: IntNullableFilter<"MouseAttributes"> | number | null
+    sensor?: StringNullableFilter<"MouseAttributes"> | string | null
+    rgb?: BoolFilter<"MouseAttributes"> | boolean
+    software?: StringNullableFilter<"MouseAttributes"> | string | null
+    createdAt?: DateTimeFilter<"MouseAttributes"> | Date | string
+    updatedAt?: DateTimeFilter<"MouseAttributes"> | Date | string
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }
+
+  export type MouseAttributesOrderByWithRelationInput = {
+    productId?: SortOrder
+    dpiMin?: SortOrderInput | SortOrder
+    dpiMax?: SortOrderInput | SortOrder
+    weight?: SortOrderInput | SortOrder
+    length?: SortOrderInput | SortOrder
+    width?: SortOrderInput | SortOrder
+    height?: SortOrderInput | SortOrder
+    buttons?: SortOrderInput | SortOrder
+    connectionType?: SortOrderInput | SortOrder
+    pollingRate?: SortOrderInput | SortOrder
+    batteryLife?: SortOrderInput | SortOrder
+    sensor?: SortOrderInput | SortOrder
+    rgb?: SortOrder
+    software?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    product?: ProductOrderByWithRelationInput
+  }
+
+  export type MouseAttributesWhereUniqueInput = Prisma.AtLeast<{
+    productId?: number
+    AND?: MouseAttributesWhereInput | MouseAttributesWhereInput[]
+    OR?: MouseAttributesWhereInput[]
+    NOT?: MouseAttributesWhereInput | MouseAttributesWhereInput[]
+    dpiMin?: IntNullableFilter<"MouseAttributes"> | number | null
+    dpiMax?: IntNullableFilter<"MouseAttributes"> | number | null
+    weight?: IntNullableFilter<"MouseAttributes"> | number | null
+    length?: FloatNullableFilter<"MouseAttributes"> | number | null
+    width?: FloatNullableFilter<"MouseAttributes"> | number | null
+    height?: FloatNullableFilter<"MouseAttributes"> | number | null
+    buttons?: IntNullableFilter<"MouseAttributes"> | number | null
+    connectionType?: EnumConnectionTypeNullableFilter<"MouseAttributes"> | $Enums.ConnectionType | null
+    pollingRate?: IntNullableFilter<"MouseAttributes"> | number | null
+    batteryLife?: IntNullableFilter<"MouseAttributes"> | number | null
+    sensor?: StringNullableFilter<"MouseAttributes"> | string | null
+    rgb?: BoolFilter<"MouseAttributes"> | boolean
+    software?: StringNullableFilter<"MouseAttributes"> | string | null
+    createdAt?: DateTimeFilter<"MouseAttributes"> | Date | string
+    updatedAt?: DateTimeFilter<"MouseAttributes"> | Date | string
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }, "productId">
+
+  export type MouseAttributesOrderByWithAggregationInput = {
+    productId?: SortOrder
+    dpiMin?: SortOrderInput | SortOrder
+    dpiMax?: SortOrderInput | SortOrder
+    weight?: SortOrderInput | SortOrder
+    length?: SortOrderInput | SortOrder
+    width?: SortOrderInput | SortOrder
+    height?: SortOrderInput | SortOrder
+    buttons?: SortOrderInput | SortOrder
+    connectionType?: SortOrderInput | SortOrder
+    pollingRate?: SortOrderInput | SortOrder
+    batteryLife?: SortOrderInput | SortOrder
+    sensor?: SortOrderInput | SortOrder
+    rgb?: SortOrder
+    software?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MouseAttributesCountOrderByAggregateInput
+    _avg?: MouseAttributesAvgOrderByAggregateInput
+    _max?: MouseAttributesMaxOrderByAggregateInput
+    _min?: MouseAttributesMinOrderByAggregateInput
+    _sum?: MouseAttributesSumOrderByAggregateInput
+  }
+
+  export type MouseAttributesScalarWhereWithAggregatesInput = {
+    AND?: MouseAttributesScalarWhereWithAggregatesInput | MouseAttributesScalarWhereWithAggregatesInput[]
+    OR?: MouseAttributesScalarWhereWithAggregatesInput[]
+    NOT?: MouseAttributesScalarWhereWithAggregatesInput | MouseAttributesScalarWhereWithAggregatesInput[]
+    productId?: IntWithAggregatesFilter<"MouseAttributes"> | number
+    dpiMin?: IntNullableWithAggregatesFilter<"MouseAttributes"> | number | null
+    dpiMax?: IntNullableWithAggregatesFilter<"MouseAttributes"> | number | null
+    weight?: IntNullableWithAggregatesFilter<"MouseAttributes"> | number | null
+    length?: FloatNullableWithAggregatesFilter<"MouseAttributes"> | number | null
+    width?: FloatNullableWithAggregatesFilter<"MouseAttributes"> | number | null
+    height?: FloatNullableWithAggregatesFilter<"MouseAttributes"> | number | null
+    buttons?: IntNullableWithAggregatesFilter<"MouseAttributes"> | number | null
+    connectionType?: EnumConnectionTypeNullableWithAggregatesFilter<"MouseAttributes"> | $Enums.ConnectionType | null
+    pollingRate?: IntNullableWithAggregatesFilter<"MouseAttributes"> | number | null
+    batteryLife?: IntNullableWithAggregatesFilter<"MouseAttributes"> | number | null
+    sensor?: StringNullableWithAggregatesFilter<"MouseAttributes"> | string | null
+    rgb?: BoolWithAggregatesFilter<"MouseAttributes"> | boolean
+    software?: StringNullableWithAggregatesFilter<"MouseAttributes"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"MouseAttributes"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MouseAttributes"> | Date | string
+  }
+
+  export type KeyboardAttributesWhereInput = {
+    AND?: KeyboardAttributesWhereInput | KeyboardAttributesWhereInput[]
+    OR?: KeyboardAttributesWhereInput[]
+    NOT?: KeyboardAttributesWhereInput | KeyboardAttributesWhereInput[]
+    productId?: IntFilter<"KeyboardAttributes"> | number
+    layout?: EnumKeyboardLayoutNullableFilter<"KeyboardAttributes"> | $Enums.KeyboardLayout | null
+    switchType?: EnumSwitchTypeNullableFilter<"KeyboardAttributes"> | $Enums.SwitchType | null
+    actuationPoint?: FloatNullableFilter<"KeyboardAttributes"> | number | null
+    connectionType?: EnumConnectionTypeNullableFilter<"KeyboardAttributes"> | $Enums.ConnectionType | null
+    rapidTrigger?: BoolFilter<"KeyboardAttributes"> | boolean
+    rgb?: BoolFilter<"KeyboardAttributes"> | boolean
+    software?: StringNullableFilter<"KeyboardAttributes"> | string | null
+    keycaps?: StringNullableFilter<"KeyboardAttributes"> | string | null
+    hotSwap?: BoolFilter<"KeyboardAttributes"> | boolean
+    createdAt?: DateTimeFilter<"KeyboardAttributes"> | Date | string
+    updatedAt?: DateTimeFilter<"KeyboardAttributes"> | Date | string
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }
+
+  export type KeyboardAttributesOrderByWithRelationInput = {
+    productId?: SortOrder
+    layout?: SortOrderInput | SortOrder
+    switchType?: SortOrderInput | SortOrder
+    actuationPoint?: SortOrderInput | SortOrder
+    connectionType?: SortOrderInput | SortOrder
+    rapidTrigger?: SortOrder
+    rgb?: SortOrder
+    software?: SortOrderInput | SortOrder
+    keycaps?: SortOrderInput | SortOrder
+    hotSwap?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    product?: ProductOrderByWithRelationInput
+  }
+
+  export type KeyboardAttributesWhereUniqueInput = Prisma.AtLeast<{
+    productId?: number
+    AND?: KeyboardAttributesWhereInput | KeyboardAttributesWhereInput[]
+    OR?: KeyboardAttributesWhereInput[]
+    NOT?: KeyboardAttributesWhereInput | KeyboardAttributesWhereInput[]
+    layout?: EnumKeyboardLayoutNullableFilter<"KeyboardAttributes"> | $Enums.KeyboardLayout | null
+    switchType?: EnumSwitchTypeNullableFilter<"KeyboardAttributes"> | $Enums.SwitchType | null
+    actuationPoint?: FloatNullableFilter<"KeyboardAttributes"> | number | null
+    connectionType?: EnumConnectionTypeNullableFilter<"KeyboardAttributes"> | $Enums.ConnectionType | null
+    rapidTrigger?: BoolFilter<"KeyboardAttributes"> | boolean
+    rgb?: BoolFilter<"KeyboardAttributes"> | boolean
+    software?: StringNullableFilter<"KeyboardAttributes"> | string | null
+    keycaps?: StringNullableFilter<"KeyboardAttributes"> | string | null
+    hotSwap?: BoolFilter<"KeyboardAttributes"> | boolean
+    createdAt?: DateTimeFilter<"KeyboardAttributes"> | Date | string
+    updatedAt?: DateTimeFilter<"KeyboardAttributes"> | Date | string
+    product?: XOR<ProductScalarRelationFilter, ProductWhereInput>
+  }, "productId">
+
+  export type KeyboardAttributesOrderByWithAggregationInput = {
+    productId?: SortOrder
+    layout?: SortOrderInput | SortOrder
+    switchType?: SortOrderInput | SortOrder
+    actuationPoint?: SortOrderInput | SortOrder
+    connectionType?: SortOrderInput | SortOrder
+    rapidTrigger?: SortOrder
+    rgb?: SortOrder
+    software?: SortOrderInput | SortOrder
+    keycaps?: SortOrderInput | SortOrder
+    hotSwap?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: KeyboardAttributesCountOrderByAggregateInput
+    _avg?: KeyboardAttributesAvgOrderByAggregateInput
+    _max?: KeyboardAttributesMaxOrderByAggregateInput
+    _min?: KeyboardAttributesMinOrderByAggregateInput
+    _sum?: KeyboardAttributesSumOrderByAggregateInput
+  }
+
+  export type KeyboardAttributesScalarWhereWithAggregatesInput = {
+    AND?: KeyboardAttributesScalarWhereWithAggregatesInput | KeyboardAttributesScalarWhereWithAggregatesInput[]
+    OR?: KeyboardAttributesScalarWhereWithAggregatesInput[]
+    NOT?: KeyboardAttributesScalarWhereWithAggregatesInput | KeyboardAttributesScalarWhereWithAggregatesInput[]
+    productId?: IntWithAggregatesFilter<"KeyboardAttributes"> | number
+    layout?: EnumKeyboardLayoutNullableWithAggregatesFilter<"KeyboardAttributes"> | $Enums.KeyboardLayout | null
+    switchType?: EnumSwitchTypeNullableWithAggregatesFilter<"KeyboardAttributes"> | $Enums.SwitchType | null
+    actuationPoint?: FloatNullableWithAggregatesFilter<"KeyboardAttributes"> | number | null
+    connectionType?: EnumConnectionTypeNullableWithAggregatesFilter<"KeyboardAttributes"> | $Enums.ConnectionType | null
+    rapidTrigger?: BoolWithAggregatesFilter<"KeyboardAttributes"> | boolean
+    rgb?: BoolWithAggregatesFilter<"KeyboardAttributes"> | boolean
+    software?: StringNullableWithAggregatesFilter<"KeyboardAttributes"> | string | null
+    keycaps?: StringNullableWithAggregatesFilter<"KeyboardAttributes"> | string | null
+    hotSwap?: BoolWithAggregatesFilter<"KeyboardAttributes"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"KeyboardAttributes"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"KeyboardAttributes"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -44858,6 +50755,172 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ManufacturerCreateInput = {
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    products?: ProductCreateNestedManyWithoutManufacturerInput
+    series?: SeriesCreateNestedManyWithoutManufacturerInput
+  }
+
+  export type ManufacturerUncheckedCreateInput = {
+    id?: number
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    products?: ProductUncheckedCreateNestedManyWithoutManufacturerInput
+    series?: SeriesUncheckedCreateNestedManyWithoutManufacturerInput
+  }
+
+  export type ManufacturerUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    products?: ProductUpdateManyWithoutManufacturerNestedInput
+    series?: SeriesUpdateManyWithoutManufacturerNestedInput
+  }
+
+  export type ManufacturerUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    products?: ProductUncheckedUpdateManyWithoutManufacturerNestedInput
+    series?: SeriesUncheckedUpdateManyWithoutManufacturerNestedInput
+  }
+
+  export type ManufacturerCreateManyInput = {
+    id?: number
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ManufacturerUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManufacturerUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeriesCreateInput = {
+    name: string
+    slug: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    manufacturer: ManufacturerCreateNestedOneWithoutSeriesInput
+    products?: ProductCreateNestedManyWithoutSeriesInput
+  }
+
+  export type SeriesUncheckedCreateInput = {
+    id?: number
+    name: string
+    slug: string
+    description?: string | null
+    manufacturerId: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    products?: ProductUncheckedCreateNestedManyWithoutSeriesInput
+  }
+
+  export type SeriesUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    manufacturer?: ManufacturerUpdateOneRequiredWithoutSeriesNestedInput
+    products?: ProductUpdateManyWithoutSeriesNestedInput
+  }
+
+  export type SeriesUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    manufacturerId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    products?: ProductUncheckedUpdateManyWithoutSeriesNestedInput
+  }
+
+  export type SeriesCreateManyInput = {
+    id?: number
+    name: string
+    slug: string
+    description?: string | null
+    manufacturerId: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeriesUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeriesUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    manufacturerId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProductCreateInput = {
     name: string
     description?: string | null
@@ -44866,13 +50929,16 @@ export namespace Prisma {
     asin: string
     imageUrl: string
     price?: Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     category: DeviceCategoryCreateNestedOneWithoutProductsInput
+    manufacturer?: ManufacturerCreateNestedOneWithoutProductsInput
+    series?: SeriesCreateNestedOneWithoutProductsInput
     userDevices?: UserDeviceCreateNestedManyWithoutProductInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesCreateNestedOneWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesCreateNestedOneWithoutProductInput
   }
 
   export type ProductUncheckedCreateInput = {
@@ -44880,17 +50946,20 @@ export namespace Prisma {
     name: string
     description?: string | null
     categoryId: number
+    manufacturerId?: number | null
+    seriesId?: number | null
     amazonUrl: string
     adminAffiliateUrl: string
     asin: string
     imageUrl: string
     price?: Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutProductInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesUncheckedCreateNestedOneWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesUncheckedCreateNestedOneWithoutProductInput
   }
 
   export type ProductUpdateInput = {
@@ -44901,13 +50970,16 @@ export namespace Prisma {
     asin?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: DeviceCategoryUpdateOneRequiredWithoutProductsNestedInput
+    manufacturer?: ManufacturerUpdateOneWithoutProductsNestedInput
+    series?: SeriesUpdateOneWithoutProductsNestedInput
     userDevices?: UserDeviceUpdateManyWithoutProductNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUpdateOneWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUpdateOneWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateInput = {
@@ -44915,17 +50987,20 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: IntFieldUpdateOperationsInput | number
+    manufacturerId?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesId?: NullableIntFieldUpdateOperationsInput | number | null
     amazonUrl?: StringFieldUpdateOperationsInput | string
     adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
     asin?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userDevices?: UserDeviceUncheckedUpdateManyWithoutProductNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUncheckedUpdateOneWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUncheckedUpdateOneWithoutProductNestedInput
   }
 
   export type ProductCreateManyInput = {
@@ -44933,12 +51008,13 @@ export namespace Prisma {
     name: string
     description?: string | null
     categoryId: number
+    manufacturerId?: number | null
+    seriesId?: number | null
     amazonUrl: string
     adminAffiliateUrl: string
     asin: string
     imageUrl: string
     price?: Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -44952,7 +51028,6 @@ export namespace Prisma {
     asin?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -44963,12 +51038,13 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: IntFieldUpdateOperationsInput | number
+    manufacturerId?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesId?: NullableIntFieldUpdateOperationsInput | number | null
     amazonUrl?: StringFieldUpdateOperationsInput | string
     adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
     asin?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -45088,6 +51164,242 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     productId?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MouseAttributesCreateInput = {
+    dpiMin?: number | null
+    dpiMax?: number | null
+    weight?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    buttons?: number | null
+    connectionType?: $Enums.ConnectionType | null
+    pollingRate?: number | null
+    batteryLife?: number | null
+    sensor?: string | null
+    rgb?: boolean
+    software?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    product: ProductCreateNestedOneWithoutMouseAttributesInput
+  }
+
+  export type MouseAttributesUncheckedCreateInput = {
+    productId: number
+    dpiMin?: number | null
+    dpiMax?: number | null
+    weight?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    buttons?: number | null
+    connectionType?: $Enums.ConnectionType | null
+    pollingRate?: number | null
+    batteryLife?: number | null
+    sensor?: string | null
+    rgb?: boolean
+    software?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MouseAttributesUpdateInput = {
+    dpiMin?: NullableIntFieldUpdateOperationsInput | number | null
+    dpiMax?: NullableIntFieldUpdateOperationsInput | number | null
+    weight?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    buttons?: NullableIntFieldUpdateOperationsInput | number | null
+    connectionType?: NullableEnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType | null
+    pollingRate?: NullableIntFieldUpdateOperationsInput | number | null
+    batteryLife?: NullableIntFieldUpdateOperationsInput | number | null
+    sensor?: NullableStringFieldUpdateOperationsInput | string | null
+    rgb?: BoolFieldUpdateOperationsInput | boolean
+    software?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutMouseAttributesNestedInput
+  }
+
+  export type MouseAttributesUncheckedUpdateInput = {
+    productId?: IntFieldUpdateOperationsInput | number
+    dpiMin?: NullableIntFieldUpdateOperationsInput | number | null
+    dpiMax?: NullableIntFieldUpdateOperationsInput | number | null
+    weight?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    buttons?: NullableIntFieldUpdateOperationsInput | number | null
+    connectionType?: NullableEnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType | null
+    pollingRate?: NullableIntFieldUpdateOperationsInput | number | null
+    batteryLife?: NullableIntFieldUpdateOperationsInput | number | null
+    sensor?: NullableStringFieldUpdateOperationsInput | string | null
+    rgb?: BoolFieldUpdateOperationsInput | boolean
+    software?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MouseAttributesCreateManyInput = {
+    productId: number
+    dpiMin?: number | null
+    dpiMax?: number | null
+    weight?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    buttons?: number | null
+    connectionType?: $Enums.ConnectionType | null
+    pollingRate?: number | null
+    batteryLife?: number | null
+    sensor?: string | null
+    rgb?: boolean
+    software?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MouseAttributesUpdateManyMutationInput = {
+    dpiMin?: NullableIntFieldUpdateOperationsInput | number | null
+    dpiMax?: NullableIntFieldUpdateOperationsInput | number | null
+    weight?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    buttons?: NullableIntFieldUpdateOperationsInput | number | null
+    connectionType?: NullableEnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType | null
+    pollingRate?: NullableIntFieldUpdateOperationsInput | number | null
+    batteryLife?: NullableIntFieldUpdateOperationsInput | number | null
+    sensor?: NullableStringFieldUpdateOperationsInput | string | null
+    rgb?: BoolFieldUpdateOperationsInput | boolean
+    software?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MouseAttributesUncheckedUpdateManyInput = {
+    productId?: IntFieldUpdateOperationsInput | number
+    dpiMin?: NullableIntFieldUpdateOperationsInput | number | null
+    dpiMax?: NullableIntFieldUpdateOperationsInput | number | null
+    weight?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    buttons?: NullableIntFieldUpdateOperationsInput | number | null
+    connectionType?: NullableEnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType | null
+    pollingRate?: NullableIntFieldUpdateOperationsInput | number | null
+    batteryLife?: NullableIntFieldUpdateOperationsInput | number | null
+    sensor?: NullableStringFieldUpdateOperationsInput | string | null
+    rgb?: BoolFieldUpdateOperationsInput | boolean
+    software?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KeyboardAttributesCreateInput = {
+    layout?: $Enums.KeyboardLayout | null
+    switchType?: $Enums.SwitchType | null
+    actuationPoint?: number | null
+    connectionType?: $Enums.ConnectionType | null
+    rapidTrigger?: boolean
+    rgb?: boolean
+    software?: string | null
+    keycaps?: string | null
+    hotSwap?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    product: ProductCreateNestedOneWithoutKeyboardAttributesInput
+  }
+
+  export type KeyboardAttributesUncheckedCreateInput = {
+    productId: number
+    layout?: $Enums.KeyboardLayout | null
+    switchType?: $Enums.SwitchType | null
+    actuationPoint?: number | null
+    connectionType?: $Enums.ConnectionType | null
+    rapidTrigger?: boolean
+    rgb?: boolean
+    software?: string | null
+    keycaps?: string | null
+    hotSwap?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KeyboardAttributesUpdateInput = {
+    layout?: NullableEnumKeyboardLayoutFieldUpdateOperationsInput | $Enums.KeyboardLayout | null
+    switchType?: NullableEnumSwitchTypeFieldUpdateOperationsInput | $Enums.SwitchType | null
+    actuationPoint?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionType?: NullableEnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType | null
+    rapidTrigger?: BoolFieldUpdateOperationsInput | boolean
+    rgb?: BoolFieldUpdateOperationsInput | boolean
+    software?: NullableStringFieldUpdateOperationsInput | string | null
+    keycaps?: NullableStringFieldUpdateOperationsInput | string | null
+    hotSwap?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    product?: ProductUpdateOneRequiredWithoutKeyboardAttributesNestedInput
+  }
+
+  export type KeyboardAttributesUncheckedUpdateInput = {
+    productId?: IntFieldUpdateOperationsInput | number
+    layout?: NullableEnumKeyboardLayoutFieldUpdateOperationsInput | $Enums.KeyboardLayout | null
+    switchType?: NullableEnumSwitchTypeFieldUpdateOperationsInput | $Enums.SwitchType | null
+    actuationPoint?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionType?: NullableEnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType | null
+    rapidTrigger?: BoolFieldUpdateOperationsInput | boolean
+    rgb?: BoolFieldUpdateOperationsInput | boolean
+    software?: NullableStringFieldUpdateOperationsInput | string | null
+    keycaps?: NullableStringFieldUpdateOperationsInput | string | null
+    hotSwap?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KeyboardAttributesCreateManyInput = {
+    productId: number
+    layout?: $Enums.KeyboardLayout | null
+    switchType?: $Enums.SwitchType | null
+    actuationPoint?: number | null
+    connectionType?: $Enums.ConnectionType | null
+    rapidTrigger?: boolean
+    rgb?: boolean
+    software?: string | null
+    keycaps?: string | null
+    hotSwap?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KeyboardAttributesUpdateManyMutationInput = {
+    layout?: NullableEnumKeyboardLayoutFieldUpdateOperationsInput | $Enums.KeyboardLayout | null
+    switchType?: NullableEnumSwitchTypeFieldUpdateOperationsInput | $Enums.SwitchType | null
+    actuationPoint?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionType?: NullableEnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType | null
+    rapidTrigger?: BoolFieldUpdateOperationsInput | boolean
+    rgb?: BoolFieldUpdateOperationsInput | boolean
+    software?: NullableStringFieldUpdateOperationsInput | string | null
+    keycaps?: NullableStringFieldUpdateOperationsInput | string | null
+    hotSwap?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KeyboardAttributesUncheckedUpdateManyInput = {
+    productId?: IntFieldUpdateOperationsInput | number
+    layout?: NullableEnumKeyboardLayoutFieldUpdateOperationsInput | $Enums.KeyboardLayout | null
+    switchType?: NullableEnumSwitchTypeFieldUpdateOperationsInput | $Enums.SwitchType | null
+    actuationPoint?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionType?: NullableEnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType | null
+    rapidTrigger?: BoolFieldUpdateOperationsInput | boolean
+    rgb?: BoolFieldUpdateOperationsInput | boolean
+    software?: NullableStringFieldUpdateOperationsInput | string | null
+    keycaps?: NullableStringFieldUpdateOperationsInput | string | null
+    hotSwap?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -46667,6 +52979,108 @@ export namespace Prisma {
     id?: SortOrder
   }
 
+  export type SeriesListRelationFilter = {
+    every?: SeriesWhereInput
+    some?: SeriesWhereInput
+    none?: SeriesWhereInput
+  }
+
+  export type SeriesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ManufacturerCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    logoUrl?: SortOrder
+    website?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ManufacturerAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type ManufacturerMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    logoUrl?: SortOrder
+    website?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ManufacturerMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    logoUrl?: SortOrder
+    website?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ManufacturerSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type ManufacturerScalarRelationFilter = {
+    is?: ManufacturerWhereInput
+    isNot?: ManufacturerWhereInput
+  }
+
+  export type SeriesCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    manufacturerId?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeriesAvgOrderByAggregateInput = {
+    id?: SortOrder
+    manufacturerId?: SortOrder
+  }
+
+  export type SeriesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    manufacturerId?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeriesMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    slug?: SortOrder
+    description?: SortOrder
+    manufacturerId?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type SeriesSumOrderByAggregateInput = {
+    id?: SortOrder
+    manufacturerId?: SortOrder
+  }
+
   export type DecimalNullableFilter<$PrismaModel = never> = {
     equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
     in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
@@ -46676,6 +53090,114 @@ export namespace Prisma {
     gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
     not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type DeviceCategoryScalarRelationFilter = {
+    is?: DeviceCategoryWhereInput
+    isNot?: DeviceCategoryWhereInput
+  }
+
+  export type ManufacturerNullableScalarRelationFilter = {
+    is?: ManufacturerWhereInput | null
+    isNot?: ManufacturerWhereInput | null
+  }
+
+  export type SeriesNullableScalarRelationFilter = {
+    is?: SeriesWhereInput | null
+    isNot?: SeriesWhereInput | null
+  }
+
+  export type MouseAttributesNullableScalarRelationFilter = {
+    is?: MouseAttributesWhereInput | null
+    isNot?: MouseAttributesWhereInput | null
+  }
+
+  export type KeyboardAttributesNullableScalarRelationFilter = {
+    is?: KeyboardAttributesWhereInput | null
+    isNot?: KeyboardAttributesWhereInput | null
+  }
+
+  export type ProductCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    categoryId?: SortOrder
+    manufacturerId?: SortOrder
+    seriesId?: SortOrder
+    amazonUrl?: SortOrder
+    adminAffiliateUrl?: SortOrder
+    asin?: SortOrder
+    imageUrl?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProductAvgOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    manufacturerId?: SortOrder
+    seriesId?: SortOrder
+    price?: SortOrder
+  }
+
+  export type ProductMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    categoryId?: SortOrder
+    manufacturerId?: SortOrder
+    seriesId?: SortOrder
+    amazonUrl?: SortOrder
+    adminAffiliateUrl?: SortOrder
+    asin?: SortOrder
+    imageUrl?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProductMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    categoryId?: SortOrder
+    manufacturerId?: SortOrder
+    seriesId?: SortOrder
+    amazonUrl?: SortOrder
+    adminAffiliateUrl?: SortOrder
+    asin?: SortOrder
+    imageUrl?: SortOrder
+    price?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProductSumOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    manufacturerId?: SortOrder
+    seriesId?: SortOrder
+    price?: SortOrder
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
   export type JsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
@@ -46699,111 +53221,6 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type DeviceCategoryScalarRelationFilter = {
-    is?: DeviceCategoryWhereInput
-    isNot?: DeviceCategoryWhereInput
-  }
-
-  export type ProductCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    categoryId?: SortOrder
-    amazonUrl?: SortOrder
-    adminAffiliateUrl?: SortOrder
-    asin?: SortOrder
-    imageUrl?: SortOrder
-    price?: SortOrder
-    attributes?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ProductAvgOrderByAggregateInput = {
-    id?: SortOrder
-    categoryId?: SortOrder
-    price?: SortOrder
-  }
-
-  export type ProductMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    categoryId?: SortOrder
-    amazonUrl?: SortOrder
-    adminAffiliateUrl?: SortOrder
-    asin?: SortOrder
-    imageUrl?: SortOrder
-    price?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ProductMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    categoryId?: SortOrder
-    amazonUrl?: SortOrder
-    adminAffiliateUrl?: SortOrder
-    asin?: SortOrder
-    imageUrl?: SortOrder
-    price?: SortOrder
-    isActive?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type ProductSumOrderByAggregateInput = {
-    id?: SortOrder
-    categoryId?: SortOrder
-    price?: SortOrder
-  }
-
-  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedDecimalNullableFilter<$PrismaModel>
-    _sum?: NestedDecimalNullableFilter<$PrismaModel>
-    _min?: NestedDecimalNullableFilter<$PrismaModel>
-    _max?: NestedDecimalNullableFilter<$PrismaModel>
-  }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type EnumDeviceTypeFilter<$PrismaModel = never> = {
@@ -46858,6 +53275,32 @@ export namespace Prisma {
     id?: SortOrder
     productId?: SortOrder
   }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
 
   export type EnumDeviceTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.DeviceType | EnumDeviceTypeFieldRefInput<$PrismaModel>
@@ -46908,6 +53351,222 @@ export namespace Prisma {
   export type UserFavoriteSumOrderByAggregateInput = {
     id?: SortOrder
     productId?: SortOrder
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type EnumConnectionTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConnectionType | EnumConnectionTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ConnectionType[] | ListEnumConnectionTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ConnectionType[] | ListEnumConnectionTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumConnectionTypeNullableFilter<$PrismaModel> | $Enums.ConnectionType | null
+  }
+
+  export type MouseAttributesCountOrderByAggregateInput = {
+    productId?: SortOrder
+    dpiMin?: SortOrder
+    dpiMax?: SortOrder
+    weight?: SortOrder
+    length?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    buttons?: SortOrder
+    connectionType?: SortOrder
+    pollingRate?: SortOrder
+    batteryLife?: SortOrder
+    sensor?: SortOrder
+    rgb?: SortOrder
+    software?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MouseAttributesAvgOrderByAggregateInput = {
+    productId?: SortOrder
+    dpiMin?: SortOrder
+    dpiMax?: SortOrder
+    weight?: SortOrder
+    length?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    buttons?: SortOrder
+    pollingRate?: SortOrder
+    batteryLife?: SortOrder
+  }
+
+  export type MouseAttributesMaxOrderByAggregateInput = {
+    productId?: SortOrder
+    dpiMin?: SortOrder
+    dpiMax?: SortOrder
+    weight?: SortOrder
+    length?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    buttons?: SortOrder
+    connectionType?: SortOrder
+    pollingRate?: SortOrder
+    batteryLife?: SortOrder
+    sensor?: SortOrder
+    rgb?: SortOrder
+    software?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MouseAttributesMinOrderByAggregateInput = {
+    productId?: SortOrder
+    dpiMin?: SortOrder
+    dpiMax?: SortOrder
+    weight?: SortOrder
+    length?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    buttons?: SortOrder
+    connectionType?: SortOrder
+    pollingRate?: SortOrder
+    batteryLife?: SortOrder
+    sensor?: SortOrder
+    rgb?: SortOrder
+    software?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MouseAttributesSumOrderByAggregateInput = {
+    productId?: SortOrder
+    dpiMin?: SortOrder
+    dpiMax?: SortOrder
+    weight?: SortOrder
+    length?: SortOrder
+    width?: SortOrder
+    height?: SortOrder
+    buttons?: SortOrder
+    pollingRate?: SortOrder
+    batteryLife?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type EnumConnectionTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConnectionType | EnumConnectionTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ConnectionType[] | ListEnumConnectionTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ConnectionType[] | ListEnumConnectionTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumConnectionTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.ConnectionType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumConnectionTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumConnectionTypeNullableFilter<$PrismaModel>
+  }
+
+  export type EnumKeyboardLayoutNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeyboardLayout | EnumKeyboardLayoutFieldRefInput<$PrismaModel> | null
+    in?: $Enums.KeyboardLayout[] | ListEnumKeyboardLayoutFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.KeyboardLayout[] | ListEnumKeyboardLayoutFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumKeyboardLayoutNullableFilter<$PrismaModel> | $Enums.KeyboardLayout | null
+  }
+
+  export type EnumSwitchTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.SwitchType | EnumSwitchTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SwitchType[] | ListEnumSwitchTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SwitchType[] | ListEnumSwitchTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSwitchTypeNullableFilter<$PrismaModel> | $Enums.SwitchType | null
+  }
+
+  export type KeyboardAttributesCountOrderByAggregateInput = {
+    productId?: SortOrder
+    layout?: SortOrder
+    switchType?: SortOrder
+    actuationPoint?: SortOrder
+    connectionType?: SortOrder
+    rapidTrigger?: SortOrder
+    rgb?: SortOrder
+    software?: SortOrder
+    keycaps?: SortOrder
+    hotSwap?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type KeyboardAttributesAvgOrderByAggregateInput = {
+    productId?: SortOrder
+    actuationPoint?: SortOrder
+  }
+
+  export type KeyboardAttributesMaxOrderByAggregateInput = {
+    productId?: SortOrder
+    layout?: SortOrder
+    switchType?: SortOrder
+    actuationPoint?: SortOrder
+    connectionType?: SortOrder
+    rapidTrigger?: SortOrder
+    rgb?: SortOrder
+    software?: SortOrder
+    keycaps?: SortOrder
+    hotSwap?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type KeyboardAttributesMinOrderByAggregateInput = {
+    productId?: SortOrder
+    layout?: SortOrder
+    switchType?: SortOrder
+    actuationPoint?: SortOrder
+    connectionType?: SortOrder
+    rapidTrigger?: SortOrder
+    rgb?: SortOrder
+    software?: SortOrder
+    keycaps?: SortOrder
+    hotSwap?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type KeyboardAttributesSumOrderByAggregateInput = {
+    productId?: SortOrder
+    actuationPoint?: SortOrder
+  }
+
+  export type EnumKeyboardLayoutNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeyboardLayout | EnumKeyboardLayoutFieldRefInput<$PrismaModel> | null
+    in?: $Enums.KeyboardLayout[] | ListEnumKeyboardLayoutFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.KeyboardLayout[] | ListEnumKeyboardLayoutFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumKeyboardLayoutNullableWithAggregatesFilter<$PrismaModel> | $Enums.KeyboardLayout | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumKeyboardLayoutNullableFilter<$PrismaModel>
+    _max?: NestedEnumKeyboardLayoutNullableFilter<$PrismaModel>
+  }
+
+  export type EnumSwitchTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SwitchType | EnumSwitchTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SwitchType[] | ListEnumSwitchTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SwitchType[] | ListEnumSwitchTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSwitchTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.SwitchType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumSwitchTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumSwitchTypeNullableFilter<$PrismaModel>
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -48656,10 +55315,162 @@ export namespace Prisma {
     deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
   }
 
+  export type ProductCreateNestedManyWithoutManufacturerInput = {
+    create?: XOR<ProductCreateWithoutManufacturerInput, ProductUncheckedCreateWithoutManufacturerInput> | ProductCreateWithoutManufacturerInput[] | ProductUncheckedCreateWithoutManufacturerInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutManufacturerInput | ProductCreateOrConnectWithoutManufacturerInput[]
+    createMany?: ProductCreateManyManufacturerInputEnvelope
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
+  export type SeriesCreateNestedManyWithoutManufacturerInput = {
+    create?: XOR<SeriesCreateWithoutManufacturerInput, SeriesUncheckedCreateWithoutManufacturerInput> | SeriesCreateWithoutManufacturerInput[] | SeriesUncheckedCreateWithoutManufacturerInput[]
+    connectOrCreate?: SeriesCreateOrConnectWithoutManufacturerInput | SeriesCreateOrConnectWithoutManufacturerInput[]
+    createMany?: SeriesCreateManyManufacturerInputEnvelope
+    connect?: SeriesWhereUniqueInput | SeriesWhereUniqueInput[]
+  }
+
+  export type ProductUncheckedCreateNestedManyWithoutManufacturerInput = {
+    create?: XOR<ProductCreateWithoutManufacturerInput, ProductUncheckedCreateWithoutManufacturerInput> | ProductCreateWithoutManufacturerInput[] | ProductUncheckedCreateWithoutManufacturerInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutManufacturerInput | ProductCreateOrConnectWithoutManufacturerInput[]
+    createMany?: ProductCreateManyManufacturerInputEnvelope
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
+  export type SeriesUncheckedCreateNestedManyWithoutManufacturerInput = {
+    create?: XOR<SeriesCreateWithoutManufacturerInput, SeriesUncheckedCreateWithoutManufacturerInput> | SeriesCreateWithoutManufacturerInput[] | SeriesUncheckedCreateWithoutManufacturerInput[]
+    connectOrCreate?: SeriesCreateOrConnectWithoutManufacturerInput | SeriesCreateOrConnectWithoutManufacturerInput[]
+    createMany?: SeriesCreateManyManufacturerInputEnvelope
+    connect?: SeriesWhereUniqueInput | SeriesWhereUniqueInput[]
+  }
+
+  export type ProductUpdateManyWithoutManufacturerNestedInput = {
+    create?: XOR<ProductCreateWithoutManufacturerInput, ProductUncheckedCreateWithoutManufacturerInput> | ProductCreateWithoutManufacturerInput[] | ProductUncheckedCreateWithoutManufacturerInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutManufacturerInput | ProductCreateOrConnectWithoutManufacturerInput[]
+    upsert?: ProductUpsertWithWhereUniqueWithoutManufacturerInput | ProductUpsertWithWhereUniqueWithoutManufacturerInput[]
+    createMany?: ProductCreateManyManufacturerInputEnvelope
+    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    update?: ProductUpdateWithWhereUniqueWithoutManufacturerInput | ProductUpdateWithWhereUniqueWithoutManufacturerInput[]
+    updateMany?: ProductUpdateManyWithWhereWithoutManufacturerInput | ProductUpdateManyWithWhereWithoutManufacturerInput[]
+    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
+  export type SeriesUpdateManyWithoutManufacturerNestedInput = {
+    create?: XOR<SeriesCreateWithoutManufacturerInput, SeriesUncheckedCreateWithoutManufacturerInput> | SeriesCreateWithoutManufacturerInput[] | SeriesUncheckedCreateWithoutManufacturerInput[]
+    connectOrCreate?: SeriesCreateOrConnectWithoutManufacturerInput | SeriesCreateOrConnectWithoutManufacturerInput[]
+    upsert?: SeriesUpsertWithWhereUniqueWithoutManufacturerInput | SeriesUpsertWithWhereUniqueWithoutManufacturerInput[]
+    createMany?: SeriesCreateManyManufacturerInputEnvelope
+    set?: SeriesWhereUniqueInput | SeriesWhereUniqueInput[]
+    disconnect?: SeriesWhereUniqueInput | SeriesWhereUniqueInput[]
+    delete?: SeriesWhereUniqueInput | SeriesWhereUniqueInput[]
+    connect?: SeriesWhereUniqueInput | SeriesWhereUniqueInput[]
+    update?: SeriesUpdateWithWhereUniqueWithoutManufacturerInput | SeriesUpdateWithWhereUniqueWithoutManufacturerInput[]
+    updateMany?: SeriesUpdateManyWithWhereWithoutManufacturerInput | SeriesUpdateManyWithWhereWithoutManufacturerInput[]
+    deleteMany?: SeriesScalarWhereInput | SeriesScalarWhereInput[]
+  }
+
+  export type ProductUncheckedUpdateManyWithoutManufacturerNestedInput = {
+    create?: XOR<ProductCreateWithoutManufacturerInput, ProductUncheckedCreateWithoutManufacturerInput> | ProductCreateWithoutManufacturerInput[] | ProductUncheckedCreateWithoutManufacturerInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutManufacturerInput | ProductCreateOrConnectWithoutManufacturerInput[]
+    upsert?: ProductUpsertWithWhereUniqueWithoutManufacturerInput | ProductUpsertWithWhereUniqueWithoutManufacturerInput[]
+    createMany?: ProductCreateManyManufacturerInputEnvelope
+    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    update?: ProductUpdateWithWhereUniqueWithoutManufacturerInput | ProductUpdateWithWhereUniqueWithoutManufacturerInput[]
+    updateMany?: ProductUpdateManyWithWhereWithoutManufacturerInput | ProductUpdateManyWithWhereWithoutManufacturerInput[]
+    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
+  export type SeriesUncheckedUpdateManyWithoutManufacturerNestedInput = {
+    create?: XOR<SeriesCreateWithoutManufacturerInput, SeriesUncheckedCreateWithoutManufacturerInput> | SeriesCreateWithoutManufacturerInput[] | SeriesUncheckedCreateWithoutManufacturerInput[]
+    connectOrCreate?: SeriesCreateOrConnectWithoutManufacturerInput | SeriesCreateOrConnectWithoutManufacturerInput[]
+    upsert?: SeriesUpsertWithWhereUniqueWithoutManufacturerInput | SeriesUpsertWithWhereUniqueWithoutManufacturerInput[]
+    createMany?: SeriesCreateManyManufacturerInputEnvelope
+    set?: SeriesWhereUniqueInput | SeriesWhereUniqueInput[]
+    disconnect?: SeriesWhereUniqueInput | SeriesWhereUniqueInput[]
+    delete?: SeriesWhereUniqueInput | SeriesWhereUniqueInput[]
+    connect?: SeriesWhereUniqueInput | SeriesWhereUniqueInput[]
+    update?: SeriesUpdateWithWhereUniqueWithoutManufacturerInput | SeriesUpdateWithWhereUniqueWithoutManufacturerInput[]
+    updateMany?: SeriesUpdateManyWithWhereWithoutManufacturerInput | SeriesUpdateManyWithWhereWithoutManufacturerInput[]
+    deleteMany?: SeriesScalarWhereInput | SeriesScalarWhereInput[]
+  }
+
+  export type ManufacturerCreateNestedOneWithoutSeriesInput = {
+    create?: XOR<ManufacturerCreateWithoutSeriesInput, ManufacturerUncheckedCreateWithoutSeriesInput>
+    connectOrCreate?: ManufacturerCreateOrConnectWithoutSeriesInput
+    connect?: ManufacturerWhereUniqueInput
+  }
+
+  export type ProductCreateNestedManyWithoutSeriesInput = {
+    create?: XOR<ProductCreateWithoutSeriesInput, ProductUncheckedCreateWithoutSeriesInput> | ProductCreateWithoutSeriesInput[] | ProductUncheckedCreateWithoutSeriesInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutSeriesInput | ProductCreateOrConnectWithoutSeriesInput[]
+    createMany?: ProductCreateManySeriesInputEnvelope
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
+  export type ProductUncheckedCreateNestedManyWithoutSeriesInput = {
+    create?: XOR<ProductCreateWithoutSeriesInput, ProductUncheckedCreateWithoutSeriesInput> | ProductCreateWithoutSeriesInput[] | ProductUncheckedCreateWithoutSeriesInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutSeriesInput | ProductCreateOrConnectWithoutSeriesInput[]
+    createMany?: ProductCreateManySeriesInputEnvelope
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+  }
+
+  export type ManufacturerUpdateOneRequiredWithoutSeriesNestedInput = {
+    create?: XOR<ManufacturerCreateWithoutSeriesInput, ManufacturerUncheckedCreateWithoutSeriesInput>
+    connectOrCreate?: ManufacturerCreateOrConnectWithoutSeriesInput
+    upsert?: ManufacturerUpsertWithoutSeriesInput
+    connect?: ManufacturerWhereUniqueInput
+    update?: XOR<XOR<ManufacturerUpdateToOneWithWhereWithoutSeriesInput, ManufacturerUpdateWithoutSeriesInput>, ManufacturerUncheckedUpdateWithoutSeriesInput>
+  }
+
+  export type ProductUpdateManyWithoutSeriesNestedInput = {
+    create?: XOR<ProductCreateWithoutSeriesInput, ProductUncheckedCreateWithoutSeriesInput> | ProductCreateWithoutSeriesInput[] | ProductUncheckedCreateWithoutSeriesInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutSeriesInput | ProductCreateOrConnectWithoutSeriesInput[]
+    upsert?: ProductUpsertWithWhereUniqueWithoutSeriesInput | ProductUpsertWithWhereUniqueWithoutSeriesInput[]
+    createMany?: ProductCreateManySeriesInputEnvelope
+    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    update?: ProductUpdateWithWhereUniqueWithoutSeriesInput | ProductUpdateWithWhereUniqueWithoutSeriesInput[]
+    updateMany?: ProductUpdateManyWithWhereWithoutSeriesInput | ProductUpdateManyWithWhereWithoutSeriesInput[]
+    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
+  export type ProductUncheckedUpdateManyWithoutSeriesNestedInput = {
+    create?: XOR<ProductCreateWithoutSeriesInput, ProductUncheckedCreateWithoutSeriesInput> | ProductCreateWithoutSeriesInput[] | ProductUncheckedCreateWithoutSeriesInput[]
+    connectOrCreate?: ProductCreateOrConnectWithoutSeriesInput | ProductCreateOrConnectWithoutSeriesInput[]
+    upsert?: ProductUpsertWithWhereUniqueWithoutSeriesInput | ProductUpsertWithWhereUniqueWithoutSeriesInput[]
+    createMany?: ProductCreateManySeriesInputEnvelope
+    set?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    disconnect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    delete?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    connect?: ProductWhereUniqueInput | ProductWhereUniqueInput[]
+    update?: ProductUpdateWithWhereUniqueWithoutSeriesInput | ProductUpdateWithWhereUniqueWithoutSeriesInput[]
+    updateMany?: ProductUpdateManyWithWhereWithoutSeriesInput | ProductUpdateManyWithWhereWithoutSeriesInput[]
+    deleteMany?: ProductScalarWhereInput | ProductScalarWhereInput[]
+  }
+
   export type DeviceCategoryCreateNestedOneWithoutProductsInput = {
     create?: XOR<DeviceCategoryCreateWithoutProductsInput, DeviceCategoryUncheckedCreateWithoutProductsInput>
     connectOrCreate?: DeviceCategoryCreateOrConnectWithoutProductsInput
     connect?: DeviceCategoryWhereUniqueInput
+  }
+
+  export type ManufacturerCreateNestedOneWithoutProductsInput = {
+    create?: XOR<ManufacturerCreateWithoutProductsInput, ManufacturerUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: ManufacturerCreateOrConnectWithoutProductsInput
+    connect?: ManufacturerWhereUniqueInput
+  }
+
+  export type SeriesCreateNestedOneWithoutProductsInput = {
+    create?: XOR<SeriesCreateWithoutProductsInput, SeriesUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: SeriesCreateOrConnectWithoutProductsInput
+    connect?: SeriesWhereUniqueInput
   }
 
   export type UserDeviceCreateNestedManyWithoutProductInput = {
@@ -48676,6 +55487,18 @@ export namespace Prisma {
     connect?: UserFavoriteWhereUniqueInput | UserFavoriteWhereUniqueInput[]
   }
 
+  export type MouseAttributesCreateNestedOneWithoutProductInput = {
+    create?: XOR<MouseAttributesCreateWithoutProductInput, MouseAttributesUncheckedCreateWithoutProductInput>
+    connectOrCreate?: MouseAttributesCreateOrConnectWithoutProductInput
+    connect?: MouseAttributesWhereUniqueInput
+  }
+
+  export type KeyboardAttributesCreateNestedOneWithoutProductInput = {
+    create?: XOR<KeyboardAttributesCreateWithoutProductInput, KeyboardAttributesUncheckedCreateWithoutProductInput>
+    connectOrCreate?: KeyboardAttributesCreateOrConnectWithoutProductInput
+    connect?: KeyboardAttributesWhereUniqueInput
+  }
+
   export type UserDeviceUncheckedCreateNestedManyWithoutProductInput = {
     create?: XOR<UserDeviceCreateWithoutProductInput, UserDeviceUncheckedCreateWithoutProductInput> | UserDeviceCreateWithoutProductInput[] | UserDeviceUncheckedCreateWithoutProductInput[]
     connectOrCreate?: UserDeviceCreateOrConnectWithoutProductInput | UserDeviceCreateOrConnectWithoutProductInput[]
@@ -48688,6 +55511,18 @@ export namespace Prisma {
     connectOrCreate?: UserFavoriteCreateOrConnectWithoutProductInput | UserFavoriteCreateOrConnectWithoutProductInput[]
     createMany?: UserFavoriteCreateManyProductInputEnvelope
     connect?: UserFavoriteWhereUniqueInput | UserFavoriteWhereUniqueInput[]
+  }
+
+  export type MouseAttributesUncheckedCreateNestedOneWithoutProductInput = {
+    create?: XOR<MouseAttributesCreateWithoutProductInput, MouseAttributesUncheckedCreateWithoutProductInput>
+    connectOrCreate?: MouseAttributesCreateOrConnectWithoutProductInput
+    connect?: MouseAttributesWhereUniqueInput
+  }
+
+  export type KeyboardAttributesUncheckedCreateNestedOneWithoutProductInput = {
+    create?: XOR<KeyboardAttributesCreateWithoutProductInput, KeyboardAttributesUncheckedCreateWithoutProductInput>
+    connectOrCreate?: KeyboardAttributesCreateOrConnectWithoutProductInput
+    connect?: KeyboardAttributesWhereUniqueInput
   }
 
   export type NullableDecimalFieldUpdateOperationsInput = {
@@ -48704,6 +55539,26 @@ export namespace Prisma {
     upsert?: DeviceCategoryUpsertWithoutProductsInput
     connect?: DeviceCategoryWhereUniqueInput
     update?: XOR<XOR<DeviceCategoryUpdateToOneWithWhereWithoutProductsInput, DeviceCategoryUpdateWithoutProductsInput>, DeviceCategoryUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type ManufacturerUpdateOneWithoutProductsNestedInput = {
+    create?: XOR<ManufacturerCreateWithoutProductsInput, ManufacturerUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: ManufacturerCreateOrConnectWithoutProductsInput
+    upsert?: ManufacturerUpsertWithoutProductsInput
+    disconnect?: ManufacturerWhereInput | boolean
+    delete?: ManufacturerWhereInput | boolean
+    connect?: ManufacturerWhereUniqueInput
+    update?: XOR<XOR<ManufacturerUpdateToOneWithWhereWithoutProductsInput, ManufacturerUpdateWithoutProductsInput>, ManufacturerUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type SeriesUpdateOneWithoutProductsNestedInput = {
+    create?: XOR<SeriesCreateWithoutProductsInput, SeriesUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: SeriesCreateOrConnectWithoutProductsInput
+    upsert?: SeriesUpsertWithoutProductsInput
+    disconnect?: SeriesWhereInput | boolean
+    delete?: SeriesWhereInput | boolean
+    connect?: SeriesWhereUniqueInput
+    update?: XOR<XOR<SeriesUpdateToOneWithWhereWithoutProductsInput, SeriesUpdateWithoutProductsInput>, SeriesUncheckedUpdateWithoutProductsInput>
   }
 
   export type UserDeviceUpdateManyWithoutProductNestedInput = {
@@ -48734,6 +55589,26 @@ export namespace Prisma {
     deleteMany?: UserFavoriteScalarWhereInput | UserFavoriteScalarWhereInput[]
   }
 
+  export type MouseAttributesUpdateOneWithoutProductNestedInput = {
+    create?: XOR<MouseAttributesCreateWithoutProductInput, MouseAttributesUncheckedCreateWithoutProductInput>
+    connectOrCreate?: MouseAttributesCreateOrConnectWithoutProductInput
+    upsert?: MouseAttributesUpsertWithoutProductInput
+    disconnect?: MouseAttributesWhereInput | boolean
+    delete?: MouseAttributesWhereInput | boolean
+    connect?: MouseAttributesWhereUniqueInput
+    update?: XOR<XOR<MouseAttributesUpdateToOneWithWhereWithoutProductInput, MouseAttributesUpdateWithoutProductInput>, MouseAttributesUncheckedUpdateWithoutProductInput>
+  }
+
+  export type KeyboardAttributesUpdateOneWithoutProductNestedInput = {
+    create?: XOR<KeyboardAttributesCreateWithoutProductInput, KeyboardAttributesUncheckedCreateWithoutProductInput>
+    connectOrCreate?: KeyboardAttributesCreateOrConnectWithoutProductInput
+    upsert?: KeyboardAttributesUpsertWithoutProductInput
+    disconnect?: KeyboardAttributesWhereInput | boolean
+    delete?: KeyboardAttributesWhereInput | boolean
+    connect?: KeyboardAttributesWhereUniqueInput
+    update?: XOR<XOR<KeyboardAttributesUpdateToOneWithWhereWithoutProductInput, KeyboardAttributesUpdateWithoutProductInput>, KeyboardAttributesUncheckedUpdateWithoutProductInput>
+  }
+
   export type UserDeviceUncheckedUpdateManyWithoutProductNestedInput = {
     create?: XOR<UserDeviceCreateWithoutProductInput, UserDeviceUncheckedCreateWithoutProductInput> | UserDeviceCreateWithoutProductInput[] | UserDeviceUncheckedCreateWithoutProductInput[]
     connectOrCreate?: UserDeviceCreateOrConnectWithoutProductInput | UserDeviceCreateOrConnectWithoutProductInput[]
@@ -48760,6 +55635,26 @@ export namespace Prisma {
     update?: UserFavoriteUpdateWithWhereUniqueWithoutProductInput | UserFavoriteUpdateWithWhereUniqueWithoutProductInput[]
     updateMany?: UserFavoriteUpdateManyWithWhereWithoutProductInput | UserFavoriteUpdateManyWithWhereWithoutProductInput[]
     deleteMany?: UserFavoriteScalarWhereInput | UserFavoriteScalarWhereInput[]
+  }
+
+  export type MouseAttributesUncheckedUpdateOneWithoutProductNestedInput = {
+    create?: XOR<MouseAttributesCreateWithoutProductInput, MouseAttributesUncheckedCreateWithoutProductInput>
+    connectOrCreate?: MouseAttributesCreateOrConnectWithoutProductInput
+    upsert?: MouseAttributesUpsertWithoutProductInput
+    disconnect?: MouseAttributesWhereInput | boolean
+    delete?: MouseAttributesWhereInput | boolean
+    connect?: MouseAttributesWhereUniqueInput
+    update?: XOR<XOR<MouseAttributesUpdateToOneWithWhereWithoutProductInput, MouseAttributesUpdateWithoutProductInput>, MouseAttributesUncheckedUpdateWithoutProductInput>
+  }
+
+  export type KeyboardAttributesUncheckedUpdateOneWithoutProductNestedInput = {
+    create?: XOR<KeyboardAttributesCreateWithoutProductInput, KeyboardAttributesUncheckedCreateWithoutProductInput>
+    connectOrCreate?: KeyboardAttributesCreateOrConnectWithoutProductInput
+    upsert?: KeyboardAttributesUpsertWithoutProductInput
+    disconnect?: KeyboardAttributesWhereInput | boolean
+    delete?: KeyboardAttributesWhereInput | boolean
+    connect?: KeyboardAttributesWhereUniqueInput
+    update?: XOR<XOR<KeyboardAttributesUpdateToOneWithWhereWithoutProductInput, KeyboardAttributesUpdateWithoutProductInput>, KeyboardAttributesUncheckedUpdateWithoutProductInput>
   }
 
   export type UserCreateNestedOneWithoutUserDevicesInput = {
@@ -48822,6 +55717,54 @@ export namespace Prisma {
     upsert?: ProductUpsertWithoutUserFavoritesInput
     connect?: ProductWhereUniqueInput
     update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutUserFavoritesInput, ProductUpdateWithoutUserFavoritesInput>, ProductUncheckedUpdateWithoutUserFavoritesInput>
+  }
+
+  export type ProductCreateNestedOneWithoutMouseAttributesInput = {
+    create?: XOR<ProductCreateWithoutMouseAttributesInput, ProductUncheckedCreateWithoutMouseAttributesInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutMouseAttributesInput
+    connect?: ProductWhereUniqueInput
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableEnumConnectionTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ConnectionType | null
+  }
+
+  export type ProductUpdateOneRequiredWithoutMouseAttributesNestedInput = {
+    create?: XOR<ProductCreateWithoutMouseAttributesInput, ProductUncheckedCreateWithoutMouseAttributesInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutMouseAttributesInput
+    upsert?: ProductUpsertWithoutMouseAttributesInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutMouseAttributesInput, ProductUpdateWithoutMouseAttributesInput>, ProductUncheckedUpdateWithoutMouseAttributesInput>
+  }
+
+  export type ProductCreateNestedOneWithoutKeyboardAttributesInput = {
+    create?: XOR<ProductCreateWithoutKeyboardAttributesInput, ProductUncheckedCreateWithoutKeyboardAttributesInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutKeyboardAttributesInput
+    connect?: ProductWhereUniqueInput
+  }
+
+  export type NullableEnumKeyboardLayoutFieldUpdateOperationsInput = {
+    set?: $Enums.KeyboardLayout | null
+  }
+
+  export type NullableEnumSwitchTypeFieldUpdateOperationsInput = {
+    set?: $Enums.SwitchType | null
+  }
+
+  export type ProductUpdateOneRequiredWithoutKeyboardAttributesNestedInput = {
+    create?: XOR<ProductCreateWithoutKeyboardAttributesInput, ProductUncheckedCreateWithoutKeyboardAttributesInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutKeyboardAttributesInput
+    upsert?: ProductUpsertWithoutKeyboardAttributesInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutKeyboardAttributesInput, ProductUpdateWithoutKeyboardAttributesInput>, ProductUncheckedUpdateWithoutKeyboardAttributesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -49102,6 +56045,13 @@ export namespace Prisma {
     _min?: NestedDecimalNullableFilter<$PrismaModel>
     _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
+
+  export type NestedEnumDeviceTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.DeviceType | EnumDeviceTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumDeviceTypeFilter<$PrismaModel> | $Enums.DeviceType
+  }
   export type NestedJsonNullableFilter<$PrismaModel = never> =
     | PatchUndefined<
         Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
@@ -49126,13 +56076,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type NestedEnumDeviceTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.DeviceType | EnumDeviceTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumDeviceTypeFilter<$PrismaModel> | $Enums.DeviceType
-  }
-
   export type NestedEnumDeviceTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.DeviceType | EnumDeviceTypeFieldRefInput<$PrismaModel>
     in?: $Enums.DeviceType[] | ListEnumDeviceTypeFieldRefInput<$PrismaModel>
@@ -49141,6 +56084,73 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDeviceTypeFilter<$PrismaModel>
     _max?: NestedEnumDeviceTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumConnectionTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConnectionType | EnumConnectionTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ConnectionType[] | ListEnumConnectionTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ConnectionType[] | ListEnumConnectionTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumConnectionTypeNullableFilter<$PrismaModel> | $Enums.ConnectionType | null
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumConnectionTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ConnectionType | EnumConnectionTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.ConnectionType[] | ListEnumConnectionTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.ConnectionType[] | ListEnumConnectionTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumConnectionTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.ConnectionType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumConnectionTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumConnectionTypeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumKeyboardLayoutNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeyboardLayout | EnumKeyboardLayoutFieldRefInput<$PrismaModel> | null
+    in?: $Enums.KeyboardLayout[] | ListEnumKeyboardLayoutFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.KeyboardLayout[] | ListEnumKeyboardLayoutFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumKeyboardLayoutNullableFilter<$PrismaModel> | $Enums.KeyboardLayout | null
+  }
+
+  export type NestedEnumSwitchTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.SwitchType | EnumSwitchTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SwitchType[] | ListEnumSwitchTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SwitchType[] | ListEnumSwitchTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSwitchTypeNullableFilter<$PrismaModel> | $Enums.SwitchType | null
+  }
+
+  export type NestedEnumKeyboardLayoutNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.KeyboardLayout | EnumKeyboardLayoutFieldRefInput<$PrismaModel> | null
+    in?: $Enums.KeyboardLayout[] | ListEnumKeyboardLayoutFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.KeyboardLayout[] | ListEnumKeyboardLayoutFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumKeyboardLayoutNullableWithAggregatesFilter<$PrismaModel> | $Enums.KeyboardLayout | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumKeyboardLayoutNullableFilter<$PrismaModel>
+    _max?: NestedEnumKeyboardLayoutNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumSwitchTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SwitchType | EnumSwitchTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.SwitchType[] | ListEnumSwitchTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.SwitchType[] | ListEnumSwitchTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumSwitchTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.SwitchType | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumSwitchTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumSwitchTypeNullableFilter<$PrismaModel>
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -54626,29 +61636,35 @@ export namespace Prisma {
     asin: string
     imageUrl: string
     price?: Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    manufacturer?: ManufacturerCreateNestedOneWithoutProductsInput
+    series?: SeriesCreateNestedOneWithoutProductsInput
     userDevices?: UserDeviceCreateNestedManyWithoutProductInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesCreateNestedOneWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesCreateNestedOneWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutCategoryInput = {
     id?: number
     name: string
     description?: string | null
+    manufacturerId?: number | null
+    seriesId?: number | null
     amazonUrl: string
     adminAffiliateUrl: string
     asin: string
     imageUrl: string
     price?: Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutProductInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesUncheckedCreateNestedOneWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesUncheckedCreateNestedOneWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutCategoryInput = {
@@ -54685,15 +61701,273 @@ export namespace Prisma {
     name?: StringFilter<"Product"> | string
     description?: StringNullableFilter<"Product"> | string | null
     categoryId?: IntFilter<"Product"> | number
+    manufacturerId?: IntNullableFilter<"Product"> | number | null
+    seriesId?: IntNullableFilter<"Product"> | number | null
     amazonUrl?: StringFilter<"Product"> | string
     adminAffiliateUrl?: StringFilter<"Product"> | string
     asin?: StringFilter<"Product"> | string
     imageUrl?: StringFilter<"Product"> | string
     price?: DecimalNullableFilter<"Product"> | Decimal | DecimalJsLike | number | string | null
-    attributes?: JsonNullableFilter<"Product">
     isActive?: BoolFilter<"Product"> | boolean
     createdAt?: DateTimeFilter<"Product"> | Date | string
     updatedAt?: DateTimeFilter<"Product"> | Date | string
+  }
+
+  export type ProductCreateWithoutManufacturerInput = {
+    name: string
+    description?: string | null
+    amazonUrl: string
+    adminAffiliateUrl: string
+    asin: string
+    imageUrl: string
+    price?: Decimal | DecimalJsLike | number | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: DeviceCategoryCreateNestedOneWithoutProductsInput
+    series?: SeriesCreateNestedOneWithoutProductsInput
+    userDevices?: UserDeviceCreateNestedManyWithoutProductInput
+    userFavorites?: UserFavoriteCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesCreateNestedOneWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesCreateNestedOneWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutManufacturerInput = {
+    id?: number
+    name: string
+    description?: string | null
+    categoryId: number
+    seriesId?: number | null
+    amazonUrl: string
+    adminAffiliateUrl: string
+    asin: string
+    imageUrl: string
+    price?: Decimal | DecimalJsLike | number | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutProductInput
+    userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesUncheckedCreateNestedOneWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesUncheckedCreateNestedOneWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutManufacturerInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutManufacturerInput, ProductUncheckedCreateWithoutManufacturerInput>
+  }
+
+  export type ProductCreateManyManufacturerInputEnvelope = {
+    data: ProductCreateManyManufacturerInput | ProductCreateManyManufacturerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SeriesCreateWithoutManufacturerInput = {
+    name: string
+    slug: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    products?: ProductCreateNestedManyWithoutSeriesInput
+  }
+
+  export type SeriesUncheckedCreateWithoutManufacturerInput = {
+    id?: number
+    name: string
+    slug: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    products?: ProductUncheckedCreateNestedManyWithoutSeriesInput
+  }
+
+  export type SeriesCreateOrConnectWithoutManufacturerInput = {
+    where: SeriesWhereUniqueInput
+    create: XOR<SeriesCreateWithoutManufacturerInput, SeriesUncheckedCreateWithoutManufacturerInput>
+  }
+
+  export type SeriesCreateManyManufacturerInputEnvelope = {
+    data: SeriesCreateManyManufacturerInput | SeriesCreateManyManufacturerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProductUpsertWithWhereUniqueWithoutManufacturerInput = {
+    where: ProductWhereUniqueInput
+    update: XOR<ProductUpdateWithoutManufacturerInput, ProductUncheckedUpdateWithoutManufacturerInput>
+    create: XOR<ProductCreateWithoutManufacturerInput, ProductUncheckedCreateWithoutManufacturerInput>
+  }
+
+  export type ProductUpdateWithWhereUniqueWithoutManufacturerInput = {
+    where: ProductWhereUniqueInput
+    data: XOR<ProductUpdateWithoutManufacturerInput, ProductUncheckedUpdateWithoutManufacturerInput>
+  }
+
+  export type ProductUpdateManyWithWhereWithoutManufacturerInput = {
+    where: ProductScalarWhereInput
+    data: XOR<ProductUpdateManyMutationInput, ProductUncheckedUpdateManyWithoutManufacturerInput>
+  }
+
+  export type SeriesUpsertWithWhereUniqueWithoutManufacturerInput = {
+    where: SeriesWhereUniqueInput
+    update: XOR<SeriesUpdateWithoutManufacturerInput, SeriesUncheckedUpdateWithoutManufacturerInput>
+    create: XOR<SeriesCreateWithoutManufacturerInput, SeriesUncheckedCreateWithoutManufacturerInput>
+  }
+
+  export type SeriesUpdateWithWhereUniqueWithoutManufacturerInput = {
+    where: SeriesWhereUniqueInput
+    data: XOR<SeriesUpdateWithoutManufacturerInput, SeriesUncheckedUpdateWithoutManufacturerInput>
+  }
+
+  export type SeriesUpdateManyWithWhereWithoutManufacturerInput = {
+    where: SeriesScalarWhereInput
+    data: XOR<SeriesUpdateManyMutationInput, SeriesUncheckedUpdateManyWithoutManufacturerInput>
+  }
+
+  export type SeriesScalarWhereInput = {
+    AND?: SeriesScalarWhereInput | SeriesScalarWhereInput[]
+    OR?: SeriesScalarWhereInput[]
+    NOT?: SeriesScalarWhereInput | SeriesScalarWhereInput[]
+    id?: IntFilter<"Series"> | number
+    name?: StringFilter<"Series"> | string
+    slug?: StringFilter<"Series"> | string
+    description?: StringNullableFilter<"Series"> | string | null
+    manufacturerId?: IntFilter<"Series"> | number
+    isActive?: BoolFilter<"Series"> | boolean
+    createdAt?: DateTimeFilter<"Series"> | Date | string
+    updatedAt?: DateTimeFilter<"Series"> | Date | string
+  }
+
+  export type ManufacturerCreateWithoutSeriesInput = {
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    products?: ProductCreateNestedManyWithoutManufacturerInput
+  }
+
+  export type ManufacturerUncheckedCreateWithoutSeriesInput = {
+    id?: number
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    products?: ProductUncheckedCreateNestedManyWithoutManufacturerInput
+  }
+
+  export type ManufacturerCreateOrConnectWithoutSeriesInput = {
+    where: ManufacturerWhereUniqueInput
+    create: XOR<ManufacturerCreateWithoutSeriesInput, ManufacturerUncheckedCreateWithoutSeriesInput>
+  }
+
+  export type ProductCreateWithoutSeriesInput = {
+    name: string
+    description?: string | null
+    amazonUrl: string
+    adminAffiliateUrl: string
+    asin: string
+    imageUrl: string
+    price?: Decimal | DecimalJsLike | number | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: DeviceCategoryCreateNestedOneWithoutProductsInput
+    manufacturer?: ManufacturerCreateNestedOneWithoutProductsInput
+    userDevices?: UserDeviceCreateNestedManyWithoutProductInput
+    userFavorites?: UserFavoriteCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesCreateNestedOneWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesCreateNestedOneWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutSeriesInput = {
+    id?: number
+    name: string
+    description?: string | null
+    categoryId: number
+    manufacturerId?: number | null
+    amazonUrl: string
+    adminAffiliateUrl: string
+    asin: string
+    imageUrl: string
+    price?: Decimal | DecimalJsLike | number | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutProductInput
+    userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesUncheckedCreateNestedOneWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesUncheckedCreateNestedOneWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutSeriesInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutSeriesInput, ProductUncheckedCreateWithoutSeriesInput>
+  }
+
+  export type ProductCreateManySeriesInputEnvelope = {
+    data: ProductCreateManySeriesInput | ProductCreateManySeriesInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ManufacturerUpsertWithoutSeriesInput = {
+    update: XOR<ManufacturerUpdateWithoutSeriesInput, ManufacturerUncheckedUpdateWithoutSeriesInput>
+    create: XOR<ManufacturerCreateWithoutSeriesInput, ManufacturerUncheckedCreateWithoutSeriesInput>
+    where?: ManufacturerWhereInput
+  }
+
+  export type ManufacturerUpdateToOneWithWhereWithoutSeriesInput = {
+    where?: ManufacturerWhereInput
+    data: XOR<ManufacturerUpdateWithoutSeriesInput, ManufacturerUncheckedUpdateWithoutSeriesInput>
+  }
+
+  export type ManufacturerUpdateWithoutSeriesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    products?: ProductUpdateManyWithoutManufacturerNestedInput
+  }
+
+  export type ManufacturerUncheckedUpdateWithoutSeriesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    products?: ProductUncheckedUpdateManyWithoutManufacturerNestedInput
+  }
+
+  export type ProductUpsertWithWhereUniqueWithoutSeriesInput = {
+    where: ProductWhereUniqueInput
+    update: XOR<ProductUpdateWithoutSeriesInput, ProductUncheckedUpdateWithoutSeriesInput>
+    create: XOR<ProductCreateWithoutSeriesInput, ProductUncheckedCreateWithoutSeriesInput>
+  }
+
+  export type ProductUpdateWithWhereUniqueWithoutSeriesInput = {
+    where: ProductWhereUniqueInput
+    data: XOR<ProductUpdateWithoutSeriesInput, ProductUncheckedUpdateWithoutSeriesInput>
+  }
+
+  export type ProductUpdateManyWithWhereWithoutSeriesInput = {
+    where: ProductScalarWhereInput
+    data: XOR<ProductUpdateManyMutationInput, ProductUncheckedUpdateManyWithoutSeriesInput>
   }
 
   export type DeviceCategoryCreateWithoutProductsInput = {
@@ -54716,6 +61990,62 @@ export namespace Prisma {
   export type DeviceCategoryCreateOrConnectWithoutProductsInput = {
     where: DeviceCategoryWhereUniqueInput
     create: XOR<DeviceCategoryCreateWithoutProductsInput, DeviceCategoryUncheckedCreateWithoutProductsInput>
+  }
+
+  export type ManufacturerCreateWithoutProductsInput = {
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    series?: SeriesCreateNestedManyWithoutManufacturerInput
+  }
+
+  export type ManufacturerUncheckedCreateWithoutProductsInput = {
+    id?: number
+    name: string
+    slug: string
+    description?: string | null
+    logoUrl?: string | null
+    website?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    series?: SeriesUncheckedCreateNestedManyWithoutManufacturerInput
+  }
+
+  export type ManufacturerCreateOrConnectWithoutProductsInput = {
+    where: ManufacturerWhereUniqueInput
+    create: XOR<ManufacturerCreateWithoutProductsInput, ManufacturerUncheckedCreateWithoutProductsInput>
+  }
+
+  export type SeriesCreateWithoutProductsInput = {
+    name: string
+    slug: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    manufacturer: ManufacturerCreateNestedOneWithoutSeriesInput
+  }
+
+  export type SeriesUncheckedCreateWithoutProductsInput = {
+    id?: number
+    name: string
+    slug: string
+    description?: string | null
+    manufacturerId: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeriesCreateOrConnectWithoutProductsInput = {
+    where: SeriesWhereUniqueInput
+    create: XOR<SeriesCreateWithoutProductsInput, SeriesUncheckedCreateWithoutProductsInput>
   }
 
   export type UserDeviceCreateWithoutProductInput = {
@@ -54768,6 +62098,80 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MouseAttributesCreateWithoutProductInput = {
+    dpiMin?: number | null
+    dpiMax?: number | null
+    weight?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    buttons?: number | null
+    connectionType?: $Enums.ConnectionType | null
+    pollingRate?: number | null
+    batteryLife?: number | null
+    sensor?: string | null
+    rgb?: boolean
+    software?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MouseAttributesUncheckedCreateWithoutProductInput = {
+    dpiMin?: number | null
+    dpiMax?: number | null
+    weight?: number | null
+    length?: number | null
+    width?: number | null
+    height?: number | null
+    buttons?: number | null
+    connectionType?: $Enums.ConnectionType | null
+    pollingRate?: number | null
+    batteryLife?: number | null
+    sensor?: string | null
+    rgb?: boolean
+    software?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MouseAttributesCreateOrConnectWithoutProductInput = {
+    where: MouseAttributesWhereUniqueInput
+    create: XOR<MouseAttributesCreateWithoutProductInput, MouseAttributesUncheckedCreateWithoutProductInput>
+  }
+
+  export type KeyboardAttributesCreateWithoutProductInput = {
+    layout?: $Enums.KeyboardLayout | null
+    switchType?: $Enums.SwitchType | null
+    actuationPoint?: number | null
+    connectionType?: $Enums.ConnectionType | null
+    rapidTrigger?: boolean
+    rgb?: boolean
+    software?: string | null
+    keycaps?: string | null
+    hotSwap?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KeyboardAttributesUncheckedCreateWithoutProductInput = {
+    layout?: $Enums.KeyboardLayout | null
+    switchType?: $Enums.SwitchType | null
+    actuationPoint?: number | null
+    connectionType?: $Enums.ConnectionType | null
+    rapidTrigger?: boolean
+    rgb?: boolean
+    software?: string | null
+    keycaps?: string | null
+    hotSwap?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type KeyboardAttributesCreateOrConnectWithoutProductInput = {
+    where: KeyboardAttributesWhereUniqueInput
+    create: XOR<KeyboardAttributesCreateWithoutProductInput, KeyboardAttributesUncheckedCreateWithoutProductInput>
+  }
+
   export type DeviceCategoryUpsertWithoutProductsInput = {
     update: XOR<DeviceCategoryUpdateWithoutProductsInput, DeviceCategoryUncheckedUpdateWithoutProductsInput>
     create: XOR<DeviceCategoryCreateWithoutProductsInput, DeviceCategoryUncheckedCreateWithoutProductsInput>
@@ -54792,6 +62196,74 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     slug?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ManufacturerUpsertWithoutProductsInput = {
+    update: XOR<ManufacturerUpdateWithoutProductsInput, ManufacturerUncheckedUpdateWithoutProductsInput>
+    create: XOR<ManufacturerCreateWithoutProductsInput, ManufacturerUncheckedCreateWithoutProductsInput>
+    where?: ManufacturerWhereInput
+  }
+
+  export type ManufacturerUpdateToOneWithWhereWithoutProductsInput = {
+    where?: ManufacturerWhereInput
+    data: XOR<ManufacturerUpdateWithoutProductsInput, ManufacturerUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type ManufacturerUpdateWithoutProductsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    series?: SeriesUpdateManyWithoutManufacturerNestedInput
+  }
+
+  export type ManufacturerUncheckedUpdateWithoutProductsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    series?: SeriesUncheckedUpdateManyWithoutManufacturerNestedInput
+  }
+
+  export type SeriesUpsertWithoutProductsInput = {
+    update: XOR<SeriesUpdateWithoutProductsInput, SeriesUncheckedUpdateWithoutProductsInput>
+    create: XOR<SeriesCreateWithoutProductsInput, SeriesUncheckedCreateWithoutProductsInput>
+    where?: SeriesWhereInput
+  }
+
+  export type SeriesUpdateToOneWithWhereWithoutProductsInput = {
+    where?: SeriesWhereInput
+    data: XOR<SeriesUpdateWithoutProductsInput, SeriesUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type SeriesUpdateWithoutProductsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    manufacturer?: ManufacturerUpdateOneRequiredWithoutSeriesNestedInput
+  }
+
+  export type SeriesUncheckedUpdateWithoutProductsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    manufacturerId?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -54826,6 +62298,92 @@ export namespace Prisma {
   export type UserFavoriteUpdateManyWithWhereWithoutProductInput = {
     where: UserFavoriteScalarWhereInput
     data: XOR<UserFavoriteUpdateManyMutationInput, UserFavoriteUncheckedUpdateManyWithoutProductInput>
+  }
+
+  export type MouseAttributesUpsertWithoutProductInput = {
+    update: XOR<MouseAttributesUpdateWithoutProductInput, MouseAttributesUncheckedUpdateWithoutProductInput>
+    create: XOR<MouseAttributesCreateWithoutProductInput, MouseAttributesUncheckedCreateWithoutProductInput>
+    where?: MouseAttributesWhereInput
+  }
+
+  export type MouseAttributesUpdateToOneWithWhereWithoutProductInput = {
+    where?: MouseAttributesWhereInput
+    data: XOR<MouseAttributesUpdateWithoutProductInput, MouseAttributesUncheckedUpdateWithoutProductInput>
+  }
+
+  export type MouseAttributesUpdateWithoutProductInput = {
+    dpiMin?: NullableIntFieldUpdateOperationsInput | number | null
+    dpiMax?: NullableIntFieldUpdateOperationsInput | number | null
+    weight?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    buttons?: NullableIntFieldUpdateOperationsInput | number | null
+    connectionType?: NullableEnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType | null
+    pollingRate?: NullableIntFieldUpdateOperationsInput | number | null
+    batteryLife?: NullableIntFieldUpdateOperationsInput | number | null
+    sensor?: NullableStringFieldUpdateOperationsInput | string | null
+    rgb?: BoolFieldUpdateOperationsInput | boolean
+    software?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MouseAttributesUncheckedUpdateWithoutProductInput = {
+    dpiMin?: NullableIntFieldUpdateOperationsInput | number | null
+    dpiMax?: NullableIntFieldUpdateOperationsInput | number | null
+    weight?: NullableIntFieldUpdateOperationsInput | number | null
+    length?: NullableFloatFieldUpdateOperationsInput | number | null
+    width?: NullableFloatFieldUpdateOperationsInput | number | null
+    height?: NullableFloatFieldUpdateOperationsInput | number | null
+    buttons?: NullableIntFieldUpdateOperationsInput | number | null
+    connectionType?: NullableEnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType | null
+    pollingRate?: NullableIntFieldUpdateOperationsInput | number | null
+    batteryLife?: NullableIntFieldUpdateOperationsInput | number | null
+    sensor?: NullableStringFieldUpdateOperationsInput | string | null
+    rgb?: BoolFieldUpdateOperationsInput | boolean
+    software?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KeyboardAttributesUpsertWithoutProductInput = {
+    update: XOR<KeyboardAttributesUpdateWithoutProductInput, KeyboardAttributesUncheckedUpdateWithoutProductInput>
+    create: XOR<KeyboardAttributesCreateWithoutProductInput, KeyboardAttributesUncheckedCreateWithoutProductInput>
+    where?: KeyboardAttributesWhereInput
+  }
+
+  export type KeyboardAttributesUpdateToOneWithWhereWithoutProductInput = {
+    where?: KeyboardAttributesWhereInput
+    data: XOR<KeyboardAttributesUpdateWithoutProductInput, KeyboardAttributesUncheckedUpdateWithoutProductInput>
+  }
+
+  export type KeyboardAttributesUpdateWithoutProductInput = {
+    layout?: NullableEnumKeyboardLayoutFieldUpdateOperationsInput | $Enums.KeyboardLayout | null
+    switchType?: NullableEnumSwitchTypeFieldUpdateOperationsInput | $Enums.SwitchType | null
+    actuationPoint?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionType?: NullableEnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType | null
+    rapidTrigger?: BoolFieldUpdateOperationsInput | boolean
+    rgb?: BoolFieldUpdateOperationsInput | boolean
+    software?: NullableStringFieldUpdateOperationsInput | string | null
+    keycaps?: NullableStringFieldUpdateOperationsInput | string | null
+    hotSwap?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KeyboardAttributesUncheckedUpdateWithoutProductInput = {
+    layout?: NullableEnumKeyboardLayoutFieldUpdateOperationsInput | $Enums.KeyboardLayout | null
+    switchType?: NullableEnumSwitchTypeFieldUpdateOperationsInput | $Enums.SwitchType | null
+    actuationPoint?: NullableFloatFieldUpdateOperationsInput | number | null
+    connectionType?: NullableEnumConnectionTypeFieldUpdateOperationsInput | $Enums.ConnectionType | null
+    rapidTrigger?: BoolFieldUpdateOperationsInput | boolean
+    rgb?: BoolFieldUpdateOperationsInput | boolean
+    software?: NullableStringFieldUpdateOperationsInput | string | null
+    keycaps?: NullableStringFieldUpdateOperationsInput | string | null
+    hotSwap?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateWithoutUserDevicesInput = {
@@ -54923,12 +62481,15 @@ export namespace Prisma {
     asin: string
     imageUrl: string
     price?: Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     category: DeviceCategoryCreateNestedOneWithoutProductsInput
+    manufacturer?: ManufacturerCreateNestedOneWithoutProductsInput
+    series?: SeriesCreateNestedOneWithoutProductsInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesCreateNestedOneWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesCreateNestedOneWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutUserDevicesInput = {
@@ -54936,16 +62497,19 @@ export namespace Prisma {
     name: string
     description?: string | null
     categoryId: number
+    manufacturerId?: number | null
+    seriesId?: number | null
     amazonUrl: string
     adminAffiliateUrl: string
     asin: string
     imageUrl: string
     price?: Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesUncheckedCreateNestedOneWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesUncheckedCreateNestedOneWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutUserDevicesInput = {
@@ -55065,12 +62629,15 @@ export namespace Prisma {
     asin?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: DeviceCategoryUpdateOneRequiredWithoutProductsNestedInput
+    manufacturer?: ManufacturerUpdateOneWithoutProductsNestedInput
+    series?: SeriesUpdateOneWithoutProductsNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUpdateOneWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUpdateOneWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutUserDevicesInput = {
@@ -55078,16 +62645,19 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: IntFieldUpdateOperationsInput | number
+    manufacturerId?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesId?: NullableIntFieldUpdateOperationsInput | number | null
     amazonUrl?: StringFieldUpdateOperationsInput | string
     adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
     asin?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUncheckedUpdateOneWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUncheckedUpdateOneWithoutProductNestedInput
   }
 
   export type UserCreateWithoutUserFavoritesInput = {
@@ -55185,12 +62755,15 @@ export namespace Prisma {
     asin: string
     imageUrl: string
     price?: Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     category: DeviceCategoryCreateNestedOneWithoutProductsInput
+    manufacturer?: ManufacturerCreateNestedOneWithoutProductsInput
+    series?: SeriesCreateNestedOneWithoutProductsInput
     userDevices?: UserDeviceCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesCreateNestedOneWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesCreateNestedOneWithoutProductInput
   }
 
   export type ProductUncheckedCreateWithoutUserFavoritesInput = {
@@ -55198,16 +62771,19 @@ export namespace Prisma {
     name: string
     description?: string | null
     categoryId: number
+    manufacturerId?: number | null
+    seriesId?: number | null
     amazonUrl: string
     adminAffiliateUrl: string
     asin: string
     imageUrl: string
     price?: Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesUncheckedCreateNestedOneWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesUncheckedCreateNestedOneWithoutProductInput
   }
 
   export type ProductCreateOrConnectWithoutUserFavoritesInput = {
@@ -55327,12 +62903,15 @@ export namespace Prisma {
     asin?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: DeviceCategoryUpdateOneRequiredWithoutProductsNestedInput
+    manufacturer?: ManufacturerUpdateOneWithoutProductsNestedInput
+    series?: SeriesUpdateOneWithoutProductsNestedInput
     userDevices?: UserDeviceUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUpdateOneWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUpdateOneWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutUserFavoritesInput = {
@@ -55340,16 +62919,207 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: IntFieldUpdateOperationsInput | number
+    manufacturerId?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesId?: NullableIntFieldUpdateOperationsInput | number | null
     amazonUrl?: StringFieldUpdateOperationsInput | string
     adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
     asin?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userDevices?: UserDeviceUncheckedUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUncheckedUpdateOneWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUncheckedUpdateOneWithoutProductNestedInput
+  }
+
+  export type ProductCreateWithoutMouseAttributesInput = {
+    name: string
+    description?: string | null
+    amazonUrl: string
+    adminAffiliateUrl: string
+    asin: string
+    imageUrl: string
+    price?: Decimal | DecimalJsLike | number | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: DeviceCategoryCreateNestedOneWithoutProductsInput
+    manufacturer?: ManufacturerCreateNestedOneWithoutProductsInput
+    series?: SeriesCreateNestedOneWithoutProductsInput
+    userDevices?: UserDeviceCreateNestedManyWithoutProductInput
+    userFavorites?: UserFavoriteCreateNestedManyWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesCreateNestedOneWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutMouseAttributesInput = {
+    id?: number
+    name: string
+    description?: string | null
+    categoryId: number
+    manufacturerId?: number | null
+    seriesId?: number | null
+    amazonUrl: string
+    adminAffiliateUrl: string
+    asin: string
+    imageUrl: string
+    price?: Decimal | DecimalJsLike | number | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutProductInput
+    userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutProductInput
+    keyboardAttributes?: KeyboardAttributesUncheckedCreateNestedOneWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutMouseAttributesInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutMouseAttributesInput, ProductUncheckedCreateWithoutMouseAttributesInput>
+  }
+
+  export type ProductUpsertWithoutMouseAttributesInput = {
+    update: XOR<ProductUpdateWithoutMouseAttributesInput, ProductUncheckedUpdateWithoutMouseAttributesInput>
+    create: XOR<ProductCreateWithoutMouseAttributesInput, ProductUncheckedCreateWithoutMouseAttributesInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutMouseAttributesInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutMouseAttributesInput, ProductUncheckedUpdateWithoutMouseAttributesInput>
+  }
+
+  export type ProductUpdateWithoutMouseAttributesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    amazonUrl?: StringFieldUpdateOperationsInput | string
+    adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
+    asin?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: DeviceCategoryUpdateOneRequiredWithoutProductsNestedInput
+    manufacturer?: ManufacturerUpdateOneWithoutProductsNestedInput
+    series?: SeriesUpdateOneWithoutProductsNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutProductNestedInput
+    userFavorites?: UserFavoriteUpdateManyWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUpdateOneWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutMouseAttributesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: IntFieldUpdateOperationsInput | number
+    manufacturerId?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesId?: NullableIntFieldUpdateOperationsInput | number | null
+    amazonUrl?: StringFieldUpdateOperationsInput | string
+    adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
+    asin?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutProductNestedInput
+    userFavorites?: UserFavoriteUncheckedUpdateManyWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUncheckedUpdateOneWithoutProductNestedInput
+  }
+
+  export type ProductCreateWithoutKeyboardAttributesInput = {
+    name: string
+    description?: string | null
+    amazonUrl: string
+    adminAffiliateUrl: string
+    asin: string
+    imageUrl: string
+    price?: Decimal | DecimalJsLike | number | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: DeviceCategoryCreateNestedOneWithoutProductsInput
+    manufacturer?: ManufacturerCreateNestedOneWithoutProductsInput
+    series?: SeriesCreateNestedOneWithoutProductsInput
+    userDevices?: UserDeviceCreateNestedManyWithoutProductInput
+    userFavorites?: UserFavoriteCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesCreateNestedOneWithoutProductInput
+  }
+
+  export type ProductUncheckedCreateWithoutKeyboardAttributesInput = {
+    id?: number
+    name: string
+    description?: string | null
+    categoryId: number
+    manufacturerId?: number | null
+    seriesId?: number | null
+    amazonUrl: string
+    adminAffiliateUrl: string
+    asin: string
+    imageUrl: string
+    price?: Decimal | DecimalJsLike | number | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutProductInput
+    userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutProductInput
+    mouseAttributes?: MouseAttributesUncheckedCreateNestedOneWithoutProductInput
+  }
+
+  export type ProductCreateOrConnectWithoutKeyboardAttributesInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutKeyboardAttributesInput, ProductUncheckedCreateWithoutKeyboardAttributesInput>
+  }
+
+  export type ProductUpsertWithoutKeyboardAttributesInput = {
+    update: XOR<ProductUpdateWithoutKeyboardAttributesInput, ProductUncheckedUpdateWithoutKeyboardAttributesInput>
+    create: XOR<ProductCreateWithoutKeyboardAttributesInput, ProductUncheckedCreateWithoutKeyboardAttributesInput>
+    where?: ProductWhereInput
+  }
+
+  export type ProductUpdateToOneWithWhereWithoutKeyboardAttributesInput = {
+    where?: ProductWhereInput
+    data: XOR<ProductUpdateWithoutKeyboardAttributesInput, ProductUncheckedUpdateWithoutKeyboardAttributesInput>
+  }
+
+  export type ProductUpdateWithoutKeyboardAttributesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    amazonUrl?: StringFieldUpdateOperationsInput | string
+    adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
+    asin?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: DeviceCategoryUpdateOneRequiredWithoutProductsNestedInput
+    manufacturer?: ManufacturerUpdateOneWithoutProductsNestedInput
+    series?: SeriesUpdateOneWithoutProductsNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutProductNestedInput
+    userFavorites?: UserFavoriteUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUpdateOneWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutKeyboardAttributesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: IntFieldUpdateOperationsInput | number
+    manufacturerId?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesId?: NullableIntFieldUpdateOperationsInput | number | null
+    amazonUrl?: StringFieldUpdateOperationsInput | string
+    adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
+    asin?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutProductNestedInput
+    userFavorites?: UserFavoriteUncheckedUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUncheckedUpdateOneWithoutProductNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -56314,12 +64084,13 @@ export namespace Prisma {
     id?: number
     name: string
     description?: string | null
+    manufacturerId?: number | null
+    seriesId?: number | null
     amazonUrl: string
     adminAffiliateUrl: string
     asin: string
     imageUrl: string
     price?: Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -56333,33 +64104,80 @@ export namespace Prisma {
     asin?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    manufacturer?: ManufacturerUpdateOneWithoutProductsNestedInput
+    series?: SeriesUpdateOneWithoutProductsNestedInput
     userDevices?: UserDeviceUpdateManyWithoutProductNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUpdateOneWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUpdateOneWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateWithoutCategoryInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    manufacturerId?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesId?: NullableIntFieldUpdateOperationsInput | number | null
     amazonUrl?: StringFieldUpdateOperationsInput | string
     adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
     asin?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userDevices?: UserDeviceUncheckedUpdateManyWithoutProductNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUncheckedUpdateOneWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUncheckedUpdateOneWithoutProductNestedInput
   }
 
   export type ProductUncheckedUpdateManyWithoutCategoryInput = {
     id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    manufacturerId?: NullableIntFieldUpdateOperationsInput | number | null
+    seriesId?: NullableIntFieldUpdateOperationsInput | number | null
+    amazonUrl?: StringFieldUpdateOperationsInput | string
+    adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
+    asin?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductCreateManyManufacturerInput = {
+    id?: number
+    name: string
+    description?: string | null
+    categoryId: number
+    seriesId?: number | null
+    amazonUrl: string
+    adminAffiliateUrl: string
+    asin: string
+    imageUrl: string
+    price?: Decimal | DecimalJsLike | number | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type SeriesCreateManyManufacturerInput = {
+    id?: number
+    name: string
+    slug: string
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProductUpdateWithoutManufacturerInput = {
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     amazonUrl?: StringFieldUpdateOperationsInput | string
@@ -56367,7 +64185,150 @@ export namespace Prisma {
     asin?: StringFieldUpdateOperationsInput | string
     imageUrl?: StringFieldUpdateOperationsInput | string
     price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
-    attributes?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: DeviceCategoryUpdateOneRequiredWithoutProductsNestedInput
+    series?: SeriesUpdateOneWithoutProductsNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutProductNestedInput
+    userFavorites?: UserFavoriteUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUpdateOneWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUpdateOneWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutManufacturerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: IntFieldUpdateOperationsInput | number
+    seriesId?: NullableIntFieldUpdateOperationsInput | number | null
+    amazonUrl?: StringFieldUpdateOperationsInput | string
+    adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
+    asin?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutProductNestedInput
+    userFavorites?: UserFavoriteUncheckedUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUncheckedUpdateOneWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUncheckedUpdateOneWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateManyWithoutManufacturerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: IntFieldUpdateOperationsInput | number
+    seriesId?: NullableIntFieldUpdateOperationsInput | number | null
+    amazonUrl?: StringFieldUpdateOperationsInput | string
+    adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
+    asin?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeriesUpdateWithoutManufacturerInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    products?: ProductUpdateManyWithoutSeriesNestedInput
+  }
+
+  export type SeriesUncheckedUpdateWithoutManufacturerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    products?: ProductUncheckedUpdateManyWithoutSeriesNestedInput
+  }
+
+  export type SeriesUncheckedUpdateManyWithoutManufacturerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductCreateManySeriesInput = {
+    id?: number
+    name: string
+    description?: string | null
+    categoryId: number
+    manufacturerId?: number | null
+    amazonUrl: string
+    adminAffiliateUrl: string
+    asin: string
+    imageUrl: string
+    price?: Decimal | DecimalJsLike | number | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProductUpdateWithoutSeriesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    amazonUrl?: StringFieldUpdateOperationsInput | string
+    adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
+    asin?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: DeviceCategoryUpdateOneRequiredWithoutProductsNestedInput
+    manufacturer?: ManufacturerUpdateOneWithoutProductsNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutProductNestedInput
+    userFavorites?: UserFavoriteUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUpdateOneWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUpdateOneWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateWithoutSeriesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: IntFieldUpdateOperationsInput | number
+    manufacturerId?: NullableIntFieldUpdateOperationsInput | number | null
+    amazonUrl?: StringFieldUpdateOperationsInput | string
+    adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
+    asin?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutProductNestedInput
+    userFavorites?: UserFavoriteUncheckedUpdateManyWithoutProductNestedInput
+    mouseAttributes?: MouseAttributesUncheckedUpdateOneWithoutProductNestedInput
+    keyboardAttributes?: KeyboardAttributesUncheckedUpdateOneWithoutProductNestedInput
+  }
+
+  export type ProductUncheckedUpdateManyWithoutSeriesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: IntFieldUpdateOperationsInput | number
+    manufacturerId?: NullableIntFieldUpdateOperationsInput | number | null
+    amazonUrl?: StringFieldUpdateOperationsInput | string
+    adminAffiliateUrl?: StringFieldUpdateOperationsInput | string
+    asin?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    price?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

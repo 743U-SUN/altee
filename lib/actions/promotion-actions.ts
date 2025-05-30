@@ -1,6 +1,7 @@
 'use server'
 
 import { prisma } from '@/lib/prisma'
+import { Prisma } from '@/lib/generated/prisma'
 import { revalidatePath } from 'next/cache'
 import { fetchProductFromPAAPI } from '@/lib/services/amazon/pa-api'
 import { CustomProductData } from '@/types/device'
@@ -13,7 +14,7 @@ export async function getCustomProductStatistics() {
       where: {
         deviceType: 'CUSTOM',
         customProductData: {
-          not: null
+          not: Prisma.JsonNull
         }
       },
       include: {
@@ -54,7 +55,7 @@ export async function getCustomProductStatistics() {
 
     // カスタム商品をグループ化
     customDevices.forEach(device => {
-      const customData = device.customProductData as CustomProductData
+      const customData = device.customProductData as unknown as CustomProductData
       if (!customData.asin) return
 
       // 既に公式商品として存在する場合はスキップ
@@ -76,7 +77,7 @@ export async function getCustomProductStatistics() {
 
       const group = asinGroups.get(customData.asin)!
       group.userCount++
-      group.users.push(device.user)
+      group.users.push((device as any).user)
       if (device.createdAt < group.firstAdded) {
         group.firstAdded = device.createdAt
       }
@@ -104,7 +105,7 @@ export async function getCategoryStatistics() {
       where: {
         deviceType: 'CUSTOM',
         customProductData: {
-          not: null
+          not: Prisma.JsonNull
         }
       }
     })
@@ -112,7 +113,7 @@ export async function getCategoryStatistics() {
     const categoryStats = new Map<string, number>()
     
     customDevices.forEach(device => {
-      const customData = device.customProductData as CustomProductData
+      const customData = device.customProductData as unknown as CustomProductData
       const category = customData.category || 'unknown'
       categoryStats.set(category, (categoryStats.get(category) || 0) + 1)
     })
@@ -149,13 +150,18 @@ export async function promoteCustomProduct(asin: string) {
       where: {
         deviceType: 'CUSTOM',
         customProductData: {
-          path: '$.asin',
-          equals: asin
+          not: Prisma.JsonNull
         }
       }
     })
+    
+    // JavaScriptでフィルタリング
+    const targetDevices = customDevices.filter(device => {
+      const customData = device.customProductData as unknown as CustomProductData
+      return customData?.asin === asin
+    })
 
-    if (customDevices.length === 0) {
+    if (targetDevices.length === 0) {
       return { success: false, error: '対象のカスタム商品が見つかりません' }
     }
 
@@ -169,7 +175,7 @@ export async function promoteCustomProduct(asin: string) {
     }
 
     // 代表的なカスタム商品データを取得
-    const representativeData = customDevices[0].customProductData as CustomProductData
+    const representativeData = targetDevices[0].customProductData as unknown as CustomProductData
 
     // カテゴリを取得
     const category = await prisma.deviceCategory.findUnique({
@@ -196,11 +202,11 @@ export async function promoteCustomProduct(asin: string) {
         description: productDetails?.description,
         categoryId: category.id,
         amazonUrl: representativeData.amazonUrl,
-        adminAffiliateUrl: productDetails?.affiliateUrl || representativeData.amazonUrl,
+        adminAffiliateUrl: representativeData.amazonUrl,
         asin: asin,
         imageUrl: productDetails?.imageUrl || representativeData.imageUrl,
-        price: productDetails?.price ? parseFloat(productDetails.price) : null,
-        attributes: productDetails?.attributes || representativeData.attributes,
+        price: productDetails?.price || null,
+        attributes: representativeData.attributes,
         isActive: true
       }
     })
@@ -208,16 +214,14 @@ export async function promoteCustomProduct(asin: string) {
     // 関連するUserDeviceを更新
     await prisma.userDevice.updateMany({
       where: {
-        deviceType: 'CUSTOM',
-        customProductData: {
-          path: '$.asin',
-          equals: asin
+        id: {
+          in: targetDevices.map(device => device.id)
         }
       },
       data: {
         deviceType: 'OFFICIAL',
         productId: newProduct.id,
-        customProductData: null
+        customProductData: Prisma.JsonNull
       }
     })
 
@@ -239,12 +243,11 @@ export async function promoteCustomProduct(asin: string) {
 // 昇格候補の詳細情報を取得
 export async function getPromotionCandidate(asin: string) {
   try {
-    const customDevices = await prisma.userDevice.findMany({
+    const allCustomDevices = await prisma.userDevice.findMany({
       where: {
         deviceType: 'CUSTOM',
         customProductData: {
-          path: '$.asin',
-          equals: asin
+          not: Prisma.JsonNull
         }
       },
       include: {
@@ -262,12 +265,18 @@ export async function getPromotionCandidate(asin: string) {
         createdAt: 'asc'
       }
     })
+    
+    // JavaScriptでフィルタリング
+    const customDevices = allCustomDevices.filter(device => {
+      const customData = device.customProductData as unknown as CustomProductData
+      return customData?.asin === asin
+    })
 
     if (customDevices.length === 0) {
       return { success: false, error: '商品が見つかりません' }
     }
 
-    const customData = customDevices[0].customProductData as CustomProductData
+    const customData = customDevices[0].customProductData as unknown as CustomProductData
 
     return {
       success: true,
@@ -279,7 +288,7 @@ export async function getPromotionCandidate(asin: string) {
         category: customData.category,
         attributes: customData.attributes,
         users: customDevices.map(device => ({
-          ...device.user,
+          ...(device as any).user,
           addedAt: device.createdAt,
           note: device.note
         }))

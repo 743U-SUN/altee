@@ -99,7 +99,7 @@ async function fetchOGMetadata(url: string): Promise<{
       }
     }
     
-    ogData.image = imageUrl;
+    ogData.image = imageUrl || '';
     
     // タイトルタグからも取得（OGがない場合のフォールバック）
     if (!ogData.title) {
@@ -188,8 +188,9 @@ export async function fetchProductFromAmazonUrl(url: string): Promise<OGProductI
     
     // タイトルのクリーンアップ（Amazonサイト名を除去）
     const cleanTitle = ogData.title
-      ?.replace(/\s*[\|｜]\s*Amazon.*$/, '')
-      ?.replace(/【.*?】/g, '')
+      ?.replace(/^Amazon\.co\.jp[\s:：]+/, '') // 先頭の「Amazon.co.jp: 」を除去
+      ?.replace(/^Amazon\.com[\s:：]+/, '') // 先頭の「Amazon.com: 」を除去
+      ?.replace(/\s*[\|｜]\s*Amazon.*$/, '') // 末尾のAmazon関連テキストを除去
       ?.trim() || 'Amazon商品';
     
     return {
@@ -215,80 +216,14 @@ export async function fetchProductFromAmazonUrl(url: string): Promise<OGProductI
  * 商品属性を推測する（タイトルベース）
  * @param productInfo 商品情報
  * @param category カテゴリ
- * @returns 推測された属性
+ * @returns 推測された属性（空のオブジェクトを返す）
  */
 export async function extractAttributes(
   productInfo: OGProductInfo, 
   category?: string
 ): Promise<Record<string, any>> {
-  const attributes: Record<string, any> = {};
-  const title = productInfo.title.toLowerCase();
-  const description = (productInfo.description || '').toLowerCase();
-  const combined = `${title} ${description}`;
-  
-  // カテゴリを自動検出
-  const detectedCategory = category || detectCategoryFromTitle(title);
-  
-  if (detectedCategory === 'mouse') {
-    // DPI情報の抽出
-    const dpiMatch = combined.match(/(\d+)\s*dpi/i);
-    if (dpiMatch) {
-      attributes.dpi_max = parseInt(dpiMatch[1]);
-    }
-    
-    // 重量情報の抽出
-    const weightMatch = combined.match(/(\d+)\s*g(?:ram)?/i);
-    if (weightMatch) {
-      attributes.weight = parseInt(weightMatch[1]);
-    }
-    
-    // 接続方式
-    if (combined.includes('wireless') || combined.includes('ワイヤレス')) {
-      attributes.connection_type = 'wireless';
-    } else if (combined.includes('wired') || combined.includes('有線')) {
-      attributes.connection_type = 'wired';
-    }
-    
-    // ボタン数
-    const buttonMatch = combined.match(/(\d+)\s*(?:button|ボタン)/i);
-    if (buttonMatch) {
-      attributes.buttons = parseInt(buttonMatch[1]);
-    }
-  } else if (detectedCategory === 'keyboard') {
-    // レイアウト
-    if (combined.includes('60%') || combined.includes('60％')) {
-      attributes.layout = '60';
-    } else if (combined.includes('65%') || combined.includes('65％')) {
-      attributes.layout = '65';
-    } else if (combined.includes('tkl') || combined.includes('テンキーレス')) {
-      attributes.layout = 'tkl';
-    } else if (combined.includes('full') || combined.includes('フルサイズ')) {
-      attributes.layout = 'full';
-    }
-    
-    // スイッチタイプ
-    if (combined.includes('mechanical') || combined.includes('メカニカル')) {
-      attributes.switch_type = 'mechanical';
-    } else if (combined.includes('magnetic') || combined.includes('磁気')) {
-      attributes.switch_type = 'magnetic';
-    } else if (combined.includes('optical') || combined.includes('光学')) {
-      attributes.switch_type = 'optical';
-    }
-    
-    // Rapid Trigger
-    if (combined.includes('rapid trigger') || combined.includes('ラピッドトリガー')) {
-      attributes.rapid_trigger = true;
-    }
-    
-    // 接続方式
-    if (combined.includes('wireless') || combined.includes('ワイヤレス')) {
-      attributes.connection_type = 'wireless';
-    } else if (combined.includes('wired') || combined.includes('有線')) {
-      attributes.connection_type = 'wired';
-    }
-  }
-  
-  return attributes;
+  // 自動属性検出は精度が低いため無効化
+  return {};
 }
 
 /**

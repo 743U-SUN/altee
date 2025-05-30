@@ -9,14 +9,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, RefreshCw, Search, TrendingUp } from "lucide-react";
+import { Plus, RefreshCw, Search, TrendingUp, Download, Upload } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { AddProductDialog } from "./AddProductDialog";
-import { batchUpdateProducts } from "@/lib/actions/admin-product-actions";
+import { CSVImportDialog } from "./CSVImportDialog";
+import { batchUpdateProducts, exportProductsAsCSV } from "@/lib/actions/admin-product-actions";
 import { toast } from "sonner";
-import type { DeviceCategory } from "@prisma/client";
+import type { DeviceCategory } from "@/lib/generated/prisma";
 
 interface ProductListHeaderProps {
   categories: (DeviceCategory & {
@@ -31,6 +32,7 @@ export function ProductListHeader({ categories }: ProductListHeaderProps) {
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [isImportDialogOpen, setIsImportDialogOpen] = useState(false);
   const [isBatchUpdating, setIsBatchUpdating] = useState(false);
   const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
 
@@ -78,6 +80,29 @@ export function ProductListHeader({ categories }: ProductListHeaderProps) {
     }
   };
 
+  const handleExport = async () => {
+    try {
+      const categoryId = searchParams.get("category");
+      const result = await exportProductsAsCSV(categoryId || undefined);
+      
+      if (result.success && result.csv) {
+        // CSVファイルをダウンロード
+        const blob = new Blob([result.csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `products_${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
+        
+        toast.success('商品データをエクスポートしました');
+      } else {
+        toast.error(result.error || 'エクスポートに失敗しました');
+      }
+    } catch (error) {
+      toast.error('エクスポート中にエラーが発生しました');
+      console.error(error);
+    }
+  };
+
   return (
     <div className="mb-6 space-y-4">
       <div className="flex flex-col sm:flex-row gap-4">
@@ -107,7 +132,7 @@ export function ProductListHeader({ categories }: ProductListHeaderProps) {
           <SelectContent>
             <SelectItem value="all">すべてのカテゴリ</SelectItem>
             {categories.map((category) => (
-              <SelectItem key={category.id} value={category.id}>
+              <SelectItem key={category.id} value={category.id.toString()}>
                 {category.name} ({category._count.products})
               </SelectItem>
             ))}
@@ -116,6 +141,24 @@ export function ProductListHeader({ categories }: ProductListHeaderProps) {
 
         {/* アクションボタン */}
         <div className="flex gap-2">
+          <Button
+            variant="outline"
+            onClick={handleExport}
+            title="CSV形式でエクスポート"
+          >
+            <Download className="mr-2 h-4 w-4" />
+            エクスポート
+          </Button>
+
+          <Button
+            variant="outline"
+            onClick={() => setIsImportDialogOpen(true)}
+            title="CSV形式でインポート"
+          >
+            <Upload className="mr-2 h-4 w-4" />
+            インポート
+          </Button>
+
           <Link href="/admin/devices/promotion">
             <Button variant="outline">
               <TrendingUp className="mr-2 h-4 w-4" />
@@ -153,6 +196,12 @@ export function ProductListHeader({ categories }: ProductListHeaderProps) {
         open={isAddDialogOpen}
         onOpenChange={setIsAddDialogOpen}
         categories={categories}
+      />
+
+      {/* インポートダイアログ */}
+      <CSVImportDialog
+        open={isImportDialogOpen}
+        onOpenChange={setIsImportDialogOpen}
       />
     </div>
   );

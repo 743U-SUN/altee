@@ -8,7 +8,6 @@ import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -31,9 +30,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Loader2, Link, Package, AlertCircle, CheckCircle, Users, Crown } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Loader2, Link, Package, AlertCircle, Users, Crown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { 
   addDeviceFromProduct, 
@@ -47,7 +45,7 @@ import {
 } from '@/lib/validation/device-validation';
 import { useEffect } from 'react';
 import Image from 'next/image';
-import { DeviceIcon } from '@/components/devices/DeviceIcon';
+import { ProductSelectModal } from './ProductSelectModal';
 
 interface DuplicateInfo {
   officialProduct?: any;
@@ -61,6 +59,7 @@ interface PreviewData {
   asin?: string;
   detectedCategory?: string;
   duplicateInfo?: DuplicateInfo | null;
+  customTitle?: string;
 }
 
 export function AddDeviceForm() {
@@ -72,14 +71,25 @@ export function AddDeviceForm() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [previewData, setPreviewData] = useState<PreviewData | null>(null);
   const [showDuplicateWarning, setShowDuplicateWarning] = useState(false);
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   // 公式商品を取得
   useEffect(() => {
     getOfficialProducts().then(setOfficialProducts);
   }, []);
 
+  // 商品が選択された時の処理
+  const handleProductSelect = (productId: number) => {
+    const product = officialProducts.find(p => p.id === productId);
+    if (product) {
+      setSelectedProduct(product);
+      productForm.setValue('productId', productId.toString());
+    }
+  };
+
   // 公式商品フォーム
-  const productForm = useForm<z.infer<typeof addDeviceFromProductFormSchema>>({
+  const productForm = useForm({
     resolver: zodResolver(addDeviceFromProductFormSchema),
     defaultValues: {
       productId: '',
@@ -88,12 +98,13 @@ export function AddDeviceForm() {
   });
 
   // URLフォーム
-  const urlForm = useForm<z.infer<typeof addDeviceFromUrlFormSchema>>({
+  const urlForm = useForm({
     resolver: zodResolver(addDeviceFromUrlFormSchema),
     defaultValues: {
       amazonUrl: '',
-      category: undefined,
+      category: 'auto', // デフォルトを'auto'に設定
       note: '',
+      customTitle: '',
     },
   });
 
@@ -139,9 +150,14 @@ export function AddDeviceForm() {
         setPreviewData(result);
         
         // カテゴリーを自動設定
-        if (result.detectedCategory && !urlForm.getValues('category')) {
+        if (result.detectedCategory && (!urlForm.getValues('category') || urlForm.getValues('category') === 'auto')) {
           console.log('Auto-setting category:', result.detectedCategory);
-          urlForm.setValue('category', result.detectedCategory);
+          urlForm.setValue('category', result.detectedCategory as any);
+        }
+        
+        // カスタムタイトルフィールドに商品名を設定
+        if (result.productInfo?.title && !urlForm.getValues('customTitle')) {
+          urlForm.setValue('customTitle', result.productInfo.title);
         }
 
         // 重複警告の表示判定
@@ -176,11 +192,11 @@ export function AddDeviceForm() {
   }, [urlForm, toast]);
 
   // 公式商品から追加
-  const onSubmitProduct = async (values: z.infer<typeof addDeviceFromProductFormSchema>) => {
+  const onSubmitProduct = async (values: any) => {
     setIsLoading(true);
     try {
       const result = await addDeviceFromProduct({
-        productId: parseInt(values.productId),
+        productId: values.productId,
         note: values.note,
       });
 
@@ -190,6 +206,8 @@ export function AddDeviceForm() {
           description: 'デバイスを追加しました',
         });
         productForm.reset();
+        setSelectedProduct(null);
+        setSelectedCategory('all');
         router.refresh();
       } else {
         toast({
@@ -210,13 +228,14 @@ export function AddDeviceForm() {
   };
 
   // URLから追加
-  const onSubmitUrl = async (values: z.infer<typeof addDeviceFromUrlFormSchema>) => {
+  const onSubmitUrl = async (values: any) => {
     setIsLoading(true);
     try {
       const result = await addDeviceFromUrl({
         amazonUrl: values.amazonUrl,
         category: values.category,
         note: values.note,
+        customTitle: values.customTitle,
         forceAdd: false,
       });
 
@@ -233,6 +252,7 @@ export function AddDeviceForm() {
         urlForm.reset();
         setPreviewData(null);
         setShowDuplicateWarning(false);
+        setSelectedCategory('all');
         router.refresh();
       } else {
         if (result.error === 'DUPLICATE_USER_DEVICE') {
@@ -290,7 +310,14 @@ export function AddDeviceForm() {
           <form onSubmit={productForm.handleSubmit(onSubmitProduct)} className="space-y-4">
             <div className="space-y-2">
               <Label>カテゴリフィルタ</Label>
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <Select 
+                value={selectedCategory} 
+                onValueChange={(value) => {
+                  setSelectedCategory(value);
+                  setSelectedProduct(null);
+                  productForm.setValue('productId', '');
+                }}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="カテゴリを選択" />
                 </SelectTrigger>
@@ -303,32 +330,49 @@ export function AddDeviceForm() {
             </div>
 
             <FormField
-              control={productForm.control}
+              control={productForm.control as any}
               name="productId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>商品を選択</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="商品を選択してください" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {filteredProducts.map((product) => (
-                        <SelectItem key={product.id} value={product.id.toString()}>
-                          {product.title} ({product.category.name})
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="space-y-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full justify-start"
+                      onClick={() => setShowProductModal(true)}
+                      disabled={selectedCategory === 'all'}
+                    >
+                      {selectedProduct ? (
+                        <div className="flex items-center gap-2">
+                          <div className="relative h-8 w-8 overflow-hidden rounded bg-muted">
+                            <Image
+                              src={selectedProduct.imageUrl || '/images/no-image.svg'}
+                              alt={selectedProduct.name}
+                              fill
+                              sizes="32px"
+                              className="object-contain"
+                            />
+                          </div>
+                          <span className="flex-1 text-left">{selectedProduct.name}</span>
+                        </div>
+                      ) : (
+                        <span className="text-muted-foreground">商品を選択してください</span>
+                      )}
+                    </Button>
+                    {selectedCategory === 'all' && (
+                      <p className="text-sm text-muted-foreground">
+                        先にカテゴリを選択してください
+                      </p>
+                    )}
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
             <FormField
-              control={productForm.control}
+              control={productForm.control as any}
               name="note"
               render={({ field }) => (
                 <FormItem>
@@ -354,6 +398,14 @@ export function AddDeviceForm() {
             </Button>
           </form>
         </Form>
+        
+        {/* 商品選択モーダル */}
+        <ProductSelectModal
+          open={showProductModal}
+          onOpenChange={setShowProductModal}
+          selectedCategory={selectedCategory}
+          onSelect={handleProductSelect}
+        />
       </TabsContent>
 
       <TabsContent value="url" className="space-y-4">
@@ -367,7 +419,7 @@ export function AddDeviceForm() {
         <Form {...urlForm}>
           <form onSubmit={urlForm.handleSubmit(onSubmitUrl)} className="space-y-4">
             <FormField
-              control={urlForm.control}
+              control={urlForm.control as any}
               name="amazonUrl"
               render={({ field }) => (
                 <FormItem>
@@ -389,6 +441,29 @@ export function AddDeviceForm() {
                 </FormItem>
               )}
             />
+
+            {/* カスタムタイトル入力フィールド（プレビューが表示されている時のみ） */}
+            {previewData && !isPreviewing && (
+              <FormField
+                control={urlForm.control as any}
+                name="customTitle"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>デバイス名（編集可能）</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="デバイス名を入力..."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      長すぎる商品名は短く編集できます
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
             {/* プレビューと重複チェック結果 */}
             {isPreviewing && (
@@ -416,8 +491,9 @@ export function AddDeviceForm() {
                           <div className="relative h-20 w-20 overflow-hidden rounded-md bg-muted">
                             <Image
                               src={previewData.productInfo.imageUrl || '/images/no-image.svg'}
-                              alt={previewData.productInfo.title}
+                              alt={previewData.productInfo.title || '商品画像'}
                               fill
+                              sizes="80px" // sizes prop を追加
                               className="object-contain"
                               onError={(e) => {
                                 e.currentTarget.src = '/images/no-image.svg';
@@ -481,18 +557,22 @@ export function AddDeviceForm() {
             )}
 
             <FormField
-              control={urlForm.control}
+              control={urlForm.control as any}
               name="category"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>カテゴリ（任意）</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select 
+                    onValueChange={field.onChange} 
+                    value={field.value || ''} // undefined の場合は空文字列を使用
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="自動検出されます" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
+                      <SelectItem value="auto">自動検出</SelectItem>
                       <SelectItem value="mouse">マウス</SelectItem>
                       <SelectItem value="keyboard">キーボード</SelectItem>
                     </SelectContent>
@@ -506,7 +586,7 @@ export function AddDeviceForm() {
             />
 
             <FormField
-              control={urlForm.control}
+              control={urlForm.control as any}
               name="note"
               render={({ field }) => (
                 <FormItem>

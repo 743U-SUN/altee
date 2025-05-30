@@ -33,6 +33,7 @@ export interface DisplayDevice {
 
 // マウスの属性
 export interface MouseAttributes {
+  manufacturer?: string;           // メーカー名 (例: "Logicool", "Razer")
   dpi_max?: number;                // 最大DPI (例: 25600)
   dpi_min?: number;                // 最小DPI (例: 100)
   weight?: number;                 // 重量 (g)
@@ -41,9 +42,8 @@ export interface MouseAttributes {
   height?: number;                 // 高さ (mm)
   polling_rate?: number[];         // ポーリングレート (Hz) [125, 500, 1000, 8000]
   connection_type?: 'wired' | 'wireless' | 'both';  // 接続方式
-  sensor_type?: string;            // センサータイプ (例: "PixArt PMW3389")
   buttons?: number;                // ボタン数
-  programmable_buttons?: number;   // プログラマブルボタン数
+  bluetooth?: boolean;             // Bluetooth対応
   onboard_memory?: boolean;        // オンボードメモリ
   wireless_charging?: boolean;     // ワイヤレス充電対応
   shape?: 'symmetric' | 'right_handed' | 'left_handed' | 'ergonomic';  // 形状
@@ -51,6 +51,7 @@ export interface MouseAttributes {
 
 // キーボードの属性
 export interface KeyboardAttributes {
+  manufacturer?: string;           // メーカー名 (例: "Logicool", "Razer")
   layout?: 'full' | 'tkl' | '60' | '65' | '75' | '80';  // キーレイアウト
   key_arrangement?: 'jp' | 'us' | 'iso';                 // キー配列
   width?: number;                  // 幅 (mm)

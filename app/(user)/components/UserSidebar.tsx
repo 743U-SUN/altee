@@ -56,7 +56,7 @@ const menuItems = [
   {
     title: "デバイス設定",
     icon: MonitorIcon,
-    href: "/user/device",
+    href: "/user/devices",
   },
   {
     title: "お気に入り",

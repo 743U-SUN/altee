@@ -1,6 +1,6 @@
 "use client";
 
-import { Product, DeviceCategory } from "@prisma/client";
+import { Product, DeviceCategory } from "@/lib/generated/prisma";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -27,7 +27,7 @@ interface ProductCardProps {
   product: Product & {
     category: DeviceCategory;
     _count: {
-      UserDevice: number;
+      userDevices: number;
     };
   };
 }
@@ -41,7 +41,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const handleRefresh = async () => {
     setIsRefreshing(true);
     try {
-      await refreshProductFromAmazon(product.id);
+      await refreshProductFromAmazon(product.id.toString());
       toast.success("商品情報を更新しました");
       router.refresh();
     } catch (error) {
@@ -53,14 +53,14 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   const handleDelete = async () => {
-    if (product._count.UserDevice > 0) {
-      toast.error(`この商品は${product._count.UserDevice}人のユーザーが使用しているため削除できません`);
+    if (product._count.userDevices > 0) {
+      toast.error(`この商品は${product._count.userDevices}人のユーザーが使用しているため削除できません`);
       return;
     }
 
     setIsDeleting(true);
     try {
-      await deleteProduct(product.id);
+      await deleteProduct(product.id.toString());
       toast.success("商品を削除しました");
       router.refresh();
     } catch (error) {
@@ -83,7 +83,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
             <div className="flex items-center gap-1 text-sm text-muted-foreground">
               <Users className="h-4 w-4" />
-              <span>{product._count.UserDevice}</span>
+              <span>{product._count.userDevices}</span>
             </div>
           </div>
         </CardHeader>
@@ -93,7 +93,7 @@ export function ProductCard({ product }: ProductCardProps) {
             <div className="aspect-square relative overflow-hidden rounded-lg bg-muted">
               <Image
                 src={product.imageUrl}
-                alt={product.title}
+                alt={product.name || '商品画像'}
                 fill
                 className="object-contain"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -101,7 +101,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
 
             <div>
-              <h3 className="font-semibold line-clamp-2">{product.title}</h3>
+              <h3 className="font-semibold line-clamp-2">{product.name}</h3>
               <p className="text-xs text-muted-foreground mt-1">ASIN: {product.asin}</p>
             </div>
 
@@ -120,7 +120,7 @@ export function ProductCard({ product }: ProductCardProps) {
             asChild
             className="flex-1"
           >
-            <Link href={`/admin/devices/${product.id}`}>
+            <Link href={`/admin/devices/${product.id.toString()}`}>
               <Edit className="mr-2 h-4 w-4" />
               編集
             </Link>
@@ -162,7 +162,7 @@ export function ProductCard({ product }: ProductCardProps) {
               variant="outline"
               size="sm"
               onClick={() => setShowDeleteDialog(true)}
-              disabled={product._count.UserDevice > 0 || isDeleting}
+              disabled={product._count.userDevices > 0 || isDeleting}
               className="flex-1"
             >
               <Trash2 className="mr-2 h-4 w-4" />
@@ -177,7 +177,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <AlertDialogHeader>
             <AlertDialogTitle>商品を削除しますか？</AlertDialogTitle>
             <AlertDialogDescription>
-              「{product.title}」を削除します。この操作は取り消すことができません。
+              「{product.name}」を削除します。この操作は取り消すことができません。
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

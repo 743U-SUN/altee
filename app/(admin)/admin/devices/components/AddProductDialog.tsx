@@ -35,12 +35,14 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2, Package } from "lucide-react";
 import { toast } from "sonner";
-import type { DeviceCategory } from "@prisma/client";
+import type { DeviceCategory } from "@/lib/generated/prisma";
 import {
   createProduct,
   fetchProductFromAmazon,
 } from "@/lib/actions/admin-product-actions";
 import Image from "next/image";
+import { MouseAttributesForm } from "./MouseAttributesForm";
+import { KeyboardAttributesForm } from "./KeyboardAttributesForm";
 
 interface AddProductDialogProps {
   open: boolean;
@@ -59,6 +61,7 @@ const formSchema = z.object({
   description: z.string().optional(),
   imageUrl: z.string().url("有効な画像URLを入力してください"),
   asin: z.string().min(1, "ASINが必要です"),
+  attributes: z.record(z.any()).optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -82,6 +85,7 @@ export function AddProductDialog({
       description: "",
       imageUrl: "",
       asin: "",
+      attributes: {},
     },
   });
 
@@ -143,7 +147,7 @@ export function AddProductDialog({
     try {
       await createProduct({
         ...values,
-        attributes: {}, // 初期値は空のオブジェクト
+        attributes: values.attributes || {},
       });
       
       toast.success("商品を追加しました");
@@ -168,6 +172,11 @@ export function AddProductDialog({
     setFetchedData(null);
     onOpenChange(false);
   };
+
+  // 選択されたカテゴリの情報を取得
+  const selectedCategoryId = form.watch("categoryId");
+  const selectedCategory = categories.find(cat => cat.id.toString() === selectedCategoryId);
+  const categorySlug = selectedCategory?.slug;
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -224,8 +233,9 @@ export function AddProductDialog({
                 <div className="relative aspect-square w-32 overflow-hidden rounded-lg bg-muted">
                   <Image
                     src={fetchedData.imageUrl}
-                    alt={fetchedData.title || "商品画像"}
+                    alt={fetchedData.title || '商品画像'}
                     fill
+                    sizes="128px" // sizes prop を追加
                     className="object-contain"
                   />
                 </div>
@@ -238,7 +248,10 @@ export function AddProductDialog({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>カテゴリ</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select 
+                      onValueChange={field.onChange} 
+                      value={field.value || ''} // undefined の場合は空文字列を使用
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="カテゴリを選択" />
@@ -246,7 +259,7 @@ export function AddProductDialog({
                       </FormControl>
                       <SelectContent>
                         {categories.map((category) => (
-                          <SelectItem key={category.id} value={category.id}>
+                          <SelectItem key={category.id} value={category.id.toString()}>
                             {category.name}
                           </SelectItem>
                         ))}
@@ -319,6 +332,15 @@ export function AddProductDialog({
                   </FormItem>
                 )}
               />
+
+              {/* カテゴリ別の詳細属性フォーム */}
+              {selectedCategoryId && categorySlug === "mouse" && (
+                <MouseAttributesForm form={form} />
+              )}
+              
+              {selectedCategoryId && categorySlug === "keyboard" && (
+                <KeyboardAttributesForm form={form} />
+              )}
             </div>
 
             {!fetchedData && (

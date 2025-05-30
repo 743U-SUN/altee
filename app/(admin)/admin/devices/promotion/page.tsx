@@ -158,10 +158,6 @@ export default async function PromotionPage({
             <PromotionCandidateCard
               key={candidate.asin}
               candidate={candidate}
-              onPromote={() => {
-                // ページをリロード
-                window.location.reload()
-              }}
             />
           ))}
         </div>

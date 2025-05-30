@@ -516,28 +516,73 @@ model DeviceCategory {
   @@map("device_categories")
 }
 
+// メーカー管理
+model Manufacturer {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique // "Logicool", "Razer"
+  slug        String   @unique // "logicool", "razer"
+  description String?
+  logoUrl     String?  @map("logo_url")
+  website     String?
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // リレーション
+  products Product[]
+  series   Series[]
+
+  @@map("manufacturers")
+}
+
+// シリーズ管理
+model Series {
+  id             Int      @id @default(autoincrement())
+  name           String // "G Pro", "DeathAdder"
+  slug           String   @unique // "g-pro", "deathadder"
+  description    String?
+  manufacturerId Int      @map("manufacturer_id")
+  isActive       Boolean  @default(true) @map("is_active")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  // リレーション
+  manufacturer Manufacturer @relation(fields: [manufacturerId], references: [id])
+  products     Product[]
+
+  @@index([manufacturerId])
+  @@map("series")
+}
+
 // 管理者が厳選した公式商品リスト
 model Product {
   id                Int      @id @default(autoincrement())
   name              String // "Logicool G Pro X Superlight"
   description       String?  @db.Text
   categoryId        Int      @map("category_id")
+  manufacturerId    Int?     @map("manufacturer_id")
+  seriesId          Int?     @map("series_id")
   amazonUrl         String   @map("amazon_url") // 元のAmazonURL
   adminAffiliateUrl String   @map("admin_affiliate_url") // 管理者のアソシエイトID付きURL
   asin              String   @unique // 重複チェック用ASIN
   imageUrl          String   @map("image_url")
   price             Decimal? @db.Decimal(10, 2) // 参考価格
-  attributes        Json? // カテゴリ別属性（JSON形式）
   isActive          Boolean  @default(true) @map("is_active") // 公開/非公開
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @updatedAt @map("updated_at")
 
   // リレーション
-  category      DeviceCategory @relation(fields: [categoryId], references: [id])
-  userDevices   UserDevice[]
-  userFavorites UserFavorite[]
+  category           DeviceCategory      @relation(fields: [categoryId], references: [id])
+  manufacturer       Manufacturer?       @relation(fields: [manufacturerId], references: [id])
+  series             Series?             @relation(fields: [seriesId], references: [id])
+  userDevices        UserDevice[]
+  userFavorites      UserFavorite[]
+  mouseAttributes    MouseAttributes?
+  keyboardAttributes KeyboardAttributes?
 
   @@index([categoryId])
+  @@index([manufacturerId])
+  @@index([seriesId])
   @@index([asin])
   @@map("products")
 }
@@ -582,7 +627,74 @@ model UserFavorite {
   @@map("user_favorites")
 }
 
+// マウス属性
+model MouseAttributes {
+  productId      Int             @id @map("product_id")
+  dpiMin         Int?            @map("dpi_min")
+  dpiMax         Int?            @map("dpi_max")
+  weight         Int? // グラム
+  length         Float? // mm
+  width          Float? // mm
+  height         Float? // mm
+  buttons        Int?
+  connectionType ConnectionType? @map("connection_type")
+  pollingRate    Int?            @map("polling_rate") // Hz
+  batteryLife    Int?            @map("battery_life") // 時間
+  sensor         String?
+  rgb            Boolean         @default(false)
+  software       String?
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+
+  // リレーション
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("mouse_attributes")
+}
+
+// キーボード属性
+model KeyboardAttributes {
+  productId      Int             @id @map("product_id")
+  layout         KeyboardLayout?
+  switchType     SwitchType?     @map("switch_type")
+  actuationPoint Float?          @map("actuation_point") // mm
+  connectionType ConnectionType? @map("connection_type")
+  rapidTrigger   Boolean         @default(false) @map("rapid_trigger")
+  rgb            Boolean         @default(false)
+  software       String?
+  keycaps        String?
+  hotSwap        Boolean         @default(false) @map("hot_swap")
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @updatedAt @map("updated_at")
+
+  // リレーション
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("keyboard_attributes")
+}
+
 // Enum定義
+enum ConnectionType {
+  WIRED
+  WIRELESS
+  BOTH
+}
+
+enum KeyboardLayout {
+  FULL // フルサイズ
+  TKL // テンキーレス
+  SIXTY // 60%
+  SIXTYFIVE // 65%
+  SEVENTYFIVE // 75%
+}
+
+enum SwitchType {
+  MECHANICAL
+  OPTICAL
+  MAGNETIC
+  MEMBRANE
+}
+
 enum DeviceType {
   OFFICIAL // 公式リストから選択
   CUSTOM // ユーザー独自追加
