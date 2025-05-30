@@ -2,6 +2,9 @@
 
 このドキュメントでは、WebP変換機能付きの画像アップロード機能を新規実装する手順を説明します。
 
+> **📝 関連ドキュメント**  
+> 既存画像の表示方法については [image-handling-guide.md](./image-handling-guide.md) を参照してください。
+
 ## 目次
 
 1. [概要](#概要)
@@ -344,6 +347,8 @@ async session({ session, token }) {
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 import { Upload, X, Image, Info } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -460,10 +465,12 @@ export function CoverSettings({ currentCoverUrl, userId, onCoverUpdate }: CoverS
           <p className="text-sm text-gray-500 mb-2">現在のカバー画像</p>
           <div className="relative w-full h-32 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 overflow-hidden">
             {displayCoverUrl ? (
-              <img
-                src={displayCoverUrl}
+              <OptimizedImage
+                src={convertToProxyUrl(displayCoverUrl)}
                 alt="カバー画像"
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 1200px"
               />
             ) : (
               <div className="flex items-center justify-center h-full">
@@ -556,6 +563,45 @@ const handleCoverUpdate = (newCoverUrl: string) => {
   onCoverUpdate={handleCoverUpdate}
 />
 ```
+
+### Step 7: 画像表示の実装
+
+**7.1 必須：統一された画像表示方法**
+
+アップロードした画像を表示する際は、必ず以下の方法を使用してください：
+
+```typescript
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
+
+// ✅ 正しい画像表示方法
+<OptimizedImage 
+  src={convertToProxyUrl(imageUrl)}
+  alt="画像の説明"
+  width={300}
+  height={200}
+  // または fill={true} + 親要素にrelative
+/>
+
+// ❌ 間違った方法（直接img使用）
+<img src={imageUrl} alt="画像" />
+```
+
+**7.2 なぜこの方法が必要か**
+
+1. **Docker環境対応**: MinIO URLを自動的にプロキシ経由に変換
+2. **Next.js最適化**: 画像の自動最適化（WebP/AVIF変換、リサイズ）
+3. **キャッシュ効率**: 適切なCache-Controlヘッダー設定
+4. **環境差異解決**: 開発/本番環境での一貫した動作
+
+**7.3 重要な注意事項**
+
+- `convertToProxyUrl()` はMinIO URLのみを変換、静的画像（/images/...）はそのまま
+- `fill={true}` 使用時は親要素に `relative` クラスが必要
+- `sizes` プロパティでレスポンシブ最適化を必ず指定
+
+> **📖 詳細情報**  
+> 画像表示の詳細な実装パターンやトラブルシューティングについては [image-handling-guide.md](./image-handling-guide.md) を参照してください。
 
 ## ハマりポイントと対処法
 
@@ -686,6 +732,10 @@ try {
 2. Content-Typeヘッダーを手動設定していないか確認
 3. FormDataの作成方法を確認
 
+#### 画像が表示されない
+> **🔗 関連ガイド**  
+> 画像表示に関する問題は [image-handling-guide.md のトラブルシューティング](./image-handling-guide.md#トラブルシューティング) を参照してください。
+
 #### Error: "Route used params.userId without await"
 1. 動的パラメータの型定義を `Promise<{}>` に変更
 2. `await params` を使用
@@ -733,3 +783,12 @@ try {
 - コンポーネント名とプロパティ
 
 疑問点や問題が発生した場合は、このドキュメントのトラブルシューティングセクションを参照してください。
+
+---
+
+## 関連ドキュメント
+
+- **[画像表示実装ガイド](./image-handling-guide.md)**: アップロードした画像の表示方法
+- **[統一された画像表示パターン](./image-handling-guide.md#実装パターン)**: OptimizedImage + convertToProxyUrlの使用方法
+- **[画像表示のトラブルシューティング](./image-handling-guide.md#トラブルシューティング)**: 画像が表示されない場合の対処法
+- **[画像キャッシュの仕組み](./image-handling-guide.md#なぜこの方法を使うのか)**: Docker環境での画像配信の背景

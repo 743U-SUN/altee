@@ -32,7 +32,8 @@ import { useToast } from '@/hooks/use-toast';
 import { ManufacturerCreateDialog } from './ManufacturerCreateDialog';
 import { ManufacturerEditDialog } from './ManufacturerEditDialog';
 import { Skeleton } from '@/components/ui/skeleton';
-import Image from 'next/image';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 interface Manufacturer {
   id: number;
@@ -168,8 +169,8 @@ export function ManufacturerManager() {
                   <TableCell>
                     {manufacturer.logoUrl ? (
                       <div className="relative h-8 w-16">
-                        <Image
-                          src={manufacturer.logoUrl}
+                        <OptimizedImage
+                          src={convertToProxyUrl(manufacturer.logoUrl)}
                           alt={manufacturer.name}
                           fill
                           className="object-contain"

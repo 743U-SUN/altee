@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import Image from 'next/image';
 import {
   Dialog,
   DialogContent,
@@ -9,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { OptimizedImage } from '@/components/ui/optimized-image';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -18,6 +18,7 @@ import { Loader2, Search, Package, CheckCircle } from 'lucide-react';
 import { getOfficialProducts } from '@/lib/actions/device-actions';
 import { getAttributesByCategory } from '@/lib/actions/admin-product-actions';
 import { cn } from '@/lib/utils';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 interface ProductColor {
   id: number;
@@ -218,7 +219,7 @@ export function ProductSelectModal({
                     >
                       {attr.logoUrl && (
                         <img
-                          src={attr.logoUrl}
+                          src={convertToProxyUrl(attr.logoUrl)}
                           alt={attr.name}
                           className="w-4 h-4 mr-1 object-contain"
                         />
@@ -249,15 +250,12 @@ export function ProductSelectModal({
                         onClick={() => handleProductClick(product)}
                       >
                         <div className="relative h-16 w-16 overflow-hidden rounded-md bg-muted flex-shrink-0">
-                          <Image
-                            src={product.imageUrl || '/images/no-image.svg'}
+                          <OptimizedImage
+                            src={convertToProxyUrl(product.imageUrl || '/images/no-image.svg')}
                             alt={product.name}
                             fill
                             sizes="64px"
                             className="object-contain"
-                            onError={(e) => {
-                              e.currentTarget.src = '/images/no-image.svg';
-                            }}
                           />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -266,7 +264,7 @@ export function ProductSelectModal({
                             <p className="text-sm text-muted-foreground flex items-center gap-1">
                               {product.manufacturer.logoUrl && (
                                 <img
-                                  src={product.manufacturer.logoUrl}
+                                  src={convertToProxyUrl(product.manufacturer.logoUrl)}
                                   alt={product.manufacturer.name}
                                   className="w-4 h-4 object-contain"
                                 />
@@ -301,7 +299,7 @@ export function ProductSelectModal({
                               >
                                 {pc.imageUrl ? (
                                   <img
-                                    src={pc.imageUrl}
+                                    src={convertToProxyUrl(pc.imageUrl)}
                                     alt={pc.color.name}
                                     className="w-full h-full object-cover"
                                   />

@@ -47,6 +47,8 @@ import {
 import { useUserLinks } from '../hooks/useUserLinks'
 import { LinkEditDialog } from './LinkEditDialog'
 import type { UserLink } from '@/types/link'
+import { OptimizedImage } from '@/components/ui/optimized-image'
+import { convertToProxyUrl } from '@/lib/utils/image-proxy'
 
 export function UserLinkManager() {
   const { data: session } = useSession()
@@ -275,16 +277,20 @@ export function UserLinkManager() {
                   <div className="flex-shrink-0">
                     {link.useOriginalIcon && link.originalIconUrl ? (
                       // オリジナルアイコン
-                      <img
-                        src={link.originalIconUrl}
+                      <OptimizedImage
+                        src={convertToProxyUrl(link.originalIconUrl)}
                         alt={link.service.name}
+                        width={32}
+                        height={32}
                         className="w-8 h-8 object-contain"
                       />
                     ) : link.icon ? (
                       // 管理者設定アイコン
-                      <img
-                        src={link.icon.filePath}
+                      <OptimizedImage
+                        src={convertToProxyUrl(link.icon.filePath)}
                         alt={link.service.name}
+                        width={32}
+                        height={32}
                         className="w-8 h-8 object-contain"
                       />
                     ) : (

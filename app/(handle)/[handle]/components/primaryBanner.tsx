@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 interface UserImageBanner {
   id: string;
@@ -105,7 +106,7 @@ export default function PrimaryBanner({ handle }: PrimaryBannerProps) {
               }`}
             >
               <OptimizedImage
-                src={banner.imgUrl}
+                src={convertToProxyUrl(banner.imgUrl)}
                 alt={banner.alt || `バナー ${index + 1}`}
                 fill
                 className={`object-cover ${

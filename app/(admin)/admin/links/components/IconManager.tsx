@@ -3,7 +3,6 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import { 
   Edit, 
   Trash2, 
@@ -15,6 +14,8 @@ import {
   List,
   Upload
 } from 'lucide-react'
+import { OptimizedImage } from '@/components/ui/optimized-image'
+import { convertToProxyUrl } from '@/lib/utils/image-proxy'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'

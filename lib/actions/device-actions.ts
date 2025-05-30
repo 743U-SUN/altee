@@ -6,6 +6,11 @@
 
 import { auth } from '@/auth';
 import { prisma } from '@/lib/prisma';
+
+// Prismaクライアントの確認
+if (!prisma) {
+  console.error('[device-actions] Prisma client is not initialized!');
+}
 import { revalidatePath } from 'next/cache';
 import type { CustomProductData } from '@/types/device';
 import { fetchProductFromAmazonUrl, extractAttributes } from '@/lib/services/amazon';
@@ -455,8 +460,13 @@ export async function updateDevice(deviceId: number, data: { note?: string }) {
  */
 export async function deleteDevice(deviceId: number) {
   try {
+    console.log('[deleteDevice] Start - deviceId:', deviceId);
+    
     const session = await auth();
+    console.log('[deleteDevice] Session:', { hasSession: !!session, email: session?.user?.email });
+    
     if (!session?.user?.email) {
+      console.error('[deleteDevice] No session or email');
       return { success: false, error: '認証が必要です' };
     }
     
@@ -466,7 +476,10 @@ export async function deleteDevice(deviceId: number) {
       select: { id: true },
     });
     
+    console.log('[deleteDevice] User found:', { userId: user?.id });
+    
     if (!user) {
+      console.error('[deleteDevice] User not found for email:', session.user.email);
       return { success: false, error: 'ユーザーが見つかりません' };
     }
 
@@ -478,20 +491,29 @@ export async function deleteDevice(deviceId: number) {
       },
     });
 
+    console.log('[deleteDevice] Device found:', { deviceId: device?.id, userId: device?.userId });
+
     if (!device) {
+      console.error('[deleteDevice] Device not found or not owned by user:', { deviceId, userId: user.id });
       return { success: false, error: 'デバイスが見つかりません' };
     }
 
     // 削除
+    console.log('[deleteDevice] Deleting device...');
     await prisma.userDevice.delete({
       where: { id: deviceId },
     });
 
+    console.log('[deleteDevice] Device deleted successfully');
     revalidatePath('/user/devices');
     return { success: true };
   } catch (error) {
-    console.error('deleteDevice error:', error);
-    return { success: false, error: 'デバイスの削除に失敗しました' };
+    console.error('[deleteDevice] Error details:', {
+      error,
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+    return { success: false, error: error instanceof Error ? error.message : 'デバイスの削除に失敗しました' };
   }
 }
 

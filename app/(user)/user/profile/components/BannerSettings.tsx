@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Upload, X, Images, Loader2, GripVertical, Info, Trash2, Save, Link, FileText } from 'lucide-react';
@@ -315,11 +317,13 @@ export function BannerSettings({ userId }: BannerSettingsProps) {
                   <div className="pt-8">
                     <GripVertical className="h-5 w-5 text-gray-400" />
                   </div>
-                  <div className="relative">
-                    <img
-                      src={image.imgUrl}
+                  <div className="relative w-48 h-16">
+                    <OptimizedImage
+                      src={convertToProxyUrl(image.imgUrl)}
                       alt={image.alt || `バナー画像 ${index + 1}`}
-                      className="w-48 h-16 object-cover rounded-lg"
+                      fill
+                      className="object-cover rounded-lg"
+                      sizes="192px"
                     />
                     <div className="absolute top-1 left-1 bg-black/60 text-white text-xs px-1.5 py-0.5 rounded">
                       {index + 1}

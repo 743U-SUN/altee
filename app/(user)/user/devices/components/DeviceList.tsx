@@ -73,7 +73,9 @@ export function DeviceList({ initialDevices }: DeviceListProps) {
 
   // デバイスIDを取得（編集・削除用）
   const getDeviceId = (displayId: string): number => {
-    return parseInt(displayId.split('-')[1]);
+    const id = parseInt(displayId.split('-')[1]);
+    console.log('[DeviceList] getDeviceId:', { displayId, parsedId: id, isNaN: isNaN(id) });
+    return id;
   };
 
   return (
@@ -158,10 +160,14 @@ export function DeviceList({ initialDevices }: DeviceListProps) {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredDevices.map((device) => {
             const deviceId = getDeviceId(device.id);
-            const originalDevice = initialDevices.find(d => 
-              (d.deviceType === 'OFFICIAL' && `official-${d.id}` === device.id) ||
-              (d.deviceType === 'CUSTOM' && `custom-${d.id}` === device.id)
-            );
+            const originalDevice = initialDevices.find(d => d.id === deviceId);
+
+            console.log('[DeviceList] Mapping device:', {
+              displayId: device.id,
+              deviceId,
+              originalDeviceId: originalDevice?.id,
+              hasOriginalDevice: !!originalDevice
+            });
 
             return (
               <UnifiedDeviceCard
@@ -172,11 +178,17 @@ export function DeviceList({ initialDevices }: DeviceListProps) {
                 selectable={true}
                 selected={selectedDevices.has(device.id)}
                 onSelectionChange={(selected) => toggleSelection(device.id)}
-                onEdit={() => setEditingDevice({ 
-                  id: deviceId, 
-                  note: originalDevice?.note 
-                })}
-                onDelete={() => setDeletingDeviceId(deviceId)}
+                onEdit={() => {
+                  console.log('[DeviceList] Edit clicked, deviceId:', deviceId);
+                  setEditingDevice({ 
+                    id: deviceId, 
+                    note: originalDevice?.note 
+                  });
+                }}
+                onDelete={() => {
+                  console.log('[DeviceList] Delete clicked, deviceId:', deviceId);
+                  setDeletingDeviceId(deviceId);
+                }}
               />
             );
           })}
@@ -195,19 +207,23 @@ export function DeviceList({ initialDevices }: DeviceListProps) {
         <EditDeviceModal
           deviceId={editingDevice.id}
           currentNote={editingDevice.note || ''}
-          isOpen={true}
+          open={true}
           onClose={() => setEditingDevice(null)}
         />
       )}
 
       {/* 削除ダイアログ */}
-      {deletingDeviceId && (
-        <DeleteDeviceDialog
-          deviceId={deletingDeviceId}
-          isOpen={true}
-          onClose={() => setDeletingDeviceId(null)}
-        />
-      )}
+      {deletingDeviceId && (() => {
+        const device = filteredDevices.find(d => getDeviceId(d.id) === deletingDeviceId);
+        return (
+          <DeleteDeviceDialog
+            deviceId={deletingDeviceId}
+            deviceName={device?.title || 'デバイス'}
+            open={true}
+            onClose={() => setDeletingDeviceId(null)}
+          />
+        );
+      })()}
     </div>
   );
 }

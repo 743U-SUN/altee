@@ -2,8 +2,8 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card } from '@/components/ui/card';
-
 import { Badge } from '@/components/ui/badge';
+import { OptimizedImage } from '@/components/ui/optimized-image';
 
 interface ExamplesSectionProps {
   className?: string;
@@ -60,10 +60,12 @@ export const ExamplesSection: React.FC<ExamplesSectionProps> = ({
           <Card key={index} className="overflow-hidden border hover:shadow-lg transition-all duration-300">
             <div className="relative">
               <div className="relative pt-[56.25%]"> {/* 16:9アスペクト比 (9/16*100%) */}
-                <img 
+                <OptimizedImage 
                   src={example.image} 
                   alt={example.name} 
                   className="absolute inset-0 object-cover w-full h-full"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
               </div>
               <Badge className="absolute top-3 right-3 bg-black/70 hover:bg-black/70">

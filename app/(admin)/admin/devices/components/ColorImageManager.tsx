@@ -8,8 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useDropzone } from 'react-dropzone';
 import { Upload, Link, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
-import Image from 'next/image';
 import { fetchProductFromAmazon, cacheImageAction } from '@/lib/actions/admin-product-actions';
+import { OptimizedImage } from '@/components/ui/optimized-image';
 import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 interface ColorImageManagerProps {
@@ -125,21 +125,13 @@ export function ColorImageManager({
       {/* 現在の画像プレビュー */}
       {currentImageUrl && (
         <div className="relative w-32 h-32 rounded-lg overflow-hidden border-2 border-gray-200">
-          {/* MinIO画像の場合はプロキシ経由で表示、それ以外はNext.js Imageを使用 */}
-          {currentImageUrl.includes('localhost:9000') || currentImageUrl.includes('minio') ? (
-            <img
-              src={convertToProxyUrl(currentImageUrl)}
-              alt={`${colorName} variant`}
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <Image
-              src={currentImageUrl}
-              alt={`${colorName} variant`}
-              fill
-              className="object-cover"
-            />
-          )}
+          <OptimizedImage
+            src={convertToProxyUrl(currentImageUrl)}
+            alt={`${colorName} variant`}
+            fill
+            className="object-cover"
+            sizes="128px"
+          />
         </div>
       )}
 

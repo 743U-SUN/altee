@@ -5,8 +5,9 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
-import Image from 'next/image'
 import { Loader2 } from 'lucide-react'
+import { OptimizedImage } from '@/components/ui/optimized-image'
+import { convertToProxyUrl } from '@/lib/utils/image-proxy'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -115,8 +116,8 @@ export function IconEditDialog({
           <CardContent className="p-4">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 border rounded-lg p-2 bg-gray-50">
-                <Image
-                  src={icon.filePath}
+                <OptimizedImage
+                  src={convertToProxyUrl(icon.filePath)}
                   alt={icon.name}
                   width={48}
                   height={48}

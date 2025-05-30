@@ -7,6 +7,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Upload, X, Images, Loader2, GripVertical, Info, Trash2, Save, Link, FileText } from 'lucide-react';
 import { toast } from 'sonner';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 interface CarouselImage {
   id: string;
@@ -315,11 +317,13 @@ export function CarouselSettings({ userId }: CarouselSettingsProps) {
                   <div className="pt-8">
                     <GripVertical className="h-5 w-5 text-gray-400" />
                   </div>
-                  <div className="relative">
-                    <img
-                      src={image.imgUrl}
+                  <div className="relative w-32 h-56">
+                    <OptimizedImage
+                      src={convertToProxyUrl(image.imgUrl)}
                       alt={image.alt || `カルーセル画像 ${index + 1}`}
-                      className="w-32 h-56 object-cover rounded-lg"
+                      fill
+                      className="object-cover rounded-lg"
+                      sizes="128px"
                     />
                     <div className="absolute top-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
                       {index + 1}

@@ -5,8 +5,9 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
@@ -65,8 +66,8 @@ export function DeviceCard({ device, deviceId }: DeviceCardProps) {
       <Card className="overflow-hidden hover:shadow-lg transition-shadow">
         <CardHeader className="p-0">
           <div className="relative aspect-square bg-muted">
-            <Image
-              src={device.imageUrl}
+            <OptimizedImage
+              src={convertToProxyUrl(device.imageUrl)}
               alt={device.title}
               fill
               className="object-contain p-4"

@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, Plus, GripVertical, Info, Trash2, Youtube, Link } from 'lucide-react';
 import { toast } from 'sonner';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 interface RecommendVideo {
   id: string;
@@ -321,10 +323,12 @@ export function RecommendSettings({ userId }: RecommendSettingsProps) {
                   {/* サムネイル */}
                   {video.thumbnailUrl && (
                     <div className="flex-shrink-0">
-                      <img
-                        src={video.thumbnailUrl}
+                      <OptimizedImage
+                        src={convertToProxyUrl(video.thumbnailUrl)}
                         alt={video.title || '動画サムネイル'}
                         className="w-32 h-18 object-cover rounded"
+                        width={128}
+                        height={72}
                       />
                     </div>
                   )}

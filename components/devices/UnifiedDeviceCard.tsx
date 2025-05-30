@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { DisplayDevice } from "@/types/device";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -134,29 +134,16 @@ export function UnifiedDeviceCard({
               finalCompact && "aspect-[4/3]"
             )}
           >
-            {device.imageUrl?.includes('localhost:9000') && !imageError ? (
-              // MinIO画像の場合はプロキシ経由で表示
-              <img
-                src={convertToProxyUrl(device.imageUrl)}
-                alt={device.title || 'デバイス画像'}
-                className="w-full h-full object-contain p-4"
-                onError={handleImageError}
-                onLoad={handleImageLoad}
-              />
-            ) : (
-              // 外部画像またはエラー画像の場合はNext.js Imageを使用
-              <Image
-                src={imageError ? '/images/no-image.svg' : device.imageUrl}
-                alt={device.title || 'デバイス画像'}
-                fill
-                className="object-contain p-4"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                onError={handleImageError}
-                onLoad={handleImageLoad}
-                priority={false}
-                unoptimized={device.imageUrl?.includes('localhost:9000')}
-              />
-            )}
+            <OptimizedImage
+              src={convertToProxyUrl(imageError ? '/images/no-image.svg' : device.imageUrl)}
+              alt={device.title || 'デバイス画像'}
+              fill
+              className="object-contain p-4"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onError={handleImageError}
+              onLoad={handleImageLoad}
+              priority={false}
+            />
             {imageLoading && (
               <div className="absolute inset-0 bg-muted animate-pulse" />
             )}

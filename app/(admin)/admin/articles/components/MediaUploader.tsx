@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import Image from 'next/image';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 import { Upload, X, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 interface MediaUploaderProps {
   value: string;
@@ -81,8 +82,8 @@ export default function MediaUploader({ value, onChange }: MediaUploaderProps) {
     <div className="space-y-4">
       {value ? (
         <div className="relative w-full aspect-video rounded-md overflow-hidden border">
-          <Image
-            src={value}
+          <OptimizedImage
+            src={convertToProxyUrl(value)}
             alt="アイキャッチ画像"
             fill
             className="object-cover"

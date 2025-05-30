@@ -1,9 +1,9 @@
 "use client";
 
 import { Product, DeviceCategory } from "@/lib/generated/prisma";
-import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Edit, ExternalLink, RefreshCw, Trash2, Users } from "lucide-react";
@@ -87,29 +87,13 @@ export function ProductCard({ product }: ProductCardProps) {
         <CardContent>
           <div className="space-y-3">
             <div className="aspect-square relative overflow-hidden rounded-lg bg-muted">
-              {product.imageUrl?.includes('localhost:9000') ? (
-                // MinIO画像の場合はプロキシ経由で表示
-                <img
-                  src={convertToProxyUrl(product.imageUrl)}
-                  alt={product.name || '商品画像'}
-                  className="w-full h-full object-contain"
-                  onError={(e) => {
-                    e.currentTarget.src = '/images/no-image.svg';
-                  }}
-                />
-              ) : (
-                // 外部画像の場合はNext.js Imageを使用
-                <Image
-                  src={product.imageUrl || '/images/no-image.svg'}
-                  alt={product.name || '商品画像'}
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  onError={(e) => {
-                    e.currentTarget.src = '/images/no-image.svg';
-                  }}
-                />
-              )}
+              <OptimizedImage
+                src={convertToProxyUrl(product.imageUrl || '/images/no-image.svg')}
+                alt={product.name || '商品画像'}
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
             </div>
 
             <div>

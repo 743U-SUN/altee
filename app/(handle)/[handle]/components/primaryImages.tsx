@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 interface UserImageCarousel {
   id: string;
@@ -77,7 +78,7 @@ export default function PrimaryImages({ handle }: PrimaryImagesProps) {
       <div className="w-full h-full p-4 flex justify-center items-center">
         <div className="relative w-auto h-full max-w-full" style={{ aspectRatio: '9/16' }}>
           <OptimizedImage
-            src={currentImage.imgUrl}
+            src={convertToProxyUrl(currentImage.imgUrl)}
             alt={currentImage.alt || 'ユーザー画像'}
             fill
             className={`object-cover rounded-lg ${
@@ -99,7 +100,7 @@ export default function PrimaryImages({ handle }: PrimaryImagesProps) {
       <div className="flex justify-center items-center" style={{ width: 'calc(100% - 48px)' }}>
         <div className="relative w-auto h-full max-w-full" style={{ aspectRatio: '9/16' }}>
           <OptimizedImage
-            src={currentImage.imgUrl}
+            src={convertToProxyUrl(currentImage.imgUrl)}
             alt={currentImage.alt || `ユーザー画像 ${currentIndex + 1}`}
             fill
             className={`object-cover rounded-lg transition-opacity duration-300 ${

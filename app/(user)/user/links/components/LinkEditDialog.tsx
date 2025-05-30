@@ -34,6 +34,7 @@ import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import { Badge } from '@/components/ui/badge'
 import { Loader2, Image as ImageIcon } from 'lucide-react'
+import { OptimizedImage } from '@/components/ui/optimized-image'
 
 import { validateOriginalIconFile } from '@/lib/links/validation'
 import { useUserServices, useUserServiceIcons } from '../hooks/useUserLinks'
@@ -354,10 +355,12 @@ export function LinkEditDialog({
                           <div className="flex flex-col items-center justify-center pt-5 pb-6">
                             {previewUrl ? (
                               <div className="w-16 h-16 mb-2">
-                                <img 
+                                <OptimizedImage 
                                   src={previewUrl} 
                                   alt="アイコンプレビュー" 
                                   className="w-full h-full object-contain"
+                                  width={64}
+                                  height={64}
                                 />
                               </div>
                             ) : (
@@ -436,10 +439,12 @@ export function LinkEditDialog({
                                 `}
                               >
                                 <div className="aspect-square flex items-center justify-center">
-                                  <img
+                                  <OptimizedImage
                                     src={icon.filePath}
                                     alt={icon.name}
                                     className="w-6 h-6 object-contain"
+                                    width={24}
+                                    height={24}
                                   />
                                 </div>
                                 <div className="absolute -top-1 -right-1">

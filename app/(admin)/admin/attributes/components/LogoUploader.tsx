@@ -5,6 +5,8 @@ import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
 import { Upload, X, Image, Info } from 'lucide-react';
 import { toast } from 'sonner';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 interface LogoUploaderProps {
   value?: string;
@@ -134,9 +136,11 @@ export function LogoUploader({
       <div className="flex items-center gap-3">
         <div className="w-16 h-16 bg-gray-100 rounded-lg border-2 border-dashed border-gray-300 overflow-hidden flex-shrink-0">
           {displayLogoUrl ? (
-            <img
-              src={displayLogoUrl}
+            <OptimizedImage
+              src={convertToProxyUrl(displayLogoUrl)}
               alt="属性ロゴ"
+              width={64}
+              height={64}
               className="w-full h-full object-contain"
             />
           ) : (

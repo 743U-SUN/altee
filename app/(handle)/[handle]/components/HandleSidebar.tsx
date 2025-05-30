@@ -22,6 +22,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 // UserImageSidebarの型定義
 type UserImageSidebar = {
@@ -54,7 +55,7 @@ export const HandleSidebar: React.FC<HandleSidebarProps> = ({
                   className="relative w-full rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-200 flex justify-center"
                 >
                   <OptimizedImage
-                    src={image.imgUrl}
+                    src={convertToProxyUrl(image.imgUrl)}
                     alt={image.alt || 'サイドバー画像'}
                     width={320}
                     height={0}

@@ -40,9 +40,9 @@ import {
   createProduct,
   fetchProductFromAmazon,
 } from "@/lib/actions/admin-product-actions";
-import Image from "next/image";
 import { MouseAttributesForm } from "./MouseAttributesForm";
 import { KeyboardAttributesForm } from "./KeyboardAttributesForm";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { convertToProxyUrl } from "@/lib/utils/image-proxy";
 
 interface AddProductDialogProps {
@@ -338,31 +338,13 @@ export function AddProductDialog({
                 <div className="space-y-2">
                   <div className="text-sm font-medium text-muted-foreground">商品画像プレビュー</div>
                   <div className="relative aspect-square w-32 overflow-hidden rounded-lg bg-muted border">
-                    {fetchedData.imageUrl.includes('localhost:9000') ? (
-                      // MinIO画像の場合はプロキシ経由で表示
-                      <img
-                        src={convertToProxyUrl(fetchedData.imageUrl)}
-                        alt={fetchedData.title || '商品画像'}
-                        className="w-full h-full object-contain"
-                        onError={(e) => {
-                          console.error('Image load error:', fetchedData.imageUrl);
-                          e.currentTarget.src = '/images/no-image.svg';
-                        }}
-                      />
-                    ) : (
-                      // 外部画像の場合はNext.js Imageを使用
-                      <Image
-                        src={fetchedData.imageUrl}
-                        alt={fetchedData.title || '商品画像'}
-                        fill
-                        sizes="128px"
-                        className="object-contain"
-                        onError={(e) => {
-                          console.error('Image load error:', fetchedData.imageUrl);
-                          e.currentTarget.src = '/images/no-image.svg';
-                        }}
-                      />
-                    )}
+                    <OptimizedImage
+                      src={convertToProxyUrl(fetchedData.imageUrl)}
+                      alt={fetchedData.title || '商品画像'}
+                      fill
+                      sizes="128px"
+                      className="object-contain"
+                    />
                   </div>
                   <div className="text-xs text-muted-foreground break-all">
                     URL: {fetchedData.imageUrl}

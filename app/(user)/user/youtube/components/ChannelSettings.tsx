@@ -7,6 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Loader2, Save, Youtube, Info, Play } from 'lucide-react';
 import { toast } from 'sonner';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 interface YoutubeVideo {
   id: string;
@@ -256,9 +258,11 @@ export function ChannelSettings({ userId }: ChannelSettingsProps) {
                 className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
               >
                 {video.thumbnailUrl && (
-                  <img
-                    src={video.thumbnailUrl}
+                  <OptimizedImage
+                    src={convertToProxyUrl(video.thumbnailUrl)}
                     alt={video.title || '動画サムネイル'}
+                    width={300}
+                    height={128}
                     className="w-full h-32 object-cover"
                   />
                 )}

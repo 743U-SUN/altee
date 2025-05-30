@@ -10,7 +10,6 @@ import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Upload, X, Star, Image as ImageIcon } from 'lucide-react';
 import { toast } from 'sonner';
-import Image from 'next/image';
 import { ColorImageManager } from './ColorImageManager';
 
 interface Color {

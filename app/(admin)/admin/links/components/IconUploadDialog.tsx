@@ -37,6 +37,7 @@ import {
 import { Card, CardContent } from '@/components/ui/card'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { cn } from '@/lib/utils'
+import { OptimizedImage } from '@/components/ui/optimized-image'
 
 import { iconSchema } from '@/lib/links/validation'
 import type { IconFormData, LinkService } from '@/types/link'
@@ -193,10 +194,12 @@ export function IconUploadDialog({
                   <CardContent className="p-4">
                     <div className="flex items-center gap-4">
                       <div className="w-16 h-16 border rounded-lg p-2 bg-gray-50 flex items-center justify-center">
-                        <img
+                        <OptimizedImage
                           src={URL.createObjectURL(selectedFile)}
                           alt="プレビュー"
                           className="max-w-full max-h-full object-contain"
+                          width={56}
+                          height={56}
                         />
                       </div>
                       

@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
 import ReactMarkdown from 'react-markdown';
@@ -8,6 +7,8 @@ import rehypeSanitize from 'rehype-sanitize';
 import remarkGfm from 'remark-gfm';
 import { Badge } from '@/components/ui/badge';
 import { ArticleStatus } from '@prisma/client';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 // マークダウンプレビュースタイル
 const previewStyles = `
@@ -166,8 +167,8 @@ export default function PreviewRenderer({ article }: PreviewRendererProps) {
         {/* アイキャッチ画像 */}
         {article.featuredImage && (
           <div className="w-full aspect-video relative mb-8 overflow-hidden rounded-lg">
-            <Image
-              src={article.featuredImage}
+            <OptimizedImage
+              src={convertToProxyUrl(article.featuredImage)}
               alt={article.title}
               fill
               className="object-cover"

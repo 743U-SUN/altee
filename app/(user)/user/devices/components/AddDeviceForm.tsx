@@ -44,8 +44,9 @@ import {
   addDeviceFromUrlFormSchema 
 } from '@/lib/validation/device-validation';
 import { useEffect } from 'react';
-import Image from 'next/image';
 import { ProductSelectModal } from './ProductSelectModal';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 interface DuplicateInfo {
   officialProduct?: any;
@@ -349,8 +350,8 @@ export function AddDeviceForm() {
                       {selectedProduct ? (
                         <div className="flex items-center gap-2">
                           <div className="relative h-8 w-8 overflow-hidden rounded bg-muted">
-                            <Image
-                              src={selectedProduct.imageUrl || '/images/no-image.svg'}
+                            <OptimizedImage
+                              src={convertToProxyUrl(selectedProduct.imageUrl || '/images/no-image.svg')}
                               alt={selectedProduct.name}
                               fill
                               sizes="32px"
@@ -492,15 +493,12 @@ export function AddDeviceForm() {
                       <>
                         <div className="flex gap-4">
                           <div className="relative h-20 w-20 overflow-hidden rounded-md bg-muted">
-                            <Image
-                              src={previewData.productInfo.imageUrl || '/images/no-image.svg'}
+                            <OptimizedImage
+                              src={convertToProxyUrl(previewData.productInfo.imageUrl || '/images/no-image.svg')}
                               alt={previewData.productInfo.title || '商品画像'}
                               fill
-                              sizes="80px" // sizes prop を追加
+                              sizes="80px"
                               className="object-contain"
-                              onError={(e) => {
-                                e.currentTarget.src = '/images/no-image.svg';
-                              }}
                             />
                           </div>
                           <div className="flex-1 space-y-1">
