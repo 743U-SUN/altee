@@ -49,8 +49,15 @@ export async function getUserDevices(userId?: string) {
       product: {
         include: {
           category: true,
+          manufacturer: true,
+          productColors: {
+            include: {
+              color: true,
+            },
+          },
         },
       },
+      color: true,
     },
     orderBy: { createdAt: 'desc' },
   });
@@ -75,6 +82,7 @@ export async function getUserDevices(userId?: string) {
 export async function addDeviceFromProduct(data: {
   productId: number;
   note?: string;
+  colorId?: number;
 }) {
   try {
     const session = await auth();
@@ -108,6 +116,7 @@ export async function addDeviceFromProduct(data: {
       data: {
         userId: user.id,
         productId: validated.productId,
+        colorId: validated.colorId,
         deviceType: 'OFFICIAL',
         note: validated.note,
       },
@@ -499,6 +508,16 @@ export async function getOfficialProducts(category?: string) {
     include: {
       category: true,
       manufacturer: true,
+      productColors: {
+        include: {
+          color: true,
+        },
+        orderBy: {
+          color: {
+            sortOrder: 'asc',
+          },
+        },
+      },
     },
     orderBy: { createdAt: 'desc' },
   });

@@ -28,14 +28,28 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
   const attributes = form.watch("attributes") || {};
   const { manufacturers, loading: manufacturersLoading } = useManufacturers();
 
-  const updateAttribute = (key: keyof MouseAttributes, value: any) => {
+  const updateAttribute = (key: keyof MouseAttributes | 'manufacturerId', value: any) => {
     const currentAttributes = form.getValues("attributes") || {};
     // "unselected"の場合はundefinedにする
     const processedValue = value === "unselected" ? undefined : value;
-    form.setValue("attributes", {
-      ...currentAttributes,
-      [key]: processedValue,
-    });
+    
+    if (key === 'manufacturerId') {
+      // メーカーIDは最上位レベルに保存
+      form.setValue("attributes", {
+        ...currentAttributes,
+        manufacturerId: processedValue,
+      });
+    } else {
+      // マウス固有の属性はmouseオブジェクト内に保存
+      const mouseAttributes = currentAttributes.mouse || {};
+      form.setValue("attributes", {
+        ...currentAttributes,
+        mouse: {
+          ...mouseAttributes,
+          [key]: processedValue,
+        },
+      });
+    }
   };
 
   return (
@@ -46,8 +60,8 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
         <div className="space-y-2 col-span-2">
           <FormLabel>メーカー</FormLabel>
           <Select
-            value={attributes.manufacturer || ""}
-            onValueChange={(value) => updateAttribute("manufacturer", value || undefined)}
+            value={attributes.manufacturerId || ""}
+            onValueChange={(value) => updateAttribute("manufacturerId", value || undefined)}
             disabled={manufacturersLoading}
           >
             <SelectTrigger>
@@ -56,7 +70,7 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
             <SelectContent>
               <SelectItem value="unselected">未選択</SelectItem>
               {manufacturers.map((manufacturer) => (
-                <SelectItem key={manufacturer.id} value={manufacturer.name}>
+                <SelectItem key={manufacturer.id} value={manufacturer.id.toString()}>
                   {manufacturer.name}
                 </SelectItem>
               ))}
@@ -69,7 +83,7 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
           <Input
             type="number"
             placeholder="25600"
-            value={attributes.dpi_max || ""}
+            value={attributes.mouse?.dpi_max || ""}
             onChange={(e) => updateAttribute("dpi_max", e.target.value ? Number(e.target.value) : undefined)}
           />
         </div>

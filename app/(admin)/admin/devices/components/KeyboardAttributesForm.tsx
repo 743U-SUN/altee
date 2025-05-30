@@ -28,14 +28,28 @@ export function KeyboardAttributesForm({ form }: KeyboardAttributesFormProps) {
   const attributes = form.watch("attributes") || {};
   const { manufacturers, loading: manufacturersLoading } = useManufacturers();
 
-  const updateAttribute = (key: keyof KeyboardAttributes, value: any) => {
+  const updateAttribute = (key: keyof KeyboardAttributes | 'manufacturerId', value: any) => {
     const currentAttributes = form.getValues("attributes") || {};
     // "unselected"の場合はundefinedにする
     const processedValue = value === "unselected" ? undefined : value;
-    form.setValue("attributes", {
-      ...currentAttributes,
-      [key]: processedValue,
-    });
+    
+    if (key === 'manufacturerId') {
+      // メーカーIDは最上位レベルに保存
+      form.setValue("attributes", {
+        ...currentAttributes,
+        manufacturerId: processedValue,
+      });
+    } else {
+      // キーボード固有の属性はkeyboardオブジェクト内に保存
+      const keyboardAttributes = currentAttributes.keyboard || {};
+      form.setValue("attributes", {
+        ...currentAttributes,
+        keyboard: {
+          ...keyboardAttributes,
+          [key]: processedValue,
+        },
+      });
+    }
   };
 
   return (
@@ -46,8 +60,8 @@ export function KeyboardAttributesForm({ form }: KeyboardAttributesFormProps) {
         <div className="space-y-2 col-span-2">
           <FormLabel>メーカー</FormLabel>
           <Select
-            value={attributes.manufacturer || ""}
-            onValueChange={(value) => updateAttribute("manufacturer", value || undefined)}
+            value={attributes.manufacturerId || ""}
+            onValueChange={(value) => updateAttribute("manufacturerId", value || undefined)}
             disabled={manufacturersLoading}
           >
             <SelectTrigger>

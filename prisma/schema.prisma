@@ -601,6 +601,7 @@ model Color {
   
   // リレーション
   productColors ProductColor[]
+  userDevices   UserDevice[]
   
   @@map("colors")
 }
@@ -631,6 +632,7 @@ model UserDevice {
   
   // 公式商品 OR カスタム商品のどちらか一方のみ設定
   productId           Int?     @map("product_id")           // 公式リストから選択した場合
+  colorId             Int?     @map("color_id")             // 選択したカラー（公式商品の場合）
   customProductData   Json?    @map("custom_product_data")  // ユーザー独自追加の場合
   
   deviceType          DeviceType @map("device_type")        // 'OFFICIAL' | 'CUSTOM'
@@ -641,9 +643,11 @@ model UserDevice {
   // リレーション
   user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   product             Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  color               Color?   @relation(fields: [colorId], references: [id], onDelete: SetNull)
   
   @@index([userId])
   @@index([productId])
+  @@index([colorId])
   @@map("user_devices")
 }
 

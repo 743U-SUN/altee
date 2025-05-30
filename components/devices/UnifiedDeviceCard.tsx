@@ -133,16 +133,29 @@ export function UnifiedDeviceCard({
               finalCompact && "aspect-[4/3]"
             )}
           >
-            <Image
-              src={imageError ? '/images/no-image.svg' : device.imageUrl}
-              alt={device.title || 'デバイス画像'}
-              fill
-              className="object-contain p-4"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              onError={handleImageError}
-              onLoad={handleImageLoad}
-              priority={false}
-            />
+            {device.imageUrl?.includes('localhost:9000') && !imageError ? (
+              // MinIO画像の場合は通常のimgタグを使用
+              <img
+                src={device.imageUrl}
+                alt={device.title || 'デバイス画像'}
+                className="w-full h-full object-contain p-4"
+                onError={handleImageError}
+                onLoad={handleImageLoad}
+              />
+            ) : (
+              // 外部画像またはエラー画像の場合はNext.js Imageを使用
+              <Image
+                src={imageError ? '/images/no-image.svg' : device.imageUrl}
+                alt={device.title || 'デバイス画像'}
+                fill
+                className="object-contain p-4"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                onError={handleImageError}
+                onLoad={handleImageLoad}
+                priority={false}
+                unoptimized={device.imageUrl?.includes('localhost:9000')}
+              />
+            )}
             {imageLoading && (
               <div className="absolute inset-0 bg-muted animate-pulse" />
             )}
@@ -160,6 +173,21 @@ export function UnifiedDeviceCard({
               <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
                 {device.description}
               </p>
+            )}
+            
+            {device.color && (
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-sm text-muted-foreground">カラー:</span>
+                <div className="flex items-center gap-1">
+                  {device.color.hexCode && (
+                    <div
+                      className="w-4 h-4 rounded-full border border-gray-200"
+                      style={{ backgroundColor: device.color.hexCode }}
+                    />
+                  )}
+                  <span className="text-sm font-medium">{device.color.name}</span>
+                </div>
+              </div>
             )}
             
             {showNote && device.note && (
@@ -230,15 +258,28 @@ export function UnifiedDeviceCard({
               <div className="space-y-4">
                 {/* 商品画像 */}
                 <div className="aspect-video relative overflow-hidden rounded-lg bg-muted">
-                  <Image
-                    src={imageError ? '/images/no-image.svg' : device.imageUrl}
-                    alt={device.title || 'デバイス画像'}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 600px" // sizes prop を追加
-                    className="object-contain p-8"
-                    onError={handleImageError}
-                    onLoad={handleImageLoad}
-                  />
+                  {device.imageUrl?.includes('localhost:9000') && !imageError ? (
+                    // MinIO画像の場合は通常のimgタグを使用
+                    <img
+                      src={device.imageUrl}
+                      alt={device.title || 'デバイス画像'}
+                      className="w-full h-full object-contain p-8"
+                      onError={handleImageError}
+                      onLoad={handleImageLoad}
+                    />
+                  ) : (
+                    // 外部画像またはエラー画像の場合はNext.js Imageを使用
+                    <Image
+                      src={imageError ? '/images/no-image.svg' : device.imageUrl}
+                      alt={device.title || 'デバイス画像'}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 600px"
+                      className="object-contain p-8"
+                      onError={handleImageError}
+                      onLoad={handleImageLoad}
+                      unoptimized={device.imageUrl?.includes('localhost:9000')}
+                    />
+                  )}
                 </div>
                 
                 {/* 説明 */}

@@ -29,6 +29,13 @@ export interface DisplayDevice {
   note?: string;
   userCount?: number;              // 使用者数（公開版用）
   productId?: number;              // 元のProduct IDを保持（お気に入り機能用）
+  color?: {                        // 選択されたカラー情報
+    id: number;
+    name: string;
+    nameEn: string;
+    hexCode: string | null;
+  };
+  colorImageUrl?: string;          // カラー専用の商品画像
 }
 
 // マウスの属性

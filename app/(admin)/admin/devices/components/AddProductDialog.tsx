@@ -102,23 +102,31 @@ export function AddProductDialog({
     try {
       const data = await fetchProductFromAmazon(amazonUrl);
       
+      // デバッグ用ログ
+      console.log('Fetched data:', data);
+      
+      // データの存在チェック
+      if (!data || typeof data !== 'object') {
+        throw new Error('商品データが取得できませんでした');
+      }
+      
       // フォームに取得したデータをセット
-      form.setValue("title", data.title);
+      form.setValue("title", data.title || '商品名が取得できませんでした');
       form.setValue("description", data.description || "");
-      form.setValue("imageUrl", data.imageUrl);
-      form.setValue("asin", data.asin);
+      form.setValue("imageUrl", data.imageUrl || '/images/no-image.svg');
+      form.setValue("asin", data.asin || '');
       
       setFetchedData({
-        title: data.title,
-        description: data.description,
-        imageUrl: data.imageUrl,
-        asin: data.asin,
+        title: data.title || '商品名が取得できませんでした',
+        description: data.description || '',
+        imageUrl: data.imageUrl || '/images/no-image.svg',
+        asin: data.asin || '',
       });
       
       // データソースに応じたメッセージを表示
-      if (data.source === 'PA-API') {
+      if (data?.source === 'PA-API') {
         toast.success("商品情報をPA-APIから取得しました");
-      } else if (data.source === 'OG-metadata') {
+      } else if (data?.source === 'OG-metadata') {
         toast.success("商品情報を取得しました（PA-APIが利用できないためOGメタデータを使用）", {
           duration: 5000, // 少し長めに表示
         });
@@ -145,10 +153,33 @@ export function AddProductDialog({
   const onSubmit = async (values: FormValues) => {
     setIsLoading(true);
     try {
-      await createProduct({
-        ...values,
-        attributes: values.attributes || {},
-      });
+      // 属性データを適切な形式に変換
+      const attributes = values.attributes || {};
+      const submitData: any = {
+        categoryId: values.categoryId,
+        title: values.title,
+        description: values.description,
+        imageUrl: values.imageUrl,
+        amazonUrl: values.amazonUrl,
+        asin: values.asin,
+      };
+
+      // メーカーとシリーズの設定
+      if (attributes.manufacturerId) {
+        submitData.manufacturerId = parseInt(attributes.manufacturerId);
+      }
+      if (attributes.seriesId) {
+        submitData.seriesId = parseInt(attributes.seriesId);
+      }
+
+      // カテゴリ別の属性設定
+      if (categorySlug === 'mouse' && attributes.mouse) {
+        submitData.mouseAttributes = attributes.mouse;
+      } else if (categorySlug === 'keyboard' && attributes.keyboard) {
+        submitData.keyboardAttributes = attributes.keyboard;
+      }
+
+      await createProduct(submitData);
       
       toast.success("商品を追加しました");
       form.reset();
@@ -230,14 +261,38 @@ export function AddProductDialog({
 
               {/* 取得した画像のプレビュー */}
               {fetchedData?.imageUrl && (
-                <div className="relative aspect-square w-32 overflow-hidden rounded-lg bg-muted">
-                  <Image
-                    src={fetchedData.imageUrl}
-                    alt={fetchedData.title || '商品画像'}
-                    fill
-                    sizes="128px" // sizes prop を追加
-                    className="object-contain"
-                  />
+                <div className="space-y-2">
+                  <div className="text-sm font-medium text-muted-foreground">商品画像プレビュー</div>
+                  <div className="relative aspect-square w-32 overflow-hidden rounded-lg bg-muted border">
+                    {fetchedData.imageUrl.includes('localhost:9000') ? (
+                      // MinIO画像の場合はimgタグを使用（Next.js Imageより確実）
+                      <img
+                        src={fetchedData.imageUrl}
+                        alt={fetchedData.title || '商品画像'}
+                        className="w-full h-full object-contain"
+                        onError={(e) => {
+                          console.error('Image load error:', fetchedData.imageUrl);
+                          e.currentTarget.src = '/images/no-image.svg';
+                        }}
+                      />
+                    ) : (
+                      // 外部画像の場合はNext.js Imageを使用
+                      <Image
+                        src={fetchedData.imageUrl}
+                        alt={fetchedData.title || '商品画像'}
+                        fill
+                        sizes="128px"
+                        className="object-contain"
+                        onError={(e) => {
+                          console.error('Image load error:', fetchedData.imageUrl);
+                          e.currentTarget.src = '/images/no-image.svg';
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div className="text-xs text-muted-foreground break-all">
+                    URL: {fetchedData.imageUrl}
+                  </div>
                 </div>
               )}
 

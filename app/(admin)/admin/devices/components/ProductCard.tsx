@@ -91,13 +91,29 @@ export function ProductCard({ product }: ProductCardProps) {
         <CardContent>
           <div className="space-y-3">
             <div className="aspect-square relative overflow-hidden rounded-lg bg-muted">
-              <Image
-                src={product.imageUrl}
-                alt={product.name || '商品画像'}
-                fill
-                className="object-contain"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
+              {product.imageUrl?.includes('localhost:9000') ? (
+                // MinIO画像の場合は通常のimgタグを使用
+                <img
+                  src={product.imageUrl}
+                  alt={product.name || '商品画像'}
+                  className="w-full h-full object-contain"
+                  onError={(e) => {
+                    e.currentTarget.src = '/images/no-image.svg';
+                  }}
+                />
+              ) : (
+                // 外部画像の場合はNext.js Imageを使用
+                <Image
+                  src={product.imageUrl || '/images/no-image.svg'}
+                  alt={product.name || '商品画像'}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  onError={(e) => {
+                    e.currentTarget.src = '/images/no-image.svg';
+                  }}
+                />
+              )}
             </div>
 
             <div>

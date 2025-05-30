@@ -579,12 +579,50 @@ model Product {
   userFavorites      UserFavorite[]
   mouseAttributes    MouseAttributes?
   keyboardAttributes KeyboardAttributes?
+  productColors      ProductColor[]
 
   @@index([categoryId])
   @@index([manufacturerId])
   @@index([seriesId])
   @@index([asin])
   @@map("products")
+}
+
+// カラー管理（横断的属性）
+model Color {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique // "ブラック", "ホワイト", "ピンク"
+  nameEn    String   @unique @map("name_en") // "Black", "White", "Pink"
+  hexCode   String?  @map("hex_code") // "#000000", "#FFFFFF", "#FFC0CB"
+  sortOrder Int      @default(0) @map("sort_order")
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // リレーション
+  productColors ProductColor[]
+  userDevices   UserDevice[]
+
+  @@map("colors")
+}
+
+// 商品とカラーの中間テーブル
+model ProductColor {
+  id        Int      @id @default(autoincrement())
+  productId Int      @map("product_id")
+  colorId   Int      @map("color_id")
+  imageUrl  String?  @map("image_url") // カラー別の商品画像
+  isDefault Boolean  @default(false) @map("is_default") // デフォルトカラーかどうか
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // リレーション
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  color   Color   @relation(fields: [colorId], references: [id])
+
+  @@unique([productId, colorId])
+  @@index([productId])
+  @@index([colorId])
+  @@map("product_colors")
 }
 
 // ユーザーの所持デバイス管理
@@ -594,6 +632,7 @@ model UserDevice {
 
   // 公式商品 OR カスタム商品のどちらか一方のみ設定
   productId         Int?  @map("product_id") // 公式リストから選択した場合
+  colorId           Int?  @map("color_id") // 選択したカラー（公式商品の場合）
   customProductData Json? @map("custom_product_data") // ユーザー独自追加の場合
 
   deviceType DeviceType @map("device_type") // 'OFFICIAL' | 'CUSTOM'
@@ -604,9 +643,11 @@ model UserDevice {
   // リレーション
   user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  color   Color?   @relation(fields: [colorId], references: [id], onDelete: SetNull)
 
   @@index([userId])
   @@index([productId])
+  @@index([colorId])
   @@map("user_devices")
 }
 

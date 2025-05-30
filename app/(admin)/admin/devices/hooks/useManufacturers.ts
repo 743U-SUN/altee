@@ -6,11 +6,9 @@ interface Manufacturer {
   id: number;
   name: string;
   slug: string;
-  type: string;
-  category?: string;
-  description?: string;
-  logoUrl?: string;
-  website?: string;
+  description?: string | null;
+  logoUrl?: string | null;
+  website?: string | null;
   isActive: boolean;
 }
 
@@ -22,13 +20,12 @@ export function useManufacturers() {
   const fetchManufacturers = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/admin/attributes?type=MANUFACTURER');
+      const response = await fetch('/api/admin/manufacturers');
       if (response.ok) {
         const data = await response.json();
-        // MANUFACTURERタイプのみをフィルタ
-        const manufacturerData = data.filter((attr: any) => attr.type === 'MANUFACTURER');
-        setManufacturers(manufacturerData);
+        setManufacturers(data);
       } else {
+        console.error('Failed to fetch manufacturers:', response.status);
         setError('Failed to fetch manufacturers');
       }
     } catch (error) {

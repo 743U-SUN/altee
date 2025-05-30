@@ -22,6 +22,7 @@ services:
       - MINIO_SECRET_KEY=minioadmin
       - MINIO_BUCKET_NAME=altee-uploads
       - MINIO_USE_SSL=false
+      - NEXT_PUBLIC_MINIO_ENDPOINT=localhost:9000
     # ホットリロードを有効にする
     stdin_open: true
     tty: true

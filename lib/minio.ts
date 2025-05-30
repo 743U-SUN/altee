@@ -58,10 +58,8 @@ export async function uploadFile(
     
     await minioClient.putObject(BUCKET_NAME, objectName, fileBuffer, fileBuffer.length, metaData);
 
-    // 公開URLを返す（開発環境ではlocalhost、本番環境では適切なエンドポイント）
-    const publicEndpoint = process.env.NODE_ENV === 'development' 
-      ? 'localhost:9000' 
-      : process.env.MINIO_ENDPOINT;
+    // 公開URLを返す（クライアントからアクセス可能なURL）
+    const publicEndpoint = process.env.NEXT_PUBLIC_MINIO_ENDPOINT || 'localhost:9000';
     return `http://${publicEndpoint}/${BUCKET_NAME}/${objectName}`;
   } catch (error) {
     console.error('MinIO upload error:', error);

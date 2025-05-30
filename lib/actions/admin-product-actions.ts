@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 import { fetchProductFromPAAPI } from "@/lib/services/amazon/pa-api";
 import { fetchProductFromAmazonUrl } from "@/lib/services/amazon/og-metadata";
 import { extractASIN } from "@/lib/utils/amazon/url-parser";
+import { cacheImageToMinio } from "@/lib/services/image-cache";
 
 /**
  * 管理者権限チェック
@@ -88,22 +89,34 @@ export async function getAdminProduct(productId: string) {
     await checkAdminAuth();
 
     const product = await db.product.findUnique({
-    where: { id: parseInt(productId) },
-    include: {
-    category: true,
-    userDevices: {
-    include: {
-    user: {
-    select: {
-    id: true,
-    handle: true,
-    name: true,
-    iconUrl: true,
-    },
-    },
-    },
-    },
-    },
+      where: { id: parseInt(productId) },
+      include: {
+        category: true,
+        manufacturer: true,
+        series: true,
+        productColors: {
+          include: {
+            color: true,
+          },
+          orderBy: {
+            color: {
+              sortOrder: 'asc',
+            },
+          },
+        },
+        userDevices: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                handle: true,
+                name: true,
+                iconUrl: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     if (!product) {
@@ -140,14 +153,19 @@ export async function fetchProductFromAmazon(amazonUrl: string) {
       console.log('Trying PA-API for ASIN:', asin);
       const productData = await fetchProductFromPAAPI(asin);
       
+      // PA-APIデータの存在チェック
+      if (!productData || typeof productData !== 'object') {
+        throw new Error('PA-APIからのデータ取得に失敗しました');
+      }
+      
       // PA-API成功時はデータを変換して返す
       return {
-      title: productData.title,
-      description: productData.description || '',
-      imageUrl: productData.imageUrl || '/images/no-image.svg',
-      asin: asin,
-      amazonUrl: `https://www.amazon.co.jp/dp/${asin}`,
-      source: 'PA-API',
+        title: productData.title || 'Amazon商品',
+        description: productData.description || '',
+        imageUrl: productData.imageUrl || '/images/no-image.svg',
+        asin: asin,
+        amazonUrl: `https://www.amazon.co.jp/dp/${asin}`,
+        source: 'PA-API',
       };
     } catch (paApiError) {
       console.log('PA-API failed, falling back to OG metadata:', (paApiError as Error).message);
@@ -156,12 +174,17 @@ export async function fetchProductFromAmazon(amazonUrl: string) {
       try {
         const ogData = await fetchProductFromAmazonUrl(amazonUrl);
         
+        // OGデータの存在チェック
+        if (!ogData || typeof ogData !== 'object') {
+          throw new Error('OGメタデータの取得に失敗しました');
+        }
+        
         return {
-          title: ogData.title,
+          title: ogData.title || 'Amazon商品',
           description: ogData.description || '',
-          imageUrl: ogData.imageUrl,
-          asin: ogData.asin,
-          amazonUrl: `https://www.amazon.co.jp/dp/${ogData.asin}`,
+          imageUrl: ogData.imageUrl || '/images/no-image.svg',
+          asin: ogData.asin || asin,
+          amazonUrl: `https://www.amazon.co.jp/dp/${ogData.asin || asin}`,
           source: 'OG-metadata',
         };
       } catch (ogError) {
@@ -185,7 +208,10 @@ export async function createProduct(data: {
   imageUrl: string;
   amazonUrl: string;
   asin: string;
-  attributes?: Record<string, any>;
+  manufacturerId?: number;
+  seriesId?: number;
+  mouseAttributes?: Record<string, any>;
+  keyboardAttributes?: Record<string, any>;
 }) {
   try {
     await checkAdminAuth();
@@ -199,19 +225,43 @@ export async function createProduct(data: {
       throw new Error("Product with this ASIN already exists");
     }
 
+    // 画像をMinIOにキャッシュ
+    let cachedImageUrl = data.imageUrl;
+    if (data.imageUrl && !data.imageUrl.startsWith('/') && !data.imageUrl.includes('localhost:9000')) {
+      try {
+        cachedImageUrl = await cacheImageToMinio(data.imageUrl);
+        console.log('Product image cached:', cachedImageUrl);
+      } catch (error) {
+        console.error('Failed to cache product image:', error);
+        // エラー時は元のURLをそのまま使用
+      }
+    }
+
     const product = await db.product.create({
       data: {
         categoryId: parseInt(data.categoryId),
         name: data.title,  // titleをnameにマッピング
         description: data.description,
-        imageUrl: data.imageUrl,
+        imageUrl: cachedImageUrl,
         amazonUrl: data.amazonUrl,
         adminAffiliateUrl: data.amazonUrl, // 管理者用URLも設定
         asin: data.asin,
-        attributes: data.attributes || {},
+        manufacturerId: data.manufacturerId,
+        seriesId: data.seriesId,
+        // 属性は別テーブルで作成
+        mouseAttributes: data.mouseAttributes ? {
+          create: data.mouseAttributes
+        } : undefined,
+        keyboardAttributes: data.keyboardAttributes ? {
+          create: data.keyboardAttributes
+        } : undefined,
       },
       include: {
         category: true,
+        manufacturer: true,
+        series: true,
+        mouseAttributes: true,
+        keyboardAttributes: true,
       },
     });
 

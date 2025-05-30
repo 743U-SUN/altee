@@ -73,6 +73,7 @@ export function AddDeviceForm() {
   const [showDuplicateWarning, setShowDuplicateWarning] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [selectedColorId, setSelectedColorId] = useState<number | null>(null);
 
   // 公式商品を取得
   useEffect(() => {
@@ -80,10 +81,11 @@ export function AddDeviceForm() {
   }, []);
 
   // 商品が選択された時の処理
-  const handleProductSelect = (productId: number) => {
+  const handleProductSelect = (productId: number, colorId?: number) => {
     const product = officialProducts.find(p => p.id === productId);
     if (product) {
       setSelectedProduct(product);
+      setSelectedColorId(colorId || null);
       productForm.setValue('productId', productId.toString());
     }
   };
@@ -198,6 +200,7 @@ export function AddDeviceForm() {
       const result = await addDeviceFromProduct({
         productId: values.productId,
         note: values.note,
+        colorId: selectedColorId || undefined,
       });
 
       if (result.success) {

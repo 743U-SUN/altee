@@ -32,8 +32,15 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(colors);
   } catch (error) {
     console.error('Error fetching colors:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    
+    // Prismaエラーの詳細をログ出力
+    if (error instanceof Error && error.message.includes('color')) {
+      console.error('Prisma error details:', error);
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to fetch colors' },
+      { error: `Failed to fetch colors: ${errorMessage}` },
       { status: 500 }
     );
   }

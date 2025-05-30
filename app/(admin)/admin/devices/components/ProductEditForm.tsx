@@ -37,10 +37,14 @@ import { ja } from "date-fns/locale";
 import { updateProduct, refreshProductFromAmazon } from "@/lib/actions/admin-product-actions";
 import { DeviceIcon } from "@/components/devices/DeviceIcon";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ProductColorManager } from "./ProductColorManager";
 
 interface ProductEditFormProps {
   product: Product & {
     category: DeviceCategory;
+    manufacturer?: any;
+    series?: any;
+    productColors?: any[];
     userDevices: (UserDevice & {
       user: {
         id: string;
@@ -115,18 +119,26 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
   };
 
   return (
-    <div className="grid gap-6 md:grid-cols-3">
-      {/* メインフォーム */}
-      <div className="md:col-span-2 space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>基本情報</CardTitle>
-            <CardDescription>
-              商品の基本情報を編集します
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Form {...form}>
+    <Tabs defaultValue="basic" className="space-y-6">
+      <TabsList>
+        <TabsTrigger value="basic">基本情報</TabsTrigger>
+        <TabsTrigger value="colors">カラー設定</TabsTrigger>
+        <TabsTrigger value="usage">利用状況</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="basic">
+        <div className="grid gap-6 md:grid-cols-3">
+          {/* メインフォーム */}
+          <div className="md:col-span-2 space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>基本情報</CardTitle>
+                <CardDescription>
+                  商品の基本情報を編集します
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 {/* カテゴリ選択 */}
                 <FormField
@@ -375,5 +387,64 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
         )}
       </div>
     </div>
+      </TabsContent>
+
+      <TabsContent value="colors">
+        <ProductColorManager
+          productId={product.id}
+          productColors={product.productColors || []}
+          onUpdate={() => router.refresh()}
+        />
+      </TabsContent>
+
+      <TabsContent value="usage">
+        <Card>
+          <CardHeader>
+            <CardTitle>利用ユーザー</CardTitle>
+            <CardDescription>
+              この商品を使用しているユーザー一覧
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {product.userDevices.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-8">
+                まだ誰もこの商品を使用していません
+              </p>
+            ) : (
+              <div className="space-y-3">
+                {product.userDevices.map((device) => (
+                  <div
+                    key={device.id}
+                    className="flex items-center justify-between p-3 rounded-lg border"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src={device.user.iconUrl || undefined} />
+                        <AvatarFallback>
+                          {device.user.name?.[0] || device.user.handle?.[0] || "U"}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium truncate">
+                          {device.user.name || device.user.handle}
+                        </p>
+                        {device.user.handle && (
+                          <p className="text-xs text-muted-foreground">
+                            @{device.user.handle}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <Badge variant="secondary" className="text-xs">
+                      {format(new Date(device.createdAt), "yyyy/MM/dd", { locale: ja })}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </TabsContent>
+    </Tabs>
   );
 }

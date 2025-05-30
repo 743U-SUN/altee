@@ -4,6 +4,7 @@
  */
 
 import { extractASIN, normalizeAmazonUrl, detectCategoryFromTitle, expandShortenedUrl } from '@/lib/utils/amazon';
+import { cacheImageToMinio } from '@/lib/services/image-cache';
 import type { OGProductInfo } from '@/types/device';
 
 /**
@@ -193,10 +194,21 @@ export async function fetchProductFromAmazonUrl(url: string): Promise<OGProductI
       ?.replace(/\s*[\|｜]\s*Amazon.*$/, '') // 末尾のAmazon関連テキストを除去
       ?.trim() || 'Amazon商品';
     
+    // 画像をMinIOにキャッシュ
+    let cachedImageUrl = ogData.image || '/images/no-image.svg';
+    if (ogData.image && !ogData.image.startsWith('/')) {
+      try {
+        cachedImageUrl = await cacheImageToMinio(ogData.image);
+      } catch (error) {
+        console.error('Failed to cache image, using original URL:', error);
+        // エラー時は元のURLをそのまま使用
+      }
+    }
+    
     return {
       title: cleanTitle,
       description: ogData.description,
-      imageUrl: ogData.image || '/images/no-image.svg',
+      imageUrl: cachedImageUrl,
       price: price,
       asin: asin,
     };

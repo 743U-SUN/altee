@@ -14,9 +14,23 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
-import { Loader2, Search, Package } from 'lucide-react';
+import { Loader2, Search, Package, CheckCircle } from 'lucide-react';
 import { getOfficialProducts } from '@/lib/actions/device-actions';
 import { getAttributesByCategory } from '@/lib/actions/admin-product-actions';
+import { cn } from '@/lib/utils';
+
+interface ProductColor {
+  id: number;
+  colorId: number;
+  imageUrl: string | null;
+  isDefault: boolean;
+  color: {
+    id: number;
+    name: string;
+    nameEn: string;
+    hexCode: string | null;
+  };
+}
 
 interface Product {
   id: number;
@@ -35,13 +49,14 @@ interface Product {
     name: string;
     logoUrl: string | null;
   };
+  productColors?: ProductColor[];
 }
 
 interface ProductSelectModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   selectedCategory: string;
-  onSelect: (productId: number) => void;
+  onSelect: (productId: number, colorId?: number) => void;
 }
 
 export function ProductSelectModal({
@@ -55,6 +70,8 @@ export function ProductSelectModal({
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilters, setSelectedFilters] = useState<Record<string, string[]>>({});
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(null);
+  const [selectedColorId, setSelectedColorId] = useState<number | null>(null);
 
   // 商品と属性を取得
   useEffect(() => {
@@ -128,10 +145,33 @@ export function ProductSelectModal({
   };
 
   // 商品選択の処理
-  const handleProductSelect = (productId: number) => {
-    onSelect(productId);
-    onOpenChange(false);
+  const handleProductClick = (product: Product) => {
+    setSelectedProductId(product.id);
+    
+    // カラーバリエーションがある場合は、デフォルトカラーを選択
+    if (product.productColors && product.productColors.length > 0) {
+      const defaultColor = product.productColors.find(pc => pc.isDefault);
+      setSelectedColorId(defaultColor?.colorId || product.productColors[0].colorId);
+    } else {
+      setSelectedColorId(null);
+    }
   };
+
+  // カラー選択の処理
+  const handleColorSelect = (colorId: number) => {
+    setSelectedColorId(colorId);
+  };
+
+  // 最終的な選択確定
+  const handleConfirmSelection = () => {
+    if (selectedProductId) {
+      onSelect(selectedProductId, selectedColorId || undefined);
+      onOpenChange(false);
+    }
+  };
+
+  // 選択された商品を取得
+  const selectedProduct = products.find(p => p.id === selectedProductId);
 
   // メーカー属性を取得
   const manufacturerAttributes = attributes.filter(attr => attr.type === 'MANUFACTURER');
@@ -200,46 +240,117 @@ export function ProductSelectModal({
                   </div>
                 ) : (
                   filteredProducts.map((product) => (
-                    <div
-                      key={product.id}
-                      className="flex items-center gap-4 p-4 border rounded-lg hover:bg-accent cursor-pointer transition-colors"
-                      onClick={() => handleProductSelect(product.id)}
-                    >
-                      <div className="relative h-16 w-16 overflow-hidden rounded-md bg-muted flex-shrink-0">
-                        <Image
-                          src={product.imageUrl || '/images/no-image.svg'}
-                          alt={product.name}
-                          fill
-                          sizes="64px"
-                          className="object-contain"
-                          onError={(e) => {
-                            e.currentTarget.src = '/images/no-image.svg';
-                          }}
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-medium line-clamp-1">{product.name}</h4>
-                        {product.manufacturer && (
-                          <p className="text-sm text-muted-foreground flex items-center gap-1">
-                            {product.manufacturer.logoUrl && (
-                              <img
-                                src={product.manufacturer.logoUrl}
-                                alt={product.manufacturer.name}
-                                className="w-4 h-4 object-contain"
-                              />
-                            )}
-                            {product.manufacturer.name}
-                          </p>
+                    <div key={product.id}>
+                      <div
+                        className={cn(
+                          "flex items-center gap-4 p-4 border rounded-lg hover:bg-accent cursor-pointer transition-colors",
+                          selectedProductId === product.id && "border-primary bg-accent"
                         )}
-                        {product.price && (
-                          <p className="text-sm font-medium">¥{parseInt(product.price).toLocaleString()}</p>
+                        onClick={() => handleProductClick(product)}
+                      >
+                        <div className="relative h-16 w-16 overflow-hidden rounded-md bg-muted flex-shrink-0">
+                          <Image
+                            src={product.imageUrl || '/images/no-image.svg'}
+                            alt={product.name}
+                            fill
+                            sizes="64px"
+                            className="object-contain"
+                            onError={(e) => {
+                              e.currentTarget.src = '/images/no-image.svg';
+                            }}
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium line-clamp-1">{product.name}</h4>
+                          {product.manufacturer && (
+                            <p className="text-sm text-muted-foreground flex items-center gap-1">
+                              {product.manufacturer.logoUrl && (
+                                <img
+                                  src={product.manufacturer.logoUrl}
+                                  alt={product.manufacturer.name}
+                                  className="w-4 h-4 object-contain"
+                                />
+                              )}
+                              {product.manufacturer.name}
+                            </p>
+                          )}
+                          {product.price && (
+                            <p className="text-sm font-medium">¥{parseInt(product.price).toLocaleString()}</p>
+                          )}
+                        </div>
+                        {selectedProductId === product.id && (
+                          <CheckCircle className="h-5 w-5 text-primary" />
                         )}
                       </div>
+
+                      {/* カラー選択 */}
+                      {selectedProductId === product.id && product.productColors && product.productColors.length > 0 && (
+                        <div className="mt-3 ml-4 p-3 bg-muted rounded-lg">
+                          <Label className="text-sm font-medium mb-2 block">カラーを選択</Label>
+                          <div className="flex flex-wrap gap-2">
+                            {product.productColors.map((pc) => (
+                              <button
+                                key={pc.id}
+                                onClick={() => handleColorSelect(pc.color.id)}
+                                className={cn(
+                                  "relative w-16 h-16 rounded-lg border-2 overflow-hidden transition-all",
+                                  selectedColorId === pc.color.id
+                                    ? "border-primary ring-2 ring-primary ring-offset-2"
+                                    : "border-gray-200 hover:border-gray-300"
+                                )}
+                              >
+                                {pc.imageUrl ? (
+                                  <img
+                                    src={pc.imageUrl}
+                                    alt={pc.color.name}
+                                    className="w-full h-full object-cover"
+                                  />
+                                ) : pc.color.hexCode ? (
+                                  <div
+                                    className="w-full h-full"
+                                    style={{ backgroundColor: pc.color.hexCode }}
+                                  />
+                                ) : (
+                                  <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                                    <span className="text-xs text-gray-500">{pc.color.name[0]}</span>
+                                  </div>
+                                )}
+                                {pc.isDefault && (
+                                  <div className="absolute top-0 right-0 bg-primary text-white text-xs px-1 rounded-bl">
+                                    デフォルト
+                                  </div>
+                                )}
+                              </button>
+                            ))}
+                          </div>
+                          <div className="mt-2 text-sm text-muted-foreground">
+                            選択中: {product.productColors.find(pc => pc.color.id === selectedColorId)?.color.name}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))
                 )}
               </div>
             </ScrollArea>
+
+            {/* 選択ボタン */}
+            {selectedProductId && (
+              <div className="flex justify-end gap-2 pt-4 border-t">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSelectedProductId(null);
+                    setSelectedColorId(null);
+                  }}
+                >
+                  選択を解除
+                </Button>
+                <Button onClick={handleConfirmSelection}>
+                  この商品を選択
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </DialogContent>

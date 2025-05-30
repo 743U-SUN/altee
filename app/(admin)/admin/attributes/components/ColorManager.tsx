@@ -162,14 +162,17 @@ export function ColorManager() {
   const fetchColors = async () => {
     try {
       const response = await fetch('/api/admin/colors');
-      if (!response.ok) throw new Error('Failed to fetch colors');
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        throw new Error(errorData.error || `Failed to fetch colors: ${response.status}`);
+      }
       const data = await response.json();
       setColors(data);
     } catch (error) {
       console.error('Error fetching colors:', error);
       toast({
         title: 'エラー',
-        description: 'カラーの取得に失敗しました',
+        description: error instanceof Error ? error.message : 'カラーの取得に失敗しました',
         variant: 'destructive',
       });
     } finally {

@@ -16,6 +16,7 @@ export const getDevicesFilterSchema = z.object({
 export const createDeviceFromProductSchema = z.object({
   productId: z.number().int().positive(),
   note: z.string().max(1000).optional(),
+  colorId: z.number().int().positive().optional(),
 });
 
 // Amazon URLからデバイス作成
