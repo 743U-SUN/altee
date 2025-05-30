@@ -28,6 +28,7 @@ import { DeviceIcon } from "./DeviceIcon";
 import { DeviceDetails } from "./DeviceDetails";
 import { FavoriteButton } from "./FavoriteButton";
 import { cn } from "@/lib/utils";
+import { convertToProxyUrl } from "@/lib/utils/image-proxy";
 
 interface UnifiedDeviceCardProps {
   device: DisplayDevice;
@@ -134,9 +135,9 @@ export function UnifiedDeviceCard({
             )}
           >
             {device.imageUrl?.includes('localhost:9000') && !imageError ? (
-              // MinIO画像の場合は通常のimgタグを使用
+              // MinIO画像の場合はプロキシ経由で表示
               <img
-                src={device.imageUrl}
+                src={convertToProxyUrl(device.imageUrl)}
                 alt={device.title || 'デバイス画像'}
                 className="w-full h-full object-contain p-4"
                 onError={handleImageError}
@@ -259,9 +260,9 @@ export function UnifiedDeviceCard({
                 {/* 商品画像 */}
                 <div className="aspect-video relative overflow-hidden rounded-lg bg-muted">
                   {device.imageUrl?.includes('localhost:9000') && !imageError ? (
-                    // MinIO画像の場合は通常のimgタグを使用
+                    // MinIO画像の場合はプロキシ経由で表示
                     <img
-                      src={device.imageUrl}
+                      src={convertToProxyUrl(device.imageUrl)}
                       alt={device.title || 'デバイス画像'}
                       className="w-full h-full object-contain p-8"
                       onError={handleImageError}

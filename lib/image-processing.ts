@@ -110,6 +110,18 @@ export const IMAGE_PRESETS = {
     fit: 'inside' as const,
     withoutEnlargement: true,
     lossless: false
+  },
+  
+  // 商品カラー画像用（800x800、高品質）
+  productColor: {
+    format: 'webp' as const,
+    quality: 90,
+    effort: 4,
+    maxWidth: 800,
+    maxHeight: 800,
+    fit: 'inside' as const,
+    withoutEnlargement: true,
+    lossless: false
   }
 } as const;
 

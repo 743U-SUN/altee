@@ -326,23 +326,33 @@ export async function deleteProduct(productId: string) {
   try {
     await checkAdminAuth();
 
-    // 関連するUserDeviceのチェック
+    // 関連するUserDeviceの数をカウント
     const relatedDevices = await db.userDevice.count({
       where: { productId: parseInt(productId) },
     });
 
-    if (relatedDevices > 0) {
-      throw new Error(
-        `Cannot delete product: ${relatedDevices} users are using this product`
-      );
-    }
+    // トランザクションで商品と関連するユーザーデバイスを削除
+    await db.$transaction(async (tx) => {
+      // 関連するユーザーデバイスを削除
+      if (relatedDevices > 0) {
+        await tx.userDevice.deleteMany({
+          where: { productId: parseInt(productId) },
+        });
+      }
 
-    await db.product.delete({
-      where: { id: parseInt(productId) },
+      // 商品を削除
+      await tx.product.delete({
+        where: { id: parseInt(productId) },
+      });
     });
 
     revalidatePath("/admin/devices");
-    return { success: true };
+    return { 
+      success: true, 
+      message: relatedDevices > 0 
+        ? `商品を削除し、${relatedDevices}人のユーザーの使用リストからも削除しました` 
+        : "商品を削除しました"
+    };
   } catch (error) {
     console.error("Error deleting product:", error);
     throw error;
@@ -620,5 +630,19 @@ export async function importProductsFromCSV(csvContent: string) {
       error: "CSVインポートに失敗しました",
       errors: []
     };
+  }
+}
+
+/**
+ * 画像をMinIOにキャッシュ（Server Action版）
+ */
+export async function cacheImageAction(imageUrl: string) {
+  try {
+    await checkAdminAuth();
+    const cachedUrl = await cacheImageToMinio(imageUrl);
+    return cachedUrl;
+  } catch (error) {
+    console.error("Error caching image:", error);
+    throw error;
   }
 }

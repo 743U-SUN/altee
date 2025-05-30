@@ -5,8 +5,10 @@ import { prisma } from '@/lib/prisma';
 import { 
   validateImageFile, 
   processImageWithPreset, 
-  generateImageFileName 
+  generateImageFileName,
+  isSvgFile 
 } from '@/lib/image-processing';
+import { sanitizeSvg } from '@/lib/svg-sanitizer';
 
 // ファイルサイズ制限
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
@@ -73,19 +75,54 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const inputBuffer = Buffer.from(bytes);
 
-    // 画像変換（プリセット使用）
-    const processedResult = await processImageWithPreset(inputBuffer, 'carousel');
+    let processedResult;
+    let fileName: string;
+    let fileUrl: string;
+    let format: string;
 
-    // ファイル名生成
-    const fileName = generateImageFileName(userId, 'user-carousel', processedResult.outputFormat);
-
-    // MinIOアップロード
-    const fileUrl = await uploadFile(
-      fileName, 
-      processedResult.buffer, 
-      processedResult.outputFormat, 
-      'carousel'
-    );
+    // SVGファイルかどうかをチェック
+    if (isSvgFile(inputBuffer, file.name)) {
+      console.log('SVGファイルを検出しました');
+      
+      // SVGのサニタイズ
+      const svgString = inputBuffer.toString('utf-8');
+      const sanitizedSvg = sanitizeSvg(svgString);
+      const sanitizedBuffer = Buffer.from(sanitizedSvg, 'utf-8');
+      
+      // ファイル名生成（SVG用）
+      fileName = generateImageFileName(userId, 'user-carousel', 'svg');
+      format = 'svg';
+      
+      // MinIOアップロード（SVG）
+      fileUrl = await uploadFile(
+        fileName, 
+        sanitizedBuffer, 
+        'svg', 
+        'carousel'
+      );
+      
+      // SVG用のレスポンスデータ
+      processedResult = {
+        buffer: sanitizedBuffer,
+        outputFormat: 'svg',
+        originalSize: inputBuffer.length,
+        processedSize: sanitizedBuffer.length,
+        compressionRatio: ((inputBuffer.length - sanitizedBuffer.length) / inputBuffer.length * 100).toFixed(2) + '%'
+      };
+    } else {
+      // 通常の画像処理（WebP変換）
+      processedResult = await processImageWithPreset(inputBuffer, 'carousel');
+      fileName = generateImageFileName(userId, 'user-carousel', processedResult.outputFormat);
+      format = processedResult.outputFormat;
+      
+      // MinIOアップロード（WebP）
+      fileUrl = await uploadFile(
+        fileName, 
+        processedResult.buffer, 
+        processedResult.outputFormat, 
+        'carousel'
+      );
+    }
 
     // データベースに保存
     const carouselImage = await prisma.userImageCarousel.create({
@@ -103,7 +140,7 @@ export async function POST(request: NextRequest) {
       sortOrder: carouselImage.sortOrder,
       message: 'カルーセル画像のアップロードが完了しました',
       details: {
-        format: 'webp',
+        format: format,
         originalSize: processedResult.originalSize,
         optimizedSize: processedResult.processedSize,
         compressionRatio: processedResult.compressionRatio

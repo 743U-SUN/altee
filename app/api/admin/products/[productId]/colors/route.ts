@@ -14,7 +14,7 @@ const updateColorsSchema = z.object({
 // PUT: 商品のカラー設定を更新
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { productId: string } }
+  { params }: { params: Promise<{ productId: string }> }
 ) {
   try {
     const session = await auth();
@@ -22,7 +22,8 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const productId = parseInt(params.productId);
+    const resolvedParams = await params;
+    const productId = parseInt(resolvedParams.productId);
     const body = await request.json();
     const validated = updateColorsSchema.parse(body);
 
@@ -89,7 +90,7 @@ export async function PUT(
 // GET: 商品のカラー設定を取得
 export async function GET(
   request: NextRequest,
-  { params }: { params: { productId: string } }
+  { params }: { params: Promise<{ productId: string }> }
 ) {
   try {
     const session = await auth();
@@ -97,8 +98,9 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const resolvedParams = await params;
     const productColors = await db.productColor.findMany({
-      where: { productId: parseInt(params.productId) },
+      where: { productId: parseInt(resolvedParams.productId) },
       include: {
         color: true,
       },

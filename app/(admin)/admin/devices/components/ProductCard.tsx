@@ -22,6 +22,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { DeviceIcon } from "@/components/devices/DeviceIcon";
+import { convertToProxyUrl } from "@/lib/utils/image-proxy";
 
 interface ProductCardProps {
   product: Product & {
@@ -53,15 +54,10 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   const handleDelete = async () => {
-    if (product._count.userDevices > 0) {
-      toast.error(`この商品は${product._count.userDevices}人のユーザーが使用しているため削除できません`);
-      return;
-    }
-
     setIsDeleting(true);
     try {
-      await deleteProduct(product.id.toString());
-      toast.success("商品を削除しました");
+      const result = await deleteProduct(product.id.toString());
+      toast.success(result.message || "商品を削除しました");
       router.refresh();
     } catch (error) {
       toast.error("商品の削除に失敗しました");
@@ -92,9 +88,9 @@ export function ProductCard({ product }: ProductCardProps) {
           <div className="space-y-3">
             <div className="aspect-square relative overflow-hidden rounded-lg bg-muted">
               {product.imageUrl?.includes('localhost:9000') ? (
-                // MinIO画像の場合は通常のimgタグを使用
+                // MinIO画像の場合はプロキシ経由で表示
                 <img
-                  src={product.imageUrl}
+                  src={convertToProxyUrl(product.imageUrl)}
                   alt={product.name || '商品画像'}
                   className="w-full h-full object-contain"
                   onError={(e) => {
@@ -178,7 +174,7 @@ export function ProductCard({ product }: ProductCardProps) {
               variant="outline"
               size="sm"
               onClick={() => setShowDeleteDialog(true)}
-              disabled={product._count.userDevices > 0 || isDeleting}
+              disabled={isDeleting}
               className="flex-1"
             >
               <Trash2 className="mr-2 h-4 w-4" />
@@ -194,6 +190,11 @@ export function ProductCard({ product }: ProductCardProps) {
             <AlertDialogTitle>商品を削除しますか？</AlertDialogTitle>
             <AlertDialogDescription>
               「{product.name}」を削除します。この操作は取り消すことができません。
+              {product._count.userDevices > 0 && (
+                <span className="block mt-2 p-2 bg-yellow-50 dark:bg-yellow-900/20 rounded border text-sm">
+                  ⚠️ 注意: この商品は現在{product._count.userDevices}人のユーザーが使用中です。削除すると、これらのユーザーの使用リストからも自動的に削除されます。
+                </span>
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

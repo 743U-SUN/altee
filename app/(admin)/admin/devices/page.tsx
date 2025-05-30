@@ -8,11 +8,12 @@ import { ProductUpdateStatus } from "./components/ProductUpdateStatus";
 export default async function AdminDevicesPage({
   searchParams,
 }: {
-  searchParams: { page?: string; category?: string; search?: string };
+  searchParams: Promise<{ page?: string; category?: string; search?: string }>;
 }) {
-  const currentPage = Number(searchParams.page) || 1;
-  const categoryId = searchParams.category;
-  const searchQuery = searchParams.search;
+  const resolvedSearchParams = await searchParams;
+  const currentPage = Number(resolvedSearchParams.page) || 1;
+  const categoryId = resolvedSearchParams.category;
+  const searchQuery = resolvedSearchParams.search;
 
   const [productsData, categories] = await Promise.all([
     getAdminProducts(currentPage, 20, categoryId, searchQuery),

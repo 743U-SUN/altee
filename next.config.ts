@@ -2,7 +2,34 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   // サーバーサイドで使用する外部パッケージ（Next.js 15+の新しい設定）
-  serverExternalPackages: ['sharp'],
+  serverExternalPackages: ['sharp', 'minio'],
+  
+  // WebPack設定でMinIOをサーバーサイドのみに制限
+  webpack: (config: any, { isServer }: { isServer: boolean }) => {
+    if (!isServer) {
+      // クライアントサイドのビルドからMinIOを除外
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        dns: false,
+        crypto: false,
+        stream: false,
+        url: false,
+        zlib: false,
+        http: false,
+        https: false,
+        assert: false,
+        os: false,
+        path: false,
+      };
+      
+      config.externals = config.externals || [];
+      config.externals.push('minio');
+    }
+    return config;
+  },
   // 画像最適化の設定
   images: {
     remotePatterns: [

@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/auth';
-import { minioClient, BUCKET_NAME } from '@/lib/minio';
-import { db } from '@/lib/prisma';
-import sharp from 'sharp';
+import { uploadFile, deleteFile } from '@/lib/minio';
+import { 
+  validateImageFile, 
+  processImageWithPreset, 
+  generateImageFileName 
+} from '@/lib/image-processing';
+import { sanitizeSvgFile, isSvgFile, createSvgBuffer } from '@/lib/svg-sanitizer';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -33,53 +37,90 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // ファイルタイプチェック
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-    if (!allowedTypes.includes(file.type)) {
+    // ファイル検証
+    const validationError = validateImageFile(file, MAX_FILE_SIZE);
+    if (validationError) {
       return NextResponse.json(
-        { error: 'Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed' },
+        { error: validationError },
         { status: 400 }
       );
     }
 
-    // 画像の処理とリサイズ
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const processedImage = await sharp(buffer)
-      .resize(800, 800, {
-        fit: 'inside',
-        withoutEnlargement: true,
-      })
-      .webp({ quality: 90 })
-      .toBuffer();
+    // ファイルをBufferに変換
+    const bytes = await file.arrayBuffer();
+    const inputBuffer = Buffer.from(bytes);
 
-    // バケットの存在確認
-    const bucketExists = await minioClient.bucketExists(BUCKET_NAME);
-    if (!bucketExists) {
-      await minioClient.makeBucket(BUCKET_NAME);
+    let fileUrl: string;
+    let uploadDetails: any;
+
+    // SVGファイルの場合はサニタイズのみ、その他はWebP変換
+    if (isSvgFile(file)) {
+      console.log('サニタイズ処理開始: SVGファイル');
+      
+      // SVGサニタイズ
+      const sanitizeResult = await sanitizeSvgFile(file);
+      
+      if (sanitizeResult.hasRemovedDangerousContent) {
+        console.log('危険なコンテンツを除去しました:', {
+          removedElements: sanitizeResult.removedElements,
+          removedAttributes: sanitizeResult.removedAttributes
+        });
+      }
+      
+      // サニタイズされたSVGからBufferを作成
+      const sanitizedBuffer = createSvgBuffer(sanitizeResult.sanitizedSvg);
+      
+      // ファイル名を生成（SVGはそのまま）
+      const fileName = generateImageFileName(`product-${productId}-color-${colorId}`, 'product-color', 'image/svg+xml');
+      
+      // MinIOへのアップロード
+      fileUrl = await uploadFile(
+        fileName, 
+        sanitizedBuffer, 
+        'image/svg+xml', 
+        'products'
+      );
+      
+      uploadDetails = {
+        format: 'svg',
+        originalSize: inputBuffer.length,
+        sanitizedSize: sanitizedBuffer.length,
+        hasRemovedDangerousContent: sanitizeResult.hasRemovedDangerousContent,
+        removedElements: sanitizeResult.removedElements,
+        removedAttributes: sanitizeResult.removedAttributes
+      };
+      
+    } else {
+      // 通常の画像ファイルのWebP変換処理
+      console.log('画像変換開始: 商品カラー用プリセットを使用');
+      const processedResult = await processImageWithPreset(inputBuffer, 'productColor');
+
+      // ファイル名を生成
+      const fileName = generateImageFileName(`product-${productId}-color-${colorId}`, 'product-color', processedResult.outputFormat);
+
+      // MinIOへのアップロード
+      fileUrl = await uploadFile(
+        fileName, 
+        processedResult.buffer, 
+        processedResult.outputFormat, 
+        'products'
+      );
+      
+      uploadDetails = {
+        format: 'webp',
+        originalSize: processedResult.originalSize,
+        optimizedSize: processedResult.processedSize,
+        compressionRatio: processedResult.compressionRatio
+      };
     }
 
-    // ファイル名の生成
-    const timestamp = Date.now();
-    const fileName = `products/${productId}/colors/${colorId}-${timestamp}.webp`;
+    // 画像URLの生成（プロキシ経由のURL）
+    const imageUrl = `/api/images/${fileUrl.split('/').slice(-2).join('/')}`;
 
-    // MinIOにアップロード
-    await minioClient.putObject(
-      BUCKET_NAME,
-      fileName,
-      processedImage,
-      processedImage.length,
-      {
-        'Content-Type': 'image/webp',
-        'Cache-Control': 'public, max-age=31536000',
-      }
-    );
-
-    // 画像URLの生成（クライアントからアクセス可能なURL）
-    // Docker環境ではlocalhostを使用、本番環境では環境変数を使用
-    const publicEndpoint = process.env.NEXT_PUBLIC_MINIO_ENDPOINT || 'localhost:9000';
-    const imageUrl = `http://${publicEndpoint}/${BUCKET_NAME}/${fileName}`;
-
-    return NextResponse.json({ url: imageUrl });
+    return NextResponse.json({ 
+      url: imageUrl,
+      details: uploadDetails 
+    });
   } catch (error) {
     console.error('Error uploading product color image:', error);
     return NextResponse.json(
@@ -106,20 +147,25 @@ export async function DELETE(request: NextRequest) {
     }
 
     // URLからオブジェクト名を抽出
-    const urlParts = imageUrl.split('/');
-    const bucketIndex = urlParts.indexOf(BUCKET_NAME);
-    if (bucketIndex === -1) {
-      return NextResponse.json(
-        { error: 'Invalid image URL' },
-        { status: 400 }
-      );
+    // プロキシURL形式: /api/images/products/filename
+    let objectName: string;
+    if (imageUrl.startsWith('/api/images/')) {
+      objectName = imageUrl.replace('/api/images/', '');
+    } else {
+      // 旧形式のURL対応
+      const urlParts = imageUrl.split('/');
+      const bucketIndex = urlParts.indexOf('altee-uploads');
+      if (bucketIndex === -1) {
+        return NextResponse.json(
+          { error: 'Invalid image URL' },
+          { status: 400 }
+        );
+      }
+      objectName = urlParts.slice(bucketIndex + 1).join('/');
     }
 
-    const objectName = urlParts.slice(bucketIndex + 1).join('/');
-    const minioClient = getMinioClient();
-
-    // MinIOからオブジェクトを削除
-    await minioClient.removeObject(BUCKET_NAME, objectName);
+    // ファイル削除
+    await deleteFile(objectName);
 
     return NextResponse.json({ success: true });
   } catch (error) {

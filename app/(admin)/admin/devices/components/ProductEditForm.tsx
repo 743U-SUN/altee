@@ -38,6 +38,7 @@ import { updateProduct, refreshProductFromAmazon } from "@/lib/actions/admin-pro
 import { DeviceIcon } from "@/components/devices/DeviceIcon";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ProductColorManager } from "./ProductColorManager";
+import { convertToProxyUrl } from "@/lib/utils/image-proxy";
 
 interface ProductEditFormProps {
   product: Product & {
@@ -300,7 +301,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
           <CardContent className="space-y-4">
             <div className="aspect-square relative overflow-hidden rounded-lg bg-muted">
               <Image
-                src={product.imageUrl}
+                src={convertToProxyUrl(product.imageUrl)}
                 alt={product.name || '商品画像'}
                 fill
                 className="object-contain"

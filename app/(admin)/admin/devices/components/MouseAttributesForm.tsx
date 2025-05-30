@@ -93,7 +93,7 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
           <Input
             type="number"
             placeholder="100"
-            value={attributes.dpi_min || ""}
+            value={attributes.mouse?.dpi_min || ""}
             onChange={(e) => updateAttribute("dpi_min", e.target.value ? Number(e.target.value) : undefined)}
           />
         </div>
@@ -104,7 +104,7 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
           <Input
             type="number"
             placeholder="79"
-            value={attributes.weight || ""}
+            value={attributes.mouse?.weight || ""}
             onChange={(e) => updateAttribute("weight", e.target.value ? Number(e.target.value) : undefined)}
           />
         </div>
@@ -114,7 +114,7 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
           <Input
             type="number"
             placeholder="5"
-            value={attributes.buttons || ""}
+            value={attributes.mouse?.buttons || ""}
             onChange={(e) => updateAttribute("buttons", e.target.value ? Number(e.target.value) : undefined)}
           />
         </div>
@@ -125,7 +125,7 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
           <Input
             type="number"
             placeholder="125"
-            value={attributes.width || ""}
+            value={attributes.mouse?.width || ""}
             onChange={(e) => updateAttribute("width", e.target.value ? Number(e.target.value) : undefined)}
           />
         </div>
@@ -135,8 +135,8 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
           <Input
             type="number"
             placeholder="63"
-            value={attributes.depth || ""}
-            onChange={(e) => updateAttribute("depth", e.target.value ? Number(e.target.value) : undefined)}
+            value={attributes.mouse?.length || ""}
+            onChange={(e) => updateAttribute("length", e.target.value ? Number(e.target.value) : undefined)}
           />
         </div>
 
@@ -145,7 +145,7 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
           <Input
             type="number"
             placeholder="40"
-            value={attributes.height || ""}
+            value={attributes.mouse?.height || ""}
             onChange={(e) => updateAttribute("height", e.target.value ? Number(e.target.value) : undefined)}
           />
         </div>
@@ -155,7 +155,7 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
         <div className="space-y-2 col-span-2">
           <FormLabel>接続方式</FormLabel>
           <Select
-            value={attributes.connection_type || ""}
+            value={attributes.mouse?.connection_type || ""}
             onValueChange={(value) => updateAttribute("connection_type", value || undefined)}
           >
             <SelectTrigger>
@@ -171,43 +171,37 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
         </div>
 
         {/* 形状 */}
-        <div className="space-y-2 col-span-2">
-          <FormLabel>形状</FormLabel>
-          <Select
-            value={attributes.shape || ""}
-            onValueChange={(value) => updateAttribute("shape", value || undefined)}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="形状を選択" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="unselected">未選択</SelectItem>
-              <SelectItem value="symmetric">左右対称</SelectItem>
-              <SelectItem value="right_handed">右手用</SelectItem>
-              <SelectItem value="left_handed">左手用</SelectItem>
-              <SelectItem value="ergonomic">エルゴノミクス</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-
         {/* ポーリングレート */}
         <div className="space-y-2 col-span-2">
           <FormLabel>ポーリングレート (Hz)</FormLabel>
           <Input
-            placeholder="125,500,1000,8000"
-            value={attributes.polling_rate ? attributes.polling_rate.join(",") : ""}
-            onChange={(e) => {
-              const rates = e.target.value
-                .split(",")
-                .map(rate => Number(rate.trim()))
-                .filter(rate => !isNaN(rate));
-              updateAttribute("polling_rate", rates.length > 0 ? rates : undefined);
-            }}
+            placeholder="1000"
+            value={attributes.mouse?.polling_rate || ""}
+            onChange={(e) => updateAttribute("polling_rate", e.target.value ? Number(e.target.value) : undefined)}
           />
           <p className="text-sm text-muted-foreground">
-            カンマ区切りで入力してください（例: 125,500,1000,8000）
+            最大ポーリングレートを入力してください（例: 1000）
           </p>
+        </div>
+
+        {/* センサー */}
+        <div className="space-y-2 col-span-2">
+          <FormLabel>センサー</FormLabel>
+          <Input
+            placeholder="HERO 25K"
+            value={attributes.mouse?.sensor || ""}
+            onChange={(e) => updateAttribute("sensor", e.target.value || undefined)}
+          />
+        </div>
+
+        {/* ソフトウェア */}
+        <div className="space-y-2 col-span-2">
+          <FormLabel>対応ソフトウェア</FormLabel>
+          <Input
+            placeholder="Logitech G HUB"
+            value={attributes.mouse?.software || ""}
+            onChange={(e) => updateAttribute("software", e.target.value || undefined)}
+          />
         </div>
       </div>
 
@@ -215,34 +209,12 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
       <div className="space-y-4">
         <div className="flex items-center space-x-2">
           <Checkbox
-            id="bluetooth"
-            checked={attributes.bluetooth || false}
-            onCheckedChange={(checked) => updateAttribute("bluetooth", checked)}
+            id="rgb"
+            checked={attributes.mouse?.rgb || false}
+            onCheckedChange={(checked) => updateAttribute("rgb", checked)}
           />
-          <label htmlFor="bluetooth" className="text-sm font-medium">
-            Bluetooth対応
-          </label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="onboard_memory"
-            checked={attributes.onboard_memory || false}
-            onCheckedChange={(checked) => updateAttribute("onboard_memory", checked)}
-          />
-          <label htmlFor="onboard_memory" className="text-sm font-medium">
-            オンボードメモリ対応
-          </label>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <Checkbox
-            id="wireless_charging"
-            checked={attributes.wireless_charging || false}
-            onCheckedChange={(checked) => updateAttribute("wireless_charging", checked)}
-          />
-          <label htmlFor="wireless_charging" className="text-sm font-medium">
-            ワイヤレス充電対応
+          <label htmlFor="rgb" className="text-sm font-medium">
+            RGB対応
           </label>
         </div>
       </div>

@@ -7,6 +7,7 @@ import {
   processImageWithPreset, 
   generateImageFileName 
 } from '@/lib/image-processing';
+import { sanitizeSvgFile, isSvgFile, createSvgBuffer } from '@/lib/svg-sanitizer';
 
 // ファイルサイズ制限
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
@@ -73,19 +74,68 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const inputBuffer = Buffer.from(bytes);
 
-    // 画像変換（userSidebarプリセット使用）
-    const processedResult = await processImageWithPreset(inputBuffer, 'userSidebar');
+    let fileUrl: string;
+    let uploadDetails: any;
 
-    // ファイル名生成
-    const fileName = generateImageFileName(userId, 'user-sidebar', processedResult.outputFormat);
+    // SVGファイルの場合はサニタイズのみ、その他はWebP変換
+    if (isSvgFile(file)) {
+      console.log('サニタイズ処理開始: SVGファイル');
+      
+      // SVGサニタイズ
+      const sanitizeResult = await sanitizeSvgFile(file);
+      
+      if (sanitizeResult.hasRemovedDangerousContent) {
+        console.log('危険なコンテンツを除去しました:', {
+          removedElements: sanitizeResult.removedElements,
+          removedAttributes: sanitizeResult.removedAttributes
+        });
+      }
+      
+      // サニタイズされたSVGからBufferを作成
+      const sanitizedBuffer = createSvgBuffer(sanitizeResult.sanitizedSvg);
+      
+      // ファイル名を生成（SVGはそのまま）
+      const fileName = generateImageFileName(userId, 'user-sidebar', 'image/svg+xml');
+      
+      // MinIOアップロード
+      fileUrl = await uploadFile(
+        fileName, 
+        sanitizedBuffer, 
+        'image/svg+xml', 
+        'sidebars'
+      );
+      
+      uploadDetails = {
+        format: 'svg',
+        originalSize: inputBuffer.length,
+        sanitizedSize: sanitizedBuffer.length,
+        hasRemovedDangerousContent: sanitizeResult.hasRemovedDangerousContent,
+        removedElements: sanitizeResult.removedElements,
+        removedAttributes: sanitizeResult.removedAttributes
+      };
+      
+    } else {
+      // 通常の画像ファイルのWebP変換処理
+      const processedResult = await processImageWithPreset(inputBuffer, 'userSidebar');
 
-    // MinIOアップロード
-    const fileUrl = await uploadFile(
-      fileName, 
-      processedResult.buffer, 
-      processedResult.outputFormat, 
-      'sidebars'
-    );
+      // ファイル名生成
+      const fileName = generateImageFileName(userId, 'user-sidebar', processedResult.outputFormat);
+
+      // MinIOアップロード
+      fileUrl = await uploadFile(
+        fileName, 
+        processedResult.buffer, 
+        processedResult.outputFormat, 
+        'sidebars'
+      );
+      
+      uploadDetails = {
+        format: 'webp',
+        originalSize: processedResult.originalSize,
+        optimizedSize: processedResult.processedSize,
+        compressionRatio: processedResult.compressionRatio
+      };
+    }
 
     // データベースに保存
     const sidebarImage = await prisma.userImageSidebar.create({
@@ -102,12 +152,7 @@ export async function POST(request: NextRequest) {
       url: fileUrl,
       sortOrder: sidebarImage.sortOrder,
       message: 'サイドバー画像のアップロードが完了しました',
-      details: {
-        format: 'webp',
-        originalSize: processedResult.originalSize,
-        optimizedSize: processedResult.processedSize,
-        compressionRatio: processedResult.compressionRatio
-      }
+      details: uploadDetails
     });
 
   } catch (error) {

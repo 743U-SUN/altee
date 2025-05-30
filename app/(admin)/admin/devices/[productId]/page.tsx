@@ -8,10 +8,11 @@ import Link from "next/link";
 export default async function AdminProductPage({
   params,
 }: {
-  params: { productId: string };
+  params: Promise<{ productId: string }>;
 }) {
+  const resolvedParams = await params;
   const [product, categories] = await Promise.all([
-    getAdminProduct(params.productId).catch(() => null),
+    getAdminProduct(resolvedParams.productId).catch(() => null),
     getDeviceCategories(),
   ]);
 

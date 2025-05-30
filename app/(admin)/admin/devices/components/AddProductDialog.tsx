@@ -43,6 +43,7 @@ import {
 import Image from "next/image";
 import { MouseAttributesForm } from "./MouseAttributesForm";
 import { KeyboardAttributesForm } from "./KeyboardAttributesForm";
+import { convertToProxyUrl } from "@/lib/utils/image-proxy";
 
 interface AddProductDialogProps {
   open: boolean;
@@ -174,9 +175,82 @@ export function AddProductDialog({
 
       // カテゴリ別の属性設定
       if (categorySlug === 'mouse' && attributes.mouse) {
-        submitData.mouseAttributes = attributes.mouse;
+        // マウス属性をPrismaスキーマに合わせて変換
+        const mouseAttrs = attributes.mouse;
+        
+        // 接続タイプを enum に変換
+        const mapConnectionTypeToEnum = (connectionType: string) => {
+          switch (connectionType) {
+            case 'wired': return 'WIRED';
+            case 'wireless': return 'WIRELESS';
+            case 'both': return 'BOTH';
+            default: return null;
+          }
+        };
+
+        submitData.mouseAttributes = {
+          dpiMin: mouseAttrs.dpi_min || null,
+          dpiMax: mouseAttrs.dpi_max || null,
+          weight: mouseAttrs.weight || null,
+          length: mouseAttrs.length || null,
+          width: mouseAttrs.width || null,
+          height: mouseAttrs.height || null,
+          buttons: mouseAttrs.buttons || null,
+          connectionType: mouseAttrs.connection_type ? mapConnectionTypeToEnum(mouseAttrs.connection_type) : null,
+          pollingRate: mouseAttrs.polling_rate && Array.isArray(mouseAttrs.polling_rate) ? mouseAttrs.polling_rate[mouseAttrs.polling_rate.length - 1] : null, // 最大値を使用
+          batteryLife: mouseAttrs.battery_life || null,
+          sensor: mouseAttrs.sensor || null,
+          rgb: mouseAttrs.rgb || false,
+          software: mouseAttrs.software || null,
+        };
       } else if (categorySlug === 'keyboard' && attributes.keyboard) {
-        submitData.keyboardAttributes = attributes.keyboard;
+        // キーボード属性をPrismaスキーマに合わせて変換
+        const keyboardAttrs = attributes.keyboard;
+        
+        // レイアウト値を enum に変換
+        const mapLayoutToEnum = (layout: string) => {
+          switch (layout) {
+            case 'full': return 'FULL';
+            case 'tkl': return 'TKL';
+            case '60': return 'SIXTY';
+            case '65': return 'SIXTYFIVE';
+            case '75': return 'SEVENTYFIVE';
+            default: return null;
+          }
+        };
+
+        // スイッチタイプを enum に変換
+        const mapSwitchTypeToEnum = (switchType: string) => {
+          switch (switchType) {
+            case 'mechanical': return 'MECHANICAL';
+            case 'optical': return 'OPTICAL';
+            case 'magnetic': return 'MAGNETIC';
+            case 'membrane': return 'MEMBRANE';
+            default: return null;
+          }
+        };
+
+        // 接続タイプを enum に変換
+        const mapConnectionTypeToEnum = (connectionType: string) => {
+          switch (connectionType) {
+            case 'wired': return 'WIRED';
+            case 'wireless': return 'WIRELESS';
+            case 'both': return 'BOTH';
+            default: return null;
+          }
+        };
+
+        submitData.keyboardAttributes = {
+          layout: keyboardAttrs.layout ? mapLayoutToEnum(keyboardAttrs.layout) : null,
+          switchType: keyboardAttrs.switchType ? mapSwitchTypeToEnum(keyboardAttrs.switchType) : null,
+          connectionType: keyboardAttrs.connectionType ? mapConnectionTypeToEnum(keyboardAttrs.connectionType) : null,
+          actuationPoint: keyboardAttrs.actuationPoint || null,
+          rapidTrigger: keyboardAttrs.rapidTrigger || false,
+          rgb: false, // デフォルト値
+          software: null,
+          keycaps: null,
+          hotSwap: false, // デフォルト値
+        };
       }
 
       await createProduct(submitData);
@@ -265,9 +339,9 @@ export function AddProductDialog({
                   <div className="text-sm font-medium text-muted-foreground">商品画像プレビュー</div>
                   <div className="relative aspect-square w-32 overflow-hidden rounded-lg bg-muted border">
                     {fetchedData.imageUrl.includes('localhost:9000') ? (
-                      // MinIO画像の場合はimgタグを使用（Next.js Imageより確実）
+                      // MinIO画像の場合はプロキシ経由で表示
                       <img
-                        src={fetchedData.imageUrl}
+                        src={convertToProxyUrl(fetchedData.imageUrl)}
                         alt={fetchedData.title || '商品画像'}
                         className="w-full h-full object-contain"
                         onError={(e) => {

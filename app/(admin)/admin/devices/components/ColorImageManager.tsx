@@ -9,8 +9,8 @@ import { useDropzone } from 'react-dropzone';
 import { Upload, Link, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import Image from 'next/image';
-import { fetchProductFromAmazon } from '@/lib/actions/admin-product-actions';
-import { cacheImageToMinio } from '@/lib/services/image-cache';
+import { fetchProductFromAmazon, cacheImageAction } from '@/lib/actions/admin-product-actions';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
 interface ColorImageManagerProps {
   colorId: number;
@@ -52,7 +52,7 @@ export function ColorImageManager({
       let cachedImageUrl = productData.imageUrl;
       if (productData.imageUrl && !productData.imageUrl.startsWith('/') && !productData.imageUrl.includes('localhost:9000')) {
         try {
-          cachedImageUrl = await cacheImageToMinio(productData.imageUrl);
+          cachedImageUrl = await cacheImageAction(productData.imageUrl);
         } catch (error) {
           console.error('Failed to cache color image:', error);
           // エラー時は元のURLをそのまま使用
@@ -125,10 +125,10 @@ export function ColorImageManager({
       {/* 現在の画像プレビュー */}
       {currentImageUrl && (
         <div className="relative w-32 h-32 rounded-lg overflow-hidden border-2 border-gray-200">
-          {/* MinIO画像の場合は直接表示、それ以外はNext.js Imageを使用 */}
+          {/* MinIO画像の場合はプロキシ経由で表示、それ以外はNext.js Imageを使用 */}
           {currentImageUrl.includes('localhost:9000') || currentImageUrl.includes('minio') ? (
             <img
-              src={currentImageUrl}
+              src={convertToProxyUrl(currentImageUrl)}
               alt={`${colorName} variant`}
               className="w-full h-full object-cover"
             />

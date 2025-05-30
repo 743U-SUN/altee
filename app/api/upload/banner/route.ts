@@ -7,6 +7,7 @@ import {
   processImageWithPreset, 
   generateImageFileName 
 } from '@/lib/image-processing';
+import { sanitizeSvgFile, isSvgFile, createSvgBuffer } from '@/lib/svg-sanitizer';
 
 // ファイルサイズ制限（8MB）
 const MAX_FILE_SIZE = 8 * 1024 * 1024;
@@ -118,45 +119,94 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // バナー用プリセットで画像を処理
-    console.log('画像変換開始: バナー用プリセットを使用');
-    let processedResult;
-    try {
-      processedResult = await processImageWithPreset(inputBuffer, 'banner');
-      console.log('画像変換完了:', {
-        originalSize: processedResult.originalSize,
-        processedSize: processedResult.processedSize,
-        compressionRatio: processedResult.compressionRatio
-      });
-    } catch (imageProcessingError) {
-      console.error('画像処理エラー:', imageProcessingError);
-      return NextResponse.json(
-        { error: '画像の変換に失敗しました。ファイル形式を確認してください。' },
-        { status: 500 }
-      );
-    }
-
-    // ファイル名を生成
-    const fileName = generateImageFileName(userId, 'user-banner', processedResult.outputFormat);
-    console.log('生成ファイル名:', fileName);
-
-    // MinIOへのアップロード
     let fileUrl: string;
-    try {
-      console.log('MinIOアップロード開始');
+    let uploadDetails: any;
+
+    // SVGファイルの場合はサニタイズのみ、その他はWebP変換
+    if (isSvgFile(file)) {
+      console.log('サニタイズ処理開始: SVGファイル');
+      
+      // SVGサニタイズ
+      const sanitizeResult = await sanitizeSvgFile(file);
+      
+      if (sanitizeResult.hasRemovedDangerousContent) {
+        console.log('危険なコンテンツを除去しました:', {
+          removedElements: sanitizeResult.removedElements,
+          removedAttributes: sanitizeResult.removedAttributes
+        });
+      }
+      
+      // サニタイズされたSVGからBufferを作成
+      const sanitizedBuffer = createSvgBuffer(sanitizeResult.sanitizedSvg);
+      
+      // ファイル名を生成（SVGはそのまま）
+      const fileName = generateImageFileName(userId, 'user-banner', 'image/svg+xml');
+      
+      // MinIOへのアップロード
+      console.log('MinIOアップロード開始:', fileName);
       fileUrl = await uploadFile(
         fileName, 
-        processedResult.buffer, 
-        processedResult.outputFormat, 
+        sanitizedBuffer, 
+        'image/svg+xml', 
         'banners'
       );
-      console.log('MinIOアップロード完了:', fileUrl);
-    } catch (uploadError) {
-      console.error('MinIOアップロードエラー:', uploadError);
-      return NextResponse.json(
-        { error: 'ファイルのアップロードに失敗しました' },
-        { status: 500 }
-      );
+      
+      uploadDetails = {
+        format: 'svg',
+        originalSize: inputBuffer.length,
+        sanitizedSize: sanitizedBuffer.length,
+        hasRemovedDangerousContent: sanitizeResult.hasRemovedDangerousContent,
+        removedElements: sanitizeResult.removedElements,
+        removedAttributes: sanitizeResult.removedAttributes
+      };
+      
+    } else {
+      // 通常の画像ファイルのWebP変換処理
+      console.log('画像変換開始: バナー用プリセットを使用');
+      let processedResult;
+      try {
+        processedResult = await processImageWithPreset(inputBuffer, 'banner');
+        console.log('画像変換完了:', {
+          originalSize: processedResult.originalSize,
+          processedSize: processedResult.processedSize,
+          compressionRatio: processedResult.compressionRatio
+        });
+      } catch (imageProcessingError) {
+        console.error('画像処理エラー:', imageProcessingError);
+        return NextResponse.json(
+          { error: '画像の変換に失敗しました。ファイル形式を確認してください。' },
+          { status: 500 }
+        );
+      }
+
+      // ファイル名を生成
+      const fileName = generateImageFileName(userId, 'user-banner', processedResult.outputFormat);
+      console.log('生成ファイル名:', fileName);
+
+      // MinIOへのアップロード
+      try {
+        console.log('MinIOアップロード開始');
+        fileUrl = await uploadFile(
+          fileName, 
+          processedResult.buffer, 
+          processedResult.outputFormat, 
+          'banners'
+        );
+        console.log('MinIOアップロード完了:', fileUrl);
+      } catch (uploadError) {
+        console.error('MinIOアップロードエラー:', uploadError);
+        return NextResponse.json(
+          { error: 'ファイルのアップロードに失敗しました' },
+          { status: 500 }
+        );
+      }
+      
+      uploadDetails = {
+        format: 'webp',
+        originalSize: processedResult.originalSize,
+        optimizedSize: processedResult.processedSize,
+        compressionRatio: processedResult.compressionRatio
+      };
     }
 
     // データベースを更新
@@ -185,12 +235,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       url: fileUrl,
       message: 'バナー画像のアップロードが完了しました',
-      details: {
-        format: 'webp',
-        originalSize: processedResult.originalSize,
-        optimizedSize: processedResult.processedSize,
-        compressionRatio: processedResult.compressionRatio
-      }
+      details: uploadDetails
     });
 
   } catch (error) {
