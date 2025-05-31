@@ -5,6 +5,7 @@ import { BookOpen, Book, GraduationCap, Utensils, Settings, MonitorPlay, Info, U
 import Link from "next/link"
 import { usePathname, useParams } from "next/navigation"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { convertToProxyUrl } from "@/lib/utils/image-proxy"
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -123,7 +124,7 @@ export function HandleSidebarLayout({ children, user }: { children: React.ReactN
                 <Link href={`/${handle}`}>
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarImage 
-                      src={user?.iconUrl || undefined} 
+                      src={user?.iconUrl ? convertToProxyUrl(user.iconUrl) : undefined} 
                       alt={user?.characterName || user?.name || 'User'}
                       className="object-cover"
                     />

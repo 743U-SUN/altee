@@ -21,14 +21,56 @@ import { MouseAttributes } from "@/types/device";
 import { useManufacturers } from "../hooks/useManufacturers";
 
 interface MouseAttributesFormProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<{
+    amazonUrl: string;
+    categoryId: string;
+    title: string;
+    description?: string;
+    imageUrl: string;
+    asin: string;
+    defaultColorId?: string;
+    attributes?: {
+      manufacturerId?: string;
+      seriesId?: string;
+      mouse?: {
+        dpi_min?: number;
+        dpi_max?: number;
+        weight?: number;
+        length?: number;
+        width?: number;
+        height?: number;
+        buttons?: number;
+        connection_type?: string;
+        polling_rate?: number[];
+        battery_life?: number;
+        sensor?: string;
+        rgb?: boolean;
+        software?: string;
+      };
+      keyboard?: {
+        layout?: string;
+        key_arrangement?: string;
+        switch_type?: string;
+        connection_type?: string;
+        width?: number;
+        depth?: number;
+        height?: number;
+        weight?: number;
+        key_stroke?: number;
+        actuation_point?: number;
+        rapid_trigger?: boolean;
+        rapid_trigger_min?: number;
+        polling_rate?: number[];
+      };
+    };
+  }>;
 }
 
 export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
   const attributes = form.watch("attributes") || {};
   const { manufacturers, loading: manufacturersLoading } = useManufacturers();
 
-  const updateAttribute = (key: keyof MouseAttributes | 'manufacturerId', value: any) => {
+  const updateAttribute = (key: string, value: any) => {
     const currentAttributes = form.getValues("attributes") || {};
     // "unselected"の場合はundefinedにする
     const processedValue = value === "unselected" ? undefined : value;
@@ -70,7 +112,7 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
             <SelectContent>
               <SelectItem value="unselected">未選択</SelectItem>
               {manufacturers.map((manufacturer) => (
-                <SelectItem key={manufacturer.id} value={manufacturer.id.toString()}>
+                <SelectItem key={manufacturer.id} value={manufacturer.name}>
                   {manufacturer.name}
                 </SelectItem>
               ))}
@@ -175,12 +217,18 @@ export function MouseAttributesForm({ form }: MouseAttributesFormProps) {
         <div className="space-y-2 col-span-2">
           <FormLabel>ポーリングレート (Hz)</FormLabel>
           <Input
-            placeholder="1000"
-            value={attributes.mouse?.polling_rate || ""}
-            onChange={(e) => updateAttribute("polling_rate", e.target.value ? Number(e.target.value) : undefined)}
+            placeholder="125,500,1000,8000"
+            value={Array.isArray(attributes.mouse?.polling_rate) ? attributes.mouse.polling_rate.join(",") : (attributes.mouse?.polling_rate || "")}
+            onChange={(e) => {
+              const rates = e.target.value
+                .split(",")
+                .map(rate => Number(rate.trim()))
+                .filter(rate => !isNaN(rate));
+              updateAttribute("polling_rate", rates.length > 0 ? rates : undefined);
+            }}
           />
           <p className="text-sm text-muted-foreground">
-            最大ポーリングレートを入力してください（例: 1000）
+            カンマ区切りで入力してください（例: 125,500,1000,8000）
           </p>
         </div>
 

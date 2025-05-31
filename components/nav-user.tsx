@@ -11,6 +11,7 @@ import {
   Sparkles,
   UserCog,
   PanelsTopLeft,
+  Shield,
 } from "lucide-react"
 
 import {
@@ -54,6 +55,11 @@ export function NavUser() {
     if (session?.user?.handle) {
       router.push(`/${session.user.handle}`)
     }
+  }
+
+  // Admin（管理者ページ）への遷移
+  const handleAdmin = () => {
+    router.push("/admin")
   }
 
   // ログインページへの遷移
@@ -162,6 +168,12 @@ export function NavUser() {
                 <PanelsTopLeft />
                 MyPage
               </DropdownMenuItem>
+              {user.role === 'admin' && (
+                <DropdownMenuItem onClick={handleAdmin} className="cursor-pointer">
+                  <Shield />
+                  Admin
+                </DropdownMenuItem>
+              )}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">

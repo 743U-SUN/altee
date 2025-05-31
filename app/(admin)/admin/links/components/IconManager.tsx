@@ -281,8 +281,8 @@ export function IconManager() {
                   <CardContent className="p-4">
                     <div className="space-y-3">
                       <div className="aspect-square mb-3 relative">
-                        <Image
-                          src={icon.filePath}
+                        <OptimizedImage
+                          src={convertToProxyUrl(icon.filePath)}
                           alt={icon.name}
                           fill
                           className="object-contain"

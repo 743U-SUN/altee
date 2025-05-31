@@ -4,6 +4,7 @@
  */
 
 import { minioClient, BUCKET_NAME } from '@/lib/minio';
+import { processImageWithPreset } from '@/lib/image-processing';
 import crypto from 'crypto';
 
 /**
@@ -29,7 +30,7 @@ function generateImageHash(url: string): string {
 }
 
 /**
- * 外部画像をMinIOにキャッシュ
+ * 外部画像をMinIOにキャッシュ（WebP変換・リサイズ付き）
  */
 export async function cacheImageToMinio(imageUrl: string): Promise<string> {
   if (!imageUrl || imageUrl.startsWith('/') || imageUrl.includes('localhost:9000')) {
@@ -38,18 +39,18 @@ export async function cacheImageToMinio(imageUrl: string): Promise<string> {
   }
 
   try {
-    console.log('Caching image to MinIO:', imageUrl);
+    console.log('Caching image to MinIO with WebP conversion:', imageUrl);
     
-    // ファイル名を生成
+    // ファイル名を生成（WebP拡張子で）
     const imageHash = generateImageHash(imageUrl);
-    const extension = getImageExtension(imageUrl);
-    const fileName = `cached-images/${imageHash}.${extension}`;
+    const fileName = `cached-images/${imageHash}.webp`;
     
     // すでにキャッシュされているかチェック
     try {
       await minioClient.statObject(BUCKET_NAME, fileName);
       // すでに存在する場合はMinIOのURLを返す
-      const cachedUrl = `http://localhost:9000/${BUCKET_NAME}/${fileName}`;
+      const publicEndpoint = process.env.NEXT_PUBLIC_MINIO_ENDPOINT || 'localhost:9000';
+      const cachedUrl = `http://${publicEndpoint}/${BUCKET_NAME}/${fileName}`;
       console.log('Image already cached:', cachedUrl);
       return cachedUrl;
     } catch (error) {
@@ -68,26 +69,45 @@ export async function cacheImageToMinio(imageUrl: string): Promise<string> {
     }
     
     const imageBuffer = await response.arrayBuffer();
-    const buffer = Buffer.from(imageBuffer);
+    const inputBuffer = Buffer.from(imageBuffer);
+    
+    console.log('Processing image for cache:', {
+      originalSize: `${Math.round(inputBuffer.length / 1024)}KB`,
+      targetFormat: 'WebP',
+      targetSize: '500x500px以内'
+    });
+    
+    // WebP変換とリサイズ（500x500px以内）
+    const processedResult = await processImageWithPreset(inputBuffer, 'productCache');
     
     // MinIOにアップロード
     await minioClient.putObject(
       BUCKET_NAME, 
       fileName, 
-      buffer,
-      buffer.length,
+      processedResult.buffer,
+      processedResult.buffer.length,
       {
-        'Content-Type': response.headers.get('content-type') || `image/${extension}`,
+        'Content-Type': 'image/webp',
         'Cache-Control': 'public, max-age=31536000', // 1年キャッシュ
+        'X-Original-Url': imageUrl,
+        'X-Compression-Ratio': processedResult.compressionRatio,
       }
     );
     
-    const cachedUrl = `http://localhost:9000/${BUCKET_NAME}/${fileName}`;
-    console.log('Image cached successfully:', cachedUrl);
+    const publicEndpoint = process.env.NEXT_PUBLIC_MINIO_ENDPOINT || 'localhost:9000';
+    const cachedUrl = `http://${publicEndpoint}/${BUCKET_NAME}/${fileName}`;
+    
+    console.log('Image cached successfully with WebP conversion:', {
+      cachedUrl,
+      originalSize: `${Math.round(processedResult.originalSize / 1024)}KB`,
+      optimizedSize: `${Math.round(processedResult.processedSize / 1024)}KB`,
+      compressionRatio: processedResult.compressionRatio
+    });
+    
     return cachedUrl;
     
   } catch (error) {
-    console.error('Failed to cache image:', error);
+    console.error('Failed to cache image with WebP conversion:', error);
     // エラー時は元のURLをそのまま返す
     return imageUrl;
   }

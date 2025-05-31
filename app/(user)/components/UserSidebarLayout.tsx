@@ -24,7 +24,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 
-// 記事用ナビゲーションアイテム
+// ユーザー用ナビゲーションアイテム
 const userNavItems = [
   {
     id:"blog",
@@ -37,18 +37,6 @@ const userNavItems = [
     title: "user",
     url: "/law",
     icon: GraduationCap,
-  },
-  {
-    id:"cooking",  
-    title: "user",
-    url: "/cooking",
-    icon: Utensils,
-  },
-  {
-    id:"settings",  
-    title: "user",
-    url: "/settings",
-    icon: Settings,
   },
 ];
 
@@ -79,7 +67,7 @@ export function UserSidebarLayout({ children }: { children: React.ReactNode }) {
         className="p-0 w-[85%] max-w-[350px] sm:max-w-sm overflow-x-hidden"
       >
         <SheetHeader className="px-4 py-3 border-b">
-          <SheetTitle>記事セクション</SheetTitle>
+          <SheetTitle>ユーザーセクション</SheetTitle>
         </SheetHeader>
         <MobileSheetContent>
           {children}
@@ -103,7 +91,7 @@ export function UserSidebarLayout({ children }: { children: React.ReactNode }) {
       collapsible="icon"
       className="overflow-hidden *:data-[sidebar=sidebar]:flex-row"
     >
-      {/* ファーストサイドバー - 記事専用のアイコンとナビゲーション */}
+      {/* ファーストサイドバー - ユーザー専用のアイコンとナビゲーション */}
       <Sidebar
         collapsible="none"
         className="w-[calc(var(--sidebar-width-icon)+1px)]! border-r"
@@ -111,14 +99,14 @@ export function UserSidebarLayout({ children }: { children: React.ReactNode }) {
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0">
+              <SidebarMenuButton size="lg" asChild className="md:h-8 md:p-0 rounded-sm">
                 <Link href="/user">
-                  <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                    <BookOpen className="size-4" />
-                  </div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">記事セクション</span>
-                    <span className="truncate text-xs">コンテンツ</span>
+                  <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center">
+                    <img 
+                      src="/altee-logo.svg" 
+                      alt="Altee Logo" 
+                      className="size-6"
+                    />
                   </div>
                 </Link>
               </SidebarMenuButton>

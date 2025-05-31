@@ -9,6 +9,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { convertToProxyUrl } from "@/lib/utils/image-proxy"
 import Link from "next/link"
 import { Mail, Bell, Gift } from "lucide-react"
 
@@ -67,7 +68,7 @@ export default function HandleClientLayout({
             {user && (
               <Link href={`/${getHandle()}`} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                 <Avatar className="h-8 w-8 rounded-md">
-                  <AvatarImage src={user.iconUrl || undefined} alt={user.characterName || user.name || 'User'} />
+                  <AvatarImage src={user.iconUrl ? convertToProxyUrl(user.iconUrl) : undefined} alt={user.characterName || user.name || 'User'} />
                   <AvatarFallback className="rounded-md">
                     {user.characterName ? user.characterName.charAt(0).toUpperCase() : 'NoName'}
                   </AvatarFallback>

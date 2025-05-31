@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { OptimizedImage } from "@/components/ui/optimized-image";
+import { convertToProxyUrl } from "@/lib/utils/image-proxy";
 import { UserYoutubeVideo } from "../types";
 import { PlayCircle, ChevronRight } from "lucide-react";
 
@@ -45,7 +46,7 @@ export default function SecondaryYoutube({ videos, displayCount, handle }: Secon
                 <div className="relative aspect-video bg-muted">
                   {video.thumbnailUrl ? (
                     <OptimizedImage
-                      src={video.thumbnailUrl}
+                      src={convertToProxyUrl(video.thumbnailUrl)}
                       alt={video.title || "YouTube video"}
                       fill
                       className="object-cover"

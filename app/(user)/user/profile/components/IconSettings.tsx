@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { OptimizedImage } from '@/components/ui/optimized-image';
+import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 import { Upload, Loader2, Camera, Trash2, Info } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -124,15 +126,21 @@ export function IconSettings({ currentIconUrl, userId, onIconUpdate }: IconSetti
             <div className="flex gap-4">
               {/* アバター画像 */}
               <div>
-                <Avatar className="h-24 w-24">
-                  <AvatarImage 
-                    src={previewUrl || currentIconUrl || undefined} 
-                    alt="プロフィール画像" 
-                  />
-                  <AvatarFallback>
-                    <Camera className="h-10 w-10 text-gray-400" />
-                  </AvatarFallback>
-                </Avatar>
+                <div className="h-24 w-24 rounded-full overflow-hidden border-2 border-gray-200">
+                  {(previewUrl || currentIconUrl) ? (
+                    <OptimizedImage
+                      src={convertToProxyUrl(previewUrl || currentIconUrl || '')}
+                      alt="プロフィール画像"
+                      width={96}
+                      height={96}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                      <Camera className="h-10 w-10 text-gray-400" />
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* 情報と削除ボタン */}

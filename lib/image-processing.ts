@@ -112,13 +112,25 @@ export const IMAGE_PRESETS = {
     lossless: false
   },
   
-  // 商品カラー画像用（800x800、高品質）
+  // 商品カラー画像用（500x500、高品質）
   productColor: {
     format: 'webp' as const,
     quality: 90,
     effort: 4,
-    maxWidth: 800,
-    maxHeight: 800,
+    maxWidth: 500,
+    maxHeight: 500,
+    fit: 'inside' as const,
+    withoutEnlargement: true,
+    lossless: false
+  },
+  
+  // 商品画像キャッシュ用（500x500、高品質）
+  productCache: {
+    format: 'webp' as const,
+    quality: 90,
+    effort: 4,
+    maxWidth: 500,
+    maxHeight: 500,
     fit: 'inside' as const,
     withoutEnlargement: true,
     lossless: false

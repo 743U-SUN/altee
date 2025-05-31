@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Product, DeviceCategory, UserDevice, User } from "@/lib/generated/prisma";
+import { Product, DeviceCategory, UserDevice, User, Manufacturer, Series, ProductColor, Color, MouseAttributes, KeyboardAttributes } from "@/lib/generated/prisma";
 import {
   Form,
   FormControl,
@@ -43,9 +43,13 @@ import { convertToProxyUrl } from "@/lib/utils/image-proxy";
 interface ProductEditFormProps {
   product: Product & {
     category: DeviceCategory;
-    manufacturer?: any;
-    series?: any;
-    productColors?: any[];
+    manufacturer?: Manufacturer | null;
+    series?: Series | null;
+    mouseAttributes?: MouseAttributes | null;
+    keyboardAttributes?: KeyboardAttributes | null;
+    productColors?: (ProductColor & {
+      color: Color;
+    })[];
     userDevices: (UserDevice & {
       user: {
         id: string;
@@ -265,7 +269,8 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
         </Card>
 
         {/* 属性情報 */}
-        {product.attributes && Object.keys(product.attributes).length > 0 && (
+        {((product.mouseAttributes && Object.keys(product.mouseAttributes).length > 0) || 
+          (product.keyboardAttributes && Object.keys(product.keyboardAttributes).length > 0)) && (
           <Card>
             <CardHeader>
               <CardTitle>属性情報</CardTitle>
@@ -275,16 +280,35 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {Object.entries(product.attributes as Record<string, any>).map(([key, value]) => (
-                  <div key={key} className="flex justify-between py-2 border-b last:border-0">
-                    <span className="text-sm font-medium capitalize">
-                      {key.replace(/_/g, " ")}
-                    </span>
-                    <span className="text-sm text-muted-foreground">
-                      {String(value)}
-                    </span>
-                  </div>
-                ))}
+                {/* マウス属性 */}
+                {product.mouseAttributes && Object.entries(product.mouseAttributes).map(([key, value]) => {
+                  if (key === 'productId' || value === null || value === undefined) return null;
+                  return (
+                    <div key={key} className="flex justify-between py-2 border-b last:border-0">
+                      <span className="text-sm font-medium capitalize">
+                        {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {String(value)}
+                      </span>
+                    </div>
+                  );
+                })}
+                
+                {/* キーボード属性 */}
+                {product.keyboardAttributes && Object.entries(product.keyboardAttributes).map(([key, value]) => {
+                  if (key === 'productId' || value === null || value === undefined) return null;
+                  return (
+                    <div key={key} className="flex justify-between py-2 border-b last:border-0">
+                      <span className="text-sm font-medium capitalize">
+                        {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        {String(value)}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
             </CardContent>
           </Card>

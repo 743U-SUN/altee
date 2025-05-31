@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -62,10 +62,88 @@ const formSchema = z.object({
   description: z.string().optional(),
   imageUrl: z.string().url("有効な画像URLを入力してください"),
   asin: z.string().min(1, "ASINが必要です"),
-  attributes: z.record(z.any()).optional(),
+  defaultColorId: z.string().optional(),
+  attributes: z.object({
+    manufacturerId: z.string().optional(),
+    seriesId: z.string().optional(),
+    mouse: z.object({
+      dpi_min: z.number().optional(),
+      dpi_max: z.number().optional(),
+      weight: z.number().optional(),
+      length: z.number().optional(),
+      width: z.number().optional(),
+      height: z.number().optional(),
+      buttons: z.number().optional(),
+      connection_type: z.string().optional(),
+      polling_rate: z.array(z.number()).optional(),
+      battery_life: z.number().optional(),
+      sensor: z.string().optional(),
+      rgb: z.boolean().optional(),
+      software: z.string().optional(),
+    }).optional(),
+    keyboard: z.object({
+      layout: z.string().optional(),
+      key_arrangement: z.string().optional(),
+      switch_type: z.string().optional(),
+      connection_type: z.string().optional(),
+      width: z.number().optional(),
+      depth: z.number().optional(),
+      height: z.number().optional(),
+      weight: z.number().optional(),
+      key_stroke: z.number().optional(),
+      actuation_point: z.number().optional(),
+      rapid_trigger: z.boolean().optional(),
+      rapid_trigger_min: z.number().optional(),
+      polling_rate: z.array(z.number()).optional(),
+    }).optional(),
+  }).optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
+
+// 共通の型定義
+interface DeviceAttributes {
+  manufacturerId?: string;
+  seriesId?: string;
+  mouse?: {
+    dpi_min?: number;
+    dpi_max?: number;
+    weight?: number;
+    length?: number;
+    width?: number;
+    height?: number;
+    buttons?: number;
+    connection_type?: string;
+    polling_rate?: number[];
+    battery_life?: number;
+    sensor?: string;
+    rgb?: boolean;
+    software?: string;
+  };
+  keyboard?: {
+    layout?: string;
+    key_arrangement?: string;
+    switch_type?: string;
+    connection_type?: string;
+    width?: number;
+    depth?: number;
+    height?: number;
+    weight?: number;
+    key_stroke?: number;
+    actuation_point?: number;
+    rapid_trigger?: boolean;
+    rapid_trigger_min?: number;
+    polling_rate?: number[];
+  };
+}
+
+interface Color {
+  id: number;
+  name: string;
+  nameEn: string;
+  hexCode: string | null;
+  isActive: boolean;
+}
 
 export function AddProductDialog({
   open,
@@ -76,6 +154,7 @@ export function AddProductDialog({
   const [isLoading, setIsLoading] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
   const [fetchedData, setFetchedData] = useState<Partial<FormValues> | null>(null);
+  const [colors, setColors] = useState<Color[]>([]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -86,9 +165,29 @@ export function AddProductDialog({
       description: "",
       imageUrl: "",
       asin: "",
+      defaultColorId: "none",
       attributes: {},
     },
   });
+
+  // カラー一覧を取得
+  useEffect(() => {
+    const fetchColors = async () => {
+      try {
+        const response = await fetch('/api/admin/colors');
+        if (response.ok) {
+          const data = await response.json();
+          setColors(data.filter((color: Color) => color.isActive));
+        }
+      } catch (error) {
+        console.error('Failed to fetch colors:', error);
+      }
+    };
+
+    if (open) {
+      fetchColors();
+    }
+  }, [open]);
 
   const handleFetchFromAmazon = async () => {
     const amazonUrl = form.getValues("amazonUrl");
@@ -156,13 +255,26 @@ export function AddProductDialog({
     try {
       // 属性データを適切な形式に変換
       const attributes = values.attributes || {};
-      const submitData: any = {
+      const submitData: {
+        categoryId: string;
+        title: string;
+        description?: string;
+        imageUrl: string;
+        amazonUrl: string;
+        asin: string;
+        defaultColorId?: number;
+        manufacturerId?: number;
+        seriesId?: number;
+        mouseAttributes?: Record<string, any>;
+        keyboardAttributes?: Record<string, any>;
+      } = {
         categoryId: values.categoryId,
         title: values.title,
         description: values.description,
         imageUrl: values.imageUrl,
         amazonUrl: values.amazonUrl,
         asin: values.asin,
+        defaultColorId: values.defaultColorId && values.defaultColorId !== 'none' ? parseInt(values.defaultColorId) : undefined,
       };
 
       // メーカーとシリーズの設定
@@ -173,10 +285,14 @@ export function AddProductDialog({
         submitData.seriesId = parseInt(attributes.seriesId);
       }
 
+      // 選択されたカテゴリの情報を取得
+      const selectedCategory = categories.find(cat => cat.id.toString() === values.categoryId);
+      const categorySlug = selectedCategory?.slug;
+
       // カテゴリ別の属性設定
       if (categorySlug === 'mouse' && attributes.mouse) {
         // マウス属性をPrismaスキーマに合わせて変換
-        const mouseAttrs = attributes.mouse;
+        const mouseAttrs = attributes.mouse as DeviceAttributes['mouse'];
         
         // 接続タイプを enum に変換
         const mapConnectionTypeToEnum = (connectionType: string) => {
@@ -189,23 +305,23 @@ export function AddProductDialog({
         };
 
         submitData.mouseAttributes = {
-          dpiMin: mouseAttrs.dpi_min || null,
-          dpiMax: mouseAttrs.dpi_max || null,
-          weight: mouseAttrs.weight || null,
-          length: mouseAttrs.length || null,
-          width: mouseAttrs.width || null,
-          height: mouseAttrs.height || null,
-          buttons: mouseAttrs.buttons || null,
-          connectionType: mouseAttrs.connection_type ? mapConnectionTypeToEnum(mouseAttrs.connection_type) : null,
-          pollingRate: mouseAttrs.polling_rate && Array.isArray(mouseAttrs.polling_rate) ? mouseAttrs.polling_rate[mouseAttrs.polling_rate.length - 1] : null, // 最大値を使用
-          batteryLife: mouseAttrs.battery_life || null,
-          sensor: mouseAttrs.sensor || null,
-          rgb: mouseAttrs.rgb || false,
-          software: mouseAttrs.software || null,
+          dpiMin: mouseAttrs?.dpi_min || null,
+          dpiMax: mouseAttrs?.dpi_max || null,
+          weight: mouseAttrs?.weight || null,
+          length: mouseAttrs?.length || null,
+          width: mouseAttrs?.width || null,
+          height: mouseAttrs?.height || null,
+          buttons: mouseAttrs?.buttons || null,
+          connectionType: mouseAttrs?.connection_type ? mapConnectionTypeToEnum(mouseAttrs.connection_type) : null,
+          pollingRate: mouseAttrs?.polling_rate && Array.isArray(mouseAttrs.polling_rate) ? mouseAttrs.polling_rate[mouseAttrs.polling_rate.length - 1] : null, // 最大値を使用
+          batteryLife: mouseAttrs?.battery_life || null,
+          sensor: mouseAttrs?.sensor || null,
+          rgb: mouseAttrs?.rgb || false,
+          software: mouseAttrs?.software || null,
         };
       } else if (categorySlug === 'keyboard' && attributes.keyboard) {
         // キーボード属性をPrismaスキーマに合わせて変換
-        const keyboardAttrs = attributes.keyboard;
+        const keyboardAttrs = attributes.keyboard as DeviceAttributes['keyboard'];
         
         // レイアウト値を enum に変換
         const mapLayoutToEnum = (layout: string) => {
@@ -241,11 +357,11 @@ export function AddProductDialog({
         };
 
         submitData.keyboardAttributes = {
-          layout: keyboardAttrs.layout ? mapLayoutToEnum(keyboardAttrs.layout) : null,
-          switchType: keyboardAttrs.switchType ? mapSwitchTypeToEnum(keyboardAttrs.switchType) : null,
-          connectionType: keyboardAttrs.connectionType ? mapConnectionTypeToEnum(keyboardAttrs.connectionType) : null,
-          actuationPoint: keyboardAttrs.actuationPoint || null,
-          rapidTrigger: keyboardAttrs.rapidTrigger || false,
+          layout: keyboardAttrs?.layout ? mapLayoutToEnum(keyboardAttrs.layout) : null,
+          switchType: keyboardAttrs?.switch_type ? mapSwitchTypeToEnum(keyboardAttrs.switch_type) : null,
+          connectionType: keyboardAttrs?.connection_type ? mapConnectionTypeToEnum(keyboardAttrs.connection_type) : null,
+          actuationPoint: keyboardAttrs?.actuation_point || null,
+          rapidTrigger: keyboardAttrs?.rapid_trigger || false,
           rgb: false, // デフォルト値
           software: null,
           keycaps: null,
@@ -275,6 +391,7 @@ export function AddProductDialog({
   const handleClose = () => {
     form.reset();
     setFetchedData(null);
+    setColors([]);
     onOpenChange(false);
   };
 
@@ -438,6 +555,45 @@ export function AddProductDialog({
                     </FormControl>
                     <FormDescription>
                       Amazon Standard Identification Number
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* デフォルトカラー選択 */}
+              <FormField
+                control={form.control}
+                name="defaultColorId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>デフォルトカラー（任意）</FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value || 'none'}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="カラーを選択（スキップ可能）" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="none">カラーを設定しない</SelectItem>
+                        {colors.map((color) => (
+                          <SelectItem key={color.id} value={color.id.toString()}>
+                            <div className="flex items-center gap-2">
+                              {color.hexCode && (
+                                <div
+                                  className="w-4 h-4 rounded border border-gray-300"
+                                  style={{ backgroundColor: color.hexCode }}
+                                />
+                              )}
+                              <span>{color.name}</span>
+                              <span className="text-sm text-gray-500">({color.nameEn})</span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormDescription>
+                      商品のデフォルトカラーを設定します。後からカラー設定で変更・追加できます。
                     </FormDescription>
                     <FormMessage />
                   </FormItem>

@@ -218,9 +218,11 @@ export function ProductSelectModal({
                       onClick={() => handleFilterChange('manufacturer', attr.id.toString())}
                     >
                       {attr.logoUrl && (
-                        <img
+                        <OptimizedImage
                           src={convertToProxyUrl(attr.logoUrl)}
                           alt={attr.name}
+                          width={16}
+                          height={16}
                           className="w-4 h-4 mr-1 object-contain"
                         />
                       )}
@@ -263,9 +265,11 @@ export function ProductSelectModal({
                           {product.manufacturer && (
                             <p className="text-sm text-muted-foreground flex items-center gap-1">
                               {product.manufacturer.logoUrl && (
-                                <img
+                                <OptimizedImage
                                   src={convertToProxyUrl(product.manufacturer.logoUrl)}
                                   alt={product.manufacturer.name}
+                                  width={16}
+                                  height={16}
                                   className="w-4 h-4 object-contain"
                                 />
                               )}
@@ -298,10 +302,12 @@ export function ProductSelectModal({
                                 )}
                               >
                                 {pc.imageUrl ? (
-                                  <img
+                                  <OptimizedImage
                                     src={convertToProxyUrl(pc.imageUrl)}
                                     alt={pc.color.name}
-                                    className="w-full h-full object-cover"
+                                    fill
+                                    className="object-cover"
+                                    sizes="64px"
                                   />
                                 ) : pc.color.hexCode ? (
                                   <div

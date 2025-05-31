@@ -3,7 +3,7 @@ Next.jsの原則
 1. コア原則
 	•	App Router を標準採用
 	•	TypeScript 必須（ESLint／型エラーは常にゼロ）
-	•	API Routes は使用しない。あらゆるサーバー処理は Server Actions で実装
+	•	大原則としてサーバー処理は Server Actions で実装。API Routes は本当に必要な場合のみ。
 
 2. ディレクトリレイアウト
 
@@ -27,7 +27,6 @@ demo/        フロントエンドから実行できる手動テストページ
 ユーザー操作に依存する	client components + Server Actions + useSWR
 
 	•	更新は Server Actions、即時反映は useSWR.mutate で楽観的更新
-	•	Supabase は RLS + auth.uid() を利用し、user.id 明示は不要
 
 4. 表示と状態管理
 	•	UI は極力自作せず、必ず shadcn/ui のコンポーネントを利用
@@ -57,11 +56,16 @@ demo/        フロントエンドから実行できる手動テストページ
 7-3 Server Actions のセキュリティ指針
 	•	ユーザーが許可された操作だけを Server Action として実装
 	•	汎用的・多目的なサーバー関数は実装しない
-	•	RLS と auth.uid() により 最小権限 を担保
+	•	NextAuthのセッション（getServerSession）とデータベースのユーザーIDチェックにより最小権限を担保
 
 7-4 テスト
 	•	demo/ ディレクトリ に UI ベースのテストページを配置し、
 すべての Server Actions・クライアント関数を ブラウザ経由で手動検証 できるようにする
+
+8. 画像管理
+	•	ファイルストレージはさくらインターネットのオブジェクトストレージ(S3互換)を使用（開発段階ではMinIO）
+	•	画像最適化・セキュリティ・アップロード処理は統一化されたシステムを利用
+	•	詳細な実装指針は docs/image-handling-guide.md および docs/image-upload-guide.md を参照
 
 ⸻
 

@@ -5,10 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Upload, X, Star, Image as ImageIcon } from 'lucide-react';
+import { Star } from 'lucide-react';
 import { toast } from 'sonner';
 import { ColorImageManager } from './ColorImageManager';
 

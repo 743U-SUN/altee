@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { OptimizedImage } from "@/components/ui/optimized-image";
+import { convertToProxyUrl } from "@/lib/utils/image-proxy";
 import { UserLinkWithRelations } from "../types";
 import { ExternalLink } from "lucide-react";
 
@@ -37,7 +38,7 @@ export default function SecondaryLinks({ links }: SecondaryLinksProps) {
                 <div className="flex-shrink-0 w-12 h-12 relative">
                   {link.useOriginalIcon && link.originalIconUrl ? (
                     <OptimizedImage
-                      src={link.originalIconUrl}
+                      src={convertToProxyUrl(link.originalIconUrl)}
                       alt={link.service.name}
                       fill
                       className="rounded-md object-contain"
@@ -45,7 +46,7 @@ export default function SecondaryLinks({ links }: SecondaryLinksProps) {
                     />
                   ) : link.icon ? (
                     <OptimizedImage
-                      src={link.icon.filePath}
+                      src={convertToProxyUrl(link.icon.filePath)}
                       alt={link.icon.name}
                       fill
                       className="rounded-md object-contain"

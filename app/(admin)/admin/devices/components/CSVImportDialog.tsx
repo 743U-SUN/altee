@@ -66,7 +66,7 @@ export function CSVImportDialog({ open, onOpenChange }: CSVImportDialogProps) {
         });
         
         // 成功した場合は画面をリフレッシュ
-        if (result.created > 0) {
+        if (result.created && result.created > 0) {
           setTimeout(() => {
             router.refresh();
             onOpenChange(false);

@@ -8,6 +8,7 @@ import { fetchProductFromPAAPI } from "@/lib/services/amazon/pa-api";
 import { fetchProductFromAmazonUrl } from "@/lib/services/amazon/og-metadata";
 import { extractASIN } from "@/lib/utils/amazon/url-parser";
 import { cacheImageToMinio } from "@/lib/services/image-cache";
+import { deleteFile } from "@/lib/minio";
 
 /**
  * 管理者権限チェック
@@ -94,6 +95,8 @@ export async function getAdminProduct(productId: string) {
         category: true,
         manufacturer: true,
         series: true,
+        mouseAttributes: true,
+        keyboardAttributes: true,
         productColors: {
           include: {
             color: true,
@@ -210,6 +213,7 @@ export async function createProduct(data: {
   asin: string;
   manufacturerId?: number;
   seriesId?: number;
+  defaultColorId?: number;
   mouseAttributes?: Record<string, any>;
   keyboardAttributes?: Record<string, any>;
 }) {
@@ -264,6 +268,18 @@ export async function createProduct(data: {
         keyboardAttributes: true,
       },
     });
+
+    // デフォルトカラーが指定されている場合、ProductColorを作成
+    if (data.defaultColorId) {
+      await db.productColor.create({
+        data: {
+          productId: product.id,
+          colorId: data.defaultColorId,
+          isDefault: true,
+          imageUrl: cachedImageUrl, // 商品画像をカラー画像としても使用
+        },
+      });
+    }
 
     // Decimal型をstring型に変換
     const serializedProduct = {
@@ -320,18 +336,72 @@ export async function updateProduct(
 }
 
 /**
+ * MinIOのURLからオブジェクト名を抽出
+ */
+function extractMinioObjectName(url: string): string | null {
+  if (!url) return null;
+  
+  // MinIOのURLパターンを判定
+  const isMinioUrl = url.includes('localhost:9000') || 
+                     url.includes('minio:9000') || 
+                     url.includes(process.env.NEXT_PUBLIC_MINIO_ENDPOINT || '');
+  
+  if (!isMinioUrl) {
+    return null;
+  }
+  
+  // URLパターン: http://endpoint/bucket-name/path/to/file.webp
+  const bucketName = process.env.MINIO_BUCKET_NAME || 'altee-uploads';
+  const match = url.match(new RegExp(`\/${bucketName}\/(.+)$`));
+  return match ? match[1] : null;
+}
+
+/**
  * 商品の削除（管理者用）
  */
 export async function deleteProduct(productId: string) {
   try {
     await checkAdminAuth();
 
+    // 削除対象の商品情報を取得（画像URLを含む）
+    const product = await db.product.findUnique({
+      where: { id: parseInt(productId) },
+      include: {
+        productColors: true,
+      },
+    });
+
+    if (!product) {
+      throw new Error("Product not found");
+    }
+
     // 関連するUserDeviceの数をカウント
     const relatedDevices = await db.userDevice.count({
       where: { productId: parseInt(productId) },
     });
 
-    // トランザクションで商品と関連するユーザーデバイスを削除
+    // 削除対象の画像URLを収集
+    const imagesToDelete: string[] = [];
+    
+    // メイン画像
+    if (product.imageUrl) {
+      const objectName = extractMinioObjectName(product.imageUrl);
+      if (objectName) {
+        imagesToDelete.push(objectName);
+      }
+    }
+
+    // カラー設定画像
+    for (const productColor of product.productColors) {
+      if (productColor.imageUrl) {
+        const objectName = extractMinioObjectName(productColor.imageUrl);
+        if (objectName) {
+          imagesToDelete.push(objectName);
+        }
+      }
+    }
+
+    // トランザクションで商品と関連データを削除
     await db.$transaction(async (tx) => {
       // 関連するユーザーデバイスを削除
       if (relatedDevices > 0) {
@@ -340,18 +410,51 @@ export async function deleteProduct(productId: string) {
         });
       }
 
+      // 商品カラー設定を削除
+      await tx.productColor.deleteMany({
+        where: { productId: parseInt(productId) },
+      });
+
       // 商品を削除
       await tx.product.delete({
         where: { id: parseInt(productId) },
       });
     });
 
+    // MinIOから画像ファイルを削除
+    const deletedImages: string[] = [];
+    const failedDeletes: string[] = [];
+
+    for (const objectName of imagesToDelete) {
+      try {
+        await deleteFile(objectName);
+        deletedImages.push(objectName);
+        console.log(`Deleted image from MinIO: ${objectName}`);
+      } catch (error) {
+        console.error(`Failed to delete image from MinIO: ${objectName}`, error);
+        failedDeletes.push(objectName);
+      }
+    }
+
     revalidatePath("/admin/devices");
+    
+    let message = relatedDevices > 0 
+      ? `商品を削除し、${relatedDevices}人のユーザーの使用リストからも削除しました` 
+      : "商品を削除しました";
+    
+    if (deletedImages.length > 0) {
+      message += `（画像ファイル${deletedImages.length}件も削除）`;
+    }
+    
+    if (failedDeletes.length > 0) {
+      message += `（画像ファイル${failedDeletes.length}件の削除に失敗）`;
+    }
+
     return { 
       success: true, 
-      message: relatedDevices > 0 
-        ? `商品を削除し、${relatedDevices}人のユーザーの使用リストからも削除しました` 
-        : "商品を削除しました"
+      message,
+      deletedImages: deletedImages.length,
+      failedDeletes: failedDeletes.length
     };
   } catch (error) {
     console.error("Error deleting product:", error);

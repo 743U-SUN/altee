@@ -43,19 +43,28 @@ const authConfig: NextAuthConfig = {
         token.needsUserSync = true; // 新規ユーザーかの判定フラグ
       }
       
-      // データベースからユーザー情報を取得してroleを追加
-      if (token.email && !token.role) {
+      // データベースからユーザー情報を取得してroleやhandleを追加
+      if (token.email && (!token.role || !token.handle)) {
         try {
           const dbUser = await db.user.findUnique({
             where: { email: token.email as string },
-            select: { id: true, role: true }
+            select: { 
+              id: true, 
+              role: true, 
+              handle: true, 
+              characterName: true, 
+              iconUrl: true 
+            }
           });
           if (dbUser) {
             token.role = dbUser.role;
             token.sub = dbUser.id; // DBのIDで上書き
+            token.handle = dbUser.handle;
+            token.characterName = dbUser.characterName;
+            token.iconUrl = dbUser.iconUrl;
           }
         } catch (error) {
-          console.error('Error fetching user role:', error);
+          console.error('Error fetching user data:', error);
         }
       }
       
@@ -69,6 +78,9 @@ const authConfig: NextAuthConfig = {
         session.user.name = token.name as string;
         session.user.image = token.picture as string;
         session.user.role = (token.role as string) || 'user';
+        session.user.handle = token.handle as string;
+        session.user.characterName = token.characterName as string;
+        session.user.iconUrl = token.iconUrl as string;
         
         // データベースからのユーザー詳細情報の取得は各ページで実行
         // エッジランタイムでは最小限の情報のみセッションに含める

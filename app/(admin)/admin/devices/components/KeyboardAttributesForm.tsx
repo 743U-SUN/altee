@@ -21,14 +21,56 @@ import { KeyboardAttributes } from "@/types/device";
 import { useManufacturers } from "../hooks/useManufacturers";
 
 interface KeyboardAttributesFormProps {
-  form: UseFormReturn<any>;
+  form: UseFormReturn<{
+    amazonUrl: string;
+    categoryId: string;
+    title: string;
+    description?: string;
+    imageUrl: string;
+    asin: string;
+    defaultColorId?: string;
+    attributes?: {
+      manufacturerId?: string;
+      seriesId?: string;
+      mouse?: {
+        dpi_min?: number;
+        dpi_max?: number;
+        weight?: number;
+        length?: number;
+        width?: number;
+        height?: number;
+        buttons?: number;
+        connection_type?: string;
+        polling_rate?: number[];
+        battery_life?: number;
+        sensor?: string;
+        rgb?: boolean;
+        software?: string;
+      };
+      keyboard?: {
+        layout?: string;
+        key_arrangement?: string;
+        switch_type?: string;
+        connection_type?: string;
+        width?: number;
+        depth?: number;
+        height?: number;
+        weight?: number;
+        key_stroke?: number;
+        actuation_point?: number;
+        rapid_trigger?: boolean;
+        rapid_trigger_min?: number;
+        polling_rate?: number[];
+      };
+    };
+  }>;
 }
 
 export function KeyboardAttributesForm({ form }: KeyboardAttributesFormProps) {
   const attributes = form.watch("attributes") || {};
   const { manufacturers, loading: manufacturersLoading } = useManufacturers();
 
-  const updateAttribute = (key: keyof KeyboardAttributes | 'manufacturerId', value: any) => {
+  const updateAttribute = (key: string, value: any) => {
     const currentAttributes = form.getValues("attributes") || {};
     // "unselected"の場合はundefinedにする
     const processedValue = value === "unselected" ? undefined : value;
@@ -93,6 +135,7 @@ export function KeyboardAttributesForm({ form }: KeyboardAttributesFormProps) {
               <SelectItem value="tkl">テンキーレス (TKL)</SelectItem>
               <SelectItem value="60">60%</SelectItem>
               <SelectItem value="65">65%</SelectItem>
+              <SelectItem value="70">70%</SelectItem>              
               <SelectItem value="75">75%</SelectItem>
               <SelectItem value="80">80%</SelectItem>
             </SelectContent>
@@ -102,8 +145,8 @@ export function KeyboardAttributesForm({ form }: KeyboardAttributesFormProps) {
         <div className="space-y-2">
           <FormLabel>キー配列</FormLabel>
           <Select
-            value={attributes.keyboard?.keyArrangement || ""}
-            onValueChange={(value) => updateAttribute("keyArrangement", value || undefined)}
+            value={attributes.keyboard?.key_arrangement || ""}
+            onValueChange={(value) => updateAttribute("key_arrangement", value || undefined)}
           >
             <SelectTrigger>
               <SelectValue placeholder="配列を選択" />
@@ -121,8 +164,8 @@ export function KeyboardAttributesForm({ form }: KeyboardAttributesFormProps) {
         <div className="space-y-2">
           <FormLabel>スイッチタイプ</FormLabel>
           <Select
-            value={attributes.keyboard?.switchType || ""}
-            onValueChange={(value) => updateAttribute("switchType", value || undefined)}
+            value={attributes.keyboard?.switch_type || ""}
+            onValueChange={(value) => updateAttribute("switch_type", value || undefined)}
           >
             <SelectTrigger>
               <SelectValue placeholder="スイッチを選択" />
@@ -141,8 +184,8 @@ export function KeyboardAttributesForm({ form }: KeyboardAttributesFormProps) {
         <div className="space-y-2">
           <FormLabel>接続方式</FormLabel>
           <Select
-            value={attributes.keyboard?.connectionType || ""}
-            onValueChange={(value) => updateAttribute("connectionType", value || undefined)}
+            value={attributes.keyboard?.connection_type || ""}
+            onValueChange={(value) => updateAttribute("connection_type", value || undefined)}
           >
             <SelectTrigger>
               <SelectValue placeholder="接続方式を選択" />
@@ -204,8 +247,8 @@ export function KeyboardAttributesForm({ form }: KeyboardAttributesFormProps) {
             type="number"
             step="0.1"
             placeholder="4.0"
-            value={attributes.keyboard?.keyStroke || ""}
-            onChange={(e) => updateAttribute("keyStroke", e.target.value ? Number(e.target.value) : undefined)}
+            value={attributes.keyboard?.key_stroke || ""}
+            onChange={(e) => updateAttribute("key_stroke", e.target.value ? Number(e.target.value) : undefined)}
           />
         </div>
 
@@ -215,8 +258,8 @@ export function KeyboardAttributesForm({ form }: KeyboardAttributesFormProps) {
             type="number"
             step="0.1"
             placeholder="2.0"
-            value={attributes.keyboard?.actuationPoint || ""}
-            onChange={(e) => updateAttribute("actuationPoint", e.target.value ? Number(e.target.value) : undefined)}
+            value={attributes.keyboard?.actuation_point || ""}
+            onChange={(e) => updateAttribute("actuation_point", e.target.value ? Number(e.target.value) : undefined)}
           />
         </div>
 
@@ -225,8 +268,8 @@ export function KeyboardAttributesForm({ form }: KeyboardAttributesFormProps) {
           <div className="flex items-center space-x-2">
             <Checkbox
               id="rapidTrigger"
-              checked={attributes.keyboard?.rapidTrigger || false}
-              onCheckedChange={(checked) => updateAttribute("rapidTrigger", checked)}
+              checked={attributes.keyboard?.rapid_trigger || false}
+              onCheckedChange={(checked) => updateAttribute("rapid_trigger", checked)}
             />
             <label htmlFor="rapidTrigger" className="text-sm font-medium">
               Rapid Trigger対応
@@ -234,15 +277,15 @@ export function KeyboardAttributesForm({ form }: KeyboardAttributesFormProps) {
           </div>
         </div>
 
-        {attributes.keyboard?.rapidTrigger && (
+        {attributes.keyboard?.rapid_trigger && (
           <div className="space-y-2 col-span-2">
             <FormLabel>Rapid Trigger最小値 (mm)</FormLabel>
             <Input
               type="number"
               step="0.1"
               placeholder="0.1"
-              value={attributes.keyboard?.rapidTriggerMin || ""}
-              onChange={(e) => updateAttribute("rapidTriggerMin", e.target.value ? Number(e.target.value) : undefined)}
+              value={attributes.keyboard?.rapid_trigger_min || ""}
+              onChange={(e) => updateAttribute("rapid_trigger_min", e.target.value ? Number(e.target.value) : undefined)}
             />
           </div>
         )}
@@ -252,13 +295,13 @@ export function KeyboardAttributesForm({ form }: KeyboardAttributesFormProps) {
           <FormLabel>ポーリングレート (Hz)</FormLabel>
           <Input
             placeholder="125,500,1000,8000"
-            value={attributes.keyboard?.pollingRate ? attributes.keyboard.pollingRate.join(",") : ""}
+            value={attributes.keyboard?.polling_rate ? attributes.keyboard.polling_rate.join(",") : ""}
             onChange={(e) => {
               const rates = e.target.value
                 .split(",")
                 .map(rate => Number(rate.trim()))
                 .filter(rate => !isNaN(rate));
-              updateAttribute("pollingRate", rates.length > 0 ? rates : undefined);
+              updateAttribute("polling_rate", rates.length > 0 ? rates : undefined);
             }}
           />
           <p className="text-sm text-muted-foreground">
