@@ -6,9 +6,9 @@ import { z } from 'zod';
 const createManufacturerSchema = z.object({
   name: z.string().min(1),
   slug: z.string().min(1).regex(/^[a-z0-9-]+$/),
-  description: z.string().nullable().optional(),
-  logoUrl: z.string().nullable().optional(),
-  website: z.string().url().nullable().optional(),
+  description: z.string().optional(),
+  logoUrl: z.string().optional(),
+  website: z.string().url().optional().or(z.literal('')),
   isActive: z.boolean().default(true),
 });
 
@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
         slug: validated.slug,
         description: validated.description || null,
         logoUrl: validated.logoUrl || null,
-        website: validated.website || null,
+        website: validated.website && validated.website !== '' ? validated.website : null,
         isActive: validated.isActive,
       },
     });

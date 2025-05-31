@@ -6,16 +6,16 @@ import { z } from 'zod';
 const updateManufacturerSchema = z.object({
   name: z.string().min(1).optional(),
   slug: z.string().min(1).regex(/^[a-z0-9-]+$/).optional(),
-  description: z.string().nullable().optional(),
-  logoUrl: z.string().nullable().optional(),
-  website: z.string().url().nullable().optional(),
+  description: z.string().optional(),
+  logoUrl: z.string().optional(),
+  website: z.string().url().optional().or(z.literal('')),
   isActive: z.boolean().optional(),
 });
 
 // GET: 特定のメーカーを取得
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -23,8 +23,9 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
     const manufacturer = await db.manufacturer.findUnique({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
       include: {
         _count: {
           select: {
@@ -55,7 +56,7 @@ export async function GET(
 // PUT: メーカーを更新
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -63,6 +64,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
     const body = await request.json();
     const validated = updateManufacturerSchema.parse(body);
 
@@ -71,7 +73,7 @@ export async function PUT(
       const existing = await db.manufacturer.findFirst({
         where: {
           AND: [
-            { id: { not: parseInt(params.id) } },
+            { id: { not: parseInt(id) } },
             {
               OR: [
                 validated.name ? { name: validated.name } : {},
@@ -91,13 +93,13 @@ export async function PUT(
     }
 
     const manufacturer = await db.manufacturer.update({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
       data: {
         ...(validated.name !== undefined && { name: validated.name }),
         ...(validated.slug !== undefined && { slug: validated.slug }),
         ...(validated.description !== undefined && { description: validated.description }),
         ...(validated.logoUrl !== undefined && { logoUrl: validated.logoUrl }),
-        ...(validated.website !== undefined && { website: validated.website }),
+        ...(validated.website !== undefined && { website: validated.website && validated.website !== '' ? validated.website : null }),
         ...(validated.isActive !== undefined && { isActive: validated.isActive }),
       },
     });
@@ -121,7 +123,7 @@ export async function PUT(
 // DELETE: メーカーを削除
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await auth();
@@ -129,9 +131,11 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { id } = await params;
+    
     // 関連する商品があるかチェック
     const productsCount = await db.product.count({
-      where: { manufacturerId: parseInt(params.id) },
+      where: { manufacturerId: parseInt(id) },
     });
 
     if (productsCount > 0) {
@@ -141,8 +145,20 @@ export async function DELETE(
       );
     }
 
+    // 関連するシリーズがあるかチェック
+    const seriesCount = await db.series.count({
+      where: { manufacturerId: parseInt(id) },
+    });
+
+    if (seriesCount > 0) {
+      return NextResponse.json(
+        { error: `このメーカーには ${seriesCount} 件のシリーズが関連付けられています。先にシリーズを削除または更新してください。` },
+        { status: 400 }
+      );
+    }
+
     await db.manufacturer.delete({
-      where: { id: parseInt(params.id) },
+      where: { id: parseInt(id) },
     });
 
     return NextResponse.json({ success: true });
