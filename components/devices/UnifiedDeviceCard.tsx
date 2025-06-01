@@ -21,7 +21,6 @@ import {
   Info, 
   Crown, 
   User,
-  ShoppingCart,
   Eye
 } from "lucide-react";
 import { DeviceIcon } from "./DeviceIcon";
@@ -91,19 +90,6 @@ export function UnifiedDeviceCard({
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-2">
               <DeviceIcon category={device.category} className="h-5 w-5" />
-              <Badge variant={device.sourceType === "official" ? "default" : "secondary"}>
-                {device.sourceType === "official" ? (
-                  <>
-                    <Crown className="mr-1 h-3 w-3" />
-                    公式
-                  </>
-                ) : (
-                  <>
-                    <User className="mr-1 h-3 w-3" />
-                    カスタム
-                  </>
-                )}
-              </Badge>
             </div>
             
             <div className="flex items-center gap-2">
@@ -149,40 +135,42 @@ export function UnifiedDeviceCard({
             )}
           </div>
 
-          <div>
+          <div className="space-y-2">
             <h3 className={cn(
-              "font-semibold line-clamp-2",
+              "font-semibold line-clamp-1",
               finalCompact && "text-sm"
             )}>
               {device.title}
             </h3>
             
-            {device.description && !finalCompact && (
-              <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
-                {device.description}
-              </p>
-            )}
-            
-            {device.color && (
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-sm text-muted-foreground">カラー:</span>
-                <div className="flex items-center gap-1">
-                  {device.color.hexCode && (
-                    <div
-                      className="w-4 h-4 rounded-full border border-gray-200"
-                      style={{ backgroundColor: device.color.hexCode }}
-                    />
-                  )}
-                  <span className="text-sm font-medium">{device.color.name}</span>
+            <div className="h-6 flex items-center">
+              {device.color ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">カラー:</span>
+                  <div className="flex items-center gap-1">
+                    {device.color.hexCode && (
+                      <div
+                        className="w-4 h-4 rounded-full border border-gray-200"
+                        style={{ backgroundColor: device.color.hexCode }}
+                      />
+                    )}
+                    <span className="text-sm font-medium line-clamp-1">{device.color.name}</span>
+                  </div>
                 </div>
-              </div>
-            )}
+              ) : (
+                <span className="text-sm text-muted-foreground opacity-50">カラー: 未設定</span>
+              )}
+            </div>
             
-            {showNote && device.note && (
-              <p className="text-sm text-muted-foreground mt-2">
-                <span className="font-medium">メモ:</span> {device.note}
-              </p>
-            )}
+            <div className="h-6 flex items-center">
+              {showNote && device.note ? (
+                <p className="text-sm text-muted-foreground line-clamp-1">
+                  <span className="font-medium">メモ:</span> {device.note}
+                </p>
+              ) : (
+                <span className="text-sm text-muted-foreground opacity-50">メモ: 未設定</span>
+              )}
+            </div>
           </div>
 
           {/* 主要属性の表示 */}
@@ -246,29 +234,26 @@ export function UnifiedDeviceCard({
               <div className="space-y-4">
                 {/* 商品画像 */}
                 <div className="aspect-video relative overflow-hidden rounded-lg bg-muted">
-                  {device.imageUrl?.includes('localhost:9000') && !imageError ? (
-                    // MinIO画像の場合はプロキシ経由で表示
-                    <img
-                      src={convertToProxyUrl(device.imageUrl)}
-                      alt={device.title || 'デバイス画像'}
-                      className="w-full h-full object-contain p-8"
-                      onError={handleImageError}
-                      onLoad={handleImageLoad}
-                    />
-                  ) : (
-                    // 外部画像またはエラー画像の場合はNext.js Imageを使用
-                    <Image
-                      src={imageError ? '/images/no-image.svg' : device.imageUrl}
-                      alt={device.title || 'デバイス画像'}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 600px"
-                      className="object-contain p-8"
-                      onError={handleImageError}
-                      onLoad={handleImageLoad}
-                      unoptimized={device.imageUrl?.includes('localhost:9000')}
-                    />
-                  )}
+                  <OptimizedImage
+                    src={convertToProxyUrl(imageError ? '/images/no-image.svg' : device.imageUrl)}
+                    alt={device.title || 'デバイス画像'}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 600px"
+                    className="object-contain p-8"
+                    onError={handleImageError}
+                    onLoad={handleImageLoad}
+                  />
                 </div>
+                
+                {/* メモ */}
+                {device.note && (
+                  <div>
+                    <h3 className="font-medium mb-2">メモ</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {device.note}
+                    </p>
+                  </div>
+                )}
                 
                 {/* 説明 */}
                 {device.description && (
@@ -304,8 +289,8 @@ export function UnifiedDeviceCard({
               target="_blank"
               rel="noopener noreferrer"
             >
-              <ShoppingCart className="mr-2 h-4 w-4" />
-              購入
+              <ExternalLink className="mr-2 h-4 w-4" />
+              Amazon
             </a>
           </Button>
 

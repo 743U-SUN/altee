@@ -4,6 +4,7 @@ Next.jsの原則
 	•	App Router を標準採用
 	•	TypeScript 必須（ESLint／型エラーは常にゼロ）
 	•	大原則としてサーバー処理は Server Actions で実装。API Routes は本当に必要な場合のみ。
+	•	Dockerを使用している。
 
 2. ディレクトリレイアウト
 

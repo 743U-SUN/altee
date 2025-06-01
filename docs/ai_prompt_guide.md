@@ -1,10 +1,36 @@
-次はapp/(user)/user/info/page.tsxを見て欲しい。
+app/(admin)/layout.tsxとapp/(admin)/componentsの中身、app/(user)/layout.tsxとapp/(user)/componentsの中のファイルを見て欲しい。レイアウト的にはほとんど同じで、中身が微妙に違うだけになっていると思われる。
 
-現在は新しいカテゴリを追加すると、カテゴリはdnd-kitを使用して順番を並べ替えることができるようになっている。
-しかし、カテゴリ内のQ&Aは並べ替えることができない。サンプルのように、コンテナ自体のソートとコンテナ内アイテムのソートを可能にしたい。異なるコンテナ間でのアイテム移動は不要。
+中身の一部、例えば
+export default function AdminClientLayout({
+  children,
+  sidebarWidth = "360px",
+  sidebar,
+  mobileFooter,
+}: {
+  children: React.ReactNode;
+  sidebarWidth?: string;
+  sidebar?: React.ReactNode;
+  mobileFooter?: React.ReactNode;
+})
 
-現在のスタイルを踏襲しつつ、ネストされたコンテナのドラッグアンドドロップを実装したい。
-もしshadcn/uiを使うのが難しければTailwindCSSを使用して、Shadcn/uiのスタイルに寄せてもらえれば良い。
-また、コンテナはアコーディオンのように開閉ができるようになると非常に良い。アコーディオンで閉じたものをDnDデソートしたいが、難しければアコーディオンはなくとも良い。
+の  sidebarWidth = "360px",を変更したかったり、
 
-package.jsonを見て、必要なライブラリがあるか確認して、実装計画をultrathinkでよく考えて実装してもらいたい。
+// パスに基づいてページ名を取得
+  const getPageName = () => {
+    if (pathname.includes("/blog")) {
+      return "ブログ"
+    } else if (pathname.includes("/law")) {
+      return "法律"
+    } else if (pathname.includes("/cooking")) {
+      return "料理"
+    } else if (pathname.includes("/settings")) {
+      return "設定"
+    } else {
+      return "Dashboard"
+    }
+  }
+
+  この部分が違ったりするだけで、ほぼ同じ構成になっている。
+  このような場合、1つのレイアウトにまとめたほうが良いのだろうか？
+
+  コードを書いたりファイルを作ったりする必要はありません。アドバイスだけを求めています。

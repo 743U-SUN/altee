@@ -32,14 +32,14 @@ export default function UserClientLayout({
   
   // パスに基づいてページ名を取得
   const getPageName = () => {
-    if (pathname.includes("/blog")) {
-      return "ブログ"
-    } else if (pathname.includes("/law")) {
-      return "法律"
-    } else if (pathname.includes("/cooking")) {
-      return "料理"
-    } else if (pathname.includes("/settings")) {
-      return "設定"
+    if (pathname.includes("/settings")) {
+      return "セッティング"
+    } else if (pathname.includes("/profile")) {
+      return "プロフィール"
+    } else if (pathname.includes("/links")) {
+      return "リンク"
+    } else if (pathname.includes("/devices")) {
+      return "デバイス"
     } else {
       return "Dashboard"
     }
