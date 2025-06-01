@@ -1,14 +1,8 @@
 "use client"
 
-import { usePathname } from "next/navigation"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+import Link from "next/link"
+import { OptimizedImage } from "@/components/ui/optimized-image"
+import { HeaderNavUser } from "@/components/header-nav-user"
 import { Separator } from "@/components/ui/separator"
 import {
   SidebarInset,
@@ -30,7 +24,6 @@ export default function BaseClientLayout({
   mobileFooter?: React.ReactNode;
   SidebarLayoutComponent: React.ComponentType<{children: React.ReactNode}>;
 }) {
-  const pathname = usePathname()
   
   return (
     <SidebarProvider
@@ -46,25 +39,24 @@ export default function BaseClientLayout({
         {sidebar}
       </SidebarLayoutComponent>
       <SidebarInset className="rounded-xl shadow-sm flex flex-col h-[calc(100vh-1rem)]">
-        <header className="bg-background sticky top-0 flex shrink-0 items-center gap-2 border-b p-4 rounded-t-xl z-10">
-          <SidebarTrigger className="-ml-1" />
-          <Separator
-            orientation="vertical"
-            className="mr-2 data-[orientation=vertical]:h-4"
-          />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink href={config.breadcrumb.baseHref}>
-                  {config.breadcrumb.baseName}
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{config.getPageName(pathname)}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+        <header className="bg-background sticky top-0 flex shrink-0 items-center justify-between gap-2 border-b p-4 rounded-t-xl z-10">
+          <div className="flex items-center gap-2">
+            <SidebarTrigger className="-ml-1" />
+            <Separator
+              orientation="vertical"
+              className="mr-2 data-[orientation=vertical]:h-4"
+            />
+            <Link href="/">
+              <OptimizedImage 
+                src="/altee-logo-bar.svg"
+                alt="Altee"
+                width={120}
+                height={32}
+                priority
+              />
+            </Link>
+          </div>
+          <HeaderNavUser />
         </header>
         <div className="flex-1 overflow-auto">
           <div className="flex flex-col gap-4 bg-background rounded-b-xl py-4 px-4 h-full">

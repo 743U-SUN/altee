@@ -4,7 +4,7 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { usePathname } from "next/navigation";
-import { ArticleSidebar } from "@/app/(article)/components/ArticleSidebar";
+import { ArticleSidebar } from "@/hozon/(article)/components/ArticleSidebar";
 import { SampleSidebar } from "@/app/(sample)/components/SampleSidebar";
 
 import {

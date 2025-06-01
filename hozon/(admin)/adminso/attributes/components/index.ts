@@ -1,0 +1,10 @@
+export { ManufacturerManager } from './ManufacturerManager';
+export { ManufacturerCreateDialog } from './ManufacturerCreateDialog';
+export { ManufacturerEditDialog } from './ManufacturerEditDialog';
+export { SeriesManager } from './SeriesManager';
+export { SeriesCreateDialog } from './SeriesCreateDialog';
+export { SeriesEditDialog } from './SeriesEditDialog';
+export { ColorManager } from './ColorManager';
+export { ColorCreateDialog } from './ColorCreateDialog';
+export { ColorEditDialog } from './ColorEditDialog';
+export { LogoUploader } from './LogoUploader';
