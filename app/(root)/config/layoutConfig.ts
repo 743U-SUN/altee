@@ -1,4 +1,4 @@
-import { Home, User, Settings, BookOpen, Monitor, Users, Link as LinkIcon } from "lucide-react";
+import { Home, User, Settings, BookOpen, Monitor, MonitorSmartphone, Users, Link as LinkIcon } from "lucide-react";
 import { LayoutConfig } from "@/components/layouts/types";
 
 export const homeLayoutConfig: LayoutConfig = {
@@ -15,18 +15,16 @@ export const homeLayoutConfig: LayoutConfig = {
   sidebar: {
     sheetTitle: "メインナビゲーション",
     headerLogo: {
-      icon: Home,
       href: "/",
       title: "Altee",
       subtitle: "ホーム",
       className: "rounded-lg"
     },
     navItems: [
-      { id: "admin", title: "管理者", url: "/admin", icon: Settings },
       { id: "user", title: "ユーザー", url: "/user", icon: User },
+      { id: "device", title: "デバイス", url: "/device", icon: MonitorSmartphone },      
       { id: "article", title: "記事", url: "/article", icon: BookOpen },
-      { id: "device", title: "デバイス", url: "/device", icon: Monitor },
-      { id: "sample", title: "サンプル", url: "/sample", icon: LinkIcon },
+      { id: "link", title: "リンク", url: "/sample", icon: LinkIcon },
     ]
   },
   mobileFooter: {

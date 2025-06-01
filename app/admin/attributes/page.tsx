@@ -28,7 +28,7 @@ export default function AttributesPage() {
           </CardHeader>
           <CardContent>
             <Link href="/admin/attributes/manufacturers">
-              <Button className="w-full">
+              <Button className="w-full hover:cursor-pointer">
                 メーカー管理を開く
               </Button>
             </Link>
@@ -47,7 +47,7 @@ export default function AttributesPage() {
           </CardHeader>
           <CardContent>
             <Link href="/admin/attributes/series">
-              <Button className="w-full">
+              <Button className="w-full hover:cursor-pointer">
                 シリーズ管理を開く
               </Button>
             </Link>
@@ -66,7 +66,7 @@ export default function AttributesPage() {
           </CardHeader>
           <CardContent>
             <Link href="/admin/attributes/colors">
-              <Button className="w-full">
+              <Button className="w-full hover:cursor-pointer">
                 カラー管理を開く
               </Button>
             </Link>

@@ -4,6 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { NavUser } from "@/components/nav-user"
+import { OptimizedImage } from "@/components/ui/optimized-image"
 import {
   Sidebar,
   SidebarContent,
@@ -89,6 +90,26 @@ export function BaseSidebarLayout({
                     <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center">
                       {config.headerLogo.customElement}
                     </div>
+                  ) : config.headerLogo.title === "Altee" ? (
+                    <>
+                      <div className={`flex aspect-square size-8 items-center justify-center ${config.headerLogo.className || 'rounded-lg'}`}>
+                        <OptimizedImage 
+                          src="/altee-logo.svg"
+                          alt="Altee"
+                          width={32}
+                          height={32}
+                          priority
+                        />
+                      </div>
+                      {config.headerLogo.title && (
+                        <div className="grid flex-1 text-left text-sm leading-tight">
+                          <span className="truncate font-medium">{config.headerLogo.title}</span>
+                          {config.headerLogo.subtitle && (
+                            <span className="truncate text-xs">{config.headerLogo.subtitle}</span>
+                          )}
+                        </div>
+                      )}
+                    </>
                   ) : (
                     <>
                       <div className={`bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center ${config.headerLogo.className || 'rounded-lg'}`}>

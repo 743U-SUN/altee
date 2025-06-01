@@ -1,4 +1,4 @@
-import { User, Heart, Monitor, Link as LinkIcon, Settings } from "lucide-react";
+import { User, Heart, Monitor, MonitorSmartphone, BookOpen, Link as LinkIcon, Settings, Video } from "lucide-react";
 import { LayoutConfig } from "@/components/layouts/types";
 
 export const userLayoutConfig: LayoutConfig = {
@@ -16,22 +16,21 @@ export const userLayoutConfig: LayoutConfig = {
     if (pathname.includes("/info")) return "情報";
     if (pathname.includes("/youtube")) return "YouTube";
     if (pathname.includes("/account")) return "アカウント";
-    if (pathname.includes("/settings")) return "設定";
     return "Dashboard";
   },
   sidebar: {
-    sheetTitle: "ユーザーセクション",
+    sheetTitle: "メインナビゲーション",
     headerLogo: {
-      href: "/user",
-      customElement: <img src="/altee-logo.svg" alt="Altee Logo" className="size-6" />
+      href: "/",
+      title: "Altee",
+      subtitle: "ホーム",
+      className: "rounded-lg"
     },
     navItems: [
-      { id: "profile", title: "プロフィール", url: "/user/profile", icon: User },
-      { id: "devices", title: "デバイス", url: "/user/devices", icon: Monitor },
-      { id: "favorites", title: "お気に入り", url: "/user/favorites", icon: Heart },
-      { id: "links", title: "リンク", url: "/user/links", icon: LinkIcon },
-      { id: "info", title: "情報", url: "/user/info", icon: Settings },
-      { id: "youtube", title: "YouTube", url: "/user/youtube", icon: Settings },
+      { id: "user", title: "ユーザー", url: "/user", icon: User },
+      { id: "device", title: "デバイス", url: "/device", icon: MonitorSmartphone },      
+      { id: "article", title: "記事", url: "/article", icon: BookOpen },
+      { id: "link", title: "リンク", url: "/sample", icon: LinkIcon },
     ]
   },
   mobileFooter: {

@@ -23,6 +23,11 @@ export default function AttributesLayout({ children }: AttributesLayoutProps) {
       href: '/admin/attributes/series',
       active: pathname.includes('/series'),
     },
+    {
+      name: 'カラー',
+      href: '/admin/attributes/colors',
+      active: pathname.includes('/colors'),
+    },    
   ];
 
   return (
