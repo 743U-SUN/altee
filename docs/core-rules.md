@@ -1,10 +1,10 @@
 Next.jsの原則
 
 1. コア原則
-	•	App Router を標準採用
-	•	TypeScript 必須（ESLint／型エラーは常にゼロ）
-	•	大原則としてサーバー処理は Server Actions で実装。API Routes は本当に必要な場合のみ。
-	•	Dockerを使用している。
+  - App Router を標準採用
+  - TypeScript 必須（ESLint／型エラーは常にゼロ）
+  - 大原則としてサーバー処理は Server Actions で実装。API Routes は本当に必要な場合のみ。
+  - Dockerを使用している。
 
 2. ディレクトリレイアウト
 
@@ -18,55 +18,64 @@ config/      設定値・環境変数ラッパー
 services/    外部 API ラッパーやビジネスロジック  
 demo/        フロントエンドから実行できる手動テストページ
 
-	•	専用（機能固有）コンポーネント … 対応する page.tsx と同階層
-	•	汎用（再利用可能）コンポーネント … components/ に配置
+  - 専用（機能固有）コンポーネント … 対応する page.tsx と同階層
+  - 汎用（再利用可能）コンポーネント … components/ に配置
 
 3. データハンドリング
 
-依存条件	実装方法
-ユーザー操作に依存しない	server components + Server Actions
-ユーザー操作に依存する	client components + Server Actions + useSWR
+  - 依存条件  実装方法
+    - ユーザー操作に依存しない	server components + Server Actions
+    - ユーザー操作に依存する	client components + Server Actions + useSWR
 
-	•	更新は Server Actions、即時反映は useSWR.mutate で楽観的更新
+  - 更新は Server Actions、即時反映は useSWR.mutate で楽観的更新
 
-4. 表示と状態管理
-	•	UI は極力自作せず、必ず shadcn/ui のコンポーネントを利用
-	•	アイコンは lucide-react を統一使用
-	•	URL 状態は nuqs に統一
-	•	グローバル状態ライブラリは 使用しない（必要時は React Context + useReducer などで最小構成）
+4. 表示
 
-5. パフォーマンス
-	•	use client / useEffect / useState は最小限、まず RSC
-	•	クライアント側は Suspense でフォールバック
-	•	動的 import で遅延読み込み、画像は next/image、リンクは next/link
-	•	ルートベースのコード分割を徹底
+  - UI は極力自作せず、必ず shadcn/ui のコンポーネントを利用
+  - アイコンは lucide-react を統一使用
 
-6. フォームとバリデーション
-	•	制御コンポーネント + react-hook-form
-	•	スキーマ検証は Zod
-	•	クライアント／サーバー両方で入力チェック
+5. 状態管理(UI, データ状態)
 
-7. 品質・セキュリティ・テスト
+  - URL状態は nuqs に統一
+  - グローバル状態ライブラリは 使用しない（認証はNextAuth
+  SessionProvider、その他必要時は React Context + useReducer などで最小構成）
+  - データ状態は Server State で管理
 
-7-1 エラーハンドリング
-	•	ガード節で 早期 return、成功パスは最後にまとめる
+6. パフォーマンス
 
-7-2 アクセシビリティ
-	•	セマンティック HTML + ARIA、キーボード操作サポート
+  - use client / useEffect / useState は最小限、まず RSC
+  - クライアント側は Suspense でフォールバック
+  - 動的 import で遅延読み込み、画像は next/image、リンクは next/link
+  - ルートベースのコード分割を徹底
 
-7-3 Server Actions のセキュリティ指針
-	•	ユーザーが許可された操作だけを Server Action として実装
-	•	汎用的・多目的なサーバー関数は実装しない
-	•	NextAuthのセッション（getServerSession）とデータベースのユーザーIDチェックにより最小権限を担保
+7. フォームとバリデーション
 
-7-4 テスト
-	•	demo/ ディレクトリ に UI ベースのテストページを配置し、
-すべての Server Actions・クライアント関数を ブラウザ経由で手動検証 できるようにする
+  - 制御コンポーネント + react-hook-form
+  - スキーマ検証は Zod
+  - クライアント／サーバー両方で入力チェック
 
-8. 画像管理
-	•	ファイルストレージはさくらインターネットのオブジェクトストレージ(S3互換)を使用（開発段階ではMinIO）
-	•	画像最適化・セキュリティ・アップロード処理は統一化されたシステムを利用
-	•	詳細な実装指針は docs/image-handling-guide.md および docs/image-upload-guide.md を参照
+8. 品質・セキュリティ・テスト
+
+8-1 エラーハンドリング
+  - ガード節で 早期 return、成功パスは最後にまとめる
+
+8-2 アクセシビリティ
+  - セマンティック HTML + ARIA、キーボード操作サポート
+
+8-3 認証・認可の3層アーキテクチャ
+  - Middleware：ルートレベルの基本認証チェック（/user/* → 認証必須）
+  - Layout：詳細な状態確認とリダイレクト（onboarding完了、アカウント有効性）
+  - Page/Server Actions：最終権限チェックと最小権限の原則（操作固有の権限）
+  - 実装：各層でガード節使用、認証済み前提で後続処理
+  - 詳細な実装指針は docs/security-guide.md を参照
+
+8-4 テスト
+  - demo/ ディレクトリ に UI ベースのテストページを配置し、すべての Server Actions・クライアント関数を ブラウザ経由で手動検証 できるようにする
+
+9. 画像管理
+  - ファイルストレージはさくらインターネットのオブジェクトストレージ(S3互換)を使用（開発段階ではMinIO）
+  - 画像最適化・セキュリティ・アップロード処理は統一化されたシステムを利用
+  - 詳細な実装指針は docs/image-handling-guide.md および docs/image-upload-guide.md を参照
 
 ⸻
 
