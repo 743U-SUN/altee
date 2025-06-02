@@ -386,7 +386,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
                 {product.userDevices.map((device) => (
                   <div key={device.id} className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={device.user.iconUrl || undefined} />
+                      <AvatarImage src={convertToProxyUrl(device.user.iconUrl || '/user.svg')} alt={device.user.name || device.user.handle || 'User'} />
                       <AvatarFallback>
                         {device.user.name?.[0] || device.user.handle?.[0] || "U"}
                       </AvatarFallback>
@@ -444,7 +444,7 @@ export function ProductEditForm({ product, categories }: ProductEditFormProps) {
                   >
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10">
-                        <AvatarImage src={device.user.iconUrl || undefined} />
+                        <AvatarImage src={convertToProxyUrl(device.user.iconUrl || '/user.svg')} alt={device.user.name || device.user.handle || 'User'} />
                         <AvatarFallback>
                           {device.user.name?.[0] || device.user.handle?.[0] || "U"}
                         </AvatarFallback>

@@ -9,6 +9,12 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Plus, Loader2, Trash2, Save, MessageCircleQuestion, MessageSquare, GripVertical } from 'lucide-react';
 import { toast } from 'sonner';
 import { InfoCategoryWithQuestions, InfoQuestion } from '../types';
+import { 
+  createInfoQuestion, 
+  updateInfoQuestion, 
+  deleteInfoQuestion, 
+  reorderInfoQuestions 
+} from '@/lib/actions/info-actions';
 import {
   DndContext,
   closestCenter,
@@ -247,27 +253,18 @@ export function InfoQuestionCard({ category, userId, onUpdateQuestions }: InfoQu
     try {
       setIsAdding(true);
       
-      const response = await fetch('/api/user/info-questions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          categoryId: category.id,
-          question: '',
-          answer: ''
-        }),
+      const result = await createInfoQuestion({
+        categoryId: category.id,
+        question: '',
+        answer: ''
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Q&Aの追加に失敗しました');
+      if (!result.success) {
+        throw new Error(result.error || 'Q&Aの追加に失敗しました');
       }
-
-      const result = await response.json();
       
       // 新しいQ&Aを追加
-      const newQuestions = [...category.questions, result.question];
+      const newQuestions = [...category.questions, result.data];
       onUpdateQuestions(newQuestions);
       
       toast.success('Q&Aを追加しました');
@@ -284,17 +281,10 @@ export function InfoQuestionCard({ category, userId, onUpdateQuestions }: InfoQu
     try {
       setIsDeletingId(questionId);
       
-      const response = await fetch('/api/user/info-questions', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ questionId }),
-      });
+      const result = await deleteInfoQuestion(questionId);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || '削除に失敗しました');
+      if (!result.success) {
+        throw new Error(result.error || '削除に失敗しました');
       }
 
       // Q&Aを削除
@@ -336,21 +326,14 @@ export function InfoQuestionCard({ category, userId, onUpdateQuestions }: InfoQu
     try {
       setIsSavingId(questionId);
       
-      const response = await fetch('/api/user/info-questions', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          questionId,
-          question,
-          answer
-        }),
+      const result = await updateInfoQuestion({
+        questionId,
+        question,
+        answer
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || '保存に失敗しました');
+      if (!result.success) {
+        throw new Error(result.error || '保存に失敗しました');
       }
 
       // ローカルのデータを更新
@@ -398,20 +381,19 @@ export function InfoQuestionCard({ category, userId, onUpdateQuestions }: InfoQu
 
     // API更新
     try {
-      const response = await fetch('/api/user/info-questions', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          categoryId: category.id,
-          questions: updatedQuestions.map(item => ({
-            id: item.id,
-            sortOrder: item.sortOrder
-          }))
-        }),
+      const result = await reorderInfoQuestions({
+        categoryId: category.id,
+        questions: updatedQuestions.map(item => ({
+          id: item.id,
+          sortOrder: item.sortOrder
+        }))
       });
 
-      if (!response.ok) throw new Error('並び順の更新に失敗しました');
-      toast.success('Q&Aの並び順を更新しました');
+      if (result.success) {
+        toast.success('Q&Aの並び順を更新しました');
+      } else {
+        throw new Error(result.error || '並び順の更新に失敗しました');
+      }
     } catch (error) {
       console.error('Sort update error:', error);
       toast.error('並び順の更新に失敗しました');

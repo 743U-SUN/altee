@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from "react"
 import { toast } from "sonner"
+import { getUserProfile, updateUserProfileData } from "@/lib/actions/user-actions"
 
 // ユーザープロファイルの型定義
 interface UserProfile {
@@ -10,6 +11,7 @@ interface UserProfile {
   name?: string | null
   characterName?: string | null
   subname?: string | null
+  bio?: string | null
   // その他のプロファイル情報
 }
 
@@ -17,6 +19,7 @@ interface UserProfile {
 interface ProfileUpdate {
   characterName?: string
   subname?: string
+  bio?: string
   // 他のフィールドも追加可能
 }
 
@@ -28,27 +31,22 @@ export function useUserProfile() {
   const fetchUserProfile = useCallback(async () => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/user/profile')
+      const result = await getUserProfile()
       
-      if (!response.ok) {
-        if (response.status === 401) {
+      if (result.success) {
+        setUser(result.data)
+      } else {
+        if (result.error === '認証が必要です') {
           toast.error("認証が必要です。ログインしてください。")
-        } else if (response.status === 404) {
+        } else if (result.error === 'ユーザーが見つかりません') {
           toast.error("ユーザー情報が見つかりません。")
         } else {
-          toast.error("プロファイルの取得に失敗しました。")
+          toast.error(result.error || "プロファイルの取得に失敗しました。")
         }
-        throw new Error(`HTTP error! status: ${response.status}`)
       }
-      
-      const userData = await response.json()
-      setUser(userData)
     } catch (error) {
       console.error("プロファイル取得エラー:", error)
-      // fetchの場合はnetworkエラーなど
-      if (error instanceof TypeError) {
-        toast.error("ネットワークエラーが発生しました。")
-      }
+      toast.error("ネットワークエラーが発生しました。")
     } finally {
       setIsLoading(false)
     }
@@ -58,38 +56,26 @@ export function useUserProfile() {
   const updateUserProfile = useCallback(async (data: ProfileUpdate) => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/user/profile', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
+      const result = await updateUserProfileData(data)
       
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}))
-        
-        if (response.status === 401) {
+      if (result.success) {
+        // ローカルのユーザー状態を更新
+        setUser(result.data)
+        toast.success("プロファイルを更新しました。")
+        return true
+      } else {
+        if (result.error === '認証が必要です') {
           toast.error("認証が必要です。ログインしてください。")
-        } else if (response.status === 400) {
+        } else if (result.error === '入力データが無効です') {
           toast.error("入力データに問題があります。確認してください。")
         } else {
-          toast.error("プロファイルの更新に失敗しました。")
+          toast.error(result.error || "プロファイルの更新に失敗しました。")
         }
-        
-        throw new Error(`HTTP error! status: ${response.status}`)
+        return false
       }
-      
-      const updatedUser = await response.json()
-      
-      // ローカルのユーザー状態を更新
-      setUser(updatedUser)
-      
-      return true
     } catch (error) {
       console.error("プロファイル更新エラー:", error)
-      // fetchの場合はnetworkエラーなど
-      if (error instanceof TypeError) {
-        toast.error("ネットワークエラーが発生しました。")
-      }
+      toast.error("ネットワークエラーが発生しました。")
       return false
     } finally {
       setIsLoading(false)

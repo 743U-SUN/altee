@@ -6,6 +6,7 @@ import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { convertToProxyUrl } from '@/lib/utils/image-proxy'
 import { 
   Dialog, 
   DialogContent, 
@@ -141,7 +142,7 @@ export function PromotionCandidateCard({ candidate, onPromote }: PromotionCandid
                   className="relative hover:z-10 transition-all"
                 >
                   <Avatar className="h-8 w-8 border-2 border-background">
-                    <AvatarImage src={user.iconUrl || undefined} />
+                    <AvatarImage src={convertToProxyUrl(user.iconUrl || '/user.svg')} alt={user.name || user.handle || 'User'} />
                     <AvatarFallback>
                       {user.name?.charAt(0) || user.handle?.charAt(0) || '?'}
                     </AvatarFallback>

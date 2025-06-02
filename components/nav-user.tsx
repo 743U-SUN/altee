@@ -19,6 +19,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
+import { convertToProxyUrl } from "@/lib/utils/image-proxy"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -64,7 +65,7 @@ export function NavUser() {
 
   // ログインページへの遷移
   const handleLogin = () => {
-    router.push("/login")
+    router.push("/article/login")
   }
 
   // ローディング中
@@ -123,7 +124,7 @@ export function NavUser() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:h-8 md:p-0"
             >
               <Avatar className="h-8 w-8 rounded-lg">
-                <AvatarImage src={userIcon} alt={userName} />
+                <AvatarImage src={convertToProxyUrl(userIcon)} alt={userName} />
                 <AvatarFallback className="rounded-lg">
                   {userName.charAt(0).toUpperCase()}
                 </AvatarFallback>
@@ -145,7 +146,7 @@ export function NavUser() {
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={userIcon} alt={userName} />
+                  <AvatarImage src={convertToProxyUrl(userIcon)} alt={userName} />
                   <AvatarFallback className="rounded-lg">
                     {userName.charAt(0).toUpperCase()}
                   </AvatarFallback>

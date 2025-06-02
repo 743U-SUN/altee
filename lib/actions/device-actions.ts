@@ -23,6 +23,166 @@ import {
 import type { Product, DeviceCategory } from '@/lib/generated/prisma';
 
 /**
+ * 個別デバイスの詳細情報を取得
+ */
+export async function getDeviceById(deviceId: number) {
+  try {
+    const session = await auth();
+    if (!session?.user?.email) {
+      return { success: false, error: '認証が必要です' };
+    }
+    
+    // emailからユーザーIDを取得
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      select: { id: true },
+    });
+    
+    if (!user) {
+      return { success: false, error: 'ユーザーが見つかりません' };
+    }
+
+    const device = await prisma.userDevice.findFirst({
+      where: {
+        id: deviceId,
+        userId: user.id,
+      },
+      include: {
+        product: {
+          include: {
+            category: true,
+            manufacturer: true,
+            productColors: {
+              include: {
+                color: true,
+              },
+            },
+          },
+        },
+        color: true,
+      },
+    });
+
+    if (!device) {
+      return { success: false, error: 'デバイスが見つかりません' };
+    }
+
+    // Decimal型をstring型に変換してClient Componentで使用可能にする
+    const serializedDevice = {
+      ...device,
+      product: device.product ? {
+        ...device.product,
+        price: device.product.price ? device.product.price.toString() : null,
+      } : null,
+    };
+
+    return { success: true, data: serializedDevice };
+  } catch (error) {
+    console.error('getDeviceById error:', error);
+    return { success: false, error: 'デバイスの取得に失敗しました' };
+  }
+}
+
+/**
+ * ユーザーのデバイス一覧を取得（フィルタリング・ページネーション付き）
+ */
+export async function getUserDevicesFiltered(filters: {
+  category?: string;
+  deviceType?: string;
+  page?: number;
+  limit?: number;
+}) {
+  try {
+    const session = await auth();
+    if (!session?.user?.email) {
+      return { success: false, error: '認証が必要です' };
+    }
+    
+    // emailからユーザーIDを取得
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      select: { id: true },
+    });
+    
+    if (!user) {
+      return { success: false, error: 'ユーザーが見つかりません' };
+    }
+
+    const page = filters.page || 1;
+    const limit = filters.limit || 20;
+
+    // フィルタ条件を構築
+    const where: any = { userId: user.id };
+    
+    if (filters.deviceType && filters.deviceType !== 'all') {
+      where.deviceType = filters.deviceType;
+    }
+    
+    // デバイスを取得
+    const devices = await prisma.userDevice.findMany({
+      where,
+      include: {
+        product: {
+          include: {
+            category: true,
+            manufacturer: true,
+            productColors: {
+              include: {
+                color: true,
+              },
+            },
+          },
+        },
+        color: true,
+      },
+      orderBy: { createdAt: 'desc' },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    // カテゴリフィルタリング（カスタム商品のため）
+    const filteredDevices = filters.category && filters.category !== 'all' 
+      ? devices.filter(device => {
+          if (device.deviceType === 'OFFICIAL') {
+            return device.product?.category.slug === filters.category;
+          } else {
+            const customData = device.customProductData as any;
+            return customData?.category === filters.category;
+          }
+        })
+      : devices;
+
+    // 総数を取得
+    const total = await prisma.userDevice.count({ where });
+
+    // Decimal型をstring型に変換してClient Componentで使用可能にする
+    const serializedDevices = filteredDevices.map(device => ({
+      ...device,
+      product: device.product ? {
+        ...device.product,
+        price: device.product.price ? device.product.price.toString() : null,
+      } : null,
+    }));
+
+    return {
+      success: true,
+      data: {
+        devices: serializedDevices,
+        pagination: {
+          total,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit),
+        },
+      }
+    };
+  } catch (error) {
+    console.error('getUserDevicesFiltered error:', error);
+    return { success: false, error: 'デバイスの取得に失敗しました' };
+  }
+}
+
+/**
  * ユーザーのデバイス一覧を取得
  */
 export async function getUserDevices(userId?: string) {

@@ -8,6 +8,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { Plus, Loader2, GripVertical, Info, Trash2, Save, MessageCircleQuestion, MessageSquare } from 'lucide-react';
 import { toast } from 'sonner';
 import { questionSchema, answerSchema } from '@/lib/validation/schemas';
+import { 
+  getUserCustomQuestions, 
+  createCustomQuestion, 
+  updateCustomQuestion, 
+  deleteCustomQuestion, 
+  reorderCustomQuestions 
+} from '@/lib/actions/qa-actions';
 
 interface CustomQuestionItem {
   id: string;
@@ -33,21 +40,24 @@ export function CustomQuestion({ userId }: CustomQuestionProps) {
   // Q&Aデータを取得
   const fetchQuestions = async () => {
     try {
-      const response = await fetch(`/api/user/custom-questions?userId=${userId}`);
-      if (!response.ok) throw new Error('Q&Aの取得に失敗しました');
+      const result = await getUserCustomQuestions();
       
-      const data = await response.json();
-      setQuestions(data.questions || []);
-      
-      // 入力欄の初期値を設定
-      const tempQ: { [key: string]: string } = {};
-      const tempA: { [key: string]: string } = {};
-      (data.questions || []).forEach((item: CustomQuestionItem) => {
-        tempQ[item.id] = item.question;
-        tempA[item.id] = item.answer;
-      });
-      setTempQuestions(tempQ);
-      setTempAnswers(tempA);
+      if (result.success) {
+        setQuestions(result.data || []);
+        
+        // 入力欄の初期値を設定
+        const tempQ: { [key: string]: string } = {};
+        const tempA: { [key: string]: string } = {};
+        (result.data || []).forEach((item: CustomQuestionItem) => {
+          tempQ[item.id] = item.question;
+          tempA[item.id] = item.answer;
+        });
+        setTempQuestions(tempQ);
+        setTempAnswers(tempA);
+      } else {
+        console.error('Question fetch error:', result.error);
+        toast.error(result.error || 'Q&Aの取得に失敗しました');
+      }
     } catch (error) {
       console.error('Question fetch error:', error);
       toast.error('Q&Aの取得に失敗しました');
@@ -65,41 +75,31 @@ export function CustomQuestion({ userId }: CustomQuestionProps) {
     try {
       setIsAdding(true);
       
-      const response = await fetch('/api/user/custom-questions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          question: '',
-          answer: '',
-          sortOrder: questions.length
-        }),
+      const result = await createCustomQuestion({
+        question: '',
+        answer: ''
       });
 
-      if (!response.ok) {
-        throw new Error('Q&Aの追加に失敗しました');
+      if (result.success) {
+        // 新しいQ&Aを追加
+        const newQuestion: CustomQuestionItem = {
+          id: result.data.id,
+          question: '',
+          answer: '',
+          sortOrder: result.data.sortOrder
+        };
+        
+        setQuestions(prev => [...prev, newQuestion]);
+        setTempQuestions(prev => ({ ...prev, [result.data.id]: '' }));
+        setTempAnswers(prev => ({ ...prev, [result.data.id]: '' }));
+        
+        toast.success('Q&Aを追加しました');
+      } else {
+        toast.error(result.error || 'Q&Aの追加に失敗しました');
       }
-
-      const result = await response.json();
-      
-      // 新しいQ&Aを追加
-      const newQuestion: CustomQuestionItem = {
-        id: result.id,
-        question: '',
-        answer: '',
-        sortOrder: result.sortOrder
-      };
-      
-      setQuestions(prev => [...prev, newQuestion]);
-      setTempQuestions(prev => ({ ...prev, [result.id]: '' }));
-      setTempAnswers(prev => ({ ...prev, [result.id]: '' }));
-      
-      toast.success('Q&Aを追加しました');
     } catch (error) {
       console.error('Add question error:', error);
-      toast.error(error instanceof Error ? error.message : 'Q&Aの追加に失敗しました');
+      toast.error('Q&Aの追加に失敗しました');
     } finally {
       setIsAdding(false);
     }
@@ -110,40 +110,34 @@ export function CustomQuestion({ userId }: CustomQuestionProps) {
     try {
       setIsDeletingId(questionId);
       
-      const response = await fetch('/api/user/custom-questions', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId, questionId }),
-      });
+      const result = await deleteCustomQuestion(questionId);
 
-      if (!response.ok) {
-        throw new Error('削除に失敗しました');
+      if (result.success) {
+        // Q&Aを削除して並び順を更新
+        setQuestions(prev => {
+          const filtered = prev.filter(item => item.id !== questionId);
+          return filtered.map((item, index) => ({
+            ...item,
+            sortOrder: index
+          }));
+        });
+        
+        // 一時データも削除
+        setTempQuestions(prev => {
+          const newQuestions = { ...prev };
+          delete newQuestions[questionId];
+          return newQuestions;
+        });
+        setTempAnswers(prev => {
+          const newAnswers = { ...prev };
+          delete newAnswers[questionId];
+          return newAnswers;
+        });
+        
+        toast.success('Q&Aを削除しました');
+      } else {
+        toast.error(result.error || '削除に失敗しました');
       }
-
-      // Q&Aを削除して並び順を更新
-      setQuestions(prev => {
-        const filtered = prev.filter(item => item.id !== questionId);
-        return filtered.map((item, index) => ({
-          ...item,
-          sortOrder: index
-        }));
-      });
-      
-      // 一時データも削除
-      setTempQuestions(prev => {
-        const newQuestions = { ...prev };
-        delete newQuestions[questionId];
-        return newQuestions;
-      });
-      setTempAnswers(prev => {
-        const newAnswers = { ...prev };
-        delete newAnswers[questionId];
-        return newAnswers;
-      });
-      
-      toast.success('Q&Aを削除しました');
     } catch (error) {
       console.error('Delete error:', error);
       toast.error('削除に失敗しました');
@@ -177,35 +171,27 @@ export function CustomQuestion({ userId }: CustomQuestionProps) {
     try {
       setIsSavingId(questionId);
       
-      const response = await fetch('/api/user/custom-questions', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          questionId,
-          question,
-          answer
-        }),
+      const result = await updateCustomQuestion(questionId, {
+        question,
+        answer
       });
 
-      if (!response.ok) {
-        throw new Error('保存に失敗しました');
+      if (result.success) {
+        // ローカルのデータを更新
+        setQuestions(prev =>
+          prev.map(item =>
+            item.id === questionId ? { 
+              ...item, 
+              question,
+              answer
+            } : item
+          )
+        );
+
+        toast.success('保存しました');
+      } else {
+        toast.error(result.error || '保存に失敗しました');
       }
-
-      // ローカルのデータを更新
-      setQuestions(prev =>
-        prev.map(item =>
-          item.id === questionId ? { 
-            ...item, 
-            question,
-            answer
-          } : item
-        )
-      );
-
-      toast.success('保存しました');
     } catch (error) {
       console.error('Save error:', error);
       toast.error('保存に失敗しました');
@@ -246,25 +232,20 @@ export function CustomQuestion({ userId }: CustomQuestionProps) {
 
     // APIで並び順を更新
     try {
-      const response = await fetch('/api/user/custom-questions', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          questions: updatedQuestions.map(item => ({
-            id: item.id,
-            sortOrder: item.sortOrder
-          }))
-        }),
-      });
+      const result = await reorderCustomQuestions(
+        updatedQuestions.map(item => ({
+          id: item.id,
+          sortOrder: item.sortOrder
+        }))
+      );
 
-      if (!response.ok) {
-        throw new Error('並び順の更新に失敗しました');
+      if (result.success) {
+        toast.success('並び順を更新しました');
+      } else {
+        toast.error(result.error || '並び順の更新に失敗しました');
+        // エラー時は元に戻す
+        fetchQuestions();
       }
-
-      toast.success('並び順を更新しました');
     } catch (error) {
       console.error('Sort update error:', error);
       toast.error('並び順の更新に失敗しました');

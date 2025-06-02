@@ -321,3 +321,12 @@ export function generateImageFileName(
   
   return `${prefix}-${userId}-${timestamp}-${randomSuffix}.${extension}`;
 }
+
+/**
+ * SVGファイルかどうかを判定
+ * @param file ファイルオブジェクト
+ * @returns SVGファイルの場合true
+ */
+export function isSvgFile(file: File): boolean {
+  return file.type === 'image/svg+xml' && file.name.toLowerCase().endsWith('.svg');
+}

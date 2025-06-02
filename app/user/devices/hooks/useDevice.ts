@@ -5,6 +5,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { 
+  createDeviceFromProduct, 
+  createDeviceFromUrl, 
+  updateUserDevice, 
+  deleteUserDevice 
+} from '@/lib/actions/device-actions';
 import type { DeviceWithProduct } from '../types';
 
 export function useDevice() {
@@ -21,29 +27,29 @@ export function useDevice() {
   }) => {
     setIsLoading(true);
     try {
-      const body = data.type === 'official'
-        ? { productId: data.productId, note: data.note }
-        : { 
-            amazonUrl: data.amazonUrl,
-            category: data.category,
-            note: data.note,
-            userAssociateId: data.userAssociateId,
-          };
-
-      const response = await fetch('/api/devices', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to add device');
+      let result;
+      
+      if (data.type === 'official') {
+        result = await createDeviceFromProduct({
+          productId: data.productId!,
+          note: data.note
+        });
+      } else {
+        result = await createDeviceFromUrl({
+          amazonUrl: data.amazonUrl!,
+          category: data.category!,
+          note: data.note,
+          userAssociateId: data.userAssociateId
+        });
       }
 
-      toast.success('デバイスを追加しました');
-      router.refresh();
-      return await response.json();
+      if (result.success) {
+        toast.success('デバイスを追加しました');
+        router.refresh();
+        return result.data;
+      } else {
+        throw new Error(result.error || 'Failed to add device');
+      }
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'エラーが発生しました');
       throw error;
@@ -55,20 +61,15 @@ export function useDevice() {
   const updateDevice = async (deviceId: number, data: { note?: string }) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/devices/${deviceId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+      const result = await updateUserDevice(deviceId, data);
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to update device');
+      if (result.success) {
+        toast.success('デバイスを更新しました');
+        router.refresh();
+        return result.data;
+      } else {
+        throw new Error(result.error || 'Failed to update device');
       }
-
-      toast.success('デバイスを更新しました');
-      router.refresh();
-      return await response.json();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'エラーが発生しました');
       throw error;
@@ -80,17 +81,14 @@ export function useDevice() {
   const deleteDevice = async (deviceId: number) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/devices/${deviceId}`, {
-        method: 'DELETE',
-      });
+      const result = await deleteUserDevice(deviceId);
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to delete device');
+      if (result.success) {
+        toast.success('デバイスを削除しました');
+        router.refresh();
+      } else {
+        throw new Error(result.error || 'Failed to delete device');
       }
-
-      toast.success('デバイスを削除しました');
-      router.refresh();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'エラーが発生しました');
       throw error;

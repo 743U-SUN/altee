@@ -15,6 +15,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
+import { convertToProxyUrl } from "@/lib/utils/image-proxy"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -104,7 +105,7 @@ export function HeaderNavUser() {
           className="h-8 w-8 rounded-lg p-0 data-[state=open]:bg-accent"
         >
           <Avatar className="h-8 w-8 rounded-lg">
-            <AvatarImage src={userIcon} alt={userName} />
+            <AvatarImage src={convertToProxyUrl(userIcon)} alt={userName} />
             <AvatarFallback className="rounded-lg">
               {userName.charAt(0).toUpperCase()}
             </AvatarFallback>
@@ -119,7 +120,7 @@ export function HeaderNavUser() {
         <DropdownMenuLabel className="p-0 font-normal">
           <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
             <Avatar className="h-8 w-8 rounded-lg">
-              <AvatarImage src={userIcon} alt={userName} />
+              <AvatarImage src={convertToProxyUrl(userIcon)} alt={userName} />
               <AvatarFallback className="rounded-lg">
                 {userName.charAt(0).toUpperCase()}
               </AvatarFallback>

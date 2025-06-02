@@ -9,6 +9,13 @@ import { Plus, Loader2, GripVertical, Trash2, Save, Edit3, Folder, Info, Chevron
 import { toast } from 'sonner';
 import { InfoCategoryWithQuestions } from '../types';
 import { InfoQuestionCard } from './InfoQuestionCard';
+import { 
+  getUserInfoCategories, 
+  createInfoCategory, 
+  updateInfoCategory, 
+  deleteInfoCategory, 
+  reorderInfoCategories 
+} from '@/lib/actions/info-actions';
 import {
   DndContext,
   closestCenter,
@@ -227,18 +234,22 @@ export function InfoCategoryManager({ userId }: InfoCategoryManagerProps) {
   // カテゴリデータを取得
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`/api/user/info-categories?userId=${userId}`);
-      if (!response.ok) throw new Error('カテゴリの取得に失敗しました');
+      const result = await getUserInfoCategories();
       
-      const data = await response.json();
-      setCategories(data.categories || []);
-      
-      // 編集用の初期値を設定
-      const tempN: { [key: string]: string } = {};
-      (data.categories || []).forEach((category: InfoCategoryWithQuestions) => {
-        tempN[category.id] = category.name;
-      });
-      setTempNames(tempN);
+      if (result.success) {
+        const categories = Array.isArray(result.data) ? result.data : [];
+        setCategories(categories);
+        
+        // 編集用の初期値を設定
+        const tempN: { [key: string]: string } = {};
+        categories.forEach((category: InfoCategoryWithQuestions) => {
+          tempN[category.id] = category.name;
+        });
+        setTempNames(tempN);
+      } else {
+        console.error('Category fetch error:', result.error);
+        toast.error(result.error || 'カテゴリの取得に失敗しました');
+      }
     } catch (error) {
       console.error('Category fetch error:', error);
       toast.error('カテゴリの取得に失敗しました');
@@ -253,7 +264,7 @@ export function InfoCategoryManager({ userId }: InfoCategoryManagerProps) {
 
   // 新しいカテゴリを追加
   const handleAddCategory = async () => {
-    if (categories.length >= 5) {
+    if ((categories || []).length >= 5) {
       toast.error('カテゴリは最大5個まで作成できます');
       return;
     }
@@ -261,41 +272,28 @@ export function InfoCategoryManager({ userId }: InfoCategoryManagerProps) {
     try {
       setIsAdding(true);
       
-      const response = await fetch('/api/user/info-categories', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          name: `カテゴリ ${categories.length + 1}`,
-          sortOrder: categories.length
-        }),
+      const result = await createInfoCategory({
+        name: `カテゴリ ${(categories || []).length + 1}`
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'カテゴリの追加に失敗しました');
+      if (result.success) {
+        // 新しいカテゴリを追加
+        const newCategory: InfoCategoryWithQuestions = {
+          ...result.data,
+          questions: []
+        };
+        
+        setCategories(prev => [...prev, newCategory]);
+        setTempNames(prev => ({ ...prev, [result.data.id]: result.data.name }));
+        setEditingId(result.data.id); // 追加後すぐに編集モードに
+        
+        toast.success('カテゴリを追加しました');
+      } else {
+        toast.error(result.error || 'カテゴリの追加に失敗しました');
       }
-
-      const result = await response.json();
-      
-      // 新しいカテゴリを追加
-      const newCategory: InfoCategoryWithQuestions = {
-        ...result.category,
-        questions: []
-      };
-      
-      setCategories(prev => [...prev, newCategory]);
-      setTempNames(prev => ({ ...prev, [result.category.id]: result.category.name }));
-      setEditingId(result.category.id); // 追加後すぐに編集モードに
-      
-
-      
-      toast.success('カテゴリを追加しました');
     } catch (error) {
       console.error('Add category error:', error);
-      toast.error(error instanceof Error ? error.message : 'カテゴリの追加に失敗しました');
+      toast.error('カテゴリの追加に失敗しました');
     } finally {
       setIsAdding(false);
     }
@@ -306,20 +304,11 @@ export function InfoCategoryManager({ userId }: InfoCategoryManagerProps) {
     try {
       setIsDeletingId(categoryId);
       
-      const response = await fetch('/api/user/info-categories', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId, categoryId }),
-      });
+      const result = await deleteInfoCategory(categoryId);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || '削除に失敗しました');
+      if (!result.success) {
+        throw new Error(result.error || '削除に失敗しました');
       }
-
-      const result = await response.json();
 
       // カテゴリを削除して並び順を更新
       setCategories(prev => {
@@ -367,7 +356,7 @@ export function InfoCategoryManager({ userId }: InfoCategoryManagerProps) {
     }
 
     // 重複チェック
-    const isDuplicate = categories.some(cat => 
+    const isDuplicate = (categories || []).some(cat => 
       cat.id !== categoryId && cat.name === name
     );
     if (isDuplicate) {
@@ -378,21 +367,10 @@ export function InfoCategoryManager({ userId }: InfoCategoryManagerProps) {
     try {
       setIsSavingId(categoryId);
       
-      const response = await fetch('/api/user/info-categories', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          categoryId,
-          name
-        }),
-      });
+      const result = await updateInfoCategory({ categoryId, name });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || '保存に失敗しました');
+      if (!result.success) {
+        throw new Error(result.error || '保存に失敗しました');
       }
 
       // ローカルのデータを更新
@@ -421,13 +399,14 @@ export function InfoCategoryManager({ userId }: InfoCategoryManagerProps) {
     
     if (!over || active.id === over.id) return;
 
-    const oldIndex = categories.findIndex(cat => cat.id === active.id);
-    const newIndex = categories.findIndex(cat => cat.id === over.id);
+    const safeCategories = categories || [];
+    const oldIndex = safeCategories.findIndex(cat => cat.id === active.id);
+    const newIndex = safeCategories.findIndex(cat => cat.id === over.id);
 
     if (oldIndex === -1 || newIndex === -1) return;
 
     // 配列を並べ替え
-    const newCategories = arrayMove(categories, oldIndex, newIndex);
+    const newCategories = arrayMove(safeCategories, oldIndex, newIndex);
     
     // sortOrderを更新
     const updatedCategories = newCategories.map((item, index) => ({
@@ -439,20 +418,18 @@ export function InfoCategoryManager({ userId }: InfoCategoryManagerProps) {
 
     // API更新
     try {
-      const response = await fetch('/api/user/info-categories', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId,
-          categories: updatedCategories.map(item => ({
-            id: item.id,
-            sortOrder: item.sortOrder
-          }))
-        }),
-      });
+      const result = await reorderInfoCategories(
+        updatedCategories.map(item => ({
+          id: item.id,
+          sortOrder: item.sortOrder
+        }))
+      );
 
-      if (!response.ok) throw new Error('並び順の更新に失敗しました');
-      toast.success('並び順を更新しました');
+      if (result.success) {
+        toast.success('並び順を更新しました');
+      } else {
+        throw new Error(result.error || '並び順の更新に失敗しました');
+      }
     } catch (error) {
       console.error('Sort update error:', error);
       toast.error('並び順の更新に失敗しました');
@@ -503,11 +480,11 @@ export function InfoCategoryManager({ userId }: InfoCategoryManagerProps) {
         onDragEnd={handleDragEnd}
       >
         <SortableContext
-          items={categories.map(cat => cat.id)}
+          items={(categories || []).map(cat => cat.id)}
           strategy={verticalListSortingStrategy}
         >
           <div className="space-y-6">
-            {categories.map((category, index) => (
+            {(categories || []).map((category, index) => (
               <SortableItem
                 key={category.id}
                 category={category}
@@ -532,7 +509,7 @@ export function InfoCategoryManager({ userId }: InfoCategoryManagerProps) {
       <div className="flex justify-center">
         <Button
           onClick={handleAddCategory}
-          disabled={isAdding || categories.length >= 5}
+          disabled={isAdding || (categories || []).length >= 5}
           variant="outline"
           className="w-full max-w-md"
         >
@@ -541,7 +518,7 @@ export function InfoCategoryManager({ userId }: InfoCategoryManagerProps) {
           ) : (
             <Plus className="h-4 w-4 mr-2" />
           )}
-          新しいカテゴリを追加 {categories.length >= 5 && '（上限に達しました）'}
+          新しいカテゴリを追加 {(categories || []).length >= 5 && '（上限に達しました）'}
         </Button>
       </div>
 

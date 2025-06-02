@@ -3,6 +3,16 @@
 import { useState, useEffect, useCallback } from 'react'
 import { toast } from 'sonner'
 import { useApiOperation } from '@/hooks/links/useCommon'
+import { 
+  getUserLinks, 
+  createUserLink, 
+  createUserLinkWithFile, 
+  updateUserLink,
+  updateUserLinkWithFile,
+  deleteUserLink,
+  reorderUserLinks 
+} from '@/lib/actions/link-actions'
+import { getActiveServices, getIconsByService } from '@/lib/actions/service-actions'
 import type { 
   UserLink, 
   LinkService, 
@@ -31,13 +41,12 @@ export function useUserLinks(userId: string) {
       setLoading(true)
       setError(null)
       
-      const response = await fetch(`/api/user/${userId}/links`)
-      if (!response.ok) {
-        throw new Error('リンクの取得に失敗しました')
+      const result = await getUserLinks()
+      if (result.success) {
+        setLinks(result.data || [])
+      } else {
+        throw new Error(result.error || 'リンクの取得に失敗しました')
       }
-      
-      const data = await response.json()
-      setLinks(data.links || [])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'エラーが発生しました')
     } finally {
@@ -48,8 +57,6 @@ export function useUserLinks(userId: string) {
   // リンク作成
   const createLink = useCallback(async (data: LinkFormData) => {
     const result = await executeCreate(async () => {
-      let response: Response
-      
       if (data.originalIconFile) {
         // ファイルアップロードの場合はFormDataを使用
         const formData = new FormData()
@@ -58,27 +65,21 @@ export function useUserLinks(userId: string) {
         if (data.title) formData.append('title', data.title)
         if (data.description) formData.append('description', data.description)
         formData.append('useOriginalIcon', data.useOriginalIcon.toString())
+        if (data.iconId) formData.append('iconId', data.iconId)
         formData.append('originalIconFile', data.originalIconFile)
         
-        response = await fetch(`/api/user/${userId}/links`, {
-          method: 'POST',
-          body: formData // Content-TypeはFormDataが自動設定
-        })
+        return await createUserLinkWithFile(formData)
       } else {
-        // 通常のJSON送信
-        response = await fetch(`/api/user/${userId}/links`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+        // 通常のServer Action使用
+        return await createUserLink({
+          serviceId: data.serviceId,
+          url: data.url,
+          title: data.title,
+          description: data.description,
+          useOriginalIcon: data.useOriginalIcon,
+          iconId: data.iconId
         })
       }
-
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'リンクの作成に失敗しました')
-      }
-
-      return response.json()
     })
 
     if (result.success) {
@@ -92,20 +93,31 @@ export function useUserLinks(userId: string) {
   }, [executeCreate, fetchLinks, userId])
 
   // リンク更新
-  const updateLink = useCallback(async (linkId: string, data: Partial<LinkUpdateData>) => {
+  const updateLink = useCallback(async (linkId: string, data: Partial<LinkUpdateData> | LinkFormData) => {
     const result = await executeUpdate(async () => {
-      const response = await fetch(`/api/user/${userId}/links/${linkId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'リンクの更新に失敗しました')
+      // ファイルアップロードの場合
+      if ('originalIconFile' in data && data.originalIconFile) {
+        const formData = new FormData()
+        formData.append('serviceId', data.serviceId)
+        formData.append('url', data.url)
+        if (data.title) formData.append('title', data.title)
+        if (data.description) formData.append('description', data.description)
+        formData.append('useOriginalIcon', data.useOriginalIcon.toString())
+        if (data.iconId) formData.append('iconId', data.iconId)
+        formData.append('originalIconFile', data.originalIconFile)
+        
+        return await updateUserLinkWithFile(linkId, formData)
+      } else {
+        // 通常のServer Action使用
+        return await updateUserLink(linkId, {
+          serviceId: 'serviceId' in data ? data.serviceId : undefined,
+          url: 'url' in data ? data.url : undefined,
+          title: 'title' in data ? data.title : undefined,
+          description: 'description' in data ? data.description : undefined,
+          useOriginalIcon: 'useOriginalIcon' in data ? data.useOriginalIcon : undefined,
+          iconId: 'iconId' in data ? data.iconId : undefined
+        })
       }
-
-      return response.json()
     })
 
     if (result.success) {
@@ -121,16 +133,7 @@ export function useUserLinks(userId: string) {
   // リンク削除
   const deleteLink = useCallback(async (linkId: string) => {
     const result = await executeDelete(async () => {
-      const response = await fetch(`/api/user/${userId}/links/${linkId}`, {
-        method: 'DELETE'
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'リンクの削除に失敗しました')
-      }
-
-      return response.json()
+      return await deleteUserLink(linkId)
     })
 
     if (result.success) {
@@ -151,23 +154,12 @@ export function useUserLinks(userId: string) {
   // リンク並び替え
   const reorderLinks = useCallback(async (reorderedLinks: UserLink[]) => {
     const result = await executeUpdate(async () => {
-      const response = await fetch(`/api/user/${userId}/links/reorder`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          links: reorderedLinks.map((link, index) => ({
-            id: link.id,
-            sortOrder: index
-          }))
-        })
-      })
-
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'リンクの並び替えに失敗しました')
-      }
-
-      return response.json()
+      const linksToReorder = reorderedLinks.map((link, index) => ({
+        id: link.id,
+        sortOrder: index
+      }))
+      
+      return await reorderUserLinks(linksToReorder)
     })
 
     if (result.success) {
@@ -220,13 +212,12 @@ export function useUserServices() {
       setLoading(true)
       setError(null)
       
-      const response = await fetch('/api/user/services')
-      if (!response.ok) {
-        throw new Error('サービスの取得に失敗しました')
+      const result = await getActiveServices()
+      if (result.success) {
+        setServices(result.data || [])
+      } else {
+        throw new Error(result.error || 'サービスの取得に失敗しました')
       }
-      
-      const data = await response.json()
-      setServices(data.services || [])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'エラーが発生しました')
     } finally {
@@ -259,13 +250,12 @@ export function useUserServiceIcons(serviceId?: string) {
       setLoading(true)
       setError(null)
       
-      const response = await fetch(`/api/user/services/${serviceId}/icons`)
-      if (!response.ok) {
-        throw new Error('アイコンの取得に失敗しました')
+      const result = await getIconsByService(serviceId)
+      if (result.success) {
+        setIcons(result.data || [])
+      } else {
+        throw new Error(result.error || 'アイコンの取得に失敗しました')
       }
-      
-      const data = await response.json()
-      setIcons(data.icons || [])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'エラーが発生しました')
     } finally {
