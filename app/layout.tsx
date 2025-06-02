@@ -26,6 +26,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" suppressHydrationWarning>
+      <head>
+        <link 
+          rel="preload" 
+          href="/altee-logo-bar.svg" 
+          as="image" 
+          type="image/svg+xml"
+        />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <AuthProvider>
           {children}

@@ -1,19 +1,43 @@
 "use client"
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Skeleton } from "@/components/ui/skeleton"
 import { NameSettings } from "./components/NameSettings"
 import { BioSettings } from "./components/BioSettings"
-import { IconSettings } from "./components/IconSettings"
-import { BannerSettings } from "./components/BannerSettings"
-import { CarouselSettings } from "./components/CarouselSettings"
 import { BackgroundSettings } from "./components/BackgroundSettings"
-import { CustomQuestion } from "./components/CustomQuestion"
-import { ImageSidebarSettings } from "./components/ImageSidebarSettings"
 import { useSession } from "next-auth/react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense, lazy } from "react"
+
+// 重いコンポーネントを遅延ロード
+const IconSettings = lazy(() => import("./components/IconSettings").then(module => ({ default: module.IconSettings })));
+const BannerSettings = lazy(() => import("./components/BannerSettings").then(module => ({ default: module.BannerSettings })));
+const CarouselSettings = lazy(() => import("./components/CarouselSettings").then(module => ({ default: module.CarouselSettings })));
+const CustomQuestion = lazy(() => import("./components/CustomQuestion").then(module => ({ default: module.CustomQuestion })));
+const ImageSidebarSettings = lazy(() => import("./components/ImageSidebarSettings").then(module => ({ default: module.ImageSidebarSettings })));
+
+// スケルトンローダー
+const SettingSkeleton = () => (
+  <div className="space-y-4 py-4">
+    <Skeleton className="h-4 w-3/4" />
+    <Skeleton className="h-10 w-full" />
+    <Skeleton className="h-4 w-1/2" />
+  </div>
+);
+
+const LargeSettingSkeleton = () => (
+  <div className="space-y-4 py-4">
+    <Skeleton className="h-4 w-3/4" />
+    <Skeleton className="h-32 w-full" />
+    <div className="flex gap-2">
+      <Skeleton className="h-10 w-24" />
+      <Skeleton className="h-10 w-20" />
+    </div>
+    <Skeleton className="h-4 w-1/2" />
+  </div>
+);
 
 export default function ProfilePage() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [userIcon, setUserIcon] = useState<string>('');
 
   // セッションとDBから最新のiconUrlとbannerUrlを取得
@@ -44,7 +68,31 @@ export default function ProfilePage() {
     setUserIcon(newIconUrl);
   };
 
+  // Loading state - セキュリティガイド準拠
+  if (status === 'loading') {
+    return (
+      <div className="container mx-auto py-8 px-4 max-w-5xl">
+        <h1 className="text-3xl font-bold mb-8">プロフィール設定</h1>
+        <div className="w-full space-y-4">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="border rounded-lg px-6 py-4">
+              <LargeSettingSkeleton />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
+  // Unauthenticated state - セキュリティガイド準拠
+  if (status === 'unauthenticated' || !session?.user?.id) {
+    return (
+      <div className="container mx-auto py-8 px-4 max-w-5xl">
+        <h1 className="text-3xl font-bold mb-8">プロフィール設定</h1>
+        <p className="text-gray-600">ログインが必要です。</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-5xl">
@@ -81,9 +129,11 @@ export default function ProfilePage() {
           </AccordionTrigger>
           <AccordionContent>
             {session?.user?.id && (
-              <CustomQuestion 
-                userId={session.user.id}
-              />
+              <Suspense fallback={<LargeSettingSkeleton />}>
+                <CustomQuestion 
+                  userId={session.user.id}
+                />
+              </Suspense>
             )}
           </AccordionContent>
         </AccordionItem>
@@ -96,11 +146,13 @@ export default function ProfilePage() {
           </AccordionTrigger>
           <AccordionContent>
             {session?.user?.id && (
-              <IconSettings 
-                currentIconUrl={userIcon}
-                userId={session.user.id}
-                onIconUpdate={handleIconUpdate}
-              />
+              <Suspense fallback={<LargeSettingSkeleton />}>
+                <IconSettings 
+                  currentIconUrl={userIcon}
+                  userId={session.user.id}
+                  onIconUpdate={handleIconUpdate}
+                />
+              </Suspense>
             )}
           </AccordionContent>
         </AccordionItem>
@@ -113,9 +165,11 @@ export default function ProfilePage() {
           </AccordionTrigger>
           <AccordionContent>
             {session?.user?.id && (
-              <BannerSettings 
-                userId={session.user.id}
-              />
+              <Suspense fallback={<LargeSettingSkeleton />}>
+                <BannerSettings 
+                  userId={session.user.id}
+                />
+              </Suspense>
             )}
           </AccordionContent>
         </AccordionItem>
@@ -128,9 +182,11 @@ export default function ProfilePage() {
           </AccordionTrigger>
           <AccordionContent>
             {session?.user?.id && (
-              <CarouselSettings 
-                userId={session.user.id}
-              />
+              <Suspense fallback={<LargeSettingSkeleton />}>
+                <CarouselSettings 
+                  userId={session.user.id}
+                />
+              </Suspense>
             )}
           </AccordionContent>
         </AccordionItem>
@@ -143,9 +199,11 @@ export default function ProfilePage() {
           </AccordionTrigger>
           <AccordionContent>
             {session?.user?.id && (
-              <ImageSidebarSettings 
-                userId={session.user.id}
-              />
+              <Suspense fallback={<LargeSettingSkeleton />}>
+                <ImageSidebarSettings 
+                  userId={session.user.id}
+                />
+              </Suspense>
             )}
           </AccordionContent>
         </AccordionItem>

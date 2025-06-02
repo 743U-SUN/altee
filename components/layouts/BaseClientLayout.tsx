@@ -53,6 +53,7 @@ export default function BaseClientLayout({
                 width={120}
                 height={32}
                 priority
+                forceUnoptimized
               />
             </Link>
           </div>

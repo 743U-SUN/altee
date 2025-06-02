@@ -51,7 +51,7 @@ import { OptimizedImage } from '@/components/ui/optimized-image'
 import { convertToProxyUrl } from '@/lib/utils/image-proxy'
 
 export function UserLinkManager() {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [searchTerm, setSearchTerm] = useState('')
   const [linkDialog, setLinkDialog] = useState<{
     open: boolean
@@ -156,7 +156,28 @@ export function UserLinkManager() {
     await reorderLinks(updatedLinks)
   }
 
-  if (!session?.user) {
+  // Loading state - セキュリティガイド準拠
+  if (status === 'loading') {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="h-8 w-48 bg-gray-200 rounded animate-pulse mb-2" />
+            <div className="h-4 w-72 bg-gray-200 rounded animate-pulse" />
+          </div>
+          <div className="h-10 w-32 bg-gray-200 rounded animate-pulse" />
+        </div>
+        <div className="rounded-lg border bg-card p-6">
+          <div className="text-center text-gray-500">
+            読み込み中...
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Unauthenticated state - セキュリティガイド準拠
+  if (status === 'unauthenticated' || !session?.user) {
     return (
       <Card>
         <CardContent className="p-6">
