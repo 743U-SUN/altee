@@ -74,7 +74,7 @@ export function NavUser() {
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton size="lg" className="md:h-8 md:p-0">
-            <Avatar className="h-8 w-8 rounded-lg">
+            <Avatar className="h-8 w-8 rounded-lg cursor-pointer">
               <AvatarFallback className="rounded-lg">...</AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
@@ -96,7 +96,7 @@ export function NavUser() {
             className="md:h-8 md:p-0 cursor-pointer"
             onClick={handleLogin}
           >
-            <Avatar className="h-8 w-8 rounded-lg">
+            <Avatar className="h-8 w-8 rounded-lg cursor-pointer">
               <AvatarImage src="/circleUserRound.svg" alt="ログイン" />
               <AvatarFallback className="rounded-lg">?</AvatarFallback>
             </Avatar>
@@ -123,7 +123,7 @@ export function NavUser() {
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground md:h-8 md:p-0"
             >
-              <Avatar className="h-8 w-8 rounded-lg">
+              <Avatar className="h-8 w-8 rounded-lg cursor-pointer">
                 <AvatarImage src={convertToProxyUrl(userIcon)} alt={userName} />
                 <AvatarFallback className="rounded-lg">
                   {userName.charAt(0).toUpperCase()}
@@ -161,13 +161,13 @@ export function NavUser() {
 
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={handleAccount} className="cursor-pointer">
-                <UserCog />
-                Account
-              </DropdownMenuItem>
               <DropdownMenuItem onClick={handleMyPage} className="cursor-pointer">
                 <PanelsTopLeft />
                 MyPage
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={handleAccount} className="cursor-pointer">
+                <UserCog />
+                Account
               </DropdownMenuItem>
               {user.role === 'admin' && (
                 <DropdownMenuItem onClick={handleAdmin} className="cursor-pointer">

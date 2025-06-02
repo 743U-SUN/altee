@@ -16,6 +16,18 @@ export interface ImageProcessingConfig {
 
 // プリセット設定
 export const IMAGE_PRESETS = {
+  // デフォルト用（800x600、標準品質）
+  default: {
+    format: 'webp' as const,
+    quality: 80,
+    effort: 4,
+    maxWidth: 800,
+    maxHeight: 600,
+    fit: 'inside' as const,
+    withoutEnlargement: true,
+    lossless: false
+  },
+  
   // アイコン用（400x400、高品質）
   icon: {
     format: 'webp' as const,
@@ -185,6 +197,8 @@ export interface ProcessedImageResult {
   originalSize: number;
   processedSize: number;
   compressionRatio: string;
+  width?: number;
+  height?: number;
 }
 
 /**
@@ -276,7 +290,9 @@ export async function processImage(
       outputFormat,
       originalSize: inputBuffer.length,
       processedSize: outputBuffer.length,
-      compressionRatio: `${compressionRatio}%`
+      compressionRatio: `${compressionRatio}%`,
+      width: metadata.width,
+      height: metadata.height
     };
 
   } catch (error) {
@@ -303,21 +319,46 @@ export async function processImageWithPreset(
  * ファイル名を生成する（拡張子は自動で変換される）
  * @param userId ユーザーID
  * @param prefix ファイル名のプレフィックス
- * @param outputFormat 出力形式
+ * @param mimeType MIMEタイプ（例: image/jpeg, image/svg+xml, video/mp4）
  * @returns 生成されたファイル名
  */
 export function generateImageFileName(
   userId: string,
   prefix: string,
-  outputFormat: string
+  mimeType: string
 ): string {
   const timestamp = Date.now();
   const randomSuffix = Math.random().toString(36).substring(2, 8);
   
-  let extension = 'webp';
-  if (outputFormat === 'image/jpeg') extension = 'jpg';
-  if (outputFormat === 'image/png') extension = 'png';
-  if (outputFormat === 'image/svg+xml') extension = 'svg';
+  let extension = 'bin'; // デフォルト拡張子
+  
+  // 画像ファイル
+  if (mimeType === 'image/svg+xml') {
+    extension = 'svg';
+  } else if (mimeType === 'image/jpeg' || mimeType === 'image/jpg') {
+    extension = 'jpg';
+  } else if (mimeType === 'image/png') {
+    extension = 'png';
+  } else if (mimeType === 'image/gif') {
+    extension = 'gif';
+  } else if (mimeType === 'image/webp') {
+    extension = 'webp';
+  }
+  // 動画ファイル
+  else if (mimeType === 'video/mp4') {
+    extension = 'mp4';
+  } else if (mimeType === 'video/webm') {
+    extension = 'webm';
+  } else if (mimeType === 'video/mov') {
+    extension = 'mov';
+  }
+  // 未知の形式の場合はMIMEタイプから推測
+  else if (mimeType.includes('/')) {
+    const parts = mimeType.split('/');
+    if (parts.length === 2) {
+      extension = parts[1];
+    }
+  }
   
   return `${prefix}-${userId}-${timestamp}-${randomSuffix}.${extension}`;
 }

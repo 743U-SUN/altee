@@ -58,6 +58,7 @@ model User {
   comments             Comment[]
   userDevices          UserDevice[]
   userFavorites        UserFavorite[]
+  mediaUploads         Media[]
 }
 
 model Account {
@@ -739,4 +740,63 @@ enum SwitchType {
 enum DeviceType {
   OFFICIAL // 公式リストから選択
   CUSTOM // ユーザー独自追加
+}
+
+// === メディア管理用モデル ===
+
+// メディアカテゴリ管理
+model MediaCategory {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String?
+  slug        String   @unique // URL用（例: article-images）
+  color       String?  @default("#6366f1") // UI表示用カラー
+  isSystem    Boolean  @default(false) // システム定義（削除不可）
+  sortOrder   Int      @default(0) // 表示順序
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // リレーション
+  media Media[]
+
+  @@map("media_categories")
+}
+
+// メディアファイル管理
+model Media {
+  id           String @id @default(uuid())
+  originalName String // 元のファイル名
+  fileName     String @unique // 保存時のファイル名（重複防止）
+  url          String // MinIO URL
+  mimeType     String // image/jpeg, image/svg+xml, video/mp4 など
+  fileSize     Int // バイト単位
+
+  // 画像/動画メタデータ
+  width    Int? // 画像・動画の幅
+  height   Int? // 画像・動画の高さ
+  duration Int? // 動画の場合（秒）
+
+  // カテゴリ・分類
+  categoryId String        @map("category_id")
+  category   MediaCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  // アップロード情報
+  uploadedBy String @map("uploaded_by")
+  uploader   User   @relation(fields: [uploadedBy], references: [id], onDelete: Cascade)
+
+  // 検索・メタデータ
+  tags        String[] // 検索用タグ ["icon", "logo", "brand"]
+  altText     String?  @map("alt_text") // アクセシビリティ用
+  description String? // 管理用説明
+
+  // SVG特有情報
+  isSanitized Boolean? @map("is_sanitized") // SVGがサニタイズ済みか
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([categoryId])
+  @@index([uploadedBy])
+  @@index([createdAt])
+  @@map("media")
 }

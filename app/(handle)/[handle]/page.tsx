@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import HandlePageClient from "./components/HandlePageClient";
+import { autoUpdateYouTubeVideos, getUserBanners } from "@/lib/actions/handle-actions";
 import { UserProfileData } from "./types";
 
 interface HandlePageProps {
@@ -68,5 +69,13 @@ export default async function HandlePage({ params }: HandlePageProps) {
     notFound();
   }
 
-  return <HandlePageClient handle={handle} userData={userData} />;
+  // バナーデータを取得
+  const banners = await getUserBanners(handle);
+
+  // YouTube動画の自動更新をバックグラウンドで実行（エラーがあってもページ表示に影響しない）
+  autoUpdateYouTubeVideos(handle).catch((error) => {
+    console.error('YouTube auto-update error:', error);
+  });
+
+  return <HandlePageClient userData={userData} banners={banners} />;
 }

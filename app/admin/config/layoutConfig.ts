@@ -1,4 +1,4 @@
-import { Book, User, MonitorSmartphone, BookOpen, LinkIcon, Settings, Shield } from "lucide-react";
+import { Book, User, MonitorSmartphone, BookOpen, LinkIcon, Settings, Shield, Image } from "lucide-react";
 import { LayoutConfig } from "@/components/layouts/types";
 
 export const adminLayoutConfig: LayoutConfig = {
@@ -14,6 +14,7 @@ export const adminLayoutConfig: LayoutConfig = {
     if (pathname.includes("/users")) return "ユーザー";
     if (pathname.includes("/attributes")) return "属性";
     if (pathname.includes("/links")) return "リンク";
+    if (pathname.includes("/media")) return "メディア";
     return "Dashboard";
   },
   sidebar: {
@@ -38,6 +39,7 @@ export const adminLayoutConfig: LayoutConfig = {
       { title: "記事", url: "/admin/articles", icon: Book },
       { title: "デバイス", url: "/admin/devices", icon: MonitorSmartphone },
       { title: "属性", url: "/admin/attributes", icon: Settings },
+      { title: "メディア", url: "/admin/media", icon: Image },
       { title: "ユーザー", url: "/admin/users", icon: User },
     ]
   }

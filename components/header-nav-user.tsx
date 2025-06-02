@@ -67,7 +67,7 @@ export function HeaderNavUser() {
         className="h-8 w-8 rounded-lg p-0"
         disabled
       >
-        <Avatar className="h-8 w-8 rounded-lg">
+        <Avatar className="h-8 w-8 rounded-lg cursor-pointer">
           <AvatarFallback className="rounded-lg">...</AvatarFallback>
         </Avatar>
       </Button>
@@ -83,7 +83,7 @@ export function HeaderNavUser() {
         className="h-8 w-8 rounded-lg p-0"
         onClick={handleLogin}
       >
-        <Avatar className="h-8 w-8 rounded-lg">
+        <Avatar className="h-8 w-8 rounded-lg cursor-pointer">
           <AvatarImage src="/circleUserRound.svg" alt="ログイン" />
           <AvatarFallback className="rounded-lg">?</AvatarFallback>
         </Avatar>
@@ -104,7 +104,7 @@ export function HeaderNavUser() {
           size="sm"
           className="h-8 w-8 rounded-lg p-0 data-[state=open]:bg-accent"
         >
-          <Avatar className="h-8 w-8 rounded-lg">
+          <Avatar className="h-8 w-8 rounded-lg cursor-pointer">
             <AvatarImage src={convertToProxyUrl(userIcon)} alt={userName} />
             <AvatarFallback className="rounded-lg">
               {userName.charAt(0).toUpperCase()}
@@ -135,13 +135,13 @@ export function HeaderNavUser() {
 
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={handleAccount} className="cursor-pointer">
-            <UserCog />
-            Account
-          </DropdownMenuItem>
           <DropdownMenuItem onClick={handleMyPage} className="cursor-pointer">
             <PanelsTopLeft />
             MyPage
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleAccount} className="cursor-pointer">
+            <UserCog />
+            Account
           </DropdownMenuItem>
           {user.role === 'admin' && (
             <DropdownMenuItem onClick={handleAdmin} className="cursor-pointer">

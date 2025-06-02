@@ -3,44 +3,14 @@
 import { useState, useEffect } from 'react';
 import { OptimizedImage } from '@/components/ui/optimized-image';
 import { convertToProxyUrl } from '@/lib/utils/image-proxy';
+import { UserImageBanner } from '../types/handle-types';
 
-interface UserImageBanner {
-  id: string;
-  url?: string;
-  imgUrl: string;
-  alt?: string;
-  sortOrder: number;
+interface PrimaryBannerClientProps {
+  banners: UserImageBanner[];
 }
 
-interface PrimaryBannerProps {
-  handle: string;
-}
-
-export default function PrimaryBanner({ handle }: PrimaryBannerProps) {
-  const [banners, setBanners] = useState<UserImageBanner[]>([]);
+export default function PrimaryBannerClient({ banners }: PrimaryBannerClientProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  // バナーデータを取得
-  useEffect(() => {
-    const fetchBanners = async () => {
-      try {
-        const response = await fetch(`/api/users/${handle}/banners`);
-        if (response.ok) {
-          const data = await response.json();
-          setBanners(data.banners || []);
-        }
-      } catch (error) {
-        console.error('Failed to fetch banners:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (handle) {
-      fetchBanners();
-    }
-  }, [handle]);
 
   // オートプレイ機能
   useEffect(() => {
@@ -55,22 +25,6 @@ export default function PrimaryBanner({ handle }: PrimaryBannerProps) {
     return () => clearInterval(interval);
   }, [banners.length]);
 
-  if (loading) {
-    return (
-      <div className="w-full h-full p-4">
-        <div className="h-full flex items-start justify-start">
-          {/* 3:1の比率を保つスケルトンローダー */}
-          <div 
-            className="relative bg-gray-200 rounded-lg animate-pulse"
-            style={{ 
-              height: '80%',
-              aspectRatio: '3/1'
-            }}
-          />
-        </div>
-      </div>
-    );
-  }
 
   if (banners.length === 0) {
     return null;

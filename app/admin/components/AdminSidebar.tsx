@@ -10,7 +10,8 @@ import {
   Settings,
   LayoutDashboard,
   Package,
-  Tags
+  Tags,
+  Image
 } from "lucide-react"
 import {
   SidebarContent,
@@ -45,6 +46,11 @@ const menuItems = [
     title: "属性管理",
     icon: Tags,
     href: "/admin/attributes",
+  },
+  {
+    title: "メディア管理",
+    icon: Image,
+    href: "/admin/media",
   },
   {
     title: "リンク設定",
