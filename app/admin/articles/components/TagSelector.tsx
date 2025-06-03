@@ -7,12 +7,16 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Check, X, Search, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { getTagsAction, createTagAction } from '@/lib/actions/article-actions';
+import slugify from 'slugify';
 
 interface Tag {
   id: string;
   name: string;
   slug: string;
-  description?: string;
+  description: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface TagSelectorProps {
@@ -32,12 +36,12 @@ export default function TagSelector({ selected, onChange }: TagSelectorProps) {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await fetch('/api/tags');
-        if (!response.ok) {
-          throw new Error('タグの取得に失敗しました');
+        const result = await getTagsAction();
+        if (result.success && result.data) {
+          setTags(result.data);
+        } else {
+          throw new Error(result.error || 'タグの取得に失敗しました');
         }
-        const data = await response.json();
-        setTags(data);
       } catch (error) {
         console.error('タグ取得エラー:', error);
         toast.error('タグの取得に失敗しました');
@@ -68,27 +72,23 @@ export default function TagSelector({ selected, onChange }: TagSelectorProps) {
         return;
       }
       
-      const response = await fetch('/api/tags', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          name: newTagName.trim()
-        })
-      });
+      const tagData = {
+        name: newTagName.trim(),
+        slug: slugify(newTagName.trim(), { lower: true, strict: true }),
+        description: ''
+      };
       
-      if (!response.ok) {
-        throw new Error('タグの作成に失敗しました');
+      const result = await createTagAction(tagData);
+      
+      if (result.success && result.data) {
+        setTags([...tags, result.data]);
+        onChange([...selected, result.data.id]);
+        setNewTagName('');
+        setShowNew(false);
+        toast.success('タグを作成しました');
+      } else {
+        throw new Error(result.error || 'タグの作成に失敗しました');
       }
-      
-      const newTag = await response.json();
-      
-      setTags([...tags, newTag]);
-      onChange([...selected, newTag.id]);
-      setNewTagName('');
-      setShowNew(false);
-      toast.success('タグを作成しました');
     } catch (error) {
       console.error('タグ作成エラー:', error);
       toast.error('タグの作成に失敗しました');

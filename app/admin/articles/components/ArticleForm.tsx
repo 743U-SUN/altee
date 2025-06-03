@@ -1,12 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { toast } from 'sonner';
 import slugify from 'slugify';
+import { 
+  createArticleAction, 
+  updateArticleAction, 
+  getAuthorsAction,
+  saveDraftArticleAction 
+} from '@/lib/actions/article-actions';
 
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -15,7 +21,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
-import { ArticleStatus } from '@prisma/client';
 import MarkdownEditor from './MarkdownEditor';
 import CategorySelector from './CategorySelector';
 import TagSelector from './TagSelector';
@@ -30,7 +35,7 @@ const formSchema = z.object({
   content: z.string().min(1, '本文は必須です'),
   excerpt: z.string().max(200, '抜粋は200文字以内で入力してください').optional(),
   featuredImage: z.string().optional(),
-  status: z.enum([ArticleStatus.DRAFT, ArticleStatus.PUBLISHED, ArticleStatus.ARCHIVED]),
+  status: z.enum(['DRAFT', 'PUBLISHED', 'ARCHIVED'] as const),
   publishedAt: z.date().optional(),
   authorId: z.string().min(1, '著者は必須です'),
   categories: z.array(z.string()).min(1, '少なくとも1つのカテゴリを選択してください'),
@@ -42,23 +47,23 @@ type FormValues = z.infer<typeof formSchema>;
 
 interface ArticleFormProps {
   initialData?: any;
-  authors: any[];
 }
 
-export default function ArticleForm({ initialData, authors }: ArticleFormProps) {
+export default function ArticleForm({ initialData }: ArticleFormProps) {
   const router = useRouter();
   const isEditMode = !!initialData;
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [previewId, setPreviewId] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
+  const [authors, setAuthors] = useState<any[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(true);
   
   // フォームの初期値設定
-  const defaultValues: Partial<FormValues> = {
+  const defaultValues: FormValues = {
     title: initialData?.title || '',
     slug: initialData?.slug || '',
     content: initialData?.content || '',
     excerpt: initialData?.excerpt || '',
     featuredImage: initialData?.featuredImage || '',
-    status: initialData?.status || ArticleStatus.DRAFT,
+    status: initialData?.status || 'DRAFT',
     publishedAt: initialData?.publishedAt ? new Date(initialData.publishedAt) : undefined,
     authorId: initialData?.authorId || '',
     categories: initialData?.categories?.map((c: any) => c.categoryId) || [],
@@ -67,116 +72,136 @@ export default function ArticleForm({ initialData, authors }: ArticleFormProps) 
   };
 
   // フォーム設定
-  const form = useForm<FormValues>({
+  const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues,
-    mode: 'onChange'
+    mode: 'onChange' as const
   });
+
+  // 初期データの取得
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        // 著者一覧を取得
+        const authorsResult = await getAuthorsAction();
+        if (authorsResult.success && authorsResult.data) {
+          setAuthors(authorsResult.data);
+        } else {
+          toast.error('著者データの取得に失敗しました');
+        }
+      } catch (error) {
+        console.error('Error fetching initial data:', error);
+        toast.error('データの取得に失敗しました');
+      } finally {
+        setIsLoadingData(false);
+      }
+    };
+
+    fetchInitialData();
+  }, []);
 
   // タイトル変更時のスラッグ自動生成
   useEffect(() => {
-    const titleValue = form.watch('title');
-    const autoGenerateSlug = form.watch('autoGenerateSlug');
+    const subscription = form.watch((values, { name }) => {
+      if ((name === 'title' || name === 'autoGenerateSlug') && values.autoGenerateSlug && values.title) {
+        const slug = slugify(values.title, {
+          lower: true,
+          strict: true
+        });
+        form.setValue('slug', slug, {
+          shouldValidate: true
+        });
+      }
+    });
     
-    if (autoGenerateSlug && titleValue) {
-      const slug = slugify(titleValue, {
-        lower: true,
-        strict: true
-      });
-      form.setValue('slug', slug, {
-        shouldValidate: true
-      });
-    }
-  }, [form.watch('title'), form.watch('autoGenerateSlug'), form]);
+    return () => subscription.unsubscribe();
+  }, [form]);
 
   // フォーム送信処理
   const onSubmit = async (data: FormValues) => {
-    try {
-      setIsSubmitting(true);
-      
-      // スラッグが重複しないかチェック
-      if (!isEditMode) {
-        // ここでスラッグの重複チェックのAPIを呼び出す
+    startTransition(async () => {
+      try {
+        // データの整形
+        const formattedData = {
+          title: data.title,
+          slug: data.slug,
+          content: data.content,
+          excerpt: data.excerpt || undefined,
+          featuredImage: data.featuredImage || undefined,
+          status: data.status,
+          authorId: data.authorId,
+          categories: data.categories,
+          tags: data.tags || [],
+          publishedAt: data.publishedAt instanceof Date ? data.publishedAt.toISOString() : undefined,
+        };
+        
+        let result;
+        if (isEditMode) {
+          result = await updateArticleAction({
+            id: initialData.id,
+            ...formattedData
+          });
+        } else {
+          result = await createArticleAction(formattedData);
+        }
+        
+        if (result.success) {
+          toast.success(isEditMode ? '記事を更新しました' : '記事を作成しました');
+          router.push('/admin/articles');
+          router.refresh();
+        } else {
+          throw new Error(result.error || '記事の保存に失敗しました');
+        }
+      } catch (error) {
+        console.error('記事保存エラー:', error);
+        toast.error('記事の保存に失敗しました: ' + (error instanceof Error ? error.message : '不明なエラー'));
       }
-      
-      // カテゴリとタグのデータ整形
-      const formattedData = {
-        ...data,
-        categories: data.categories.map(categoryId => ({ categoryId })),
-        tags: data.tags?.map(tagId => ({ tagId })) || []
-      };
-      
-      delete formattedData.autoGenerateSlug;
-      
-      // API呼び出し
-      const url = isEditMode ? `/api/articles/${initialData.id}` : '/api/articles';
-      const method = isEditMode ? 'PUT' : 'POST';
-      
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formattedData)
-      });
-      
-      if (!response.ok) {
-        throw new Error('記事の保存に失敗しました');
-      }
-      
-      const savedArticle = await response.json();
-      
-      toast.success(isEditMode ? '記事を更新しました' : '記事を作成しました');
-      
-      // 保存後のリダイレクト
-      router.push('/admin/articles');
-      router.refresh();
-    } catch (error) {
-      console.error('記事保存エラー:', error);
-      toast.error('記事の保存に失敗しました: ' + (error instanceof Error ? error.message : '不明なエラー'));
-    } finally {
-      setIsSubmitting(false);
-    }
+    });
   };
 
   // プレビュー表示
   const handlePreview = async () => {
-    // 下書き保存してからプレビューに進む
-    if (initialData?.id) {
-      setPreviewId(initialData.id);
-    } else {
+    startTransition(async () => {
       try {
-        const formData = form.getValues();
-        const response = await fetch('/api/articles/draft', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            ...formData,
-            categories: formData.categories.map(categoryId => ({ categoryId })),
-            tags: formData.tags?.map(tagId => ({ tagId })) || []
-          })
-        });
-        
-        if (!response.ok) {
-          throw new Error('下書き保存に失敗しました');
+        // 下書き保存してからプレビューに進む
+        if (initialData?.id) {
+          router.push(`/admin/articles/preview/${initialData.id}`);
+        } else {
+          const formData = form.getValues();
+          const draftData = {
+            title: formData.title,
+            slug: formData.slug,
+            content: formData.content,
+            excerpt: formData.excerpt || undefined,
+            featuredImage: formData.featuredImage || undefined,
+            authorId: formData.authorId,
+            categories: formData.categories,
+            tags: formData.tags || [],
+            publishedAt: formData.publishedAt instanceof Date ? formData.publishedAt.toISOString() : undefined,
+          };
+          
+          const result = await saveDraftArticleAction(draftData);
+          
+          if (result.success && result.data) {
+            router.push(`/admin/articles/preview/${result.data.id}`);
+          } else {
+            throw new Error(result.error || '下書き保存に失敗しました');
+          }
         }
-        
-        const draftArticle = await response.json();
-        setPreviewId(draftArticle.id);
       } catch (error) {
         console.error('下書き保存エラー:', error);
         toast.error('プレビューのための下書き保存に失敗しました');
-        return;
       }
-    }
-    
-    // プレビューページに移動
-    if (previewId) {
-      router.push(`/admin/articles/preview/${previewId}`);
-    }
+    });
   };
+
+  if (isLoadingData) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+      </div>
+    );
+  }
 
   return (
     <Form {...form}>
@@ -298,9 +323,9 @@ export default function ArticleForm({ initialData, authors }: ArticleFormProps) 
                         value={field.value}
                         onChange={field.onChange}
                       >
-                        <option value={ArticleStatus.DRAFT}>下書き</option>
-                        <option value={ArticleStatus.PUBLISHED}>公開</option>
-                        <option value={ArticleStatus.ARCHIVED}>アーカイブ</option>
+                        <option value="DRAFT">下書き</option>
+                        <option value="PUBLISHED">公開</option>
+                        <option value="ARCHIVED">アーカイブ</option>
                       </select>
                     </FormControl>
                     <FormMessage />
@@ -347,7 +372,7 @@ export default function ArticleForm({ initialData, authors }: ArticleFormProps) 
                         <option value="">著者を選択</option>
                         {authors.map((author) => (
                           <option key={author.id} value={author.id}>
-                            {author.user.name}
+                            {author.user?.name || author.id}
                           </option>
                         ))}
                       </select>
@@ -437,12 +462,12 @@ export default function ArticleForm({ initialData, authors }: ArticleFormProps) 
               type="button"
               variant="outline"
               onClick={handlePreview}
-              disabled={isSubmitting}
+              disabled={isPending}
             >
               プレビュー
             </Button>
             
-            {isEditMode && form.watch('status') !== ArticleStatus.PUBLISHED && (
+            {isEditMode && form.watch('status') !== 'PUBLISHED' && (
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <Button variant="default">公開する</Button>
@@ -458,7 +483,7 @@ export default function ArticleForm({ initialData, authors }: ArticleFormProps) 
                     <AlertDialogCancel>キャンセル</AlertDialogCancel>
                     <AlertDialogAction
                       onClick={() => {
-                        form.setValue('status', ArticleStatus.PUBLISHED);
+                        form.setValue('status', 'PUBLISHED');
                         if (!form.getValues('publishedAt')) {
                           form.setValue('publishedAt', new Date());
                         }
@@ -474,9 +499,9 @@ export default function ArticleForm({ initialData, authors }: ArticleFormProps) 
             
             <Button 
               type="submit" 
-              disabled={isSubmitting}
+              disabled={isPending}
             >
-              {isSubmitting ? '保存中...' : isEditMode ? '更新' : '保存'}
+              {isPending ? '保存中...' : isEditMode ? '更新' : '保存'}
             </Button>
           </div>
         </div>

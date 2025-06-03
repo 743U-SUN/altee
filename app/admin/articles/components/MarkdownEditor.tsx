@@ -139,7 +139,6 @@ export default function MarkdownEditor({ value, onChange }: MarkdownEditorProps)
               onChange={handleEditorChange}
               preview="edit"
               height={400}
-              toolbarHeight={48}
               className="rounded-md border border-input bg-background"
               enableScroll
             />

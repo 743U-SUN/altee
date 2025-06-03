@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useTransition, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 import { Upload, X, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { OptimizedImage } from '@/components/ui/optimized-image';
 import { convertToProxyUrl } from '@/lib/utils/image-proxy';
+import { uploadArticleMediaAction, getOrCreateArticlesMediaCategoryAction } from '@/lib/actions/article-actions';
 
 interface MediaUploaderProps {
   value: string;
@@ -14,13 +15,45 @@ interface MediaUploaderProps {
 }
 
 export default function MediaUploader({ value, onChange }: MediaUploaderProps) {
-  const [uploading, setUploading] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [categoryId, setCategoryId] = useState<string | null>(null);
+  const [isLoadingCategory, setIsLoadingCategory] = useState(true);
+  
+  // 記事用カテゴリの取得または作成
+  useEffect(() => {
+    const initializeCategory = async () => {
+      try {
+        setIsLoadingCategory(true);
+        const result = await getOrCreateArticlesMediaCategoryAction();
+        
+        if (result.success && result.categoryId) {
+          setCategoryId(result.categoryId);
+        } else {
+          toast.error('カテゴリの初期化に失敗しました');
+          console.error('Category initialization failed:', result.error);
+        }
+      } catch (error) {
+        console.error('Error initializing category:', error);
+        toast.error('カテゴリの初期化中にエラーが発生しました');
+      } finally {
+        setIsLoadingCategory(false);
+      }
+    };
+    
+    initializeCategory();
+  }, []);
   
   // ファイルアップロード処理
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     if (acceptedFiles.length === 0) return;
     
     const file = acceptedFiles[0];
+    
+    // カテゴリIDがまだ取得できていない場合はエラー
+    if (!categoryId) {
+      toast.error('カテゴリがまだ初期化されていません。少し待ってから再度お試しください。');
+      return;
+    }
     
     // 10MBを超えるファイルはアップロードしない
     if (file.size > 10 * 1024 * 1024) {
@@ -29,48 +62,44 @@ export default function MediaUploader({ value, onChange }: MediaUploaderProps) {
     }
     
     // 許可されるファイル形式
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
     if (!allowedTypes.includes(file.type)) {
-      toast.error('この形式のファイルはサポートされていません（JPEG, PNG, GIF, WEBPのみ）');
+      toast.error('この形式のファイルはサポートされていません（JPEG, PNG, GIF, WEBP, SVGのみ）');
       return;
     }
     
-    try {
-      setUploading(true);
-      
-      // FormDataの作成
-      const formData = new FormData();
-      formData.append('file', file);
-      
-      // APIリクエスト
-      const response = await fetch('/api/media/upload', {
-        method: 'POST',
-        body: formData
-      });
-      
-      if (!response.ok) {
-        throw new Error('アップロードに失敗しました');
+    startTransition(async () => {
+      try {
+        // FormDataの作成
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('categoryId', categoryId); // 動的に取得したカテゴリIDを使用
+        formData.append('altText', file.name);
+        
+        // Server Actionを使用
+        const result = await uploadArticleMediaAction(formData);
+        
+        if (result.success && result.media) {
+          onChange(result.media.url);
+          toast.success('アップロード完了');
+        } else {
+          throw new Error(result.error || 'アップロードに失敗しました');
+        }
+      } catch (error) {
+        console.error('アップロードエラー:', error);
+        toast.error(error instanceof Error ? error.message : 'アップロードに失敗しました');
       }
-      
-      const data = await response.json();
-      onChange(data.url);
-      toast.success('アップロード完了');
-    } catch (error) {
-      console.error('アップロードエラー:', error);
-      toast.error('アップロードに失敗しました');
-    } finally {
-      setUploading(false);
-    }
-  }, [onChange]);
+    });
+  }, [onChange, categoryId]);
   
   // ドロップゾーン設定
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp', '.svg']
     },
     maxFiles: 1,
-    disabled: uploading
+    disabled: isPending || isLoadingCategory
   });
   
   // 画像の削除
@@ -103,11 +132,16 @@ export default function MediaUploader({ value, onChange }: MediaUploaderProps) {
           {...getRootProps()}
           className={`border-2 border-dashed rounded-md p-6 cursor-pointer transition-colors flex flex-col items-center justify-center min-h-[150px] ${
             isDragActive ? 'border-primary bg-primary/5' : 'border-border'
-          }`}
+          } ${isLoadingCategory || !categoryId ? 'opacity-50' : ''}`}
         >
           <input {...getInputProps()} />
           
-          {uploading ? (
+          {isLoadingCategory ? (
+            <div className="flex flex-col items-center text-center">
+              <Loader2 className="h-10 w-10 text-muted-foreground animate-spin mb-2" />
+              <p className="text-sm text-muted-foreground">カテゴリを初期化中...</p>
+            </div>
+          ) : isPending ? (
             <div className="flex flex-col items-center text-center">
               <Loader2 className="h-10 w-10 text-primary animate-spin mb-2" />
               <p className="text-sm text-muted-foreground">アップロード中...</p>
@@ -119,7 +153,10 @@ export default function MediaUploader({ value, onChange }: MediaUploaderProps) {
                 {isDragActive ? 'ファイルをドロップ' : '画像をドラッグ＆ドロップまたはクリック'}
               </p>
               <p className="text-xs text-muted-foreground">
-                JPEG, PNG, GIF, WEBP（最大10MB）
+                JPEG, PNG, GIF, WEBP, SVG（最大10MB）
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                画像は自動的にWebP形式に変換されます
               </p>
             </div>
           )}

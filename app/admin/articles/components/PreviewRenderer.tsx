@@ -6,7 +6,8 @@ import ReactMarkdown from 'react-markdown';
 import rehypeSanitize from 'rehype-sanitize';
 import remarkGfm from 'remark-gfm';
 import { Badge } from '@/components/ui/badge';
-import { ArticleStatus } from '@prisma/client';
+// ArticleStatus型の定義
+type ArticleStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 import { OptimizedImage } from '@/components/ui/optimized-image';
 import { convertToProxyUrl } from '@/lib/utils/image-proxy';
 
@@ -119,18 +120,18 @@ interface PreviewRendererProps {
     excerpt?: string | null;
     featuredImage?: string | null;
     status: ArticleStatus;
-    publishedAt?: string | null;
-    createdAt: string;
-    updatedAt: string;
+    publishedAt?: Date | null;
+    createdAt: Date;
+    updatedAt: Date;
     author: {
       user: {
-        name: string;
+        name: string | null;
       };
     };
     categories: {
       category: {
         name: string;
-        slug: string;
+        slug?: string;
       };
     }[];
     tags: {
@@ -143,9 +144,10 @@ interface PreviewRendererProps {
 }
 
 export default function PreviewRenderer({ article }: PreviewRendererProps) {
-  const formatDate = (dateString: string | null | undefined) => {
-    if (!dateString) return '未公開';
-    return format(new Date(dateString), 'yyyy年MM月dd日 HH:mm', { locale: ja });
+  const formatDate = (date: Date | string | null | undefined) => {
+    if (!date) return '未公開';
+    const dateObj = date instanceof Date ? date : new Date(date);
+    return format(dateObj, 'yyyy年MM月dd日 HH:mm', { locale: ja });
   };
   
   return (
@@ -155,9 +157,9 @@ export default function PreviewRenderer({ article }: PreviewRendererProps) {
       <article className="max-w-4xl mx-auto py-8 px-4">
         {/* ステータスバッジ */}
         <div className="mb-4 flex justify-center">
-          {article.status === ArticleStatus.PUBLISHED ? (
+          {article.status === 'PUBLISHED' ? (
             <Badge variant="default" className="px-3 py-1 text-sm">公開済み</Badge>
-          ) : article.status === ArticleStatus.DRAFT ? (
+          ) : article.status === 'DRAFT' ? (
             <Badge variant="secondary" className="px-3 py-1 text-sm">下書き</Badge>
           ) : (
             <Badge variant="outline" className="px-3 py-1 text-sm">アーカイブ</Badge>
@@ -192,7 +194,7 @@ export default function PreviewRenderer({ article }: PreviewRendererProps) {
           </div>
           
           <div className="text-sm text-muted-foreground flex flex-wrap justify-center gap-x-4">
-            <span>著者: {article.author.user.name}</span>
+            <span>著者: {article.author.user.name || 'Unknown'}</span>
             <span>公開日: {formatDate(article.publishedAt)}</span>
             <span>更新日: {formatDate(article.updatedAt)}</span>
           </div>

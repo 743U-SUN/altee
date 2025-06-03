@@ -8,42 +8,68 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import ArticleForm from '../../components/ArticleForm';
 import { toast } from 'sonner';
+import { getArticleByIdAction } from '@/lib/actions/article-actions';
+
+// 記事データの型定義
+interface ArticleData {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt: string | null;
+  featuredImage: string | null;
+  status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+  publishedAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  authorId: string;
+  author: {
+    id: string;
+    user: {
+      id: string;
+      name: string | null;
+    };
+  };
+  categories: {
+    articleId: string;
+    categoryId: string;
+    category: {
+      id: string;
+      name: string;
+    };
+  }[];
+  tags: {
+    articleId: string;
+    tagId: string;
+    tag: {
+      id: string;
+      name: string;
+      slug: string;
+    };
+  }[];
+}
 
 export default function EditArticlePage() {
   const params = useParams();
   const router = useRouter();
   const articleId = params.id as string;
   
-  const [article, setArticle] = useState(null);
-  const [authors, setAuthors] = useState([]);
+  const [article, setArticle] = useState<ArticleData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
-  // 記事と著者の取得
+  // 記事の取得
   useEffect(() => {
     const fetchData = async () => {
       try {
         // 記事データの取得
-        const articleResponse = await fetch(`/api/articles/${articleId}`);
+        const result = await getArticleByIdAction(articleId);
         
-        if (!articleResponse.ok) {
-          if (articleResponse.status === 404) {
-            throw new Error('記事が見つかりませんでした');
-          }
-          throw new Error('記事の取得に失敗しました');
+        if (result.success && result.data) {
+          setArticle(result.data);
+        } else {
+          throw new Error(result.error || '記事の取得に失敗しました');
         }
-        
-        const articleData = await articleResponse.json();
-        setArticle(articleData);
-        
-        // 著者一覧の取得
-        const authorsResponse = await fetch('/api/authors');
-        if (!authorsResponse.ok) {
-          throw new Error('著者の取得に失敗しました');
-        }
-        
-        const authorsData = await authorsResponse.json();
-        setAuthors(authorsData);
       } catch (error) {
         console.error('データ取得エラー:', error);
         setError(error instanceof Error ? error.message : '不明なエラーが発生しました');
@@ -115,7 +141,7 @@ export default function EditArticlePage() {
           </div>
         </div>
       ) : (
-        <ArticleForm initialData={article} authors={authors} />
+        <ArticleForm initialData={article} />
       )}
     </div>
   );

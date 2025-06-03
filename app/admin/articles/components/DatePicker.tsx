@@ -2,12 +2,13 @@
 
 import * as React from 'react';
 import { format } from 'date-fns';
-import { ja } from 'date-fns/locale';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { CalendarIcon, Clock } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Popover,
   PopoverContent,
@@ -25,8 +26,32 @@ export default function DatePicker({
   date, 
   setDate, 
   className,
-  placeholder = '日付を選択'
+  placeholder = 'Pick a date'
 }: DatePickerProps) {
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
+      // 既存の時刻を保持するか、デフォルト時刻を設定
+      if (date) {
+        selectedDate.setHours(date.getHours());
+        selectedDate.setMinutes(date.getMinutes());
+      } else {
+        selectedDate.setHours(0);
+        selectedDate.setMinutes(0);
+      }
+    }
+    setDate(selectedDate);
+  };
+
+  const handleTimeChange = (timeString: string) => {
+    if (!date) return;
+    
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const newDate = new Date(date);
+    newDate.setHours(hours || 0);
+    newDate.setMinutes(minutes || 0);
+    setDate(newDate);
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -39,50 +64,40 @@ export default function DatePicker({
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, 'yyyy年MM月dd日', { locale: ja }) : <span>{placeholder}</span>}
+          {date ? (
+            <span>
+              {format(date, 'PPP')} at {format(date, 'HH:mm')}
+            </span>
+          ) : (
+            <span>{placeholder}</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
-        <Calendar
-          mode="single"
-          selected={date}
-          onSelect={setDate}
-          initialFocus
-          locale={ja}
-          // 時間を保持するために、新しい日付を選択する際に時間を引き継ぐ
-          onDayClick={(day, modifiers) => {
-            if (modifiers.selected && date) {
-              // 既に選択されている日付をクリックした場合、選択を解除
-              setDate(undefined);
-            } else if (!modifiers.disabled && date) {
-              // 既存の日付から時間を引き継ぐ
-              const newDate = new Date(day);
-              newDate.setHours(date.getHours());
-              newDate.setMinutes(date.getMinutes());
-              setDate(newDate);
-            }
-          }}
-        />
-        {date && (
-          <div className="p-3 border-t">
-            <div className="flex items-center gap-2">
-              <input
-                type="time"
-                className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                value={date ? `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}` : ''}
-                onChange={(e) => {
-                  if (date) {
-                    const [hours, minutes] = e.target.value.split(':').map(Number);
-                    const newDate = new Date(date);
-                    newDate.setHours(hours || 0);
-                    newDate.setMinutes(minutes || 0);
-                    setDate(newDate);
-                  }
-                }}
-              />
+        <div className="p-3">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={handleDateSelect}
+          />
+          {date && (
+            <div className="mt-3 border-t pt-3">
+              <Label htmlFor="time" className="text-sm font-medium">
+                Time
+              </Label>
+              <div className="flex items-center mt-1">
+                <Clock className="mr-2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="time"
+                  type="time"
+                  value={`${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`}
+                  onChange={(e) => handleTimeChange(e.target.value)}
+                  className="w-auto"
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </PopoverContent>
     </Popover>
   );

@@ -7,13 +7,16 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Check, X, Search, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { getCategoriesAction } from '@/lib/actions/article-actions';
 
 interface Category {
   id: string;
   name: string;
   slug: string;
-  description?: string;
-  parentId?: string | null;
+  description: string | null;
+  parentId: string | null;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface CategorySelectorProps {
@@ -33,12 +36,12 @@ export default function CategorySelector({ selected, onChange }: CategorySelecto
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('/api/categories');
-        if (!response.ok) {
-          throw new Error('カテゴリの取得に失敗しました');
+        const result = await getCategoriesAction();
+        if (result.success && result.data) {
+          setCategories(result.data);
+        } else {
+          throw new Error(result.error || 'カテゴリの取得に失敗しました');
         }
-        const data = await response.json();
-        setCategories(data);
       } catch (error) {
         console.error('カテゴリ取得エラー:', error);
         toast.error('カテゴリの取得に失敗しました');

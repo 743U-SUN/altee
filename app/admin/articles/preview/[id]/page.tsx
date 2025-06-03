@@ -8,7 +8,48 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 import PreviewRenderer from '../../components/PreviewRenderer';
-import { ArticleStatus } from '@prisma/client';
+import { getArticleByIdAction, updateArticleStatusAction } from '@/lib/actions/article-actions';
+// ArticleStatus型の定義
+type ArticleStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
+
+// 記事データの型定義
+interface ArticleData {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt: string | null;
+  featuredImage: string | null;
+  status: ArticleStatus;
+  publishedAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  authorId: string;
+  author: {
+    id: string;
+    user: {
+      id: string;
+      name: string | null;
+    };
+  };
+  categories: {
+    articleId: string;
+    categoryId: string;
+    category: {
+      id: string;
+      name: string;
+    };
+  }[];
+  tags: {
+    articleId: string;
+    tagId: string;
+    tag: {
+      id: string;
+      name: string;
+      slug: string;
+    };
+  }[];
+}
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,7 +67,7 @@ export default function PreviewArticlePage() {
   const router = useRouter();
   const articleId = params.id as string;
   
-  const [article, setArticle] = useState(null);
+  const [article, setArticle] = useState<ArticleData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [publishing, setPublishing] = useState(false);
@@ -35,17 +76,13 @@ export default function PreviewArticlePage() {
   useEffect(() => {
     const fetchArticle = async () => {
       try {
-        const response = await fetch(`/api/articles/${articleId}`);
+        const result = await getArticleByIdAction(articleId);
         
-        if (!response.ok) {
-          if (response.status === 404) {
-            throw new Error('記事が見つかりませんでした');
-          }
-          throw new Error('記事の取得に失敗しました');
+        if (result.success && result.data) {
+          setArticle(result.data);
+        } else {
+          throw new Error(result.error || '記事の取得に失敗しました');
         }
-        
-        const data = await response.json();
-        setArticle(data);
       } catch (error) {
         console.error('記事取得エラー:', error);
         setError(error instanceof Error ? error.message : '不明なエラーが発生しました');
@@ -63,29 +100,22 @@ export default function PreviewArticlePage() {
     try {
       setPublishing(true);
       
-      const response = await fetch(`/api/articles/${articleId}/status`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          status: ArticleStatus.PUBLISHED,
-          publishedAt: article.publishedAt || new Date().toISOString()
-        })
-      });
+      const result = await updateArticleStatusAction(articleId, 'PUBLISHED');
       
-      if (!response.ok) {
-        throw new Error('記事の公開に失敗しました');
+      if (result.success) {
+        toast.success('記事を公開しました');
+        
+        // 記事データを再取得
+        const articleResult = await getArticleByIdAction(articleId);
+        if (articleResult.success && articleResult.data) {
+          setArticle(articleResult.data);
+        }
+      } else {
+        throw new Error(result.error || '記事の公開に失敗しました');
       }
-      
-      toast.success('記事を公開しました');
-      
-      // 記事データを更新
-      const updatedArticle = await response.json();
-      setArticle(updatedArticle);
     } catch (error) {
       console.error('記事公開エラー:', error);
-      toast.error('記事の公開に失敗しました');
+      toast.error(error instanceof Error ? error.message : '記事の公開に失敗しました');
     } finally {
       setPublishing(false);
     }
@@ -154,7 +184,7 @@ export default function PreviewArticlePage() {
               </Link>
             </Button>
             
-            {article.status === ArticleStatus.PUBLISHED ? (
+            {article.status === 'PUBLISHED' ? (
               <Button variant="default" asChild>
                 <Link href={getPublicLink()} target="_blank">
                   <Globe className="mr-2 h-4 w-4" />

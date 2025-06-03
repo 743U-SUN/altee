@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
 import { ja } from 'date-fns/locale';
@@ -28,25 +28,34 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 
-import { ArticleStatus } from '@prisma/client';
+import { getArticlesAction, deleteArticleAction, updateArticleStatusAction } from '@/lib/actions/article-actions';
+
+// ArticleStatus型の定義
+type ArticleStatus = 'DRAFT' | 'PUBLISHED' | 'ARCHIVED';
 
 interface Article {
   id: string;
   title: string;
   slug: string;
   status: ArticleStatus;
-  publishedAt: string | null;
-  createdAt: string;
-  updatedAt: string;
+  publishedAt: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
   author: {
     user: {
-      name: string;
+      name: string | null;
+      id: string;
+      email: string;
     };
+    id: string;
   };
   categories: {
     category: {
       name: string;
+      id: string;
     };
+    categoryId: string;
+    articleId: string;
   }[];
 }
 
@@ -63,34 +72,34 @@ export default function ArticleList({ initialArticles = [] }: ArticleListProps) 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [pageSize] = useState(10);
+  const [isPending, startTransition] = useTransition();
   
   // 記事一覧の取得
   const fetchArticles = async () => {
     try {
       setLoading(true);
       
-      // クエリパラメータの構築
-      const params = new URLSearchParams();
-      params.append('page', page.toString());
-      params.append('pageSize', pageSize.toString());
+      const params: any = {
+        page,
+        limit: pageSize,
+      };
       
       if (searchTerm) {
-        params.append('search', searchTerm);
+        params.search = searchTerm;
       }
       
       if (statusFilter !== 'ALL') {
-        params.append('status', statusFilter);
+        params.status = statusFilter;
       }
       
-      const response = await fetch(`/api/articles?${params.toString()}`);
+      const result = await getArticlesAction(params);
       
-      if (!response.ok) {
-        throw new Error('記事の取得に失敗しました');
+      if (!result.success) {
+        throw new Error(result.error || '記事の取得に失敗しました');
       }
       
-      const data = await response.json();
-      setArticles(data.articles);
-      setTotalPages(data.pagination.totalPages);
+      setArticles(result.data || []);
+      setTotalPages(result.pagination?.totalPages || 1);
     } catch (error) {
       console.error('記事取得エラー:', error);
       toast.error('記事の取得に失敗しました');
@@ -107,51 +116,47 @@ export default function ArticleList({ initialArticles = [] }: ArticleListProps) 
   
   // 記事削除処理
   const handleDeleteArticle = async (id: string) => {
-    try {
-      const response = await fetch(`/api/articles/${id}`, {
-        method: 'DELETE'
-      });
-      
-      if (!response.ok) {
-        throw new Error('記事の削除に失敗しました');
+    startTransition(async () => {
+      try {
+        const result = await deleteArticleAction(id);
+        
+        if (!result.success) {
+          throw new Error(result.error || '記事の削除に失敗しました');
+        }
+        
+        // 削除成功後、一覧を更新
+        setArticles(articles.filter(article => article.id !== id));
+        toast.success('記事を削除しました');
+      } catch (error) {
+        console.error('記事削除エラー:', error);
+        toast.error('記事の削除に失敗しました');
       }
-      
-      // 削除成功後、一覧を更新
-      setArticles(articles.filter(article => article.id !== id));
-      toast.success('記事を削除しました');
-    } catch (error) {
-      console.error('記事削除エラー:', error);
-      toast.error('記事の削除に失敗しました');
-    }
+    });
   };
   
   // ステータス変更処理
   const handleChangeStatus = async (id: string, status: ArticleStatus) => {
-    try {
-      const response = await fetch(`/api/articles/${id}/status`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ status })
-      });
-      
-      if (!response.ok) {
-        throw new Error('ステータスの変更に失敗しました');
+    startTransition(async () => {
+      try {
+        const result = await updateArticleStatusAction(id, status);
+        
+        if (!result.success) {
+          throw new Error(result.error || 'ステータスの変更に失敗しました');
+        }
+        
+        // ステータス変更成功後、一覧を更新
+        setArticles(
+          articles.map(article => 
+            article.id === id ? { ...article, status } : article
+          )
+        );
+        
+        toast.success('ステータスを変更しました');
+      } catch (error) {
+        console.error('ステータス変更エラー:', error);
+        toast.error('ステータスの変更に失敗しました');
       }
-      
-      // ステータス変更成功後、一覧を更新
-      setArticles(
-        articles.map(article => 
-          article.id === id ? { ...article, status } : article
-        )
-      );
-      
-      toast.success('ステータスを変更しました');
-    } catch (error) {
-      console.error('ステータス変更エラー:', error);
-      toast.error('ステータスの変更に失敗しました');
-    }
+    });
   };
   
   // 検索実行
@@ -163,11 +168,11 @@ export default function ArticleList({ initialArticles = [] }: ArticleListProps) 
   // ステータスに応じたバッジ表示
   const getStatusBadge = (status: ArticleStatus) => {
     switch (status) {
-      case ArticleStatus.PUBLISHED:
+      case 'PUBLISHED':
         return <Badge variant="default">公開中</Badge>;
-      case ArticleStatus.DRAFT:
+      case 'DRAFT':
         return <Badge variant="outline">下書き</Badge>;
-      case ArticleStatus.ARCHIVED:
+      case 'ARCHIVED':
         return <Badge variant="secondary">アーカイブ</Badge>;
       default:
         return null;
@@ -195,9 +200,9 @@ export default function ArticleList({ initialArticles = [] }: ArticleListProps) 
                 <Filter className="h-4 w-4 mr-2" />
                 {statusFilter === 'ALL' 
                   ? 'すべて' 
-                  : statusFilter === ArticleStatus.PUBLISHED 
+                  : statusFilter === 'PUBLISHED' 
                     ? '公開中'
-                    : statusFilter === ArticleStatus.DRAFT
+                    : statusFilter === 'DRAFT'
                       ? '下書き'
                       : 'アーカイブ'
                 }
@@ -207,18 +212,18 @@ export default function ArticleList({ initialArticles = [] }: ArticleListProps) 
               <DropdownMenuItem onClick={() => setStatusFilter('ALL')}>
                 すべて
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setStatusFilter(ArticleStatus.PUBLISHED)}>
+              <DropdownMenuItem onClick={() => setStatusFilter('PUBLISHED')}>
                 公開中
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setStatusFilter(ArticleStatus.DRAFT)}>
+              <DropdownMenuItem onClick={() => setStatusFilter('DRAFT')}>
                 下書き
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setStatusFilter(ArticleStatus.ARCHIVED)}>
+              <DropdownMenuItem onClick={() => setStatusFilter('ARCHIVED')}>
                 アーカイブ
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button onClick={handleSearch}>検索</Button>
+          <Button onClick={handleSearch} disabled={isPending}>検索</Button>
         </div>
       </div>
       
@@ -251,7 +256,7 @@ export default function ArticleList({ initialArticles = [] }: ArticleListProps) 
             </tr>
           </thead>
           <tbody className="bg-background divide-y divide-border">
-            {loading ? (
+            {loading || isPending ? (
               <tr>
                 <td colSpan={7} className="px-4 py-8 text-center">
                   <div className="flex justify-center">
@@ -285,11 +290,11 @@ export default function ArticleList({ initialArticles = [] }: ArticleListProps) 
                     </div>
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap">
-                    {article.author.user.name}
+                    {article.author.user.name || 'Unknown'}
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm">
                     {article.publishedAt
-                      ? format(new Date(article.publishedAt), 'yyyy/MM/dd HH:mm', { locale: ja })
+                      ? format(article.publishedAt, 'yyyy/MM/dd HH:mm', { locale: ja })
                       : '-'}
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm">
@@ -325,23 +330,26 @@ export default function ArticleList({ initialArticles = [] }: ArticleListProps) 
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          {article.status !== ArticleStatus.PUBLISHED && (
+                          {article.status !== 'PUBLISHED' && (
                             <DropdownMenuItem
-                              onClick={() => handleChangeStatus(article.id, ArticleStatus.PUBLISHED)}
+                              onClick={() => handleChangeStatus(article.id, 'PUBLISHED')}
+                              disabled={isPending}
                             >
                               公開する
                             </DropdownMenuItem>
                           )}
-                          {article.status !== ArticleStatus.DRAFT && (
+                          {article.status !== 'DRAFT' && (
                             <DropdownMenuItem
-                              onClick={() => handleChangeStatus(article.id, ArticleStatus.DRAFT)}
+                              onClick={() => handleChangeStatus(article.id, 'DRAFT')}
+                              disabled={isPending}
                             >
                               下書きに戻す
                             </DropdownMenuItem>
                           )}
-                          {article.status !== ArticleStatus.ARCHIVED && (
+                          {article.status !== 'ARCHIVED' && (
                             <DropdownMenuItem
-                              onClick={() => handleChangeStatus(article.id, ArticleStatus.ARCHIVED)}
+                              onClick={() => handleChangeStatus(article.id, 'ARCHIVED')}
+                              disabled={isPending}
                             >
                               アーカイブする
                             </DropdownMenuItem>
@@ -369,6 +377,7 @@ export default function ArticleList({ initialArticles = [] }: ArticleListProps) 
                                 <AlertDialogAction
                                   onClick={() => handleDeleteArticle(article.id)}
                                   className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                  disabled={isPending}
                                 >
                                   削除する
                                 </AlertDialogAction>
@@ -396,7 +405,7 @@ export default function ArticleList({ initialArticles = [] }: ArticleListProps) 
             variant="outline"
             size="sm"
             onClick={() => setPage(Math.max(1, page - 1))}
-            disabled={page === 1 || loading}
+            disabled={page === 1 || loading || isPending}
           >
             前へ
           </Button>
@@ -404,7 +413,7 @@ export default function ArticleList({ initialArticles = [] }: ArticleListProps) 
             variant="outline"
             size="sm"
             onClick={() => setPage(Math.min(totalPages, page + 1))}
-            disabled={page === totalPages || loading}
+            disabled={page === totalPages || loading || isPending}
           >
             次へ
           </Button>

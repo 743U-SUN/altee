@@ -16,7 +16,7 @@ export default function Secondary({ userData }: SecondaryProps) {
   return (
     <div className="w-full space-y-6 p-4 md:p-6">
       {/* 上部カード - 名前、説明、質問を含む */}
-      <Card className="bg-neutral-600 p-6 space-y-6 relative">
+      <Card className="bg-neutral-600 p-6 relative">
         <SecondaryName 
           characterName={userData.characterName}
           subname={userData.subname}

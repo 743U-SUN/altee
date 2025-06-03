@@ -1,37 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ChevronLeft, Loader2 } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import ArticleForm from '../components/ArticleForm';
-import { toast } from 'sonner';
 
 export default function CreateArticlePage() {
-  const [authors, setAuthors] = useState([]);
-  const [loading, setLoading] = useState(true);
-  
-  // 著者一覧の取得
-  useEffect(() => {
-    const fetchAuthors = async () => {
-      try {
-        const response = await fetch('/api/authors');
-        if (!response.ok) {
-          throw new Error('著者の取得に失敗しました');
-        }
-        const data = await response.json();
-        setAuthors(data);
-      } catch (error) {
-        console.error('著者取得エラー:', error);
-        toast.error('著者の取得に失敗しました');
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchAuthors();
-  }, []);
   
   return (
     <div className="container py-8">
@@ -53,16 +28,7 @@ export default function CreateArticlePage() {
       
       <Separator className="mb-6" />
       
-      {loading ? (
-        <div className="flex justify-center py-12">
-          <div className="flex flex-col items-center gap-2">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="text-muted-foreground">読み込み中...</p>
-          </div>
-        </div>
-      ) : (
-        <ArticleForm authors={authors} />
-      )}
+      <ArticleForm />
     </div>
   );
 }

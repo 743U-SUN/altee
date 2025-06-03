@@ -118,11 +118,11 @@ export default function HandlePageClient({ userData, banners, backgroundSettings
   };
 
   return (
-    <div className={`@container -m-4 ${getBackgroundClasses()}`} style={getBackgroundStyle()}>
+    <div className={`@container -m-4 rounded-bl-xl ${getBackgroundClasses()}`} style={getBackgroundStyle()}>
       {/* パターンオーバーレイ */}
       {backgroundSettings?.backgroundType === "pattern" && backgroundSettings.patternType && (
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="rounded-bl-xl absolute inset-0 pointer-events-none"
           style={{
             color: `${backgroundSettings.patternColor}${Math.round((backgroundSettings.patternOpacity || 0.1) * 255).toString(16).padStart(2, '0')}`,
             ...getPatternStyle(backgroundSettings.patternType, backgroundSettings.patternSize || 1.0)
@@ -132,7 +132,7 @@ export default function HandlePageClient({ userData, banners, backgroundSettings
       
       <div className="flex flex-col @[824px]:flex-row @[824px]:items-start gap-4 relative z-10">
         {/* Primary Component - 824px以上ではsticky */}
-        <div className="w-full h-[calc(100vh-11rem)] @[824px]:h-[calc(100vh-5rem)] @[824px]:w-[520px] @[824px]:sticky @[824px]:top-0 flex-shrink-0">
+        <div className="w-full h-[calc(100vh-11rem)] @[824px]:h-[calc(100vh-6rem)] @[824px]:w-[520px] @[824px]:sticky @[824px]:top-0 flex-shrink-0">
           <PrimaryClient handle={userData.handle!} hasBanners={hasBanners} banners={banners} />
         </div>
         {/* Secondary Component - メインコンテンツ */}

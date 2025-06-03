@@ -11,7 +11,8 @@ import {
   LayoutDashboard,
   Package,
   Tags,
-  Image
+  Image,
+  BookOpen
 } from "lucide-react"
 import {
   SidebarContent,
@@ -32,6 +33,11 @@ const menuItems = [
     icon: LayoutDashboard,
     href: "/admin",
   },
+  {
+    title: "Articles",
+    icon: BookOpen,
+    href: "/admin/articles",
+  },  
   {
     title: "Users",
     icon: UserIcon,
