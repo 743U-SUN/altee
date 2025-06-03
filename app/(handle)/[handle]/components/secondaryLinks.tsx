@@ -30,7 +30,7 @@ export default function SecondaryLinks({ links }: SecondaryLinksProps) {
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="block group"
+            className="block group z-10"
           >
             <Card className="p-4 h-full transition-colors hover:bg-accent">
               <div className="flex items-center gap-4">

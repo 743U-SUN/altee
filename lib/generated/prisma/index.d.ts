@@ -208,6 +208,11 @@ export type MediaCategory = $Result.DefaultSelection<Prisma.$MediaCategoryPayloa
  * 
  */
 export type Media = $Result.DefaultSelection<Prisma.$MediaPayload>
+/**
+ * Model UserPageBackground
+ * 
+ */
+export type UserPageBackground = $Result.DefaultSelection<Prisma.$UserPageBackgroundPayload>
 
 /**
  * Enums
@@ -825,6 +830,16 @@ export class PrismaClient<
     * ```
     */
   get media(): Prisma.MediaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.userPageBackground`: Exposes CRUD operations for the **UserPageBackground** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UserPageBackgrounds
+    * const userPageBackgrounds = await prisma.userPageBackground.findMany()
+    * ```
+    */
+  get userPageBackground(): Prisma.UserPageBackgroundDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1303,7 +1318,8 @@ export namespace Prisma {
     MouseAttributes: 'MouseAttributes',
     KeyboardAttributes: 'KeyboardAttributes',
     MediaCategory: 'MediaCategory',
-    Media: 'Media'
+    Media: 'Media',
+    UserPageBackground: 'UserPageBackground'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1322,7 +1338,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "notificationSettings" | "userLink" | "userYoutubeSettings" | "userImageBanner" | "userYoutubeVideo" | "userRecommendYoutube" | "userPopupSettings" | "userOGP" | "userCustomQuestion" | "userInfoCategory" | "userInfoQuestion" | "userImageCarousel" | "userImageSidebar" | "userDisplaySettings" | "linkService" | "serviceIcon" | "verificationToken" | "author" | "category" | "tag" | "article" | "articleCategory" | "articleTag" | "comment" | "deviceCategory" | "manufacturer" | "series" | "product" | "color" | "productColor" | "userDevice" | "userFavorite" | "mouseAttributes" | "keyboardAttributes" | "mediaCategory" | "media"
+      modelProps: "user" | "account" | "session" | "notificationSettings" | "userLink" | "userYoutubeSettings" | "userImageBanner" | "userYoutubeVideo" | "userRecommendYoutube" | "userPopupSettings" | "userOGP" | "userCustomQuestion" | "userInfoCategory" | "userInfoQuestion" | "userImageCarousel" | "userImageSidebar" | "userDisplaySettings" | "linkService" | "serviceIcon" | "verificationToken" | "author" | "category" | "tag" | "article" | "articleCategory" | "articleTag" | "comment" | "deviceCategory" | "manufacturer" | "series" | "product" | "color" | "productColor" | "userDevice" | "userFavorite" | "mouseAttributes" | "keyboardAttributes" | "mediaCategory" | "media" | "userPageBackground"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4212,6 +4228,80 @@ export namespace Prisma {
           }
         }
       }
+      UserPageBackground: {
+        payload: Prisma.$UserPageBackgroundPayload<ExtArgs>
+        fields: Prisma.UserPageBackgroundFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UserPageBackgroundFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPageBackgroundPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UserPageBackgroundFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPageBackgroundPayload>
+          }
+          findFirst: {
+            args: Prisma.UserPageBackgroundFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPageBackgroundPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UserPageBackgroundFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPageBackgroundPayload>
+          }
+          findMany: {
+            args: Prisma.UserPageBackgroundFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPageBackgroundPayload>[]
+          }
+          create: {
+            args: Prisma.UserPageBackgroundCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPageBackgroundPayload>
+          }
+          createMany: {
+            args: Prisma.UserPageBackgroundCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UserPageBackgroundCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPageBackgroundPayload>[]
+          }
+          delete: {
+            args: Prisma.UserPageBackgroundDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPageBackgroundPayload>
+          }
+          update: {
+            args: Prisma.UserPageBackgroundUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPageBackgroundPayload>
+          }
+          deleteMany: {
+            args: Prisma.UserPageBackgroundDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UserPageBackgroundUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UserPageBackgroundUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPageBackgroundPayload>[]
+          }
+          upsert: {
+            args: Prisma.UserPageBackgroundUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPageBackgroundPayload>
+          }
+          aggregate: {
+            args: Prisma.UserPageBackgroundAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUserPageBackground>
+          }
+          groupBy: {
+            args: Prisma.UserPageBackgroundGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserPageBackgroundGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UserPageBackgroundCountArgs<ExtArgs>
+            result: $Utils.Optional<UserPageBackgroundCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4335,6 +4425,7 @@ export namespace Prisma {
     keyboardAttributes?: KeyboardAttributesOmit
     mediaCategory?: MediaCategoryOmit
     media?: MediaOmit
+    userPageBackground?: UserPageBackgroundOmit
   }
 
   /* Types for Logging */
@@ -4442,6 +4533,7 @@ export namespace Prisma {
     userDevices: number
     userFavorites: number
     mediaUploads: number
+    pageBackgrounds: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4458,6 +4550,7 @@ export namespace Prisma {
     userDevices?: boolean | UserCountOutputTypeCountUserDevicesArgs
     userFavorites?: boolean | UserCountOutputTypeCountUserFavoritesArgs
     mediaUploads?: boolean | UserCountOutputTypeCountMediaUploadsArgs
+    pageBackgrounds?: boolean | UserCountOutputTypeCountPageBackgroundsArgs
   }
 
   // Custom InputTypes
@@ -4560,6 +4653,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMediaUploadsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MediaWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPageBackgroundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserPageBackgroundWhereInput
   }
 
 
@@ -5453,6 +5553,7 @@ export namespace Prisma {
     userDevices?: boolean | User$userDevicesArgs<ExtArgs>
     userFavorites?: boolean | User$userFavoritesArgs<ExtArgs>
     mediaUploads?: boolean | User$mediaUploadsArgs<ExtArgs>
+    pageBackgrounds?: boolean | User$pageBackgroundsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -5549,6 +5650,7 @@ export namespace Prisma {
     userDevices?: boolean | User$userDevicesArgs<ExtArgs>
     userFavorites?: boolean | User$userFavoritesArgs<ExtArgs>
     mediaUploads?: boolean | User$mediaUploadsArgs<ExtArgs>
+    pageBackgrounds?: boolean | User$pageBackgroundsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5576,6 +5678,7 @@ export namespace Prisma {
       userDevices: Prisma.$UserDevicePayload<ExtArgs>[]
       userFavorites: Prisma.$UserFavoritePayload<ExtArgs>[]
       mediaUploads: Prisma.$MediaPayload<ExtArgs>[]
+      pageBackgrounds: Prisma.$UserPageBackgroundPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6012,6 +6115,7 @@ export namespace Prisma {
     userDevices<T extends User$userDevicesArgs<ExtArgs> = {}>(args?: Subset<T, User$userDevicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserDevicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     userFavorites<T extends User$userFavoritesArgs<ExtArgs> = {}>(args?: Subset<T, User$userFavoritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserFavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mediaUploads<T extends User$mediaUploadsArgs<ExtArgs> = {}>(args?: Subset<T, User$mediaUploadsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MediaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    pageBackgrounds<T extends User$pageBackgroundsArgs<ExtArgs> = {}>(args?: Subset<T, User$pageBackgroundsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPageBackgroundPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6873,6 +6977,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MediaScalarFieldEnum | MediaScalarFieldEnum[]
+  }
+
+  /**
+   * User.pageBackgrounds
+   */
+  export type User$pageBackgroundsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundInclude<ExtArgs> | null
+    where?: UserPageBackgroundWhereInput
+    orderBy?: UserPageBackgroundOrderByWithRelationInput | UserPageBackgroundOrderByWithRelationInput[]
+    cursor?: UserPageBackgroundWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserPageBackgroundScalarFieldEnum | UserPageBackgroundScalarFieldEnum[]
   }
 
   /**
@@ -50389,6 +50517,1180 @@ export namespace Prisma {
 
 
   /**
+   * Model UserPageBackground
+   */
+
+  export type AggregateUserPageBackground = {
+    _count: UserPageBackgroundCountAggregateOutputType | null
+    _avg: UserPageBackgroundAvgAggregateOutputType | null
+    _sum: UserPageBackgroundSumAggregateOutputType | null
+    _min: UserPageBackgroundMinAggregateOutputType | null
+    _max: UserPageBackgroundMaxAggregateOutputType | null
+  }
+
+  export type UserPageBackgroundAvgAggregateOutputType = {
+    patternOpacity: number | null
+    patternSize: number | null
+  }
+
+  export type UserPageBackgroundSumAggregateOutputType = {
+    patternOpacity: number | null
+    patternSize: number | null
+  }
+
+  export type UserPageBackgroundMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    pageType: string | null
+    backgroundType: string | null
+    backgroundColor: string | null
+    patternType: string | null
+    patternColor: string | null
+    patternOpacity: number | null
+    patternSize: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserPageBackgroundMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    pageType: string | null
+    backgroundType: string | null
+    backgroundColor: string | null
+    patternType: string | null
+    patternColor: string | null
+    patternOpacity: number | null
+    patternSize: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UserPageBackgroundCountAggregateOutputType = {
+    id: number
+    userId: number
+    pageType: number
+    backgroundType: number
+    backgroundColor: number
+    patternType: number
+    patternColor: number
+    patternOpacity: number
+    patternSize: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UserPageBackgroundAvgAggregateInputType = {
+    patternOpacity?: true
+    patternSize?: true
+  }
+
+  export type UserPageBackgroundSumAggregateInputType = {
+    patternOpacity?: true
+    patternSize?: true
+  }
+
+  export type UserPageBackgroundMinAggregateInputType = {
+    id?: true
+    userId?: true
+    pageType?: true
+    backgroundType?: true
+    backgroundColor?: true
+    patternType?: true
+    patternColor?: true
+    patternOpacity?: true
+    patternSize?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserPageBackgroundMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    pageType?: true
+    backgroundType?: true
+    backgroundColor?: true
+    patternType?: true
+    patternColor?: true
+    patternOpacity?: true
+    patternSize?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UserPageBackgroundCountAggregateInputType = {
+    id?: true
+    userId?: true
+    pageType?: true
+    backgroundType?: true
+    backgroundColor?: true
+    patternType?: true
+    patternColor?: true
+    patternOpacity?: true
+    patternSize?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UserPageBackgroundAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserPageBackground to aggregate.
+     */
+    where?: UserPageBackgroundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserPageBackgrounds to fetch.
+     */
+    orderBy?: UserPageBackgroundOrderByWithRelationInput | UserPageBackgroundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UserPageBackgroundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserPageBackgrounds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserPageBackgrounds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UserPageBackgrounds
+    **/
+    _count?: true | UserPageBackgroundCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UserPageBackgroundAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserPageBackgroundSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UserPageBackgroundMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UserPageBackgroundMaxAggregateInputType
+  }
+
+  export type GetUserPageBackgroundAggregateType<T extends UserPageBackgroundAggregateArgs> = {
+        [P in keyof T & keyof AggregateUserPageBackground]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUserPageBackground[P]>
+      : GetScalarType<T[P], AggregateUserPageBackground[P]>
+  }
+
+
+
+
+  export type UserPageBackgroundGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserPageBackgroundWhereInput
+    orderBy?: UserPageBackgroundOrderByWithAggregationInput | UserPageBackgroundOrderByWithAggregationInput[]
+    by: UserPageBackgroundScalarFieldEnum[] | UserPageBackgroundScalarFieldEnum
+    having?: UserPageBackgroundScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UserPageBackgroundCountAggregateInputType | true
+    _avg?: UserPageBackgroundAvgAggregateInputType
+    _sum?: UserPageBackgroundSumAggregateInputType
+    _min?: UserPageBackgroundMinAggregateInputType
+    _max?: UserPageBackgroundMaxAggregateInputType
+  }
+
+  export type UserPageBackgroundGroupByOutputType = {
+    id: string
+    userId: string
+    pageType: string
+    backgroundType: string
+    backgroundColor: string
+    patternType: string | null
+    patternColor: string
+    patternOpacity: number
+    patternSize: number
+    createdAt: Date
+    updatedAt: Date
+    _count: UserPageBackgroundCountAggregateOutputType | null
+    _avg: UserPageBackgroundAvgAggregateOutputType | null
+    _sum: UserPageBackgroundSumAggregateOutputType | null
+    _min: UserPageBackgroundMinAggregateOutputType | null
+    _max: UserPageBackgroundMaxAggregateOutputType | null
+  }
+
+  type GetUserPageBackgroundGroupByPayload<T extends UserPageBackgroundGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UserPageBackgroundGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UserPageBackgroundGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UserPageBackgroundGroupByOutputType[P]>
+            : GetScalarType<T[P], UserPageBackgroundGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UserPageBackgroundSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    pageType?: boolean
+    backgroundType?: boolean
+    backgroundColor?: boolean
+    patternType?: boolean
+    patternColor?: boolean
+    patternOpacity?: boolean
+    patternSize?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userPageBackground"]>
+
+  export type UserPageBackgroundSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    pageType?: boolean
+    backgroundType?: boolean
+    backgroundColor?: boolean
+    patternType?: boolean
+    patternColor?: boolean
+    patternOpacity?: boolean
+    patternSize?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userPageBackground"]>
+
+  export type UserPageBackgroundSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    pageType?: boolean
+    backgroundType?: boolean
+    backgroundColor?: boolean
+    patternType?: boolean
+    patternColor?: boolean
+    patternOpacity?: boolean
+    patternSize?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["userPageBackground"]>
+
+  export type UserPageBackgroundSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    pageType?: boolean
+    backgroundType?: boolean
+    backgroundColor?: boolean
+    patternType?: boolean
+    patternColor?: boolean
+    patternOpacity?: boolean
+    patternSize?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UserPageBackgroundOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "pageType" | "backgroundType" | "backgroundColor" | "patternType" | "patternColor" | "patternOpacity" | "patternSize" | "createdAt" | "updatedAt", ExtArgs["result"]["userPageBackground"]>
+  export type UserPageBackgroundInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserPageBackgroundIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type UserPageBackgroundIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $UserPageBackgroundPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UserPageBackground"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      pageType: string
+      backgroundType: string
+      backgroundColor: string
+      patternType: string | null
+      patternColor: string
+      patternOpacity: number
+      patternSize: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["userPageBackground"]>
+    composites: {}
+  }
+
+  type UserPageBackgroundGetPayload<S extends boolean | null | undefined | UserPageBackgroundDefaultArgs> = $Result.GetResult<Prisma.$UserPageBackgroundPayload, S>
+
+  type UserPageBackgroundCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UserPageBackgroundFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UserPageBackgroundCountAggregateInputType | true
+    }
+
+  export interface UserPageBackgroundDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UserPageBackground'], meta: { name: 'UserPageBackground' } }
+    /**
+     * Find zero or one UserPageBackground that matches the filter.
+     * @param {UserPageBackgroundFindUniqueArgs} args - Arguments to find a UserPageBackground
+     * @example
+     * // Get one UserPageBackground
+     * const userPageBackground = await prisma.userPageBackground.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UserPageBackgroundFindUniqueArgs>(args: SelectSubset<T, UserPageBackgroundFindUniqueArgs<ExtArgs>>): Prisma__UserPageBackgroundClient<$Result.GetResult<Prisma.$UserPageBackgroundPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UserPageBackground that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UserPageBackgroundFindUniqueOrThrowArgs} args - Arguments to find a UserPageBackground
+     * @example
+     * // Get one UserPageBackground
+     * const userPageBackground = await prisma.userPageBackground.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UserPageBackgroundFindUniqueOrThrowArgs>(args: SelectSubset<T, UserPageBackgroundFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UserPageBackgroundClient<$Result.GetResult<Prisma.$UserPageBackgroundPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserPageBackground that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPageBackgroundFindFirstArgs} args - Arguments to find a UserPageBackground
+     * @example
+     * // Get one UserPageBackground
+     * const userPageBackground = await prisma.userPageBackground.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UserPageBackgroundFindFirstArgs>(args?: SelectSubset<T, UserPageBackgroundFindFirstArgs<ExtArgs>>): Prisma__UserPageBackgroundClient<$Result.GetResult<Prisma.$UserPageBackgroundPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UserPageBackground that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPageBackgroundFindFirstOrThrowArgs} args - Arguments to find a UserPageBackground
+     * @example
+     * // Get one UserPageBackground
+     * const userPageBackground = await prisma.userPageBackground.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UserPageBackgroundFindFirstOrThrowArgs>(args?: SelectSubset<T, UserPageBackgroundFindFirstOrThrowArgs<ExtArgs>>): Prisma__UserPageBackgroundClient<$Result.GetResult<Prisma.$UserPageBackgroundPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UserPageBackgrounds that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPageBackgroundFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UserPageBackgrounds
+     * const userPageBackgrounds = await prisma.userPageBackground.findMany()
+     * 
+     * // Get first 10 UserPageBackgrounds
+     * const userPageBackgrounds = await prisma.userPageBackground.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const userPageBackgroundWithIdOnly = await prisma.userPageBackground.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UserPageBackgroundFindManyArgs>(args?: SelectSubset<T, UserPageBackgroundFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPageBackgroundPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UserPageBackground.
+     * @param {UserPageBackgroundCreateArgs} args - Arguments to create a UserPageBackground.
+     * @example
+     * // Create one UserPageBackground
+     * const UserPageBackground = await prisma.userPageBackground.create({
+     *   data: {
+     *     // ... data to create a UserPageBackground
+     *   }
+     * })
+     * 
+     */
+    create<T extends UserPageBackgroundCreateArgs>(args: SelectSubset<T, UserPageBackgroundCreateArgs<ExtArgs>>): Prisma__UserPageBackgroundClient<$Result.GetResult<Prisma.$UserPageBackgroundPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UserPageBackgrounds.
+     * @param {UserPageBackgroundCreateManyArgs} args - Arguments to create many UserPageBackgrounds.
+     * @example
+     * // Create many UserPageBackgrounds
+     * const userPageBackground = await prisma.userPageBackground.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UserPageBackgroundCreateManyArgs>(args?: SelectSubset<T, UserPageBackgroundCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UserPageBackgrounds and returns the data saved in the database.
+     * @param {UserPageBackgroundCreateManyAndReturnArgs} args - Arguments to create many UserPageBackgrounds.
+     * @example
+     * // Create many UserPageBackgrounds
+     * const userPageBackground = await prisma.userPageBackground.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UserPageBackgrounds and only return the `id`
+     * const userPageBackgroundWithIdOnly = await prisma.userPageBackground.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UserPageBackgroundCreateManyAndReturnArgs>(args?: SelectSubset<T, UserPageBackgroundCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPageBackgroundPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UserPageBackground.
+     * @param {UserPageBackgroundDeleteArgs} args - Arguments to delete one UserPageBackground.
+     * @example
+     * // Delete one UserPageBackground
+     * const UserPageBackground = await prisma.userPageBackground.delete({
+     *   where: {
+     *     // ... filter to delete one UserPageBackground
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UserPageBackgroundDeleteArgs>(args: SelectSubset<T, UserPageBackgroundDeleteArgs<ExtArgs>>): Prisma__UserPageBackgroundClient<$Result.GetResult<Prisma.$UserPageBackgroundPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UserPageBackground.
+     * @param {UserPageBackgroundUpdateArgs} args - Arguments to update one UserPageBackground.
+     * @example
+     * // Update one UserPageBackground
+     * const userPageBackground = await prisma.userPageBackground.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UserPageBackgroundUpdateArgs>(args: SelectSubset<T, UserPageBackgroundUpdateArgs<ExtArgs>>): Prisma__UserPageBackgroundClient<$Result.GetResult<Prisma.$UserPageBackgroundPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UserPageBackgrounds.
+     * @param {UserPageBackgroundDeleteManyArgs} args - Arguments to filter UserPageBackgrounds to delete.
+     * @example
+     * // Delete a few UserPageBackgrounds
+     * const { count } = await prisma.userPageBackground.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UserPageBackgroundDeleteManyArgs>(args?: SelectSubset<T, UserPageBackgroundDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserPageBackgrounds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPageBackgroundUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UserPageBackgrounds
+     * const userPageBackground = await prisma.userPageBackground.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UserPageBackgroundUpdateManyArgs>(args: SelectSubset<T, UserPageBackgroundUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UserPageBackgrounds and returns the data updated in the database.
+     * @param {UserPageBackgroundUpdateManyAndReturnArgs} args - Arguments to update many UserPageBackgrounds.
+     * @example
+     * // Update many UserPageBackgrounds
+     * const userPageBackground = await prisma.userPageBackground.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UserPageBackgrounds and only return the `id`
+     * const userPageBackgroundWithIdOnly = await prisma.userPageBackground.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UserPageBackgroundUpdateManyAndReturnArgs>(args: SelectSubset<T, UserPageBackgroundUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPageBackgroundPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UserPageBackground.
+     * @param {UserPageBackgroundUpsertArgs} args - Arguments to update or create a UserPageBackground.
+     * @example
+     * // Update or create a UserPageBackground
+     * const userPageBackground = await prisma.userPageBackground.upsert({
+     *   create: {
+     *     // ... data to create a UserPageBackground
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UserPageBackground we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UserPageBackgroundUpsertArgs>(args: SelectSubset<T, UserPageBackgroundUpsertArgs<ExtArgs>>): Prisma__UserPageBackgroundClient<$Result.GetResult<Prisma.$UserPageBackgroundPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UserPageBackgrounds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPageBackgroundCountArgs} args - Arguments to filter UserPageBackgrounds to count.
+     * @example
+     * // Count the number of UserPageBackgrounds
+     * const count = await prisma.userPageBackground.count({
+     *   where: {
+     *     // ... the filter for the UserPageBackgrounds we want to count
+     *   }
+     * })
+    **/
+    count<T extends UserPageBackgroundCountArgs>(
+      args?: Subset<T, UserPageBackgroundCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UserPageBackgroundCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UserPageBackground.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPageBackgroundAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UserPageBackgroundAggregateArgs>(args: Subset<T, UserPageBackgroundAggregateArgs>): Prisma.PrismaPromise<GetUserPageBackgroundAggregateType<T>>
+
+    /**
+     * Group by UserPageBackground.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UserPageBackgroundGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UserPageBackgroundGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UserPageBackgroundGroupByArgs['orderBy'] }
+        : { orderBy?: UserPageBackgroundGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UserPageBackgroundGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUserPageBackgroundGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UserPageBackground model
+   */
+  readonly fields: UserPageBackgroundFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UserPageBackground.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UserPageBackgroundClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UserPageBackground model
+   */
+  interface UserPageBackgroundFieldRefs {
+    readonly id: FieldRef<"UserPageBackground", 'String'>
+    readonly userId: FieldRef<"UserPageBackground", 'String'>
+    readonly pageType: FieldRef<"UserPageBackground", 'String'>
+    readonly backgroundType: FieldRef<"UserPageBackground", 'String'>
+    readonly backgroundColor: FieldRef<"UserPageBackground", 'String'>
+    readonly patternType: FieldRef<"UserPageBackground", 'String'>
+    readonly patternColor: FieldRef<"UserPageBackground", 'String'>
+    readonly patternOpacity: FieldRef<"UserPageBackground", 'Float'>
+    readonly patternSize: FieldRef<"UserPageBackground", 'Float'>
+    readonly createdAt: FieldRef<"UserPageBackground", 'DateTime'>
+    readonly updatedAt: FieldRef<"UserPageBackground", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UserPageBackground findUnique
+   */
+  export type UserPageBackgroundFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPageBackground to fetch.
+     */
+    where: UserPageBackgroundWhereUniqueInput
+  }
+
+  /**
+   * UserPageBackground findUniqueOrThrow
+   */
+  export type UserPageBackgroundFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPageBackground to fetch.
+     */
+    where: UserPageBackgroundWhereUniqueInput
+  }
+
+  /**
+   * UserPageBackground findFirst
+   */
+  export type UserPageBackgroundFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPageBackground to fetch.
+     */
+    where?: UserPageBackgroundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserPageBackgrounds to fetch.
+     */
+    orderBy?: UserPageBackgroundOrderByWithRelationInput | UserPageBackgroundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserPageBackgrounds.
+     */
+    cursor?: UserPageBackgroundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserPageBackgrounds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserPageBackgrounds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserPageBackgrounds.
+     */
+    distinct?: UserPageBackgroundScalarFieldEnum | UserPageBackgroundScalarFieldEnum[]
+  }
+
+  /**
+   * UserPageBackground findFirstOrThrow
+   */
+  export type UserPageBackgroundFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPageBackground to fetch.
+     */
+    where?: UserPageBackgroundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserPageBackgrounds to fetch.
+     */
+    orderBy?: UserPageBackgroundOrderByWithRelationInput | UserPageBackgroundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UserPageBackgrounds.
+     */
+    cursor?: UserPageBackgroundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserPageBackgrounds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserPageBackgrounds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UserPageBackgrounds.
+     */
+    distinct?: UserPageBackgroundScalarFieldEnum | UserPageBackgroundScalarFieldEnum[]
+  }
+
+  /**
+   * UserPageBackground findMany
+   */
+  export type UserPageBackgroundFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundInclude<ExtArgs> | null
+    /**
+     * Filter, which UserPageBackgrounds to fetch.
+     */
+    where?: UserPageBackgroundWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UserPageBackgrounds to fetch.
+     */
+    orderBy?: UserPageBackgroundOrderByWithRelationInput | UserPageBackgroundOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UserPageBackgrounds.
+     */
+    cursor?: UserPageBackgroundWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UserPageBackgrounds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UserPageBackgrounds.
+     */
+    skip?: number
+    distinct?: UserPageBackgroundScalarFieldEnum | UserPageBackgroundScalarFieldEnum[]
+  }
+
+  /**
+   * UserPageBackground create
+   */
+  export type UserPageBackgroundCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UserPageBackground.
+     */
+    data: XOR<UserPageBackgroundCreateInput, UserPageBackgroundUncheckedCreateInput>
+  }
+
+  /**
+   * UserPageBackground createMany
+   */
+  export type UserPageBackgroundCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UserPageBackgrounds.
+     */
+    data: UserPageBackgroundCreateManyInput | UserPageBackgroundCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UserPageBackground createManyAndReturn
+   */
+  export type UserPageBackgroundCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * The data used to create many UserPageBackgrounds.
+     */
+    data: UserPageBackgroundCreateManyInput | UserPageBackgroundCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserPageBackground update
+   */
+  export type UserPageBackgroundUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UserPageBackground.
+     */
+    data: XOR<UserPageBackgroundUpdateInput, UserPageBackgroundUncheckedUpdateInput>
+    /**
+     * Choose, which UserPageBackground to update.
+     */
+    where: UserPageBackgroundWhereUniqueInput
+  }
+
+  /**
+   * UserPageBackground updateMany
+   */
+  export type UserPageBackgroundUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UserPageBackgrounds.
+     */
+    data: XOR<UserPageBackgroundUpdateManyMutationInput, UserPageBackgroundUncheckedUpdateManyInput>
+    /**
+     * Filter which UserPageBackgrounds to update
+     */
+    where?: UserPageBackgroundWhereInput
+    /**
+     * Limit how many UserPageBackgrounds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserPageBackground updateManyAndReturn
+   */
+  export type UserPageBackgroundUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * The data used to update UserPageBackgrounds.
+     */
+    data: XOR<UserPageBackgroundUpdateManyMutationInput, UserPageBackgroundUncheckedUpdateManyInput>
+    /**
+     * Filter which UserPageBackgrounds to update
+     */
+    where?: UserPageBackgroundWhereInput
+    /**
+     * Limit how many UserPageBackgrounds to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UserPageBackground upsert
+   */
+  export type UserPageBackgroundUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UserPageBackground to update in case it exists.
+     */
+    where: UserPageBackgroundWhereUniqueInput
+    /**
+     * In case the UserPageBackground found by the `where` argument doesn't exist, create a new UserPageBackground with this data.
+     */
+    create: XOR<UserPageBackgroundCreateInput, UserPageBackgroundUncheckedCreateInput>
+    /**
+     * In case the UserPageBackground was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UserPageBackgroundUpdateInput, UserPageBackgroundUncheckedUpdateInput>
+  }
+
+  /**
+   * UserPageBackground delete
+   */
+  export type UserPageBackgroundDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundInclude<ExtArgs> | null
+    /**
+     * Filter which UserPageBackground to delete.
+     */
+    where: UserPageBackgroundWhereUniqueInput
+  }
+
+  /**
+   * UserPageBackground deleteMany
+   */
+  export type UserPageBackgroundDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UserPageBackgrounds to delete
+     */
+    where?: UserPageBackgroundWhereInput
+    /**
+     * Limit how many UserPageBackgrounds to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UserPageBackground without action
+   */
+  export type UserPageBackgroundDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserPageBackground
+     */
+    select?: UserPageBackgroundSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UserPageBackground
+     */
+    omit?: UserPageBackgroundOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserPageBackgroundInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -50966,6 +52268,23 @@ export namespace Prisma {
   export type MediaScalarFieldEnum = (typeof MediaScalarFieldEnum)[keyof typeof MediaScalarFieldEnum]
 
 
+  export const UserPageBackgroundScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    pageType: 'pageType',
+    backgroundType: 'backgroundType',
+    backgroundColor: 'backgroundColor',
+    patternType: 'patternType',
+    patternColor: 'patternColor',
+    patternOpacity: 'patternOpacity',
+    patternSize: 'patternSize',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UserPageBackgroundScalarFieldEnum = (typeof UserPageBackgroundScalarFieldEnum)[keyof typeof UserPageBackgroundScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -51248,6 +52567,7 @@ export namespace Prisma {
     userDevices?: UserDeviceListRelationFilter
     userFavorites?: UserFavoriteListRelationFilter
     mediaUploads?: MediaListRelationFilter
+    pageBackgrounds?: UserPageBackgroundListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -51291,6 +52611,7 @@ export namespace Prisma {
     userDevices?: UserDeviceOrderByRelationAggregateInput
     userFavorites?: UserFavoriteOrderByRelationAggregateInput
     mediaUploads?: MediaOrderByRelationAggregateInput
+    pageBackgrounds?: UserPageBackgroundOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -51337,6 +52658,7 @@ export namespace Prisma {
     userDevices?: UserDeviceListRelationFilter
     userFavorites?: UserFavoriteListRelationFilter
     mediaUploads?: MediaListRelationFilter
+    pageBackgrounds?: UserPageBackgroundListRelationFilter
   }, "id" | "email" | "handle">
 
   export type UserOrderByWithAggregationInput = {
@@ -54229,6 +55551,94 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Media"> | Date | string
   }
 
+  export type UserPageBackgroundWhereInput = {
+    AND?: UserPageBackgroundWhereInput | UserPageBackgroundWhereInput[]
+    OR?: UserPageBackgroundWhereInput[]
+    NOT?: UserPageBackgroundWhereInput | UserPageBackgroundWhereInput[]
+    id?: StringFilter<"UserPageBackground"> | string
+    userId?: StringFilter<"UserPageBackground"> | string
+    pageType?: StringFilter<"UserPageBackground"> | string
+    backgroundType?: StringFilter<"UserPageBackground"> | string
+    backgroundColor?: StringFilter<"UserPageBackground"> | string
+    patternType?: StringNullableFilter<"UserPageBackground"> | string | null
+    patternColor?: StringFilter<"UserPageBackground"> | string
+    patternOpacity?: FloatFilter<"UserPageBackground"> | number
+    patternSize?: FloatFilter<"UserPageBackground"> | number
+    createdAt?: DateTimeFilter<"UserPageBackground"> | Date | string
+    updatedAt?: DateTimeFilter<"UserPageBackground"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type UserPageBackgroundOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    pageType?: SortOrder
+    backgroundType?: SortOrder
+    backgroundColor?: SortOrder
+    patternType?: SortOrderInput | SortOrder
+    patternColor?: SortOrder
+    patternOpacity?: SortOrder
+    patternSize?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type UserPageBackgroundWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_pageType?: UserPageBackgroundUserIdPageTypeCompoundUniqueInput
+    AND?: UserPageBackgroundWhereInput | UserPageBackgroundWhereInput[]
+    OR?: UserPageBackgroundWhereInput[]
+    NOT?: UserPageBackgroundWhereInput | UserPageBackgroundWhereInput[]
+    userId?: StringFilter<"UserPageBackground"> | string
+    pageType?: StringFilter<"UserPageBackground"> | string
+    backgroundType?: StringFilter<"UserPageBackground"> | string
+    backgroundColor?: StringFilter<"UserPageBackground"> | string
+    patternType?: StringNullableFilter<"UserPageBackground"> | string | null
+    patternColor?: StringFilter<"UserPageBackground"> | string
+    patternOpacity?: FloatFilter<"UserPageBackground"> | number
+    patternSize?: FloatFilter<"UserPageBackground"> | number
+    createdAt?: DateTimeFilter<"UserPageBackground"> | Date | string
+    updatedAt?: DateTimeFilter<"UserPageBackground"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId_pageType">
+
+  export type UserPageBackgroundOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    pageType?: SortOrder
+    backgroundType?: SortOrder
+    backgroundColor?: SortOrder
+    patternType?: SortOrderInput | SortOrder
+    patternColor?: SortOrder
+    patternOpacity?: SortOrder
+    patternSize?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UserPageBackgroundCountOrderByAggregateInput
+    _avg?: UserPageBackgroundAvgOrderByAggregateInput
+    _max?: UserPageBackgroundMaxOrderByAggregateInput
+    _min?: UserPageBackgroundMinOrderByAggregateInput
+    _sum?: UserPageBackgroundSumOrderByAggregateInput
+  }
+
+  export type UserPageBackgroundScalarWhereWithAggregatesInput = {
+    AND?: UserPageBackgroundScalarWhereWithAggregatesInput | UserPageBackgroundScalarWhereWithAggregatesInput[]
+    OR?: UserPageBackgroundScalarWhereWithAggregatesInput[]
+    NOT?: UserPageBackgroundScalarWhereWithAggregatesInput | UserPageBackgroundScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UserPageBackground"> | string
+    userId?: StringWithAggregatesFilter<"UserPageBackground"> | string
+    pageType?: StringWithAggregatesFilter<"UserPageBackground"> | string
+    backgroundType?: StringWithAggregatesFilter<"UserPageBackground"> | string
+    backgroundColor?: StringWithAggregatesFilter<"UserPageBackground"> | string
+    patternType?: StringNullableWithAggregatesFilter<"UserPageBackground"> | string | null
+    patternColor?: StringWithAggregatesFilter<"UserPageBackground"> | string
+    patternOpacity?: FloatWithAggregatesFilter<"UserPageBackground"> | number
+    patternSize?: FloatWithAggregatesFilter<"UserPageBackground"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"UserPageBackground"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UserPageBackground"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -54270,6 +55680,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -54313,6 +55724,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -54356,6 +55768,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -54399,6 +55812,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -57468,6 +58882,103 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type UserPageBackgroundCreateInput = {
+    id?: string
+    pageType: string
+    backgroundType?: string
+    backgroundColor?: string
+    patternType?: string | null
+    patternColor?: string
+    patternOpacity?: number
+    patternSize?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPageBackgroundsInput
+  }
+
+  export type UserPageBackgroundUncheckedCreateInput = {
+    id?: string
+    userId: string
+    pageType: string
+    backgroundType?: string
+    backgroundColor?: string
+    patternType?: string | null
+    patternColor?: string
+    patternOpacity?: number
+    patternSize?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserPageBackgroundUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageType?: StringFieldUpdateOperationsInput | string
+    backgroundType?: StringFieldUpdateOperationsInput | string
+    backgroundColor?: StringFieldUpdateOperationsInput | string
+    patternType?: NullableStringFieldUpdateOperationsInput | string | null
+    patternColor?: StringFieldUpdateOperationsInput | string
+    patternOpacity?: FloatFieldUpdateOperationsInput | number
+    patternSize?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPageBackgroundsNestedInput
+  }
+
+  export type UserPageBackgroundUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    pageType?: StringFieldUpdateOperationsInput | string
+    backgroundType?: StringFieldUpdateOperationsInput | string
+    backgroundColor?: StringFieldUpdateOperationsInput | string
+    patternType?: NullableStringFieldUpdateOperationsInput | string | null
+    patternColor?: StringFieldUpdateOperationsInput | string
+    patternOpacity?: FloatFieldUpdateOperationsInput | number
+    patternSize?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserPageBackgroundCreateManyInput = {
+    id?: string
+    userId: string
+    pageType: string
+    backgroundType?: string
+    backgroundColor?: string
+    patternType?: string | null
+    patternColor?: string
+    patternOpacity?: number
+    patternSize?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserPageBackgroundUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageType?: StringFieldUpdateOperationsInput | string
+    backgroundType?: StringFieldUpdateOperationsInput | string
+    backgroundColor?: StringFieldUpdateOperationsInput | string
+    patternType?: NullableStringFieldUpdateOperationsInput | string | null
+    patternColor?: StringFieldUpdateOperationsInput | string
+    patternOpacity?: FloatFieldUpdateOperationsInput | number
+    patternSize?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserPageBackgroundUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    pageType?: StringFieldUpdateOperationsInput | string
+    backgroundType?: StringFieldUpdateOperationsInput | string
+    backgroundColor?: StringFieldUpdateOperationsInput | string
+    patternType?: NullableStringFieldUpdateOperationsInput | string | null
+    patternColor?: StringFieldUpdateOperationsInput | string
+    patternOpacity?: FloatFieldUpdateOperationsInput | number
+    patternSize?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -57644,6 +59155,12 @@ export namespace Prisma {
     none?: MediaWhereInput
   }
 
+  export type UserPageBackgroundListRelationFilter = {
+    every?: UserPageBackgroundWhereInput
+    some?: UserPageBackgroundWhereInput
+    none?: UserPageBackgroundWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -57698,6 +59215,10 @@ export namespace Prisma {
   }
 
   export type MediaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserPageBackgroundOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -59899,6 +61420,90 @@ export namespace Prisma {
     _max?: NestedBoolNullableFilter<$PrismaModel>
   }
 
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type UserPageBackgroundUserIdPageTypeCompoundUniqueInput = {
+    userId: string
+    pageType: string
+  }
+
+  export type UserPageBackgroundCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    pageType?: SortOrder
+    backgroundType?: SortOrder
+    backgroundColor?: SortOrder
+    patternType?: SortOrder
+    patternColor?: SortOrder
+    patternOpacity?: SortOrder
+    patternSize?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserPageBackgroundAvgOrderByAggregateInput = {
+    patternOpacity?: SortOrder
+    patternSize?: SortOrder
+  }
+
+  export type UserPageBackgroundMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    pageType?: SortOrder
+    backgroundType?: SortOrder
+    backgroundColor?: SortOrder
+    patternType?: SortOrder
+    patternColor?: SortOrder
+    patternOpacity?: SortOrder
+    patternSize?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserPageBackgroundMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    pageType?: SortOrder
+    backgroundType?: SortOrder
+    backgroundColor?: SortOrder
+    patternType?: SortOrder
+    patternColor?: SortOrder
+    patternOpacity?: SortOrder
+    patternSize?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserPageBackgroundSumOrderByAggregateInput = {
+    patternOpacity?: SortOrder
+    patternSize?: SortOrder
+  }
+
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
+  }
+
   export type AccountCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -60026,6 +61631,13 @@ export namespace Prisma {
     connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
   }
 
+  export type UserPageBackgroundCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserPageBackgroundCreateWithoutUserInput, UserPageBackgroundUncheckedCreateWithoutUserInput> | UserPageBackgroundCreateWithoutUserInput[] | UserPageBackgroundUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserPageBackgroundCreateOrConnectWithoutUserInput | UserPageBackgroundCreateOrConnectWithoutUserInput[]
+    createMany?: UserPageBackgroundCreateManyUserInputEnvelope
+    connect?: UserPageBackgroundWhereUniqueInput | UserPageBackgroundWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -60151,6 +61763,13 @@ export namespace Prisma {
     connectOrCreate?: MediaCreateOrConnectWithoutUploaderInput | MediaCreateOrConnectWithoutUploaderInput[]
     createMany?: MediaCreateManyUploaderInputEnvelope
     connect?: MediaWhereUniqueInput | MediaWhereUniqueInput[]
+  }
+
+  export type UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UserPageBackgroundCreateWithoutUserInput, UserPageBackgroundUncheckedCreateWithoutUserInput> | UserPageBackgroundCreateWithoutUserInput[] | UserPageBackgroundUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserPageBackgroundCreateOrConnectWithoutUserInput | UserPageBackgroundCreateOrConnectWithoutUserInput[]
+    createMany?: UserPageBackgroundCreateManyUserInputEnvelope
+    connect?: UserPageBackgroundWhereUniqueInput | UserPageBackgroundWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -60423,6 +62042,20 @@ export namespace Prisma {
     deleteMany?: MediaScalarWhereInput | MediaScalarWhereInput[]
   }
 
+  export type UserPageBackgroundUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserPageBackgroundCreateWithoutUserInput, UserPageBackgroundUncheckedCreateWithoutUserInput> | UserPageBackgroundCreateWithoutUserInput[] | UserPageBackgroundUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserPageBackgroundCreateOrConnectWithoutUserInput | UserPageBackgroundCreateOrConnectWithoutUserInput[]
+    upsert?: UserPageBackgroundUpsertWithWhereUniqueWithoutUserInput | UserPageBackgroundUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserPageBackgroundCreateManyUserInputEnvelope
+    set?: UserPageBackgroundWhereUniqueInput | UserPageBackgroundWhereUniqueInput[]
+    disconnect?: UserPageBackgroundWhereUniqueInput | UserPageBackgroundWhereUniqueInput[]
+    delete?: UserPageBackgroundWhereUniqueInput | UserPageBackgroundWhereUniqueInput[]
+    connect?: UserPageBackgroundWhereUniqueInput | UserPageBackgroundWhereUniqueInput[]
+    update?: UserPageBackgroundUpdateWithWhereUniqueWithoutUserInput | UserPageBackgroundUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserPageBackgroundUpdateManyWithWhereWithoutUserInput | UserPageBackgroundUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserPageBackgroundScalarWhereInput | UserPageBackgroundScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -60663,6 +62296,20 @@ export namespace Prisma {
     update?: MediaUpdateWithWhereUniqueWithoutUploaderInput | MediaUpdateWithWhereUniqueWithoutUploaderInput[]
     updateMany?: MediaUpdateManyWithWhereWithoutUploaderInput | MediaUpdateManyWithWhereWithoutUploaderInput[]
     deleteMany?: MediaScalarWhereInput | MediaScalarWhereInput[]
+  }
+
+  export type UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UserPageBackgroundCreateWithoutUserInput, UserPageBackgroundUncheckedCreateWithoutUserInput> | UserPageBackgroundCreateWithoutUserInput[] | UserPageBackgroundUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UserPageBackgroundCreateOrConnectWithoutUserInput | UserPageBackgroundCreateOrConnectWithoutUserInput[]
+    upsert?: UserPageBackgroundUpsertWithWhereUniqueWithoutUserInput | UserPageBackgroundUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UserPageBackgroundCreateManyUserInputEnvelope
+    set?: UserPageBackgroundWhereUniqueInput | UserPageBackgroundWhereUniqueInput[]
+    disconnect?: UserPageBackgroundWhereUniqueInput | UserPageBackgroundWhereUniqueInput[]
+    delete?: UserPageBackgroundWhereUniqueInput | UserPageBackgroundWhereUniqueInput[]
+    connect?: UserPageBackgroundWhereUniqueInput | UserPageBackgroundWhereUniqueInput[]
+    update?: UserPageBackgroundUpdateWithWhereUniqueWithoutUserInput | UserPageBackgroundUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UserPageBackgroundUpdateManyWithWhereWithoutUserInput | UserPageBackgroundUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UserPageBackgroundScalarWhereInput | UserPageBackgroundScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAccountsInput = {
@@ -62392,6 +64039,28 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMediaUploadsInput, UserUpdateWithoutMediaUploadsInput>, UserUncheckedUpdateWithoutMediaUploadsInput>
   }
 
+  export type UserCreateNestedOneWithoutPageBackgroundsInput = {
+    create?: XOR<UserCreateWithoutPageBackgroundsInput, UserUncheckedCreateWithoutPageBackgroundsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPageBackgroundsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type FloatFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type UserUpdateOneRequiredWithoutPageBackgroundsNestedInput = {
+    create?: XOR<UserCreateWithoutPageBackgroundsInput, UserUncheckedCreateWithoutPageBackgroundsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPageBackgroundsInput
+    upsert?: UserUpsertWithoutPageBackgroundsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPageBackgroundsInput, UserUpdateWithoutPageBackgroundsInput>, UserUncheckedUpdateWithoutPageBackgroundsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -62789,6 +64458,22 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedBoolNullableFilter<$PrismaModel>
     _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type AccountCreateWithoutUserInput = {
@@ -63330,6 +65015,42 @@ export namespace Prisma {
 
   export type MediaCreateManyUploaderInputEnvelope = {
     data: MediaCreateManyUploaderInput | MediaCreateManyUploaderInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserPageBackgroundCreateWithoutUserInput = {
+    id?: string
+    pageType: string
+    backgroundType?: string
+    backgroundColor?: string
+    patternType?: string | null
+    patternColor?: string
+    patternOpacity?: number
+    patternSize?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserPageBackgroundUncheckedCreateWithoutUserInput = {
+    id?: string
+    pageType: string
+    backgroundType?: string
+    backgroundColor?: string
+    patternType?: string | null
+    patternColor?: string
+    patternOpacity?: number
+    patternSize?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserPageBackgroundCreateOrConnectWithoutUserInput = {
+    where: UserPageBackgroundWhereUniqueInput
+    create: XOR<UserPageBackgroundCreateWithoutUserInput, UserPageBackgroundUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserPageBackgroundCreateManyUserInputEnvelope = {
+    data: UserPageBackgroundCreateManyUserInput | UserPageBackgroundCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -63908,6 +65629,39 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Media"> | Date | string
   }
 
+  export type UserPageBackgroundUpsertWithWhereUniqueWithoutUserInput = {
+    where: UserPageBackgroundWhereUniqueInput
+    update: XOR<UserPageBackgroundUpdateWithoutUserInput, UserPageBackgroundUncheckedUpdateWithoutUserInput>
+    create: XOR<UserPageBackgroundCreateWithoutUserInput, UserPageBackgroundUncheckedCreateWithoutUserInput>
+  }
+
+  export type UserPageBackgroundUpdateWithWhereUniqueWithoutUserInput = {
+    where: UserPageBackgroundWhereUniqueInput
+    data: XOR<UserPageBackgroundUpdateWithoutUserInput, UserPageBackgroundUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UserPageBackgroundUpdateManyWithWhereWithoutUserInput = {
+    where: UserPageBackgroundScalarWhereInput
+    data: XOR<UserPageBackgroundUpdateManyMutationInput, UserPageBackgroundUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserPageBackgroundScalarWhereInput = {
+    AND?: UserPageBackgroundScalarWhereInput | UserPageBackgroundScalarWhereInput[]
+    OR?: UserPageBackgroundScalarWhereInput[]
+    NOT?: UserPageBackgroundScalarWhereInput | UserPageBackgroundScalarWhereInput[]
+    id?: StringFilter<"UserPageBackground"> | string
+    userId?: StringFilter<"UserPageBackground"> | string
+    pageType?: StringFilter<"UserPageBackground"> | string
+    backgroundType?: StringFilter<"UserPageBackground"> | string
+    backgroundColor?: StringFilter<"UserPageBackground"> | string
+    patternType?: StringNullableFilter<"UserPageBackground"> | string | null
+    patternColor?: StringFilter<"UserPageBackground"> | string
+    patternOpacity?: FloatFilter<"UserPageBackground"> | number
+    patternSize?: FloatFilter<"UserPageBackground"> | number
+    createdAt?: DateTimeFilter<"UserPageBackground"> | Date | string
+    updatedAt?: DateTimeFilter<"UserPageBackground"> | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     email: string
@@ -63948,6 +65702,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -63990,6 +65745,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -64048,6 +65804,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -64090,6 +65847,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -64132,6 +65890,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -64174,6 +65933,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -64232,6 +65992,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -64274,6 +66035,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationSettingsInput = {
@@ -64316,6 +66078,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationSettingsInput = {
@@ -64358,6 +66121,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationSettingsInput = {
@@ -64416,6 +66180,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationSettingsInput = {
@@ -64458,6 +66223,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutLinksInput = {
@@ -64500,6 +66266,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutLinksInput = {
@@ -64542,6 +66309,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutLinksInput = {
@@ -64670,6 +66438,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLinksInput = {
@@ -64712,6 +66481,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type LinkServiceUpsertWithoutLinksInput = {
@@ -64836,6 +66606,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutYoutubeSettingsInput = {
@@ -64878,6 +66649,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutYoutubeSettingsInput = {
@@ -64968,6 +66740,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutYoutubeSettingsInput = {
@@ -65010,6 +66783,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserYoutubeVideoUpsertWithWhereUniqueWithoutSettingsInput = {
@@ -65083,6 +66857,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutImageBannersInput = {
@@ -65125,6 +66900,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutImageBannersInput = {
@@ -65183,6 +66959,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutImageBannersInput = {
@@ -65225,6 +67002,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserYoutubeSettingsCreateWithoutVideosInput = {
@@ -65327,6 +67105,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRecommendYoutubesInput = {
@@ -65369,6 +67148,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRecommendYoutubesInput = {
@@ -65427,6 +67207,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRecommendYoutubesInput = {
@@ -65469,6 +67250,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPopupSettingsInput = {
@@ -65511,6 +67293,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPopupSettingsInput = {
@@ -65553,6 +67336,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPopupSettingsInput = {
@@ -65611,6 +67395,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPopupSettingsInput = {
@@ -65653,6 +67438,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutOgpInput = {
@@ -65695,6 +67481,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOgpInput = {
@@ -65737,6 +67524,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOgpInput = {
@@ -65795,6 +67583,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOgpInput = {
@@ -65837,6 +67626,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCustomQuestionsInput = {
@@ -65879,6 +67669,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCustomQuestionsInput = {
@@ -65921,6 +67712,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCustomQuestionsInput = {
@@ -65979,6 +67771,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCustomQuestionsInput = {
@@ -66021,6 +67814,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutInfoCategoriesInput = {
@@ -66063,6 +67857,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInfoCategoriesInput = {
@@ -66105,6 +67900,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInfoCategoriesInput = {
@@ -66191,6 +67987,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInfoCategoriesInput = {
@@ -66233,6 +68030,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserInfoQuestionUpsertWithWhereUniqueWithoutCategoryInput = {
@@ -66356,6 +68154,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutImageCarouselsInput = {
@@ -66398,6 +68197,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutImageCarouselsInput = {
@@ -66456,6 +68256,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutImageCarouselsInput = {
@@ -66498,6 +68299,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutImageSidebarsInput = {
@@ -66540,6 +68342,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutImageSidebarsInput = {
@@ -66582,6 +68385,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutImageSidebarsInput = {
@@ -66640,6 +68444,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutImageSidebarsInput = {
@@ -66682,6 +68487,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutDisplaySettingsInput = {
@@ -66724,6 +68530,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDisplaySettingsInput = {
@@ -66766,6 +68573,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDisplaySettingsInput = {
@@ -66824,6 +68632,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDisplaySettingsInput = {
@@ -66866,6 +68675,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ServiceIconCreateWithoutServiceInput = {
@@ -67169,6 +68979,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAuthorInput = {
@@ -67211,6 +69022,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAuthorInput = {
@@ -67313,6 +69125,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAuthorInput = {
@@ -67355,6 +69168,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ArticleUpsertWithWhereUniqueWithoutAuthorInput = {
@@ -68182,6 +69996,7 @@ export namespace Prisma {
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -68224,6 +70039,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -68376,6 +70192,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -68418,6 +70235,7 @@ export namespace Prisma {
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProductCreateWithoutCategoryInput = {
@@ -69527,6 +71345,7 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserDevicesInput = {
@@ -69569,6 +71388,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserDevicesInput = {
@@ -69701,6 +71521,7 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserDevicesInput = {
@@ -69743,6 +71564,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProductUpsertWithoutUserDevicesInput = {
@@ -69871,6 +71693,7 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutUserInput
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUserFavoritesInput = {
@@ -69913,6 +71736,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUserFavoritesInput = {
@@ -70017,6 +71841,7 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutUserNestedInput
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUserFavoritesInput = {
@@ -70059,6 +71884,7 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProductUpsertWithoutUserFavoritesInput = {
@@ -70442,6 +72268,7 @@ export namespace Prisma {
     comments?: CommentCreateNestedManyWithoutUserInput
     userDevices?: UserDeviceCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
+    pageBackgrounds?: UserPageBackgroundCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMediaUploadsInput = {
@@ -70484,6 +72311,7 @@ export namespace Prisma {
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
     userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
+    pageBackgrounds?: UserPageBackgroundUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMediaUploadsInput = {
@@ -70577,6 +72405,7 @@ export namespace Prisma {
     comments?: CommentUpdateManyWithoutUserNestedInput
     userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
+    pageBackgrounds?: UserPageBackgroundUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMediaUploadsInput = {
@@ -70619,6 +72448,195 @@ export namespace Prisma {
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
     userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
+    pageBackgrounds?: UserPageBackgroundUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPageBackgroundsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    characterName?: string | null
+    subname?: string | null
+    bio?: string | null
+    birthday?: Date | string | null
+    gender?: string | null
+    iconUrl?: string | null
+    bannerUrl?: string | null
+    handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
+    role?: string
+    subscriptionStatus?: string | null
+    emailVerified?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    amazonAssociateId?: string | null
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    ogp?: UserOGPCreateNestedOneWithoutUserInput
+    links?: UserLinkCreateNestedManyWithoutUserInput
+    imageBanners?: UserImageBannerCreateNestedManyWithoutUserInput
+    imageCarousels?: UserImageCarouselCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarCreateNestedManyWithoutUserInput
+    customQuestions?: UserCustomQuestionCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryCreateNestedManyWithoutUserInput
+    youtubeSettings?: UserYoutubeSettingsCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeCreateNestedManyWithoutUserInput
+    popupSettings?: UserPopupSettingsCreateNestedOneWithoutUserInput
+    displaySettings?: UserDisplaySettingsCreateNestedOneWithoutUserInput
+    notificationSettings?: NotificationSettingsCreateNestedOneWithoutUserInput
+    author?: AuthorCreateNestedOneWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceCreateNestedManyWithoutUserInput
+    userFavorites?: UserFavoriteCreateNestedManyWithoutUserInput
+    mediaUploads?: MediaCreateNestedManyWithoutUploaderInput
+  }
+
+  export type UserUncheckedCreateWithoutPageBackgroundsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    characterName?: string | null
+    subname?: string | null
+    bio?: string | null
+    birthday?: Date | string | null
+    gender?: string | null
+    iconUrl?: string | null
+    bannerUrl?: string | null
+    handle?: string | null
+    handleChangeCount?: number
+    handleChangeTokens?: number
+    isPremiumUser?: boolean
+    role?: string
+    subscriptionStatus?: string | null
+    emailVerified?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    amazonAssociateId?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    ogp?: UserOGPUncheckedCreateNestedOneWithoutUserInput
+    links?: UserLinkUncheckedCreateNestedManyWithoutUserInput
+    imageBanners?: UserImageBannerUncheckedCreateNestedManyWithoutUserInput
+    imageCarousels?: UserImageCarouselUncheckedCreateNestedManyWithoutUserInput
+    imageSidebars?: UserImageSidebarUncheckedCreateNestedManyWithoutUserInput
+    customQuestions?: UserCustomQuestionUncheckedCreateNestedManyWithoutUserInput
+    infoCategories?: UserInfoCategoryUncheckedCreateNestedManyWithoutUserInput
+    youtubeSettings?: UserYoutubeSettingsUncheckedCreateNestedOneWithoutUserInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedCreateNestedManyWithoutUserInput
+    popupSettings?: UserPopupSettingsUncheckedCreateNestedOneWithoutUserInput
+    displaySettings?: UserDisplaySettingsUncheckedCreateNestedOneWithoutUserInput
+    notificationSettings?: NotificationSettingsUncheckedCreateNestedOneWithoutUserInput
+    author?: AuthorUncheckedCreateNestedOneWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    userDevices?: UserDeviceUncheckedCreateNestedManyWithoutUserInput
+    userFavorites?: UserFavoriteUncheckedCreateNestedManyWithoutUserInput
+    mediaUploads?: MediaUncheckedCreateNestedManyWithoutUploaderInput
+  }
+
+  export type UserCreateOrConnectWithoutPageBackgroundsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPageBackgroundsInput, UserUncheckedCreateWithoutPageBackgroundsInput>
+  }
+
+  export type UserUpsertWithoutPageBackgroundsInput = {
+    update: XOR<UserUpdateWithoutPageBackgroundsInput, UserUncheckedUpdateWithoutPageBackgroundsInput>
+    create: XOR<UserCreateWithoutPageBackgroundsInput, UserUncheckedCreateWithoutPageBackgroundsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPageBackgroundsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPageBackgroundsInput, UserUncheckedUpdateWithoutPageBackgroundsInput>
+  }
+
+  export type UserUpdateWithoutPageBackgroundsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    characterName?: NullableStringFieldUpdateOperationsInput | string | null
+    subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    amazonAssociateId?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    ogp?: UserOGPUpdateOneWithoutUserNestedInput
+    links?: UserLinkUpdateManyWithoutUserNestedInput
+    imageBanners?: UserImageBannerUpdateManyWithoutUserNestedInput
+    imageCarousels?: UserImageCarouselUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUpdateManyWithoutUserNestedInput
+    customQuestions?: UserCustomQuestionUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUpdateManyWithoutUserNestedInput
+    youtubeSettings?: UserYoutubeSettingsUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUpdateManyWithoutUserNestedInput
+    popupSettings?: UserPopupSettingsUpdateOneWithoutUserNestedInput
+    displaySettings?: UserDisplaySettingsUpdateOneWithoutUserNestedInput
+    notificationSettings?: NotificationSettingsUpdateOneWithoutUserNestedInput
+    author?: AuthorUpdateOneWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUpdateManyWithoutUserNestedInput
+    userFavorites?: UserFavoriteUpdateManyWithoutUserNestedInput
+    mediaUploads?: MediaUpdateManyWithoutUploaderNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPageBackgroundsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    characterName?: NullableStringFieldUpdateOperationsInput | string | null
+    subname?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    birthday?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    iconUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    handle?: NullableStringFieldUpdateOperationsInput | string | null
+    handleChangeCount?: IntFieldUpdateOperationsInput | number
+    handleChangeTokens?: IntFieldUpdateOperationsInput | number
+    isPremiumUser?: BoolFieldUpdateOperationsInput | boolean
+    role?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    amazonAssociateId?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    ogp?: UserOGPUncheckedUpdateOneWithoutUserNestedInput
+    links?: UserLinkUncheckedUpdateManyWithoutUserNestedInput
+    imageBanners?: UserImageBannerUncheckedUpdateManyWithoutUserNestedInput
+    imageCarousels?: UserImageCarouselUncheckedUpdateManyWithoutUserNestedInput
+    imageSidebars?: UserImageSidebarUncheckedUpdateManyWithoutUserNestedInput
+    customQuestions?: UserCustomQuestionUncheckedUpdateManyWithoutUserNestedInput
+    infoCategories?: UserInfoCategoryUncheckedUpdateManyWithoutUserNestedInput
+    youtubeSettings?: UserYoutubeSettingsUncheckedUpdateOneWithoutUserNestedInput
+    recommendYoutubes?: UserRecommendYoutubeUncheckedUpdateManyWithoutUserNestedInput
+    popupSettings?: UserPopupSettingsUncheckedUpdateOneWithoutUserNestedInput
+    displaySettings?: UserDisplaySettingsUncheckedUpdateOneWithoutUserNestedInput
+    notificationSettings?: NotificationSettingsUncheckedUpdateOneWithoutUserNestedInput
+    author?: AuthorUncheckedUpdateOneWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    userDevices?: UserDeviceUncheckedUpdateManyWithoutUserNestedInput
+    userFavorites?: UserFavoriteUncheckedUpdateManyWithoutUserNestedInput
+    mediaUploads?: MediaUncheckedUpdateManyWithoutUploaderNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -70748,6 +72766,19 @@ export namespace Prisma {
     altText?: string | null
     description?: string | null
     isSanitized?: boolean | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UserPageBackgroundCreateManyUserInput = {
+    id?: string
+    pageType: string
+    backgroundType?: string
+    backgroundColor?: string
+    patternType?: string | null
+    patternColor?: string
+    patternOpacity?: number
+    patternSize?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -71143,6 +73174,45 @@ export namespace Prisma {
     altText?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     isSanitized?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserPageBackgroundUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageType?: StringFieldUpdateOperationsInput | string
+    backgroundType?: StringFieldUpdateOperationsInput | string
+    backgroundColor?: StringFieldUpdateOperationsInput | string
+    patternType?: NullableStringFieldUpdateOperationsInput | string | null
+    patternColor?: StringFieldUpdateOperationsInput | string
+    patternOpacity?: FloatFieldUpdateOperationsInput | number
+    patternSize?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserPageBackgroundUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageType?: StringFieldUpdateOperationsInput | string
+    backgroundType?: StringFieldUpdateOperationsInput | string
+    backgroundColor?: StringFieldUpdateOperationsInput | string
+    patternType?: NullableStringFieldUpdateOperationsInput | string | null
+    patternColor?: StringFieldUpdateOperationsInput | string
+    patternOpacity?: FloatFieldUpdateOperationsInput | number
+    patternSize?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserPageBackgroundUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    pageType?: StringFieldUpdateOperationsInput | string
+    backgroundType?: StringFieldUpdateOperationsInput | string
+    backgroundColor?: StringFieldUpdateOperationsInput | string
+    patternType?: NullableStringFieldUpdateOperationsInput | string | null
+    patternColor?: StringFieldUpdateOperationsInput | string
+    patternOpacity?: FloatFieldUpdateOperationsInput | number
+    patternSize?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

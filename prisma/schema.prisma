@@ -59,6 +59,7 @@ model User {
   userDevices         UserDevice[]
   userFavorites       UserFavorite[]
   mediaUploads        Media[]
+  pageBackgrounds     UserPageBackground[]
 }
 
 model Account {
@@ -799,4 +800,26 @@ model Media {
   @@index([uploadedBy])
   @@index([createdAt])
   @@map("media")
+}
+
+// ユーザーページ背景設定
+model UserPageBackground {
+  id               String   @id @default(uuid())
+  userId           String
+  pageType         String   // "home", "device", "info", "video"
+  backgroundType   String   @default("solid") // "solid", "pattern"
+  backgroundColor  String   @default("#ffffff") // 背景色のHEX値
+  patternType      String?  // "dots", "stripes-vertical" など
+  patternColor     String   @default("#000000") // パターン色のHEX値
+  patternOpacity   Float    @default(0.1) // 0-1
+  patternSize      Float    @default(1.0) // パターンサイズ倍率 (0.5-10.0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  
+  // リレーション
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, pageType])
+  @@index([userId])
+  @@map("user_page_backgrounds")
 }

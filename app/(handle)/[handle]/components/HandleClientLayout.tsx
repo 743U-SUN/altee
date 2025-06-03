@@ -88,7 +88,7 @@ export default function HandleClientLayout({
           </div>
         </header>
         <div className="flex-1 overflow-auto">
-          <div className="flex flex-col gap-4 bg-background rounded-b-xl py-4 px-4 h-full">
+          <div className="flex flex-col gap-4 rounded-b-xl py-4 px-4 h-full">
             {children}
           </div>
         </div>
